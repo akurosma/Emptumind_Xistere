@@ -36,17 +36,17 @@
 /**
  * Prevents Mario from falling asleep while idle.
  */
-// #define NO_SLEEP
+#define NO_SLEEP
 
 /**
  * Disables fall damage.
  */
-#define NO_FALL_DAMAGE
+// #define NO_FALL_DAMAGE
 
 /**
  * Disables the scream that mario makes when falling off a great height (this is separate from actual fall damage).
  */
-// #define NO_FALL_DAMAGE_SOUND
+#define NO_FALL_DAMAGE_SOUND
 
 /**
  * Fall height for normal fall damage. Vanilla is 1150.0f.
@@ -126,7 +126,7 @@
 /**
  * Re-enables upwarping when entering water. Forces you to only enter water from the top.
  */
-// #define WATER_PLUNGE_UPWARP
+#define WATER_PLUNGE_UPWARP
 
 /** 
  * This bug allows mario to move when initiating a dialog,
