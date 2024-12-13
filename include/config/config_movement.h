@@ -111,7 +111,7 @@
 /**
  * Makes Mario unable to ledge grab steep slopes to prevent false ledge grabs.
  */
-#define DONT_LEDGE_GRAB_STEEP_SLOPES
+// #define DONT_LEDGE_GRAB_STEEP_SLOPES
 
 /**
  * Buffers an A input if you jump off a slope during the landing lag
