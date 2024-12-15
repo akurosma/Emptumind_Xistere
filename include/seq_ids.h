@@ -45,7 +45,13 @@ enum SeqId {
     SEQ_EVENT_CUTSCENE_ENDING,        // 0x20
     SEQ_MENU_FILE_SELECT,             // 0x21
     SEQ_EVENT_CUTSCENE_LAKITU,        // 0x22 (not in JP)
+    // start 2024/12/15 akuro
+    //曲追加
     SEQ_ENDLESS_POSSIBILITY,          // 0x23
+    SEQ_CREEPY_CASTLE_BOSS,           // 0x24
+    SEQ_MUTE_CITY,                    // 0x25
+    SEQ_SPIN_AND_BURST,               // 0x26
+    // end 2024/12/15 akuro
     SEQ_COUNT
 };
 

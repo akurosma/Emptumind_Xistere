@@ -1139,16 +1139,18 @@ void mode_8_directions_camera(struct Camera *c) {
         s8DirModeYawOffset = 0;
         s8DirModeYawOffset = gMarioState->faceAngle[1] - 0x8000;
     }
+    // start 2024/12/15 akuro
     // 十字カメラ回転速度変更
     else if (gPlayer1Controller->buttonDown & L_JPAD) {
-        s8DirModeYawOffset -= DEGREES(0.75);
+        s8DirModeYawOffset -= DEGREES(0.5);
     }
     else if (gPlayer1Controller->buttonDown & R_JPAD) {
-        s8DirModeYawOffset += DEGREES(0.75);
+        s8DirModeYawOffset += DEGREES(0.5);
     }
     else if (gPlayer1Controller->buttonPressed & D_JPAD) {
         s8DirModeYawOffset = snap_to_45_degrees(s8DirModeYawOffset);
     }
+    // end 2024/12/15 akuro
 #endif
 
     lakitu_zoom(400.f, 0x900);
