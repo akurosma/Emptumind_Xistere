@@ -98,3 +98,11 @@
  * The levelscript needs to have a MARIO_POS command for this to work.
  */
 #define START_LEVEL LEVEL_CASTLE_GROUNDS
+
+//start 2024/12/15 akuro
+/**
+ * 赤コインカウンターの表示・非表示の設定
+ * 0が非表示、1が表示
+ */
+#define ENABLE_RED_COINS_COUNTER
+//end 2024/12/15 akuro

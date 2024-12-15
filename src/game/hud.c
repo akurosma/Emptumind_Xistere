@@ -409,6 +409,18 @@ void render_hud_mario_lives(void) {
     print_text_fmt_int(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(54), HUD_TOP_Y, "%d", gHudDisplay.lives);
 }
 
+// start 2024/12/15 akuro
+/**
+ * 赤コインカウンターの表示ロジック
+ */
+void render_hud_redcoins_counter(void) {
+    print_animated_red_coin(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(28), HUD_TOP_Y + 1);
+    //print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), HUD_TOP_Y, "@"); // 'RedCoin' glyph
+    print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(38), HUD_TOP_Y, "*"); // 'X' glyph
+    print_text_fmt_int(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(54), HUD_TOP_Y, "%d", gRedCoinsCollected);
+}
+// end 2024/12/15 akuro
+
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
 void render_debug_mode(void) {
     print_text(180, 40, "DEBUG MODE");
@@ -588,6 +600,15 @@ void render_hud(void) {
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_KEYS) {
             render_hud_keys();
         }
+
+// start 2024/12/15 akuro
+//赤コインカウンター制御
+#ifdef ENABLE_RED_COINS_COUNTER
+        if (hudDisplayFlags & HUD_DISPLAY_FLAG_LIVES) {
+            render_hud_redcoins_counter();
+        }
+#endif
+// end 2024/12/15 akuro
 
 #ifdef BREATH_METER
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_BREATH_METER) render_hud_breath_meter();

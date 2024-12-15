@@ -1070,8 +1070,11 @@ s32 play_mode_normal(void) {
             set_play_mode(PLAY_MODE_CHANGE_AREA);
         //start 2024/12/15 sill ポーズ制限追加
         } else if (pressed_pause() && gPauseCounter != 0) {
-            lower_background_noise(1);
         //end 2024/12/15 sill    
+            // start 2024/12/15 akuro
+            // ポーズ中にBGMが止まらないように修正
+            lower_background_noise(2);
+            // end 2024/12/15 akuro
 #if ENABLE_RUMBLE
             cancel_rumble();
 #endif
@@ -1090,7 +1093,10 @@ s32 play_mode_paused(void) {
     if (gMenuOptSelectIndex == MENU_OPT_NONE) {
         set_menu_mode(MENU_MODE_RENDER_PAUSE_SCREEN);
     } else if (gMenuOptSelectIndex == MENU_OPT_DEFAULT) {
-        raise_background_noise(1);
+        // start 2024/12/15 akuro
+        // ポーズ中にBGMが止まらないように修正
+        raise_background_noise(2);
+        // end 2024/12/15 akuro
         gCameraMovementFlags &= ~CAM_MOVE_PAUSE_SCREEN;
         set_play_mode(PLAY_MODE_NORMAL);
 #ifndef DISABLE_EXIT_COURSE
