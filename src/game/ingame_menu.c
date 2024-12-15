@@ -44,6 +44,9 @@ u8 textCurrRatio43[] = { TEXT_HUD_CURRENT_RATIO_43 };
 u8 textCurrRatio169[] = { TEXT_HUD_CURRENT_RATIO_169 };
 u8 textPressL[] = { TEXT_HUD_PRESS_L };
 #endif
+//start 2024/12/15 sill ポーズ制限追加
+u8 remainingpause[20] = { TEXT_REMAINING_PAUSE };
+//end 2024/12/15 sill 
 
 #if MULTILANG
 #define seg2_course_name_table course_name_table_eu_en
@@ -1685,6 +1688,22 @@ void render_pause_camera_options(s16 x, s16 y, s8 *index, s16 xIndex) {
 #define X_VAL8 4
 #define Y_VAL8 2
 
+//start 2024/12/15 sill ポーズ制限追加
+void render_pause_counter(void){
+    if(gPauseCounter >= 0){
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+        int num1 = gPauseCounter / 10;
+        int num2 = gPauseCounter % 10;
+        remainingpause[17] = num1;
+        remainingpause[18] = num2;
+        remainingpause[19] = 0xFF;
+        print_generic_string(10, 33, remainingpause);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+}
+//end 2024/12/15 sill
+
 void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     u8 textContinue[] = { TEXT_CONTINUE };
     u8 textExitCourse[] = { TEXT_EXIT_COURSE };
@@ -1945,6 +1964,9 @@ s32 render_pause_courses_and_castle(void) {
 #if defined(WIDE) && !defined(PUPPYCAM)
         render_widescreen_setting();
 #endif
+    //start 2024/12/15 sill ポーズ制限追加
+    render_pause_counter();
+    //end 2024/12/15 sill
     if (gDialogTextAlpha < 250) {
         gDialogTextAlpha += 25;
     }

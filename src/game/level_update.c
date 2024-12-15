@@ -1,3 +1,4 @@
+#include "texscroll.h"
 #include <ultra64.h>
 
 #include "sm64.h"
@@ -144,6 +145,11 @@ s8 sTimerRunning;
 s8 gNeverEnteredCastle;
 // Prevent multiple 100 coin stars from spawning
 u8 g100CoinStarSpawned = FALSE;
+
+//start 2024/12/15 sill ポーズ制限追加
+s8 gPauseCounter;
+int maxPauseCountOfLevel[] = {-1, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,};
+//end 2024/12/15 sill
 
 struct MarioState *gMarioState = &gMarioStates[0];
 s8 sWarpCheckpointActive = FALSE;
@@ -1062,12 +1068,17 @@ s32 play_mode_normal(void) {
             set_play_mode(PLAY_MODE_CHANGE_LEVEL);
         } else if (sTransitionTimer != 0) {
             set_play_mode(PLAY_MODE_CHANGE_AREA);
-        } else if (pressed_pause()) {
+        //start 2024/12/15 sill ポーズ制限追加
+        } else if (pressed_pause() && gPauseCounter != 0) {
             lower_background_noise(1);
+        //end 2024/12/15 sill    
 #if ENABLE_RUMBLE
             cancel_rumble();
 #endif
             gCameraMovementFlags |= CAM_MOVE_PAUSE_SCREEN;
+            //start 2024/12/15 sill ポーズ制限追加
+            gPauseCounter--;
+            //end 2024/12/15 sill
             set_play_mode(PLAY_MODE_PAUSED);
         }
     }
@@ -1205,7 +1216,7 @@ s32 update_level(void) {
 
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
-            changeLevel = play_mode_normal();
+            changeLevel = play_mode_normal(); scroll_textures();
             break;
         case PLAY_MODE_PAUSED:
             changeLevel = play_mode_paused();
@@ -1230,6 +1241,9 @@ s32 update_level(void) {
 }
 
 s32 init_level(void) {
+    //start 2024/12/15 sill ポーズ制限追加
+    gPauseCounter = maxPauseCountOfLevel[gCurrCourseNum];
+    //end 2024/12/15 sill
     s32 fadeFromColor = FALSE;
 #ifdef PUPPYPRINT_DEBUG
     OSTime first = osGetTime();
