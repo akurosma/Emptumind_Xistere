@@ -183,3 +183,8 @@ s32 lvl_play_the_end_screen_sound(UNUSED s16 initOrUpdate, UNUSED s32 levelNum);
 void basic_update(void);
 
 #endif // LEVEL_UPDATE_H
+
+//start 2024/12/15 sill ポーズ制限追加
+extern s8 gPauseCounter;
+extern int maxPauseCountOfLevel[];
+//end 2024/12/15 sill
