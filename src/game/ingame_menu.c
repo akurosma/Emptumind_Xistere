@@ -1688,11 +1688,14 @@ void render_pause_camera_options(s16 x, s16 y, s8 *index, s16 xIndex) {
 #define X_VAL8 4
 #define Y_VAL8 2
 
-//start 2024/12/15 sill ポーズ制限追加
+/*start 
+    2024/12/15 sill ポーズ制限追加
+    2024/12/17 sill 色を水色に変更
+*/
 void render_pause_counter(void){
     if(gPauseCounter >= 0){
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
+        gDPSetEnvColor(gDisplayListHead++, 0, 255, 255, gDialogTextAlpha);
         int num1 = gPauseCounter / 10;
         int num2 = gPauseCounter % 10;
         remainingpause[17] = num1;

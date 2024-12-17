@@ -1,4 +1,3 @@
-#include "texscroll.h"
 #include <ultra64.h>
 
 #include "sm64.h"
@@ -148,7 +147,7 @@ u8 g100CoinStarSpawned = FALSE;
 
 //start 2024/12/15 sill ポーズ制限追加
 s8 gPauseCounter;
-int maxPauseCountOfLevel[] = {-1, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,};
+int maxPauseCountOfLevel[] = {-1, 10, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,};
 //end 2024/12/15 sill
 
 struct MarioState *gMarioState = &gMarioStates[0];
@@ -1069,20 +1068,25 @@ s32 play_mode_normal(void) {
         } else if (sTransitionTimer != 0) {
             set_play_mode(PLAY_MODE_CHANGE_AREA);
         //start 2024/12/15 sill ポーズ制限追加
-        } else if (pressed_pause() && gPauseCounter != 0) {
-        //end 2024/12/15 sill    
-            // start 2024/12/15 akuro
-            // ポーズ中にBGMが止まらないように修正
-            lower_background_noise(2);
-            // end 2024/12/15 akuro
-#if ENABLE_RUMBLE
-            cancel_rumble();
-#endif
-            gCameraMovementFlags |= CAM_MOVE_PAUSE_SCREEN;
-            //start 2024/12/15 sill ポーズ制限追加
-            gPauseCounter--;
-            //end 2024/12/15 sill
-            set_play_mode(PLAY_MODE_PAUSED);
+        } else if (pressed_pause()) {
+            if(gPauseCounter != 0){       
+                //end 2024/12/15 sill    
+                // start 2024/12/15 akuro
+                // ポーズ中にBGMが止まらないように修正
+                lower_background_noise(2);
+                // end 2024/12/15 akuro
+        #if ENABLE_RUMBLE
+                cancel_rumble();
+        #endif
+                gCameraMovementFlags |= CAM_MOVE_PAUSE_SCREEN;
+                //start 2024/12/15 sill ポーズ制限追加
+                gPauseCounter--;
+                //end 2024/12/15 sill
+                set_play_mode(PLAY_MODE_PAUSED);
+            }
+            //start 2024/12/17 sill ポーズ制限後のポーズにサウンドを追加
+            play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+            //end 2024/12/17 sill
         }
     }
     
@@ -1222,7 +1226,7 @@ s32 update_level(void) {
 
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
-            changeLevel = play_mode_normal(); scroll_textures();
+            changeLevel = play_mode_normal();
             break;
         case PLAY_MODE_PAUSED:
             changeLevel = play_mode_paused();
