@@ -1,27 +1,27 @@
 # Object files
-*.o
-*.obj
-*.elf
+# *.o
+# *.obj
+# *.elf
 
 # Linker output
-*.ilk
-*.exp
+# *.ilk
+# *.exp
 
 # Precompiled Headers
-*.gch
-*.pch
+# *.gch
+# *.pch
 
 # Libraries
-*.lib
-*.a
-*.la
-*.lo
+# *.lib
+# *.a
+# *.la
+# *.lo
 
 # Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+# *.dll
+# *.so
+# *.so.*
+# *.dylib
 
 # Executables
 *.exe
@@ -2132,20 +2132,20 @@ textures/water/jrb_textures.0B800.rgba16.png
 
 # libultra
 
-!/lib/**/*.o
-!/lib/*.a
-lib/libs2d_engine.a
-!/lib/gcclib/*.a
-!/lib/gcclib/divbreak/*.a
-!/lib/gcclib/nocheck/*.a
-!/lib/gcclib/trap/*.a
-!/lib/n64/*.a
-!/lib/ique/*.a
+#!/lib/**/*.o
+#!/lib/*.a
+#lib/libs2d_engine.a
+#!/lib/gcclib/*.a
+#!/lib/gcclib/divbreak/*.a
+#!/lib/gcclib/nocheck/*.a
+#!/lib/gcclib/trap/*.a
+#!/lib/n64/*.a
+#!/lib/ique/*.a
 
 !/lib/PR/hvqm/*.o
 
 # .orig files
-*.orig
+# *.orig
 
 # :Zone_Identifier files
 *Zone.Identifier
