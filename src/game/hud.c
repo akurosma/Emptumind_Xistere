@@ -634,5 +634,23 @@ void render_hud(void) {
             render_debug_mode();
         }
 #endif
+        //start 2024/12/18 sill captimer表示
+        if(gMarioState -> capTimer > 0){
+            char captime[32];
+            int x = 282;
+            int y = 175;
+            if(gMarioState -> capTimer > 300){
+                print_set_envcolour(255, 255, 255, 255);
+            }
+            else{
+                print_set_envcolour(255, 0, 0, 255);
+            }
+            sprintf(captime, "%u", gMarioState -> capTimer / 30);
+            print_small_text(x, y, captime, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
+            print_set_envcolour(0, 255, 255, 255);
+            print_small_text(x, 13+y, "Cap Time", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
+            print_set_envcolour(255, 255, 255, 255);
+        }
+        //end 2024/12/18 sill
     }
 }
