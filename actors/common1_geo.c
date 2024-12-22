@@ -30,3 +30,5 @@
 #include "blueSwitchBlock/geo.inc.c"
 #include "redSwitchBlockSwitch/geo.inc.c"
 #include "blueSwitchBlockSwitch/geo.inc.c"
+#include "purpleShiftPlatform/geo.inc.c"
+#include "yellowShiftPlatform/geo.inc.c"

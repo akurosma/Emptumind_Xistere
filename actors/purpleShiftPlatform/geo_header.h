@@ -1,0 +1,12 @@
+extern const GeoLayout purpleShiftPlatform_geo[];
+extern Lights1 purpleShiftPlatform__2_f3d_001_lights;
+extern Lights1 purpleShiftPlatform__3_f3d_lights;
+extern u8 purpleShiftPlatform__2_rgba16[];
+extern u8 purpleShiftPlatform__3_rgba16[];
+extern Vtx purpleShiftPlatform_purpleShiftPlatform_mesh_layer_1_vtx_0[32];
+extern Gfx purpleShiftPlatform_purpleShiftPlatform_mesh_layer_1_tri_0[];
+extern Vtx purpleShiftPlatform_purpleShiftPlatform_mesh_layer_1_vtx_1[8];
+extern Gfx purpleShiftPlatform_purpleShiftPlatform_mesh_layer_1_tri_1[];
+extern Gfx mat_purpleShiftPlatform__2_f3d_001[];
+extern Gfx mat_purpleShiftPlatform__3_f3d[];
+extern Gfx purpleShiftPlatform_purpleShiftPlatform_mesh_layer_1[];

@@ -659,6 +659,9 @@ s16 find_floor_slope(struct MarioState *m, s16 yawOffset) {
 Bool32 set_mario_wall(struct MarioState *m, struct Surface *wall) {
     if (m->wall != wall) {
         m->wall = wall;
+        if(wall){
+            m->wallLastType = wall->type;
+        }
         if (m->wall != NULL) m->wallYaw = SURFACE_YAW(wall);
     }
     return (m->wall != NULL);

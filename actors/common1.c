@@ -94,3 +94,6 @@ UNUSED static const u64 binid_22 = 22;
 #include "switchBlockSwitch/collision.inc.c"
 #include "redSwitchBlockSwitch/model.inc.c"
 #include "blueSwitchBlockSwitch/model.inc.c"
+#include "purpleShiftPlatform/model.inc.c"
+#include "yellowShiftPlatform/model.inc.c"
+#include "shiftPlatform/collision.inc.c"
