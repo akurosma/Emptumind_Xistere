@@ -87,3 +87,10 @@ UNUSED static const u64 binid_21 = 21;
 
 #include "tree/model.inc.c"
 UNUSED static const u64 binid_22 = 22;
+
+#include "switchBlock/collision.inc.c"
+#include "redSwitchBlock/model.inc.c"
+#include "blueSwitchBlock/model.inc.c"
+#include "switchBlockSwitch/collision.inc.c"
+#include "redSwitchBlockSwitch/model.inc.c"
+#include "blueSwitchBlockSwitch/model.inc.c"

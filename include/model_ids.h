@@ -442,7 +442,7 @@
 #define MODEL_TTM_SLIDE_EXIT_PODIUM       0x7B        // ttm_geo_000DF4
 #define MODEL_WOODEN_SIGNPOST             0x7C        // wooden_signpost_geo
 #define MODEL_UNKNOWN_7D                  0x7D        // referenced in macro presets. Unknown usage
-// find me
+#define MODEL_RED_SWITCH_BLOCK            0x7E        // red_switch_block
 #define MODEL_CANNON_BARREL               0x7F        // cannon_barrel_geo
 #define MODEL_CANNON_BASE                 0x80        // cannon_base_geo
 #define MODEL_BREAKABLE_BOX               0x81        // breakable_box_geo
@@ -458,13 +458,13 @@
 #define MODEL_DIRT_ANIMATION              0x8A        // dirt_animation_geo
 #define MODEL_CARTOON_STAR                0x8B        // cartoon_star_geo
 #define MODEL_BLUE_COIN_SWITCH            0x8C        // blue_coin_switch_geo
-// find me
+#define MODEL_BLUE_SWITCH_BLOCK           0x8D        // blue_switch_block
 #define MODEL_MIST                        0x8E        // mist_geo
 #define MODEL_SPARKLES_ANIMATION          0x8F        // sparkles_animation_geo
 #define MODEL_RED_FLAME                   0x90        // red_flame_geo
 #define MODEL_BLUE_FLAME                  0x91        // blue_flame_geo
-// find me
-// find me
+#define MODEL_RED_SWITCH_BLOCK_SWITCH     0x92        // red_switch_block_switch
+#define MODEL_BLUE_SWITCH_BLOCK_SWITCH    0x93        // blue_switch_block_switch
 #define MODEL_BURN_SMOKE                  0x94        // burn_smoke_geo
 #define MODEL_SPARKLES                    0x95        // sparkles_geo
 #define MODEL_SMOKE                       0x96        // smoke_geo
