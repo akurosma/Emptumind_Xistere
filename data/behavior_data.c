@@ -6075,3 +6075,24 @@ const BehaviorScript bhvIntroScene[] = {
 };
 
 
+
+const BehaviorScript bhvSwitchBlock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    CALL_NATIVE(bhv_switch_block_init),
+    LOAD_COLLISION_DATA(switchBlock_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_switch_block_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvSwitchBlockSwitch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(switchBlockSwitch_collision),
+    CALL_NATIVE(bhv_switch_block_switch_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_switch_block_switch_loop),
+    END_LOOP(),
+};

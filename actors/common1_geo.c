@@ -25,3 +25,8 @@
 #include "white_particle/geo.inc.c"
 #include "wooden_signpost/geo.inc.c"
 #include "tree/geo.inc.c"
+
+#include "redSwitchBlock/geo.inc.c"
+#include "blueSwitchBlock/geo.inc.c"
+#include "redSwitchBlockSwitch/geo.inc.c"
+#include "blueSwitchBlockSwitch/geo.inc.c"
