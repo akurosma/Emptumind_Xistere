@@ -468,8 +468,8 @@
 #define MODEL_BURN_SMOKE                  0x94        // burn_smoke_geo
 #define MODEL_SPARKLES                    0x95        // sparkles_geo
 #define MODEL_SMOKE                       0x96        // smoke_geo
-// find me
-// find me
+#define MODEL_YELLOW_SHIFT_PLATFORM       0x97        // yellow_shift_platform
+#define MODEL_PURPLE_SHIFT_PLATFORM       0x98        // purple_shift_platform
 // find me
 // find me
 // find me

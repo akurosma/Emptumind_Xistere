@@ -20,6 +20,15 @@ void bhv_switch_block_init(void) {
 
 void bhv_switch_block_loop(void) {
 
+    if(gMarioObject->platform == o){
+        if(gMarioState->switchSituation == RED_SWITCH_ON && BPARAM1 == BLUE_MODEL){
+            gMarioState->switchSituation = RED_SWITCH_OFF;
+        }
+        else if(gMarioState->switchSituation == RED_SWITCH_OFF && BPARAM1 == RED_MODEL){
+            gMarioState->switchSituation = RED_SWITCH_ON;
+        }
+    }
+
     switch (gMarioState->switchSituation){
         case RED_SWITCH_ON:
             if(BPARAM1 == BLUE_MODEL){

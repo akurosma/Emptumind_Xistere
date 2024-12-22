@@ -201,6 +201,8 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BLUE_SWITCH_BLOCK,            blueSwitchBlock_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RED_SWITCH_BLOCK_SWITCH,      redSwitchBlockSwitch_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BLUE_SWITCH_BLOCK_SWITCH,     blueSwitchBlockSwitch_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_YELLOW_SHIFT_PLATFORM,        yellowShiftPlatform_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PURPLE_SHIFT_PLATFORM,        purpleShiftPlatform_geo),
 
     RETURN(),
 };

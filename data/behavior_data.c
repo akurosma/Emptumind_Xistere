@@ -6096,3 +6096,13 @@ const BehaviorScript bhvSwitchBlockSwitch[] = {
         CALL_NATIVE(bhv_switch_block_switch_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvShiftPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_shift_platform_init),
+    LOAD_COLLISION_DATA(shiftPlatform_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_shift_platform_loop),
+    END_LOOP(),
+};

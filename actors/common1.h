@@ -315,4 +315,10 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "blueSwitchBlockSwitch/geo_header.h"
 
+#include "purpleShiftPlatform/geo_header.h"
+
+#include "yellowShiftPlatform/geo_header.h"
+
+#include "shiftPlatform/collision_header.h"
+
 #endif

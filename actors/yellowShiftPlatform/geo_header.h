@@ -1,0 +1,12 @@
+extern const GeoLayout yellowShiftPlatform_geo[];
+extern Lights1 yellowShiftPlatform__1_f3d_lights;
+extern u8 yellowShiftPlatform__1_rgba16[];
+extern u8 yellowShiftPlatform__2_rgba16[];
+extern Vtx yellowShiftPlatform_yellowShiftPlatform_mesh_layer_1_vtx_0[8];
+extern Gfx yellowShiftPlatform_yellowShiftPlatform_mesh_layer_1_tri_0[];
+extern Vtx yellowShiftPlatform_yellowShiftPlatform_mesh_layer_1_vtx_1[30];
+extern Gfx yellowShiftPlatform_yellowShiftPlatform_mesh_layer_1_tri_1[];
+extern Gfx mat_yellowShiftPlatform__1_f3d[];
+extern Gfx mat_yellowShiftPlatform__2_f3d[];
+extern Gfx mat_revert_yellowShiftPlatform__2_f3d[];
+extern Gfx yellowShiftPlatform_yellowShiftPlatform_mesh_layer_1[];
