@@ -24,13 +24,6 @@ void bhv_shift_platform_init(void) {
 }
 
 void bhv_shift_platform_loop(void) {
-
-    char text[32];
-
-    sprintf(text, "shift: %d", gMarioState->shiftSituation);
-    print_text(10, 10, text);
-    sprintf(text, "wallkick: %d", gMarioState->wallKickedOf);
-    print_text(10, 20, text);
     
     if((gMarioObject->platform == o) && (gMarioStates->controller->buttonPressed & A_BUTTON)){ 
         if(gMarioState->shiftSituation == YELLOW_MODEL){

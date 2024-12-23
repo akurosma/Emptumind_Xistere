@@ -470,8 +470,8 @@
 #define MODEL_SMOKE                       0x96        // smoke_geo
 #define MODEL_YELLOW_SHIFT_PLATFORM       0x97        // yellow_shift_platform
 #define MODEL_PURPLE_SHIFT_PLATFORM       0x98        // purple_shift_platform
-// find me
-// find me
+#define MODEL_CUR_FLASHING_BLOCK          0x99        // cur_flashing_block
+#define MODEL_NEXT_FLASHING_BLOCK         0x9A        // next_flashing_block
 // find me
 #define MODEL_BURN_SMOKE_UNUSED           0x9C        // burn_smoke_geo - unused & duplicated
 // find me

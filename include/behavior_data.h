@@ -546,3 +546,4 @@ extern const BehaviorScript bhvUnusedFakeStar[];
 extern const BehaviorScript bhvSwitchBlock[];
 extern const BehaviorScript bhvSwitchBlockSwitch[];
 extern const BehaviorScript bhvShiftPlatform[];
+extern const BehaviorScript bhvFlashingBlock[];

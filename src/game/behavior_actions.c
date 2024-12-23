@@ -235,3 +235,4 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/switch_block.inc.c"
 #include "behaviors/switch_block_switch.inc.c"
 #include "behaviors/shift_platform.inc.c"
+#include "behaviors/flashing_block.inc.c"

@@ -1,0 +1,12 @@
+extern const GeoLayout curFlashingBlock_geo[];
+extern u8 curFlashingBlock__2_i8[];
+extern u8 curFlashingBlock__1_i8[];
+extern Vtx curFlashingBlock_nextFlashingBlock_mesh_layer_1_vtx_0[105];
+extern Gfx curFlashingBlock_nextFlashingBlock_mesh_layer_1_tri_0[];
+extern Vtx curFlashingBlock_nextFlashingBlock_mesh_layer_1_vtx_1[24];
+extern Gfx curFlashingBlock_nextFlashingBlock_mesh_layer_1_tri_1[];
+extern Gfx mat_curFlashingBlock__1_001_f3d[];
+extern Gfx mat_revert_curFlashingBlock__1_001_f3d[];
+extern Gfx mat_curFlashingBlock__2_001_f3d[];
+extern Gfx mat_revert_curFlashingBlock__2_001_f3d[];
+extern Gfx curFlashingBlock_nextFlashingBlock_mesh_layer_1[];

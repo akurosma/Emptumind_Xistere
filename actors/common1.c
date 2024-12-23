@@ -97,3 +97,6 @@ UNUSED static const u64 binid_22 = 22;
 #include "purpleShiftPlatform/model.inc.c"
 #include "yellowShiftPlatform/model.inc.c"
 #include "shiftPlatform/collision.inc.c"
+#include "flashingBlock/collision.inc.c"
+#include "curFlashingBlock/model.inc.c"
+#include "nextFlashingBlock/model.inc.c"
