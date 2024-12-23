@@ -321,4 +321,10 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "shiftPlatform/collision_header.h"
 
+#include "flashingBlock/collision_header.h"
+
+#include "curFlashingBlock/geo_header.h"
+
+#include "nextFlashingBlock/geo_header.h"
+
 #endif
