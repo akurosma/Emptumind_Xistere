@@ -90,6 +90,17 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
             }
         }
 
+        //start 2024/12/24 sill
+        if (gCollisionFlags & COLLISION_FLAG_WATER)
+        {
+            if (type != SURFACE_WATER) continue;
+        }
+        else
+        {
+            if (type == SURFACE_WATER) continue;
+        }
+        //end
+
         // Dot of normal and pos, + origin offset
         offset = (surf->normal.x * pos[0])
                + (surf->normal.y * pos[1])
@@ -325,6 +336,17 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
         // Check that the point is within the triangle bounds
         if (!check_within_ceil_triangle_bounds(x, z, surf, 1.5f)) continue;
 
+        //start 2024/12/24 sill
+        if (gCollisionFlags & COLLISION_FLAG_WATER)
+        {
+            if (type != SURFACE_WATER) continue;
+        }
+        else
+        {
+            if (type == SURFACE_WATER) continue;
+        }
+        //end
+
         // Find the height of the ceil at the given location
         height = get_surface_height_at_location(x, z, surf);
 
@@ -458,6 +480,17 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
         } else if (type == SURFACE_CAMERA_BOUNDARY) {
             continue; // If we are not checking for the camera, ignore camera only floors.
         }
+
+        //start 2024/12/24 sill
+        if (gCollisionFlags & COLLISION_FLAG_WATER)
+        {
+            if (type != SURFACE_WATER) continue;
+        }
+        else
+        {
+            if (type == SURFACE_WATER) continue;
+        }
+        //end
 
         // Exclude all floors above the point.
         if (bufferY < surf->lowerY) continue;

@@ -1,0 +1,16 @@
+extern const GeoLayout act_select_geo[];
+extern Lights1 act_select_Default_Material_005_f3d_lights;
+extern u8 act_select_aaaa_rgba16[];
+extern u8 act_select_aaa_rgba16[];
+extern Vtx act_select_screen_mesh_layer_1_vtx_0[20];
+extern Gfx act_select_screen_mesh_layer_1_tri_0[];
+extern Vtx act_select_screen_mesh_layer_1_vtx_1[16];
+extern Gfx act_select_screen_mesh_layer_1_tri_1[];
+extern Vtx act_select_screen_mesh_layer_1_vtx_2[8];
+extern Gfx act_select_screen_mesh_layer_1_tri_2[];
+extern Gfx mat_act_select_Default_Material_005_f3d[];
+extern Gfx mat_act_select_aaaa_001_f3d[];
+extern Gfx mat_revert_act_select_aaaa_001_f3d[];
+extern Gfx mat_act_select_aaa_001_f3d[];
+extern Gfx mat_revert_act_select_aaa_001_f3d[];
+extern Gfx act_select_screen_mesh_layer_1[];
