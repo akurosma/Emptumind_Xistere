@@ -19,6 +19,7 @@
 #include "puppyprint.h"
 
 #include "config.h"
+#include "behavior_data.h"
 
 /* @file hud.c
  * This file implements HUD rendering and power meter animations.
@@ -418,6 +419,20 @@ void render_hud_redcoins_counter(void) {
     //print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), HUD_TOP_Y, "@"); // 'RedCoin' glyph
     print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(38), HUD_TOP_Y, "*"); // 'X' glyph
     print_text_fmt_int(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(54), HUD_TOP_Y, "%d", gRedCoinsCollected);
+
+    //start 2024/12/25 sill 赤コインの総数表示
+    s8 xoffset = 0;
+    s16 numRedCoinsTotal = 0;
+    if(gRedCoinsCollected < 10){
+        xoffset = 0;
+    }
+    else{
+        xoffset = 12;
+    }
+    numRedCoinsTotal = count_objects_with_behavior(bhvRedCoin) + gRedCoinsCollected;
+    print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(69+xoffset), HUD_TOP_Y, "/"); // '-' glyph
+    print_text_fmt_int(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(81+xoffset), HUD_TOP_Y, "%d", numRedCoinsTotal);
+    //end 2024/12/24 sill
 }
 // end 2024/12/15 akuro
 
