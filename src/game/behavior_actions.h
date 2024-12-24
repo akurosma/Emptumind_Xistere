@@ -585,3 +585,5 @@ void bhv_shift_platform_init(void);
 void bhv_shift_platform_loop(void);
 void bhv_flashing_block_init(void);
 void bhv_flashing_block_loop(void);
+void bhv_launchSpring_init(void);
+void bhv_launchSpring_loop(void);

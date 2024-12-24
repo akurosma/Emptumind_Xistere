@@ -63,6 +63,13 @@ s32 check_fall_damage(struct MarioState *m, u32 hardFallAction) {
 #ifdef NO_FALL_DAMAGE
     return FALSE;
 #endif
+    //start 2024/12/24 sill Flagセット時に落下ダメ無効
+    if (gMarioState->flags & MARIO_NO_FALLDAMAGE)
+    {
+        gMarioState->flags &= ~MARIO_NO_FALLDAMAGE;
+        return FALSE;
+    }
+    //end 2024/12/24 sill
 
     f32 fallHeight = m->peakHeight - m->pos[1];
 

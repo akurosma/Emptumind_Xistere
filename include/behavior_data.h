@@ -547,3 +547,4 @@ extern const BehaviorScript bhvSwitchBlock[];
 extern const BehaviorScript bhvSwitchBlockSwitch[];
 extern const BehaviorScript bhvShiftPlatform[];
 extern const BehaviorScript bhvFlashingBlock[];
+extern const BehaviorScript bhvLaunchSpring[];
