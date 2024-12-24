@@ -195,7 +195,7 @@ enum MarioFlags {
     MARIO_METAL_SHOCK         = /* 0x00000040 */ (1 <<  6),
     MARIO_TELEPORTING         = /* 0x00000080 */ (1 <<  7),
     MARIO_JUMPING             = /* 0x00000100 */ (1 <<  8),
-    MARIO_UNUSED_9            = /* 0x00000200 */ (1 <<  9),
+    MARIO_NO_FALLDAMAGE       = /* 0x00000200 */ (1 <<  9),
     MARIO_UNUSED_10           = /* 0x00000400 */ (1 << 10),
     MARIO_UNUSED_11           = /* 0x00000800 */ (1 << 11),
     MARIO_UNUSED_12           = /* 0x00001000 */ (1 << 12),

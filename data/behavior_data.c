@@ -6114,3 +6114,14 @@ const BehaviorScript bhvFlashingBlock[] = {
         CALL_NATIVE(bhv_flashing_block_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvLaunchSpring[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_launchSpring_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_launchSpring_loop),
+    END_LOOP(),
+};
