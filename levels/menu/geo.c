@@ -176,7 +176,10 @@ const GeoLayout geo_menu_act_selector_strings[] = {
       GEO_OPEN_NODE(),
          GEO_NODE_ORTHO(100),
          GEO_OPEN_NODE(),
-            GEO_BACKGROUND_COLOR(0xFFFF),
+            //start 2024/12/24 sill
+            //GEO_BACKGROUND_COLOR(0xFFFF), 
+		      GEO_DISPLAY_LIST(LAYER_OPAQUE, act_select_screen_mesh_layer_1),
+            //end
          GEO_CLOSE_NODE(),
       GEO_CLOSE_NODE(),
       GEO_ZBUFFER(1),
@@ -196,3 +199,5 @@ const GeoLayout geo_menu_act_selector_strings[] = {
    GEO_CLOSE_NODE(),
    GEO_END(),
 };
+
+#include "levels/menu/act_select/geo.inc.c"

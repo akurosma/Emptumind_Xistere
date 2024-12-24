@@ -106,6 +106,7 @@ enum CollisionFlags {
     COLLISION_FLAG_CAMERA             = (1 << 2),
     COLLISION_FLAG_INCLUDE_INTANGIBLE = (1 << 3),
     COLLISION_FLAG_EXCLUDE_DYNAMIC    = (1 << 4),
+    COLLISION_FLAG_WATER = (1 << 5),
 };
 
 extern s16 gCollisionFlags;
