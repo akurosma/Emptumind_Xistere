@@ -28,6 +28,7 @@ void bhv_launchSpring_loop(void) {
             bounce_off_object(gMarioState, o, sins(angle) * spd);
             gMarioState->vel[1] = sins(angle) * spd;
             mario_set_flag(MARIO_NO_FALLDAMAGE);
+            cur_obj_change_action(1);
         }
     }
     else{
