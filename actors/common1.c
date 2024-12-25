@@ -100,3 +100,4 @@ UNUSED static const u64 binid_22 = 22;
 #include "flashingBlock/collision.inc.c"
 #include "curFlashingBlock/model.inc.c"
 #include "nextFlashingBlock/model.inc.c"
+#include "launchSpring/model.inc.c"

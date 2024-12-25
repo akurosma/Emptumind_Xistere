@@ -472,7 +472,7 @@
 #define MODEL_PURPLE_SHIFT_PLATFORM       0x98        // purple_shift_platform
 #define MODEL_CUR_FLASHING_BLOCK          0x99        // cur_flashing_block
 #define MODEL_NEXT_FLASHING_BLOCK         0x9A        // next_flashing_block
-// find me
+#define MODEL_LAUNCH_SPRING               0x9B        // launch_spring
 #define MODEL_BURN_SMOKE_UNUSED           0x9C        // burn_smoke_geo - unused & duplicated
 // find me
 #define MODEL_WHITE_PARTICLE_DL           0x9E        // white_particle_dl

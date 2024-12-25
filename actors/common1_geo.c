@@ -34,3 +34,4 @@
 #include "yellowShiftPlatform/geo.inc.c"
 #include "curFlashingBlock/geo.inc.c"
 #include "nextFlashingBlock/geo.inc.c"
+#include "launchSpring/geo.inc.c"
