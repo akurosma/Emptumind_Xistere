@@ -28,7 +28,7 @@ const GeoLayout unagi_geo[] = {
                            GEO_OPEN_NODE(),
                               GEO_SCALE(0x00, 16384),
                               GEO_OPEN_NODE(),
-                                 GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 2000, 0, 0, 0, 0, 0, transparent_star_seg3_dl_body),
+                                 GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 2000, 0, 0, 0, 0, 0, transparent_star_LoveHeart_mesh_layer_5),
                               GEO_CLOSE_NODE(),
                            GEO_CLOSE_NODE(),
                         GEO_CLOSE_NODE(),
