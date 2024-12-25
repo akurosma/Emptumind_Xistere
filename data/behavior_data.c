@@ -6079,8 +6079,9 @@ const BehaviorScript bhvIntroScene[] = {
 const BehaviorScript bhvSwitchBlock[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    CALL_NATIVE(bhv_switch_block_init),
+    SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(switchBlock_collision),
+    CALL_NATIVE(bhv_switch_block_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_switch_block_loop),
     END_LOOP(),
@@ -6088,6 +6089,7 @@ const BehaviorScript bhvSwitchBlock[] = {
 const BehaviorScript bhvSwitchBlockSwitch[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(switchBlockSwitch_collision),
     CALL_NATIVE(bhv_switch_block_switch_init),
     BEGIN_LOOP(),
@@ -6099,8 +6101,9 @@ const BehaviorScript bhvSwitchBlockSwitch[] = {
 const BehaviorScript bhvShiftPlatform[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    CALL_NATIVE(bhv_shift_platform_init),
+    SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(shiftPlatform_collision),
+    CALL_NATIVE(bhv_shift_platform_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_shift_platform_loop),
     END_LOOP(),
@@ -6109,6 +6112,7 @@ const BehaviorScript bhvShiftPlatform[] = {
 const BehaviorScript bhvFlashingBlock[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(flashingBlock_collision),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_flashing_block_loop),
