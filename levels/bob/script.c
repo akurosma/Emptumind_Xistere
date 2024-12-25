@@ -78,6 +78,7 @@ const LevelScript level_bob_entry[] = {
 		OBJECT(MODEL_PURPLE_SHIFT_PLATFORM, -1652, 4845, -7563, 0, 0, 0, (1 << 24) | (0 << 16), bhvShiftPlatform),
 		OBJECT(MODEL_YELLOW_SHIFT_PLATFORM, -3018, 4845, -7563, 0, 0, 0, (0 << 24) | (0 << 16), bhvShiftPlatform),
 		OBJECT(MODEL_PURPLE_SHIFT_PLATFORM, -4047, 4845, -7563, 0, 0, 0, (1 << 24) | (0 << 16), bhvShiftPlatform),
+		OBJECT(MODEL_LAUNCH_SPRING, -4047, 4845, -6501, -45, 90, 0, (150 << 24) | (45 << 16), bhvLaunchSpring),
 		OBJECT(MODEL_STAR, 492, 5250, -456, 0, 0, 0, (0 << 24), bhvStar),
 		OBJECT(MODEL_RED_SWITCH_BLOCK, 642, 5113, -4556, 0, 0, 0, (0 << 24) | (0 << 16), bhvSwitchBlock),
 		OBJECT(MODEL_RED_SWITCH_BLOCK, -235, 5250, -4786, 0, 0, 0, (1 << 24) | (0 << 16), bhvSwitchBlock),
