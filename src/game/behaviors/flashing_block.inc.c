@@ -32,15 +32,7 @@ void bhv_flashing_block_loop(void) {
     }
 
     timer = o->oTimer/flashSpeed;
-    
     flashCnt = timer%flashUnit;
-
-        char text[32];
-
-    sprintf(text, "timer128: %d", timer);
-    print_text(10, 10, text);
-        sprintf(text, "cnt: %d", flashCnt);
-    print_text(10, 40, text);
 
     if((flashStartNumber <= flashCnt) && (flashCnt <= flashLastNumber)){
         if(flashCnt != flashLastNumber){
