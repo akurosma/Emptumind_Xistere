@@ -9,7 +9,7 @@ void bhv_flashing_block_loop(void) {
     s8 flashLastNumber;
     s8 flashSpeed;
     s8 flashCnt;
-    s8 timer;
+    u8 timer;
 
     flashUnit = BPARAM1;
 
@@ -25,14 +25,22 @@ void bhv_flashing_block_loop(void) {
 
     flashLastNumber = flashStartNumber + BPARAM3;
 
-    flashSpeed = BPARAM4 * 5;
+    flashSpeed = BPARAM4 * 3;
 
     if(flashSpeed == 0){
-        flashSpeed = 50;
+        flashSpeed = 30;
     }
 
-    timer = (o->oTimer/flashSpeed)%128;
+    timer = o->oTimer/flashSpeed;
+    
     flashCnt = timer%flashUnit;
+
+        char text[32];
+
+    sprintf(text, "timer128: %d", timer);
+    print_text(10, 10, text);
+        sprintf(text, "cnt: %d", flashCnt);
+    print_text(10, 40, text);
 
     if((flashStartNumber <= flashCnt) && (flashCnt <= flashLastNumber)){
         if(flashCnt != flashLastNumber){
