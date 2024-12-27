@@ -601,7 +601,7 @@ u32 should_strengthen_gravity_for_jump_ascent(struct MarioState *m) {
         return FALSE;
     }
 
-    if (!(m->input & INPUT_A_DOWN) && m->vel[1] > 20.0f) {
+    if ((!(m->input & INPUT_A_DOWN) && m->vel[1] > 20.0f && (m->wallLastType != SURFACE_B_BUTTON_WALL)) || ((!(m->input & INPUT_B_DOWN) && m->vel[1] > 20.0f) && (m->wallLastType == SURFACE_B_BUTTON_WALL))) {
         return (m->action & ACT_FLAG_CONTROL_JUMP_HEIGHT) != 0;
     }
 
