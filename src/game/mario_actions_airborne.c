@@ -380,7 +380,7 @@ u32 common_air_action_step(struct MarioState *m, u32 landAction, s32 animation, 
 
             if (m->forwardVel > 16.0f) {
 #if ENABLE_RUMBLE
-                queue_rumble_data(5, 40);
+            /     queue_rumble_data(5, 40);
 #endif
                 mario_bonk_reflection(m, FALSE);
                 m->faceAngle[1] += 0x8000;
@@ -605,13 +605,21 @@ s32 act_side_flip(struct MarioState *m) {
 }
 
 s32 act_wall_kick_air(struct MarioState *m) {
-    if (m->input & INPUT_B_PRESSED) {
-        return set_mario_action(m, ACT_DIVE, 0);
+    if(m->wallLastType == SURFACE_B_BUTTON_WALL){
+        if (m->input & INPUT_Z_PRESSED) {
+            return set_mario_action(m, ACT_GROUND_POUND, 0);
+        }
+    }
+    else{
+        if (m->input & INPUT_B_PRESSED) {
+            return set_mario_action(m, ACT_DIVE, 0);
+        }
+
+        if (m->input & INPUT_Z_PRESSED) {
+            return set_mario_action(m, ACT_GROUND_POUND, 0);
+        }
     }
 
-    if (m->input & INPUT_Z_PRESSED) {
-        return set_mario_action(m, ACT_GROUND_POUND, 0);
-    }
 
     play_mario_jump_sound(m);
     common_air_action_step(m, ACT_JUMP_LAND, MARIO_ANIM_SLIDEJUMP, AIR_STEP_CHECK_LEDGE_GRAB);
@@ -1129,16 +1137,31 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
 }
 
 s32 check_wall_kick(struct MarioState *m) {
-    if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
-        m->faceAngle[1] += 0x8000;
-        m->wallKickedOf = m->wallLastType;
-        return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+    if(m->wallLastType == SURFACE_B_BUTTON_WALL){
+        if ((m->input & INPUT_B_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
+            m->faceAngle[1] += 0x8000;
+            m->wallKickedOf = m->wallLastType;
+            return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+        }
+        if(m->framesSinceB < 2 && m->actionArg == 3){
+            m->wallKickTimer = 0;
+            m->faceAngle[1] += 0x8000;
+            m->wallKickedOf = m->wallLastType;
+            return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+        }
     }
-    if(m->framesSinceA < 2 && m->actionArg == 3){
-        m->wallKickTimer = 0;
-        m->faceAngle[1] += 0x8000;
-        m->wallKickedOf = m->wallLastType;
-        return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+    else{
+        if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
+            m->faceAngle[1] += 0x8000;
+            m->wallKickedOf = m->wallLastType;
+            return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+        }
+        if(m->framesSinceA < 2 && m->actionArg == 3){
+            m->wallKickTimer = 0;
+            m->faceAngle[1] += 0x8000;
+            m->wallKickedOf = m->wallLastType;
+            return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+        }
     }
     return FALSE;
 }
@@ -1278,7 +1301,7 @@ s32 act_air_hit_wall(struct MarioState *m) {
     }
 
     if (++(m->actionTimer) <= 2) {
-        if (m->input & INPUT_A_PRESSED) {
+        if ((m->input & INPUT_A_PRESSED && m->wallLastType != SURFACE_B_BUTTON_WALL) || (m->wallLastType == SURFACE_B_BUTTON_WALL && m->input & INPUT_B_PRESSED)) {
             m->vel[1] = 52.0f;
             m->faceAngle[1] += 0x8000;
             m->wallKickedOf = m->wallLastType;

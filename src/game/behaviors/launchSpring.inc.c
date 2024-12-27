@@ -8,7 +8,7 @@ struct ObjectHitbox sLaunchSpringHitbox = {
     /* radius:            */ 70,
     /* height:            */ 80,
     /* hurtboxRadius:     */ 70,
-    /* hurtboxHeight:     */ 80,
+    /* hurtboxHeight:     */ 90,
 };
 
 void bhv_launchSpring_init(void) {
@@ -19,13 +19,26 @@ void bhv_launchSpring_loop(void) {
     f32 spd = BPARAM1;
     f32 angle = DEGREES(BPARAM2);
 
+    char text[32];
+
+    if(gMarioState != NULL){
+    sprintf(text, "action: %d", gMarioState->action);
+    print_text(10, 10, text);
+    sprintf(text, "wallkicktimer: %d", gMarioState->wallKickTimer);
+    print_text(10, 35, text);
+    sprintf(text, "lastwalltype: %d", gMarioState->wallLastType);
+    print_text(10, 60, text);
+    sprintf(text, "wallkickof: %d", gMarioState->wallKickedOf);
+    print_text(10, 85, text);
+    }
+
     if (o->oAction == 0) {
         if (obj_check_if_collided_with_object(o, gMarioObject)) {
-            cur_obj_play_sound_2(SOUND_ACTION_BOUNCE_OFF_OBJECT);
             set_mario_action(gMarioState, ACT_DOUBLE_JUMP, 0);
 		    gMarioState->faceAngle[1] = o->oFaceAngleYaw;
             gMarioState->forwardVel = coss(angle) * spd;
             bounce_off_object(gMarioState, o, sins(angle) * spd);
+            cur_obj_play_sound_2(SOUND_GENERAL_LAUNCH_SPRING);
             gMarioState->vel[1] = sins(angle) * spd;
             mario_set_flag(MARIO_NO_FALLDAMAGE);
             cur_obj_change_action(1);

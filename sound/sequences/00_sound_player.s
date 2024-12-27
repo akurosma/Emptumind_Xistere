@@ -2868,6 +2868,7 @@ sound_ref .sound_general_grand_star
 sound_ref .sound_general_grand_star_jump
 sound_ref .sound_general_boat_rock
 sound_ref .sound_general_vanish_sfx
+sound_ref .sound_general_launch_spring
 sound_ref .sound_menu_enter_hole
 sound_ref .sound_general_red_coin
 sound_ref .sound_general_birds_fly_away
@@ -3288,6 +3289,16 @@ layer_note1 19, 0x6, 127
 layer_setinstr 5
 layer_portamento 0x82, 20, 255
 layer_note1 32, 0x5a, 127
+layer_end
+
+.sound_general_launch_spring:
+chan_setbank 5
+chan_setinstr 16
+chan_setlayer 0, .layer_1337
+chan_end
+
+.layer_1337:
+layer_note1 39, 0x7f, 100
 layer_end
 
 .sound_general_painting_eject:
