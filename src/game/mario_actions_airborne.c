@@ -1300,6 +1300,8 @@ s32 act_air_hit_wall(struct MarioState *m) {
         mario_drop_held_object(m);
     }
 
+    m->prevForwardVel = m->forwardVel;
+
     if (++(m->actionTimer) <= 2) {
         if ((m->input & INPUT_A_PRESSED && m->wallLastType != SURFACE_B_BUTTON_WALL) || (m->wallLastType == SURFACE_B_BUTTON_WALL && m->input & INPUT_B_PRESSED)) {
             m->vel[1] = 52.0f;

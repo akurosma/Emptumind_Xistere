@@ -19,19 +19,6 @@ void bhv_launchSpring_loop(void) {
     f32 spd = BPARAM1;
     f32 angle = DEGREES(BPARAM2);
 
-    char text[32];
-
-    if(gMarioState != NULL){
-    sprintf(text, "action: %d", gMarioState->action);
-    print_text(10, 10, text);
-    sprintf(text, "wallkicktimer: %d", gMarioState->wallKickTimer);
-    print_text(10, 35, text);
-    sprintf(text, "lastwalltype: %d", gMarioState->wallLastType);
-    print_text(10, 60, text);
-    sprintf(text, "wallkickof: %d", gMarioState->wallKickedOf);
-    print_text(10, 85, text);
-    }
-
     if (o->oAction == 0) {
         if (obj_check_if_collided_with_object(o, gMarioObject)) {
             set_mario_action(gMarioState, ACT_DOUBLE_JUMP, 0);
