@@ -604,13 +604,14 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 //! TODO: Is this check necessary? Both seem to do the exact same thing.
                 if (m->actionArg & 1) {
                     // No exit
-                    play_course_clear(obj_has_model(celebStar, MODEL_BOWSER_KEY));
+                    play_course_clear();
                 } else {
                     // Exit
-                    if (obj_has_model(celebStar, MODEL_BOWSER_KEY)) {
-                        play_music(SEQ_PLAYER_ENV, SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_COLLECT_KEY), 0);
-                    } else {
+                    if(random_u16() % 2 == 0){
                         play_music(SEQ_PLAYER_ENV, SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_COLLECT_STAR), 0);
+                    }
+                    else{
+                        play_music(SEQ_PLAYER_ENV, SEQUENCE_ARGS(15, SEQ_CUTSCENE_GOT_STAR), 0);
                     }
                 }
                 break;

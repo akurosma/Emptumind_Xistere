@@ -50,9 +50,10 @@ enum SeqId {
     SEQ_ENDLESS_POSSIBILITY,          // 0x23
     SEQ_SOLAR_SYSTEM_DISCO,           // 0x24
     SEQ_PETIT_BONHEUR,                // 0x25
-    SEQ_YOSHIS_ISLAND,                // 0x26
+    SEQ_ROCKET_RIDE,                  // 0x26
     SEQ_BLACK_TOWER,                  // 0x27
     SEQ_GREAT_MIGHTY_POO,             // 0x28
+    SEQ_CUTSCENE_GOT_STAR,            // 0X29
     // end 2024/12/15 akuro
     SEQ_COUNT
 };
