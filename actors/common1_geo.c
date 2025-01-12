@@ -35,3 +35,4 @@
 #include "curFlashingBlock/geo.inc.c"
 #include "nextFlashingBlock/geo.inc.c"
 #include "launchSpring/geo.inc.c"
+#include "rotationBox/geo.inc.c"

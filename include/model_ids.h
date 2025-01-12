@@ -111,6 +111,7 @@
 #define MODEL_BOB_CHAIN_CHOMP_GATE             0x36        // bob_geo_000440
 #define MODEL_BOB_SEESAW_PLATFORM              0x37        // bob_geo_000458
 #define MODEL_BOB_BARS_GRILLS                  0x38        // bob_geo_000470
+#define MODEL_ROTATION_PILLAR                  0x39        // rotation_pillar
 
 // sl
 #define MODEL_SL_SNOW_TRIANGLE                 0x36        // sl_geo_000390
@@ -474,7 +475,7 @@
 #define MODEL_NEXT_FLASHING_BLOCK         0x9A        // next_flashing_block
 #define MODEL_LAUNCH_SPRING               0x9B        // launch_spring
 #define MODEL_BURN_SMOKE_UNUSED           0x9C        // burn_smoke_geo - unused & duplicated
-// find me
+#define MODEL_ROTATION_BOX                0x9D        // rotation_box  
 #define MODEL_WHITE_PARTICLE_DL           0x9E        // white_particle_dl
 #define MODEL_SAND_DUST                   0x9F        // sand_seg3_dl_particle
 #define MODEL_WHITE_PARTICLE              0xA0        // white_particle_dl
