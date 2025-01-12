@@ -2410,11 +2410,12 @@ void func_803210D4(u16 fadeDuration) {
 /**
  * Called from threads: thread5_game_loop
  */
-void play_course_clear(s32 isKey) {
-    if (isKey) {
-        seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_CUTSCENE_COLLECT_KEY, 0);
-    } else {
-        seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_CUTSCENE_COLLECT_STAR, 0);
+void play_course_clear(void) {
+    if(random_u16() % 2 == 0){
+        play_music(SEQ_PLAYER_ENV, SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_COLLECT_STAR), 0);
+    }
+    else{
+        play_music(SEQ_PLAYER_ENV, SEQUENCE_ARGS(15, SEQ_CUTSCENE_GOT_STAR), 0);
     }
     sBackgroundMusicMaxTargetVolume = TARGET_VOLUME_IS_PRESENT_FLAG | 0;
 #if defined(VERSION_EU) || defined(VERSION_SH)

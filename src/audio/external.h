@@ -64,7 +64,7 @@ u32 get_current_background_music(void);
 void play_secondary_music(u8 seqId, u8 bgMusicVolume, u8 volume, u16 fadeTimer);
 void stop_secondary_music(u16 fadeTimer);
 void func_803210D4(u16 fadeOutTime);
-void play_course_clear(s32 isKey);
+void play_course_clear(void);
 void play_peachs_jingle(void);
 void play_puzzle_jingle(void);
 void play_star_fanfare(void);
