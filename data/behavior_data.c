@@ -6137,3 +6137,29 @@ const BehaviorScript bhvC5Ctrl[] = {
         CALL_NATIVE(bhv_c5_Ctrl_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRotationBox[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE)),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_rotation_box_init),
+    LOAD_COLLISION_DATA(rotationBox_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rotation_box_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRotationPillar[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_SET_FACE_ANGLE_TO_MOVE_ANGLE)),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_rotation_pillar_init),
+    LOAD_COLLISION_DATA(rotationPillar_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rotation_pillar_loop),
+    END_LOOP(),
+};
