@@ -88,6 +88,7 @@ DECLARE_SEGMENT(ssl_skybox_yay0)
 DECLARE_SEGMENT(bbh_skybox_yay0)
 DECLARE_SEGMENT(bidw_skybox_yay0)
 DECLARE_SEGMENT(bits_skybox_yay0)
+DECLARE_SEGMENT(starrysky_skybox_yay0)
 
 DECLARE_SEGMENT(fire_yay0)
 DECLARE_SEGMENT(spooky_yay0)

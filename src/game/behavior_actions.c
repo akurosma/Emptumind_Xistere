@@ -237,5 +237,6 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/shift_platform.inc.c"
 #include "behaviors/flashing_block.inc.c"
 #include "behaviors/launchSpring.inc.c"
+#include "behaviors/c5_Ctrl.inc.c"
 #include "behaviors/rotation_box.inc.c"
 #include "behaviors/rotation_pillar.inc.c"

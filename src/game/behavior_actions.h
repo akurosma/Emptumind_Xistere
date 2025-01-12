@@ -587,6 +587,8 @@ void bhv_flashing_block_init(void);
 void bhv_flashing_block_loop(void);
 void bhv_launchSpring_init(void);
 void bhv_launchSpring_loop(void);
+void bhv_c5_Ctrl_init(void);
+void bhv_c5_Ctrl_loop(void);
 void bhv_rotation_box_init(void);
 void bhv_rotation_box_loop(void);
 void bhv_rotation_pillar_init(void);
