@@ -48,9 +48,11 @@ enum SeqId {
     // start 2024/12/15 akuro
     //曲追加
     SEQ_ENDLESS_POSSIBILITY,          // 0x23
-    SEQ_CREEPY_CASTLE_BOSS,           // 0x24
-    SEQ_MUTE_CITY,                    // 0x25
-    SEQ_SPIN_AND_BURST,               // 0x26
+    SEQ_SOLAR_SYSTEM_DISCO,           // 0x24
+    SEQ_PETIT_BONHEUR,                // 0x25
+    SEQ_YOSHIS_ISLAND,                // 0x26
+    SEQ_BLACK_TOWER,                  // 0x27
+    SEQ_GREAT_MIGHTY_POO,             // 0x28
     // end 2024/12/15 akuro
     SEQ_COUNT
 };

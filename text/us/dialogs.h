@@ -2090,10 +2090,5 @@ asking for it, linguine\n\
 breath!"))
 
 DEFINE_DIALOG(DIALOG_169, 1, 4, 30, 200, _("\
-Keep out!\n\
-That means you!\n\
-Arrgghh!\n\
-\n\
-Anyone entering this cave\n\
-without permission will\n\
-meet certain disaster."))
+You can jump infinitely\n\
+in this space."))

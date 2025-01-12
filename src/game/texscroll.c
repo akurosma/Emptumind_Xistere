@@ -14,9 +14,14 @@
 
 
 #include "src/game/texscroll/common1_texscroll.inc.c"
+#include "src/game/texscroll/bbh_texscroll.inc.c"
 void scroll_textures() {
 	if(SCROLL_CONDITION(sSegmentROMTable[0x3] == (uintptr_t)_common1_mio0SegmentRomStart)) {
 		scroll_textures_common1();
+	}
+
+	if(SCROLL_CONDITION(sSegmentROMTable[0x7] == (uintptr_t)_bbh_segment_7SegmentRomStart)) {
+		scroll_textures_bbh();
 	}
 
 }

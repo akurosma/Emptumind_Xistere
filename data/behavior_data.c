@@ -6129,3 +6129,11 @@ const BehaviorScript bhvLaunchSpring[] = {
         CALL_NATIVE(bhv_launchSpring_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvC5Ctrl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_c5_Ctrl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_c5_Ctrl_loop),
+    END_LOOP(),
+};
