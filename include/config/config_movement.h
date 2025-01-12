@@ -108,6 +108,8 @@
  */
 #define WALL_KICK_DEGREES 45
 
+#define WALL_KICK_DEGREES_90 90
+
 /**
  * Makes Mario unable to ledge grab steep slopes to prevent false ledge grabs.
  */

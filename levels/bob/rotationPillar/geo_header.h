@@ -1,0 +1,12 @@
+extern const GeoLayout rotationPillar_geo[];
+extern u8 rotationPillar__3_rgba16[];
+extern u8 rotationPillar__4_rgba16[];
+extern Vtx rotationPillar_pillar_mesh_layer_1_vtx_0[60];
+extern Gfx rotationPillar_pillar_mesh_layer_1_tri_0[];
+extern Vtx rotationPillar_pillar_mesh_layer_1_vtx_1[162];
+extern Gfx rotationPillar_pillar_mesh_layer_1_tri_1[];
+extern Gfx mat_rotationPillar__3_f3d_002[];
+extern Gfx mat_revert_rotationPillar__3_f3d_002[];
+extern Gfx mat_rotationPillar__4_f3d_001[];
+extern Gfx mat_revert_rotationPillar__4_f3d_001[];
+extern Gfx rotationPillar_pillar_mesh_layer_1[];

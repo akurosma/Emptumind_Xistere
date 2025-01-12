@@ -44,6 +44,7 @@ const LevelScript level_bob_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BOB_CHAIN_CHOMP_GATE, bob_geo_000440), 
 	LOAD_MODEL_FROM_GEO(MODEL_BOB_SEESAW_PLATFORM, bob_geo_000458), 
 	LOAD_MODEL_FROM_GEO(MODEL_BOB_BARS_GRILLS, bob_geo_000470), 
+	LOAD_MODEL_FROM_GEO(MODEL_ROTATION_PILLAR, rotationPillar_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -57,7 +58,8 @@ const LevelScript level_bob_entry[] = {
 		OBJECT(MODEL_NONE, -5254, 4845, -7563, 0, 0, 0, (2 << 24) | (1 << 16), bhvFlashingBlock),
 		OBJECT(MODEL_NONE, -6298, 4845, -7563, 0, 0, 0, (2 << 24) | (2 << 16), bhvFlashingBlock),
 		OBJECT(MODEL_NONE, -6298, 4845, -6528, 0, 0, 0, (3 << 24) | (1 << 16) | (1 << 8), bhvFlashingBlock),
-		OBJECT(MODEL_NONE, -7364, 4845, -6528, 0, 0, 0, (3 << 24) | (1 << 16) | (2 << 8) | (5), bhvFlashingBlock),
+		OBJECT(MODEL_NONE, -7364, 4845, -6528, 0, 0, 0, (4 << 24) | (1 << 16) | (2 << 8) | (5), bhvFlashingBlock),
+		OBJECT(MODEL_EXCLAMATION_BOX, 642, 5250, -5555, 0, 0, 0, (1 << 16), bhvExclamationBox),
 		OBJECT(MODEL_RED_COIN, 462, 4957, -6958, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 713, 4752, -6912, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 415, 4752, -6965, 0, 0, 0, 0x00000000, bhvRedCoin),
@@ -73,6 +75,13 @@ const LevelScript level_bob_entry[] = {
 		OBJECT(MODEL_RED_COIN, 684, 4752, -6132, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_RED_COIN, 422, 4752, -5810, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_NONE, 42, 150, -56, 0, 0, 0, 0x00000000, bhvHiddenRedCoinStar),
+		OBJECT(MODEL_ROTATION_BOX, 625, 4766, -8615, 0, 0, 0, (50 << 24), bhvRotationBox),
+		OBJECT(MODEL_ROTATION_BOX, -545, 4766, -8615, 0, 0, 0, (50 << 16), bhvRotationBox),
+		OBJECT(MODEL_ROTATION_BOX, -545, 4766, -9863, 0, 0, 0, (50 << 8), bhvRotationBox),
+		OBJECT(MODEL_ROTATION_BOX, -545, 4766, -11116, 0, 0, 0, (50 << 24) | (50 << 16), bhvRotationBox),
+		OBJECT(MODEL_ROTATION_BOX, -545, 4766, -12162, 0, 0, 0, (50 << 16) | (50 << 8), bhvRotationBox),
+		OBJECT(MODEL_ROTATION_BOX, -545, 4766, -13230, 0, 0, 0, (50 << 24) | (50 << 8), bhvRotationBox),
+		OBJECT(MODEL_ROTATION_BOX, -545, 4766, -14218, 0, 0, 0, (50 << 24) | (50 << 16) | (50 << 8), bhvRotationBox),
 		OBJECT(MODEL_EXCLAMATION_BOX, 601, 4752, -7412, 0, 0, 0, (3 << 16), bhvExclamationBox),
 		OBJECT(MODEL_YELLOW_SHIFT_PLATFORM, -622, 4845, -7563, 0, 0, 0, (0 << 24) | (0 << 16), bhvShiftPlatform),
 		OBJECT(MODEL_PURPLE_SHIFT_PLATFORM, -1652, 4845, -7563, 0, 0, 0, (1 << 24) | (0 << 16), bhvShiftPlatform),
