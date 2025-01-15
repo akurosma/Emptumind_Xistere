@@ -6166,4 +6166,5 @@ const BehaviorScript bhvRotationPillar[] = {
 
 const BehaviorScript bhvRlUpdown[] = {
         BEGIN(OBJ_LIST_SURFACE),
+        SET_HOME(),
 };
