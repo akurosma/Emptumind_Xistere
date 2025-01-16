@@ -6163,8 +6163,3 @@ const BehaviorScript bhvRotationPillar[] = {
         CALL_NATIVE(bhv_rotation_pillar_loop),
     END_LOOP(),
 };
-
-const BehaviorScript bhvRlUpdown[] = {
-        BEGIN(OBJ_LIST_SURFACE),
-        SET_HOME(),
-};
