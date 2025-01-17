@@ -1,0 +1,16 @@
+extern const GeoLayout pss_area_1_geo[];
+extern const GeoLayout pss_area_1[];
+extern const Collision pss_area_1_collision[];
+extern const MacroObject pss_area_1_macro_objs[];
+extern Lights1 pss_dl_sm64_material_001_lights;
+extern u8 pss_dl_star_ci8[];
+extern u8 pss_dl_star_x_star_multi_pal_rgba16[];
+extern u8 pss_dl_star_multi_ci8[];
+extern Vtx pss_dl_Cube_mesh_layer_1_vtx_0[8];
+extern Gfx pss_dl_Cube_mesh_layer_1_tri_0[];
+extern Vtx pss_dl_Cube_mesh_layer_1_vtx_1[16];
+extern Gfx pss_dl_Cube_mesh_layer_1_tri_1[];
+extern Gfx mat_pss_dl_sm64_material_001[];
+extern Gfx mat_pss_dl_f3dlite_material_001_layer1[];
+extern Gfx mat_revert_pss_dl_f3dlite_material_001_layer1[];
+extern Gfx pss_dl_Cube_mesh_layer_1[];
