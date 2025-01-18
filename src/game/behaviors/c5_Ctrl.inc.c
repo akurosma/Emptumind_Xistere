@@ -9,6 +9,29 @@ void bhv_c5_Ctrl_init(void) {
 }
 
 void bhv_c5_Ctrl_loop(void) {
+    //サーフェスタイプ水の空間内での床と天上を計算
+    gCollisionFlags |= COLLISION_FLAG_WATER;
+    struct Surface* floor = NULL;
+    f32 waterfloorHeight = find_floor(gMarioStates->pos[0], gMarioStates->pos[1], gMarioStates->pos[2], &floor);
+    if (waterfloorHeight == FLOOR_LOWER_LIMIT)
+    {
+        gCollisionFlags &= ~COLLISION_FLAG_WATER;
+        return;
+    }
+    struct Surface* ceil = NULL;
+    f32 waterceilHeight = find_ceil(gMarioStates->pos[0], waterfloorHeight, gMarioStates->pos[2], &ceil);
+    gCollisionFlags &= ~COLLISION_FLAG_WATER;
+
+    //サーフェスタイプ水の空間内にマリオがいるか
+    if (waterfloorHeight - 50.f < gMarioStates->pos[1] && gMarioStates->pos[1] < waterceilHeight)
+    {
+        //サーフェスタイプ水の空間内での動作
+        if (gMarioStates->controller->buttonPressed & A_BUTTON)
+        {
+            set_mario_action(gMarioStates, ACT_JUMP, 0);
+        }
+    }
+
     if(gMarioState->floor->type == SURFACE_000F){
         gMarioState->gravityMode = QUICK;
     }
@@ -24,13 +47,13 @@ void bhv_c5_Ctrl_loop(void) {
         gMarioState->controller->buttonPressed &= ~A_BUTTON;
     }
     else if(gMarioState->gravityMode == QUICK){
-        if(!(gMarioState->prevAction & ACT_LONG_JUMP) && gMarioState->action & ACT_LONG_JUMP){
-            gMarioState->forwardVel = 60.0f;
+        if(gMarioState->action == ACT_HOLD_WALKING){
+            gMarioState->forwardVel *= 1.5f;
         }
     }
 
     char text[32];
-    sprintf(text, "spd: %f", gMarioState->forwardVel);
+    sprintf(text, "spd: %d", random_u16()%2);
     print_text(10, 10, text);
 }
 
