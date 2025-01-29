@@ -487,6 +487,7 @@
 #define MODEL_IDLE_WATER_WAVE             0xA6        // idle_water_wave_geo
 #define MODEL_WATER_SPLASH                0xA7        // water_splash_geo
 #define MODEL_BUBBLE                      0xA8        // bubble_geo
+#define MODEL_RL_180ROTATE                0x9A
 // find me
 #define MODEL_PURPLE_MARBLE               0xAA        // purple_marble_geo
 // find me
