@@ -335,4 +335,8 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "rotationBox/geo_header.h"
 
+#include "rl180rotate/collision_header.h"
+
+#include "rl180rotate/geo_header.h"
+
 #endif

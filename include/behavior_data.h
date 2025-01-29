@@ -551,3 +551,5 @@ extern const BehaviorScript bhvLaunchSpring[];
 extern const BehaviorScript bhvC5Ctrl[];
 extern const BehaviorScript bhvRotationBox[];
 extern const BehaviorScript bhvRotationPillar[];
+
+extern const BehaviorScript bhvRl180rotate[];

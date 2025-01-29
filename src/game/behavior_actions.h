@@ -593,3 +593,6 @@ void bhv_rotation_box_init(void);
 void bhv_rotation_box_loop(void);
 void bhv_rotation_pillar_init(void);
 void bhv_rotation_pillar_loop(void);
+
+void bhv_rl_180rotate_init(void);
+void bhv_rl_180rotate_loop(void);
