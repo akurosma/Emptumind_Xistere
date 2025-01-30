@@ -956,6 +956,7 @@ const BehaviorScript bhvCoinFormationSpawnedCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     BILLBOARD(),
+    
     CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_coin_formation_spawned_coin_loop),
@@ -2624,6 +2625,7 @@ const BehaviorScript bhvExclamationBox[] = {
     LOAD_COLLISION_DATA(exclamation_box_outline_seg8_collision_08025F78),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     SET_FLOAT(oCollisionDistance, 300),
+    SET_FLOAT(oDrawingDistance, 20000),
     SET_HOME(),
     CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
@@ -6161,6 +6163,32 @@ const BehaviorScript bhvRotationPillar[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rotation_pillar_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBounceCrystal[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_bounce_Crystal_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_bounce_Crystal_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvUpwardSpace[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_upward_Space_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_upward_Space_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvDownwardSpace[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_downward_Space_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_downward_Space_loop),
     END_LOOP(),
 };
 

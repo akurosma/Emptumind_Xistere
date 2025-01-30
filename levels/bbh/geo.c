@@ -24,3 +24,6 @@
 #include "levels/bbh/areas/1/geo.inc.c"
 
 #include "levels/bbh/geo.inc.c"
+
+#include "levels/bbh/crystal_Green/geo.inc.c"
+#include "levels/bbh/crystal_Blue/geo.inc.c"

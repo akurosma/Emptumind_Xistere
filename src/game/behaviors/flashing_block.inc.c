@@ -19,7 +19,7 @@ void bhv_flashing_block_loop(void) {
 
     flashStartNumber = BPARAM2 - 1;
 
-    if(flashStartNumber = -1){
+    if(flashStartNumber == -1){
         flashStartNumber = 0;
     }
 

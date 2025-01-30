@@ -6,6 +6,7 @@
 #include "engine/surface_load.h"
 #include "mario.h"
 #include "audio/external.h"
+#include "game/area.h"
 #include "game_init.h"
 #include "interaction.h"
 #include "mario_step.h"
@@ -616,7 +617,13 @@ u32 should_strengthen_gravity_for_jump_ascent(struct MarioState *m) {
     return FALSE;
 }
 
+u8 gDisableGravity = 0;
 void apply_gravity(struct MarioState *m) {
+    if (gDisableGravity)
+    {
+        return;
+    }
+
     if (m->action == ACT_TWIRLING && m->vel[1] < 0.0f) {
         apply_twirl_gravity(m);
     } else if (m->action == ACT_SHOT_FROM_CANNON) {

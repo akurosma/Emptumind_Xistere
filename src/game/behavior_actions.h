@@ -593,7 +593,12 @@ void bhv_rotation_box_init(void);
 void bhv_rotation_box_loop(void);
 void bhv_rotation_pillar_init(void);
 void bhv_rotation_pillar_loop(void);
-
+void bhv_bounce_Crystal_init(void);
+void bhv_bounce_Crystal_loop(void);
+void bhv_upward_Space_init(void);
+void bhv_upward_Space_loop(void);
+void bhv_downward_Space_init(void);
+void bhv_downward_Space_loop(void);
 void bhv_rl_180rotate_init(void);
 void bhv_rl_180rotate_loop(void);
 void bhv_moving_wall_init(void);

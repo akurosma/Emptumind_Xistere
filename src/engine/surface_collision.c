@@ -99,6 +99,23 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
         {
             if (type == SURFACE_WATER) continue;
         }
+        if (gCollisionFlags & COLLISION_UPWARD_SPACE)
+        {
+            if (type != SURFACE_UPWARD_SPACE) continue;
+        }
+        else
+        {
+            if (type == SURFACE_UPWARD_SPACE) continue;
+        }
+        if (gCollisionFlags & COLLISION_DOWNWARD_SPACE)
+        {
+            if (type != SURFACE_DOWNWARD_SPACE) continue;
+        }
+        else
+        {
+            if (type == SURFACE_DOWNWARD_SPACE) continue;
+        }
+
         //end
 
         // Dot of normal and pos, + origin offset
@@ -345,6 +362,22 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
         {
             if (type == SURFACE_WATER) continue;
         }
+            if (gCollisionFlags & COLLISION_UPWARD_SPACE)
+        {
+            if (type != SURFACE_UPWARD_SPACE) continue;
+        }
+        else
+        {
+            if (type == SURFACE_UPWARD_SPACE) continue;
+        }
+        if (gCollisionFlags & COLLISION_DOWNWARD_SPACE)
+        {
+            if (type != SURFACE_DOWNWARD_SPACE) continue;
+        }
+        else
+        {
+            if (type == SURFACE_DOWNWARD_SPACE) continue;
+        }
         //end
 
         // Find the height of the ceil at the given location
@@ -489,6 +522,22 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
         else
         {
             if (type == SURFACE_WATER) continue;
+        }
+            if (gCollisionFlags & COLLISION_UPWARD_SPACE)
+        {
+            if (type != SURFACE_UPWARD_SPACE) continue;
+        }
+        else
+        {
+            if (type == SURFACE_UPWARD_SPACE) continue;
+        }
+        if (gCollisionFlags & COLLISION_DOWNWARD_SPACE)
+        {
+            if (type != SURFACE_DOWNWARD_SPACE) continue;
+        }
+        else
+        {
+            if (type == SURFACE_DOWNWARD_SPACE) continue;
         }
         //end
 
