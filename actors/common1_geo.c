@@ -36,3 +36,5 @@
 #include "nextFlashingBlock/geo.inc.c"
 #include "launchSpring/geo.inc.c"
 #include "rotationBox/geo.inc.c"
+#include "rl180rotate/geo.inc.c"
+#include "movingwall/geo.inc.c"

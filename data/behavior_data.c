@@ -6191,3 +6191,29 @@ const BehaviorScript bhvDownwardSpace[] = {
         CALL_NATIVE(bhv_downward_Space_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRl180rotate[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl180rotate_collision),
+    SET_FLOAT(oDrawingDistance, 15000),
+    CALL_NATIVE(bhv_rl_180rotate_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_180rotate_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMovingWall[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(movingwall_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_moving_wall_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_moving_wall_loop),
+    END_LOOP(),
+};
