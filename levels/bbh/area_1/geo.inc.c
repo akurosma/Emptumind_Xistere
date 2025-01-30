@@ -9,13 +9,6 @@ const GeoLayout bbh_area_1_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_ALPHA, bbh_dl_C5_mesh_layer_4),
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, bbh_dl_C5_mesh_layer_5),
 		GEO_CLOSE_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -3223, 1646, -3070, bbh_dl_InfJump1_mesh_layer_5),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -1200, 1292, -1884, bbh_dl_InfJump1_001_mesh_layer_5),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -1200, 1619, -1884, bbh_dl_InfJump1_002_mesh_layer_5),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, -3000, 0, 90, 0, 0, bbh_dl_testmesh_mesh_layer_1),
-		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, bbh_dl_testmesh_mesh_layer_4),
-		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

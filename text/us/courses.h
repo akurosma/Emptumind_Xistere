@@ -15,8 +15,8 @@ COURSE_ACTS(COURSE_CCM, _(" 4 COOL, COOL MOUNTAIN"),
        _("FROSTY SLIDE FOR 8 RED COINS")  , _("SNOWMAN'S LOST HIS HEAD")       , _("WALL KICKS WILL WORK"))
 
 COURSE_ACTS(COURSE_BBH, _(" 5 Gravity Flux Space"),
-       _("GO ON A GHOST HUNT")            , _("RIDE BIG BOO'S MERRY-GO-ROUND") , _("SECRET OF THE HAUNTED BOOKS"),
-       _("SEEK THE 8 RED COINS")          , _("BIG BOO'S BALCONY")             , _("EYE TO EYE IN THE SECRET ROOM"))
+       _("ENDLESS LEAPING")               , _("ENTER THE FORTRESS")            , _("GRAVITATIONAL LOSS"),
+       _("THE TOWER")                     , _("TEAM WORK OBJECT")              , _("SCARLET TREASURE IN THE SPACE"))
 
 COURSE_ACTS(COURSE_HMC, _(" 6 HAZY MAZE CAVE"),
        _("SWIMMING BEAST IN THE CAVERN")  , _("ELEVATE FOR 8 RED COINS")       , _("METAL-HEAD MARIO CAN MOVE!"),

@@ -79,6 +79,8 @@
 #define MODEL_BBH_MESH_ELEVATOR                0x3A        // geo_bbh_000628
 #define MODEL_BBH_MERRY_GO_ROUND               0x3B        // geo_bbh_000640
 #define MODEL_BBH_WOODEN_TOMB                  0x3C        // geo_bbh_000658
+#define MODEL_GREEN_CRYSTAL                    0x3D
+#define MODEL_BLUE_CRYSTAL                     0x3E
 
 // ccm
 #define MODEL_CCM_ROPEWAY_LIFT                 0x36        // ccm_geo_0003D0

@@ -70,3 +70,6 @@
 #include "levels/bbh/areas/1/movtext.inc.c"
 
 #include "levels/bbh/leveldata.inc.c"
+
+#include "levels/bbh/crystal_Green/model.inc.c"
+#include "levels/bbh/crystal_Blue/model.inc.c"
