@@ -596,3 +596,5 @@ void bhv_rotation_pillar_loop(void);
 
 void bhv_rl_180rotate_init(void);
 void bhv_rl_180rotate_loop(void);
+void bhv_moving_wall_init(void);
+void bhv_moving_wall_loop(void);

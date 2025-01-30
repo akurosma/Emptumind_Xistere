@@ -553,3 +553,4 @@ extern const BehaviorScript bhvRotationBox[];
 extern const BehaviorScript bhvRotationPillar[];
 
 extern const BehaviorScript bhvRl180rotate[];
+extern const BehaviorScript bhvMovingWall[];
