@@ -105,3 +105,5 @@ UNUSED static const u64 binid_22 = 22;
 #include "rotationBox/model.inc.c"
 #include "rl180rotate/collision.inc.c"
 #include "rl180rotate/model.inc.c"
+#include "movingwall/collision.inc.c"
+#include "movingwall/model.inc.c"
