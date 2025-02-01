@@ -356,6 +356,14 @@ s32 char_to_glyph_index(char c) {
         return GLYPH_BETA_KEY; // beta key, JP only. Reused for Ü in EU.
     }
 
+    if (c == '~') {
+        return GLYPH_APOSTROPHE; // beta key, JP only. Reused for Ü in EU.
+    }
+
+        if (c == '}') {
+        return GLYPH_DOUBLE_QUOTE; // beta key, JP only. Reused for Ü in EU.
+    }
+
     return GLYPH_SPACE;
 }
 
