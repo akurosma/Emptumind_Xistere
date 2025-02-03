@@ -9,6 +9,7 @@ s32 blinkTimer;
 s32 timer;
 s8 stopFlg = 0;
 s8 cntAll = 0;
+s8 TAFlg;
 
 /**
  * Update function for bhvHiddenBlueCoin.
@@ -61,7 +62,9 @@ void bhv_hidden_blue_coin_loop(void) {
                 o->oAction = HIDDEN_BLUE_COIN_ACT_INACTIVE;
                 o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
 #else
-                //obj_mark_for_deletion(o);
+                if(TAFlg != 1){
+                    obj_mark_for_deletion(o);
+                }
 #endif
             }
 
@@ -80,13 +83,20 @@ void bhv_hidden_blue_coin_loop(void) {
 void bhv_blue_coin_switch_init(void){
     s32 timerMI;
     s32 timerSS;
-    timerMI = BPARAM1;
-    timerSS = BPARAM2;
-    actualTimer = timerMI * 60 * 30 + timerSS * 30;
+    s32 totalTimer;
+    TAFlg   = BPARAM1;
+    timerMI = BPARAM2;
+    timerSS = BPARAM3;
+    totalTimer = timerMI * 60 * 30 + timerSS * 30;
     blinkTimer = 15*30;   //15秒
-    actualTimer -= blinkTimer;
+    actualTimer = totalTimer - blinkTimer;
     cntAll = count_objects_with_behavior(bhvHiddenBlueCoin);
     stopFlg = 0;
+
+    if(totalTimer == 0){
+        actualTimer = 200;
+        blinkTimer = 40;
+    }
 }
 
 /**
@@ -95,12 +105,15 @@ void bhv_blue_coin_switch_init(void){
 void bhv_blue_coin_switch_loop(void) {
     // The switch's model is 1/3 size.
     cur_obj_scale(3.0f);
-    char switchTime[32];
-    char counter[32];
-    int x = 10;
-    int y = 10;
-    if(stopFlg == 0) timer = actualTimer+blinkTimer - o->oTimer;
-    if(timer < 0) timer = 0;
+
+        char switchTime[32];
+        char counter[32];
+        int x = 10;
+        int y = 10;
+    if(TAFlg == 1){
+        if(stopFlg == 0 || stopFlg == 1) timer = actualTimer+blinkTimer - o->oTimer;
+        if(timer < 0) timer = 0;
+    }
 
     switch (o->oAction) {
         case BLUE_COIN_SWITCH_ACT_IDLE:
@@ -162,18 +175,25 @@ void bhv_blue_coin_switch_loop(void) {
             break;
 
         case BLUE_COIN_SWITCH_ACT_TICKING:
+        if(TAFlg == 1){
+            if(stopFlg == 0) {
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(15, SEQ_SSBM_MASTERHAND), 0);
+                stopFlg = 1;
+            }
+            sprintf(switchTime, "%02u~%02u}%02u  %u/%u", timer/1800, (timer/30)%60, (timer%30)*3, cntAll-count_objects_with_behavior(bhvHiddenBlueCoin), cntAll);
+            print_text(x, y, switchTime, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
+            print_set_envcolour(0, 255, 255, 255);
+            print_text(x, 17+y, "time     coins", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
+            print_set_envcolour(255, 255, 255, 255);
+        }
+        else{
             // Tick faster when the blue coins start blinking
-//            if (o->oTimer < actualTimer) {
-                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(15, SEQ_LEVEL_SLIDE), 0);
-                sprintf(switchTime, "%02u~%02u}%02u  %u/%u", timer/1800, (timer/30)%60, (timer%30)*3, cntAll-count_objects_with_behavior(bhvHiddenBlueCoin), cntAll);
-                print_text(x, y, switchTime, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
-                print_set_envcolour(0, 255, 255, 255);
-                print_text(x, 17+y, "time     coins", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
-                print_set_envcolour(255, 255, 255, 255);
-                //play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
-            //} else {
-                //play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
-//            }
+            if (o->oTimer < actualTimer) {
+                play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+            } else {
+                play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+            }
+        }
 #ifdef BLUE_COIN_SWITCH_RETRY
             if (cur_obj_nearest_object_with_behavior(bhvHiddenBlueCoin) == NULL) {
                 spawn_mist_particles_variable(0, 0, 46.0f);
@@ -204,14 +224,19 @@ void bhv_blue_coin_switch_loop(void) {
             // Delete the switch (which stops the sound) after the last coin is collected,
             // or after the coins unload after the 240-frame timer expires.
             if (cur_obj_nearest_object_with_behavior(bhvHiddenBlueCoin) == NULL) {
-                //obj_mark_for_deletion(o);
-                if(stopFlg == 0){
-                    stopFlg = 1;
-                    spawn_default_star_for_blue(gMarioState->pos[0], gMarioState->pos[1] + 180,gMarioState->pos[2]);
+                if(TAFlg == 1){
+                    if(stopFlg == 1){
+                        stopFlg = 2;
+                        stop_background_music(SEQUENCE_ARGS(4, SEQ_SSBM_MASTERHAND));
+                        spawn_default_star_for_blue(gMarioState->pos[0], gMarioState->pos[1] + 200,gMarioState->pos[2]);
+                    }
+                    else if(timer <= 0){
+                        gMarioState->health = 0;
+                    }
                 }
-            }
-            else if(timer <= 0){
-                gMarioState->health = 0;
+                else{
+                    obj_mark_for_deletion(o);
+                }
             }
 #endif
             break;
