@@ -54,6 +54,8 @@ enum SeqId {
     SEQ_BLACK_TOWER,                  // 0x27
     SEQ_GREAT_MIGHTY_POO,             // 0x28
     SEQ_CUTSCENE_GOT_STAR,            // 0X29
+    SEQ_SSBM_MASTERHAND,              // 0x2A
+    SEQ_SOUTHERN_CROSS,               // 0x2B
     // end 2024/12/15 akuro
     SEQ_COUNT
 };

@@ -84,7 +84,7 @@ const LevelScript level_bob_entry[] = {
 		OBJECT(MODEL_GOOMBA, 2538, 250, 4616, 0, 0, 0, 0x00000000, bhvHeaveHo),
 		MARIO_POS(0x01, -180, 724, 514, 6448),
 		OBJECT(MODEL_NONE, 724, 514, 6448, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
-		OBJECT(MODEL_BLUE_COIN_SWITCH, 863, 5842, 4303, 0, 0, 0, (1 << 24) | (20 << 16), bhvBlueCoinSwitch),
+		OBJECT(MODEL_BLUE_COIN_SWITCH, 863, 5842, 4303, 0, 0, 0, (1 << 24) | (0 << 16) | (40 << 8), bhvBlueCoinSwitch),
 		OBJECT(MODEL_BLUE_COIN, 2307, 6813, 5782, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_BLUE_COIN, 866, 6060, 3671, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_BLUE_COIN, 863, 6060, 5019, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
