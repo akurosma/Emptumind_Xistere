@@ -9,6 +9,7 @@ s32 blinkTimer;
 s32 timer;
 s8 stopFlg = 0;
 s8 cntAll = 0;
+s8 collectCnt = 0;
 s8 TAFlg;
 
 /**
@@ -62,9 +63,7 @@ void bhv_hidden_blue_coin_loop(void) {
                 o->oAction = HIDDEN_BLUE_COIN_ACT_INACTIVE;
                 o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
 #else
-                if(TAFlg != 1){
-                    obj_mark_for_deletion(o);
-                }
+                obj_mark_for_deletion(o);
 #endif
             }
 
@@ -88,12 +87,11 @@ void bhv_blue_coin_switch_init(void){
     timerMI = BPARAM2;
     timerSS = BPARAM3;
     totalTimer = timerMI * 60 * 30 + timerSS * 30;
-    blinkTimer = 15*30;   //15秒
+    blinkTimer = totalTimer * (1.0/5.0);
     actualTimer = totalTimer - blinkTimer;
     cntAll = count_objects_with_behavior(bhvHiddenBlueCoin);
     stopFlg = 0;
-
-    if(totalTimer == 0){
+    if(TAFlg == 0 && totalTimer == 0){
         actualTimer = 200;
         blinkTimer = 40;
     }
@@ -180,7 +178,10 @@ void bhv_blue_coin_switch_loop(void) {
                 play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(15, SEQ_SSBM_MASTERHAND), 0);
                 stopFlg = 1;
             }
-            sprintf(switchTime, "%02u~%02u}%02u  %u/%u", timer/1800, (timer/30)%60, (timer%30)*3, cntAll-count_objects_with_behavior(bhvHiddenBlueCoin), cntAll);
+            if(timer > 0){
+                collectCnt = count_objects_with_behavior(bhvHiddenBlueCoin);
+            }
+            sprintf(switchTime, "%02u~%02u}%02u  %u/%u", timer/1800, (timer/30)%60, (timer%30)*3, cntAll-collectCnt, cntAll);
             print_text(x, y, switchTime, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
             print_set_envcolour(0, 255, 255, 255);
             print_text(x, 17+y, "time     coins", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
@@ -223,19 +224,21 @@ void bhv_blue_coin_switch_loop(void) {
 #else
             // Delete the switch (which stops the sound) after the last coin is collected,
             // or after the coins unload after the 240-frame timer expires.
-            if (cur_obj_nearest_object_with_behavior(bhvHiddenBlueCoin) == NULL) {
-                if(TAFlg == 1){
-                    if(stopFlg == 1){
+            if(TAFlg == 1){
+                if (cur_obj_nearest_object_with_behavior(bhvHiddenBlueCoin) == NULL) {
+                    if(stopFlg == 1 && timer > 0){
                         stopFlg = 2;
                         stop_background_music(SEQUENCE_ARGS(4, SEQ_SSBM_MASTERHAND));
                         spawn_default_star_for_blue(gMarioState->pos[0], gMarioState->pos[1] + 200,gMarioState->pos[2]);
                     }
-                    else if(timer <= 0){
-                        gMarioState->health = 0;
-                    }
                 }
-                else{
-                    obj_mark_for_deletion(o);
+                else if(timer <= 0){
+                    gMarioState->health = 0;
+                }
+            }
+            else{
+                if (cur_obj_nearest_object_with_behavior(bhvHiddenBlueCoin) == NULL) {
+                        obj_mark_for_deletion(o);
                 }
             }
 #endif
