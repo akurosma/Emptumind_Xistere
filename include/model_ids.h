@@ -490,10 +490,8 @@
 #define MODEL_WATER_SPLASH                0xA7        // water_splash_geo
 #define MODEL_BUBBLE                      0xA8        // bubble_geo
 #define MODEL_RL_180ROTATE                0xA9
-#define MODEL_MOVING_WALL                0xAA
-// find me
 #define MODEL_PURPLE_MARBLE               0xAA        // purple_marble_geo
-// find me
+#define MODEL_MOVING_WALL                0xAB
 #define MODEL_UNKNOWN_AC                  0xAC        // according to an special preset, it was the original id of the castle floor trap
 #define MODEL_WF_SLIDING_PLATFORM         0xAD        // wf_geo_000A98
 #define MODEL_WF_SMALL_BOMP               0xAE        // wf_geo_000A00
