@@ -101,19 +101,19 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
         }
         if (gCollisionFlags & COLLISION_UPWARD_SPACE)
         {
-            if (type != SURFACE_UPWARD_SPACE) continue;
+            if (type != SURFACE_UPWARD) continue;
         }
         else
         {
-            if (type == SURFACE_UPWARD_SPACE) continue;
+            if (type == SURFACE_UPWARD) continue;
         }
         if (gCollisionFlags & COLLISION_DOWNWARD_SPACE)
         {
-            if (type != SURFACE_DOWNWARD_SPACE) continue;
+            if (type != SURFACE_DOWNWARD) continue;
         }
         else
         {
-            if (type == SURFACE_DOWNWARD_SPACE) continue;
+            if (type == SURFACE_DOWNWARD) continue;
         }
 
         //end
@@ -364,19 +364,19 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
         }
             if (gCollisionFlags & COLLISION_UPWARD_SPACE)
         {
-            if (type != SURFACE_UPWARD_SPACE) continue;
+            if (type != SURFACE_UPWARD) continue;
         }
         else
         {
-            if (type == SURFACE_UPWARD_SPACE) continue;
+            if (type == SURFACE_UPWARD) continue;
         }
         if (gCollisionFlags & COLLISION_DOWNWARD_SPACE)
         {
-            if (type != SURFACE_DOWNWARD_SPACE) continue;
+            if (type != SURFACE_DOWNWARD) continue;
         }
         else
         {
-            if (type == SURFACE_DOWNWARD_SPACE) continue;
+            if (type == SURFACE_DOWNWARD) continue;
         }
         //end
 
@@ -525,19 +525,19 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
         }
             if (gCollisionFlags & COLLISION_UPWARD_SPACE)
         {
-            if (type != SURFACE_UPWARD_SPACE) continue;
+            if (type != SURFACE_UPWARD) continue;
         }
         else
         {
-            if (type == SURFACE_UPWARD_SPACE) continue;
+            if (type == SURFACE_UPWARD) continue;
         }
         if (gCollisionFlags & COLLISION_DOWNWARD_SPACE)
         {
-            if (type != SURFACE_DOWNWARD_SPACE) continue;
+            if (type != SURFACE_DOWNWARD) continue;
         }
         else
         {
-            if (type == SURFACE_DOWNWARD_SPACE) continue;
+            if (type == SURFACE_DOWNWARD) continue;
         }
         //end
 

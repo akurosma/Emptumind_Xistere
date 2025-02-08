@@ -133,8 +133,8 @@ enum SurfaceTypes {
     SURFACE_00A1,                       // 0x00A1 // Unused
     SURFACE_00A2,                       // 0x00A2 // Unused
     SURFACE_00A3,                       // 0x00A3 // Unused
-    SURFACE_UPWARD_SPACE,               // 0x00A4 // Unused
-    SURFACE_DOWNWARD_SPACE,             // 0x00A5 // Unused
+    SURFACE_UPWARD,                     // 0x00A4 // Unused
+    SURFACE_DOWNWARD,                   // 0x00A5 // Unused
     SURFACE_PAINTING_WOBBLE_A6,         // 0x00A6 // Painting wobble (BoB Left)
     SURFACE_PAINTING_WOBBLE_A7,         // 0x00A7 // Painting wobble (BoB Middle)
     SURFACE_PAINTING_WOBBLE_A8,         // 0x00A8 // Painting wobble (BoB Right)
