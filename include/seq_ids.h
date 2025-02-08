@@ -57,6 +57,7 @@ enum SeqId {
     SEQ_SSBM_MASTERHAND,              // 0x2A
     SEQ_SOUTHERN_CROSS,               // 0x2B
     SEQ_AQUARIUM_PARK,                // 0x2C
+    SEQ_HIS_WORLD,                    // 0x2D
     // end 2024/12/15 akuro
     SEQ_COUNT
 };
