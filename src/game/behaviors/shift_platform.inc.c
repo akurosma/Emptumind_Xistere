@@ -5,10 +5,7 @@
 #define SHIFT_PURPLE      1
 
 void bhv_shift_platform_init(void) {
-
-    if(gMarioState->shiftSituation == 3){
-        gMarioState->shiftSituation = SHIFT_YELLOW;
-    }
+    gMarioState->shiftSituation = 0;
 
     switch(BPARAM1){
         case YELLOW_MODEL:

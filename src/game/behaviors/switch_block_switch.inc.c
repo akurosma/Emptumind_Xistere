@@ -5,11 +5,7 @@
 #define RED_SWITCH_OFF     1
 
 void bhv_switch_block_switch_init(void) {
-
-    if(gMarioState->switchSituation == 3){
-        gMarioState->switchSituation = RED_SWITCH_ON;
-    }
-
+    gMarioState->switchSituation = 0;
     o->oAction = gMarioState->switchSituation;
 
     switch(BPARAM1){
