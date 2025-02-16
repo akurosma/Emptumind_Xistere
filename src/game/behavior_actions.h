@@ -604,3 +604,10 @@ void bhv_rl_180rotate_init(void);
 void bhv_rl_180rotate_loop(void);
 void bhv_moving_wall_init(void);
 void bhv_moving_wall_loop(void);
+
+void bhv_key_Block_init(void);
+void bhv_key_Block_loop(void);
+void bhv_master_Key_init(void);
+void bhv_master_Key_loop(void);
+void bhv_sinMovingPlatform_init(void);
+void bhv_sinMovingPlatform_loop(void);

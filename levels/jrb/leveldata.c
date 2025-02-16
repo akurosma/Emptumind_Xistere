@@ -39,3 +39,14 @@
 #include "levels/jrb/areas/2/collision.inc.c"
 #include "levels/jrb/areas/2/macro.inc.c"
 #include "levels/jrb/areas/2/movtext.inc.c"
+
+#include "levels/jrb/key_block/model.inc.c"
+#include "levels/jrb/key_block/collision.inc.c"
+#include "levels/jrb/leveldata.inc.c"
+
+#include "levels/jrb/key_block_blue/model.inc.c"
+#include "levels/jrb/key_block_green/model.inc.c"
+#include "levels/jrb/key_block_intangible/collision.inc.c"
+#include "levels/jrb/key_green/model.inc.c"
+#include "levels/jrb/key_red/model.inc.c"
+#include "levels/jrb/key_blue/model.inc.c"

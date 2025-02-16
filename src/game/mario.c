@@ -843,15 +843,8 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
 
             //! (BLJ's) This properly handles long jumps from getting forward speed with
             //  too much velocity, but misses backwards longs allowing high negative speeds.
-            if(gMarioState->gravityMode == 1){
-                if ((m->forwardVel *= 2.25f) > 72.0f) {
-                m->forwardVel = 72.0f;
-                }
-            }
-            else{
-                if ((m->forwardVel *= 1.5f) > 48.0f) {
+            if ((m->forwardVel *= 1.5f) > 48.0f) {
                 m->forwardVel = 48.0f;
-                }
             }
             break;
 
