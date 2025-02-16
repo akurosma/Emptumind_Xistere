@@ -1,0 +1,11 @@
+extern const GeoLayout key_block_geo[];
+extern Lights1 key_block__2_f3d_lights;
+extern u8 key_block__1_rgba16[];
+extern Vtx key_block_key_block_mesh_layer_1_vtx_0[131];
+extern Gfx key_block_key_block_mesh_layer_1_tri_0[];
+extern Vtx key_block_key_block_mesh_layer_1_vtx_1[88];
+extern Gfx key_block_key_block_mesh_layer_1_tri_1[];
+extern Gfx mat_key_block__1_f3d[];
+extern Gfx mat_revert_key_block__1_f3d[];
+extern Gfx mat_key_block__2_f3d[];
+extern Gfx key_block_key_block_mesh_layer_1[];

@@ -6218,3 +6218,39 @@ const BehaviorScript bhvMovingWall[] = {
         CALL_NATIVE(bhv_moving_wall_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvKeyBlock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    LOAD_COLLISION_DATA(key_block_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 20000),
+    CALL_NATIVE(bhv_key_Block_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_key_Block_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMasterKey[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_HOME(),
+    CALL_NATIVE(bhv_master_Key_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_master_Key_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSinmovingplatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 20000),
+    CALL_NATIVE(bhv_sinMovingPlatform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sinMovingPlatform_loop),
+    END_LOOP(),
+};

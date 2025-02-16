@@ -449,7 +449,9 @@ struct MarioState {
     /*0xD4*/ s16 wallLastType;
     /*0xD8*/ s16 wallKickedOf;
              u8  prevForwardVel;
-             u8  gravityMode;
+             u8  numRedkey;
+             u8  numBluekey;
+             u8  numGreenkey;
 
 #ifdef BREATH_METER
              s16 breath;

@@ -115,7 +115,7 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
         {
             if (type == SURFACE_DOWNWARD) continue;
         }
-
+        if (type == SURFACE_INTANGIBLE) continue;
         //end
 
         // Dot of normal and pos, + origin offset
@@ -378,6 +378,7 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
         {
             if (type == SURFACE_DOWNWARD) continue;
         }
+        if (type == SURFACE_INTANGIBLE) continue;
         //end
 
         // Find the height of the ceil at the given location
@@ -539,6 +540,7 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
         {
             if (type == SURFACE_DOWNWARD) continue;
         }
+        if (type == SURFACE_INTANGIBLE) continue;
         //end
 
         // Exclude all floors above the point.

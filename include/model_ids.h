@@ -141,6 +141,12 @@
 #define MODEL_JRB_FALLING_PILLAR                  0x3D        // jrb_geo_000900
 #define MODEL_JRB_FALLING_PILLAR_BASE             0x3E        // jrb_geo_000918
 #define MODEL_JRB_FLOATING_PLATFORM               0x3F        // jrb_geo_000948
+#define MODEL_KEY_BLOCK_RED                       0x40
+#define MODEL_KEY_BLOCK_GREEN                     0x41
+#define MODEL_KEY_BLOCK_BLUE                      0x42
+#define MODEL_KEY_RED                             0x43
+#define MODEL_KEY_GREEN                           0x44
+#define MODEL_KEY_BLUE                            0x45
 
 // thi
 #define MODEL_THI_HUGE_ISLAND_TOP                 0x36        // thi_geo_0005B0
