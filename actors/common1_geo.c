@@ -38,3 +38,8 @@
 #include "rotationBox/geo.inc.c"
 #include "rl180rotate/geo.inc.c"
 #include "movingwall/geo.inc.c"
+#include "barrelJet/geo.inc.c"
+#include "barrelJetRed/geo.inc.c"
+#include "barrelJetYellow/geo.inc.c"
+#include "barrelSpeedUp/geo.inc.c"
+#include "barrelSpeedDown/geo.inc.c"

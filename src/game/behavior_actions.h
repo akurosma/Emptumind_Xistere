@@ -611,3 +611,7 @@ void bhv_master_Key_init(void);
 void bhv_master_Key_loop(void);
 void bhv_sinMovingPlatform_init(void);
 void bhv_sinMovingPlatform_loop(void);
+void bhv_barrelJet_init(void);
+void bhv_barrelJet_loop(void);
+void bhv_barrel_speed_up_init(void);
+void bhv_barrel_speed_up_loop(void);
