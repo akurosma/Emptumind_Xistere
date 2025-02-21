@@ -6254,3 +6254,23 @@ const BehaviorScript bhvSinmovingplatform[] = {
         CALL_NATIVE(bhv_sinMovingPlatform_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvBarreljet[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_barrelJet_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_barrelJet_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBarrelSpeedUp[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_barrel_speed_up_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_barrel_speed_up_loop),
+    END_LOOP(),
+};

@@ -624,6 +624,22 @@ void apply_gravity(struct MarioState *m) {
         return;
     }
 
+    if(m->barrelStatus == 3){
+        if(m->input & INPUT_A_DOWN){
+            m->vel[1] += 6.0f;
+            if (m->vel[1] > 100.0f) {
+                m->vel[1] = 100.0f;
+            }
+        }
+        else{
+            m->vel[1] -= 6.0f;
+            if (m->vel[1] < -100.0f) {
+                m->vel[1] = -100.0f;
+            }
+        }
+        return;
+    }
+
     if (m->action == ACT_TWIRLING && m->vel[1] < 0.0f) {
         apply_twirl_gravity(m);
     } else if (m->action == ACT_SHOT_FROM_CANNON) {
@@ -734,7 +750,7 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
     vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 
-    return stepResult;
+       return stepResult;
 }
 
 // They had these functions the whole time and never used them? Lol

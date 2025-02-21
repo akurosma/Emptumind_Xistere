@@ -376,6 +376,7 @@ u32 common_air_action_step(struct MarioState *m, u32 landAction, s32 animation, 
             break;
 
         case AIR_STEP_HIT_WALL:
+        case AIR_STEP_HIT_CEILING:
             set_mario_animation(m, animation);
 
             if (m->forwardVel > 16.0f) {
@@ -773,6 +774,10 @@ s32 act_dive(struct MarioState *m) {
             break;
 
         case AIR_STEP_HIT_WALL:
+        case AIR_STEP_HIT_CEILING:
+
+        if(m->barrelStatus == 3) m->isDead = 1;
+
             mario_bonk_reflection(m, TRUE);
             m->faceAngle[0] = 0;
 

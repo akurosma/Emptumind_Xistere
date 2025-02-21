@@ -343,4 +343,16 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "movingwall/geo_header.h"
 
+#include "barrelJet/collision_header.h"
+
+#include "barrelJet/geo_header.h"
+
+#include "barrelJetRed/geo_header.h"
+
+#include "barrelJetYellow/geo_header.h"
+
+#include "barrelSpeedUp/geo_header.h"
+
+#include "barrelSpeedDown/geo_header.h"
+
 #endif

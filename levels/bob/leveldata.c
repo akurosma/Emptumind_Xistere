@@ -27,6 +27,3 @@
 #include "levels/bob/areas/1/trajectory.inc.c"
 
 #include "levels/bob/leveldata.inc.c"
-
-#include "levels/bob/rotationPillar/collision.inc.c"
-#include "levels/bob/rotationPillar/model.inc.c"

@@ -1254,6 +1254,11 @@ void update_mario_button_inputs(struct MarioState *m) {
  * Updates the joystick intended magnitude.
  */
 void update_mario_joystick_inputs(struct MarioState *m) {
+
+    if(m->barrelStatus > 0){
+        return;
+    }
+
     struct Controller *controller = m->controller;
     f32 mag = ((controller->stickMag / 64.0f) * (controller->stickMag / 64.0f)) * 64.0f;
 
