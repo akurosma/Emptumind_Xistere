@@ -40,4 +40,11 @@ extern const struct MovtexQuadCollection ddd_movtex_area2_water[];
 // script
 extern const LevelScript level_ddd_entry[];
 
+
+#include "levels/ddd/header.inc.h"
+
+#include "levels/ddd/rotationPillar/collision_header.h"
+
+#include "levels/ddd/rotationPillar/geo_header.h"
+
 #endif
