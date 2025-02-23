@@ -12,6 +12,7 @@ struct ObjectHitbox barrelSpeedUpHitbox = {
 
 #define SPEEDUP 0
 #define SPEEDDOWN 1
+#define BARREL_FLYSHOT 2
 #define BARREL_FLYING 3
 #define BARREL_SPEED_ITEM_NONE 0
 #define BARREL_SPEED_DOWN_LIMIT -5
@@ -37,7 +38,7 @@ void bhv_barrel_speed_up_init(void) {
 
 void bhv_barrel_speed_up_loop(void) {
     o->oFaceAngleYaw += o->oAngleVelYaw;
-    if((gMarioState->barrelStatus == BARREL_FLYING) && obj_check_if_collided_with_object(o, gMarioObject)){
+    if((gMarioState->barrelStatus == BARREL_FLYSHOT || gMarioState->barrelStatus == BARREL_FLYING ) && obj_check_if_collided_with_object(o, gMarioObject)){
         switch (BPARAM1)
         {
         case SPEEDUP:
