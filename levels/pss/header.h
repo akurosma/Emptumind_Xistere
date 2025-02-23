@@ -2,6 +2,7 @@
 #define PSS_HEADER_H
 
 #include "types.h"
+#include "game/moving_texture.h"
 
 // geo
 extern const GeoLayout pss_geo_000100[];
@@ -16,6 +17,7 @@ extern const Gfx pss_seg7_dl_0700E2B0[];
 extern const Gfx pss_seg7_dl_0700E3E8[];
 extern const Collision pss_seg7_collision[];
 extern const MacroObject pss_seg7_macro_objs[];
+extern const struct MovtexQuadCollection pss_movtex_water[];
 
 // script
 extern const LevelScript level_pss_entry[];

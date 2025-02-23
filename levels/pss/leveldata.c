@@ -19,5 +19,6 @@
 #include "levels/pss/areas/1/7/model.inc.c"
 #include "levels/pss/areas/1/collision.inc.c"
 #include "levels/pss/areas/1/macro.inc.c"
+#include "levels/pss/areas/1/movtext.inc.c"
 
 #include "levels/pss/leveldata.inc.c"

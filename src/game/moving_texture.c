@@ -485,6 +485,7 @@ extern Movtex ddd_movtex_area2_water[];
 extern Movtex wf_movtex_water[];
 extern Movtex castle_courtyard_movtex_star_statue_water[];
 extern Movtex ttm_movtex_puddle[];
+extern Movtex pss_movtex_water[];
 
 /**
  * Find the quadCollection for a given quad collection id.
@@ -539,6 +540,8 @@ void *get_quad_collection_from_id(u32 id) {
             return castle_courtyard_movtex_star_statue_water;
         case TTM_MOVTEX_PUDDLE:
             return ttm_movtex_puddle;
+        case PSS_MOVTEX_WATER:
+            return pss_movtex_water;
         default:
             return NULL;
     }
