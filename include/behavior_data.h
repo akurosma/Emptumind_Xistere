@@ -555,6 +555,7 @@ extern const BehaviorScript bhvBounceCrystal[];
 extern const BehaviorScript bhvUpwardSpace[];
 extern const BehaviorScript bhvDownwardSpace[];
 extern const BehaviorScript bhvRl180rotate[];
+extern const BehaviorScript bhvRl180rotate2[];
 extern const BehaviorScript bhvMovingWall[];
 
 extern const BehaviorScript bhvKeyBlock[];

@@ -6274,3 +6274,16 @@ const BehaviorScript bhvBarrelSpeedUp[] = {
         CALL_NATIVE(bhv_barrel_speed_up_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRl180rotate2[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl180rotate_collision),
+    SET_FLOAT(oDrawingDistance, 15000),
+    CALL_NATIVE(bhv_rl_180rotate2_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_180rotate2_loop),
+    END_LOOP(),
+};
