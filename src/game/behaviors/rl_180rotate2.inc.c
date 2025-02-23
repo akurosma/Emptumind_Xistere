@@ -1,5 +1,5 @@
 struct ObjectHitbox sRl180rotate = {
-    /* interactType:      */ INTERACT_BREAKABLE,
+    /* interactType:      */ 0,
     /* downOffset:        */  20,
     /* damageOrCoinValue: */   0,
     /* health:            */   1,
