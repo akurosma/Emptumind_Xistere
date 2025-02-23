@@ -602,6 +602,8 @@ void bhv_downward_Space_init(void);
 void bhv_downward_Space_loop(void);
 void bhv_rl_180rotate_init(void);
 void bhv_rl_180rotate_loop(void);
+void bhv_rl_180rotate2_init(void);
+void bhv_rl_180rotate2_loop(void);
 void bhv_moving_wall_init(void);
 void bhv_moving_wall_loop(void);
 

@@ -3,7 +3,7 @@
 const GeoLayout pss_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 28, 100, -37, pss_dl_Plane_mesh_layer_1),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, pss_dl_PSS_v2_0_001_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -25,8 +25,6 @@ const GeoLayout pss_area_1[] = {
 				GEO_OPEN_NODE(),
 					GEO_BRANCH(1, pss_area_1_geo),
 					GEO_RENDER_OBJ(),
-					GEO_ASM(0,               geo_movtex_pause_control),
-                    GEO_ASM(PSS_MOVTEX_WATER, geo_movtex_draw_water_regions),
 					GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
