@@ -214,6 +214,7 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BARREL_JET_RED,               barrelJetRed_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BARREL_SPEED_UP,              barrelSpeedUp_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BARREL_SPEED_DOWN,            barrelSpeedDown_geo),
+    
 
     RETURN(),
 };

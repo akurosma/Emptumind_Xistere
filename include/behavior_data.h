@@ -514,6 +514,7 @@ extern const BehaviorScript bhvMovingFlameEmber[];
 #define bhvFlyguyFlame bhvMovingFlameEmber // backwards compatibility
 extern const BehaviorScript bhvSnufit[];
 extern const BehaviorScript bhvSnufitBalls[];
+extern const BehaviorScript bhvSnufitBalls2[];
 extern const BehaviorScript bhvHorizontalGrindel[];
 extern const BehaviorScript bhvEyerokBoss[];
 extern const BehaviorScript bhvEyerokHand[];

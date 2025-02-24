@@ -12,15 +12,15 @@ void bhv_moving_wall_loop(void) {
             else
     switch (o->oAction) {
         case 0:
-            o->oPosZ += 10.0;
-            if (o->oPosZ >= (o->oHomeZ + 1500.0)) {
+            o->oPosZ += 30.0;
+            if (o->oPosZ >= (o->oHomeZ + 2700.0)) {
                 o->oAction = 1;
                 o->oOpacity = 255;
             }   
         break;
 
         case 1:
-            o->oPosZ -= 20.0;    
+            o->oPosZ -= 10.0;    
             if (o->oPosZ <= (o->oHomeZ)) {
                 o->oAction = 0;
                 o->oOpacity = 1;
