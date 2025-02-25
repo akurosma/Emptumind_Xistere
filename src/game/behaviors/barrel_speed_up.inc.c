@@ -26,6 +26,7 @@ void bhv_barrel_speed_up_init(void) {
             break;
         case SPEEDDOWN:
             cur_obj_set_model(MODEL_BARREL_SPEED_DOWN);
+            o->oFaceAnglePitch = 0x7FFF;
             o->oAngleVelYaw = -0x300;
             break;
         default:

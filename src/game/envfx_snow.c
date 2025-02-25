@@ -252,12 +252,12 @@ void envfx_update_snow_blizzard(s32 snowCylinderX, s32 snowCylinderY, s32 snowCy
                 400.0f * random_float() - 200.0f + snowCylinderX + (s16)(deltaX * 2);
             (gEnvFxBuffer + i)->zPos =
                 400.0f * random_float() - 200.0f + snowCylinderZ + (s16)(deltaZ * 2);
-            (gEnvFxBuffer + i)->yPos = 400.0f * random_float() - 200.0f + snowCylinderY;
+            (gEnvFxBuffer + i)->yPos = 400.0f * random_float() + snowCylinderY;
             (gEnvFxBuffer + i)->isAlive = TRUE;
         } else {
-            (gEnvFxBuffer + i)->xPos += random_float() * 2 - 1.0f + (s16)(deltaX / 1.2) + 20.0f;
-            (gEnvFxBuffer + i)->yPos -= 5 -(s16)(deltaY * 0.8);
-            (gEnvFxBuffer + i)->zPos += random_float() * 2 - 1.0f + (s16)(deltaZ / 1.2);
+            (gEnvFxBuffer + i)->xPos += 2 - 1.0f + (s16)(deltaX / 1.2);
+            (gEnvFxBuffer + i)->yPos -= 12 -(s16)(deltaY * 0.8);
+            (gEnvFxBuffer + i)->zPos += 2 - 1.0f + (s16)(deltaZ / 1.2);
         }
     }
 
@@ -438,10 +438,13 @@ Gfx *envfx_update_snow(s32 snowMode, Vec3s marioPos, Vec3s camFrom, Vec3s camTo)
 
     rotate_triangle_vertices((s16 *) &vertex1, (s16 *) &vertex2, (s16 *) &vertex3, pitch, yaw);
 
-    if (snowMode == ENVFX_SNOW_NORMAL || snowMode == ENVFX_SNOW_BLIZZARD) {
+    if (snowMode == ENVFX_SNOW_NORMAL) {
         gSPDisplayList(gfx++, &tiny_bubble_dl_0B006A50); // snowflake with gray edge
+    }
+    else if(snowMode == ENVFX_SNOW_BLIZZARD){
+        gSPDisplayList(gfx++, &tiny_bubble_dl_0B006CD8);
     } else if (snowMode == ENVFX_SNOW_WATER) {
-        gSPDisplayList(gfx++, &tiny_bubble_dl_0B006CD8); // snowflake with blue edge
+        gSPDisplayList(gfx++, &tiny_bubble_dl_0B006A50); // snowflake with blue edge
     }
 
     for (i = 0; i < gSnowParticleCount; i += 5) {
