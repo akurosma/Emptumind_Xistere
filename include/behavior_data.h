@@ -564,3 +564,4 @@ extern const BehaviorScript bhvMasterKey[];
 extern const BehaviorScript bhvSinmovingplatform[];
 extern const BehaviorScript bhvBarreljet[];
 extern const BehaviorScript bhvBarrelSpeedUp[];
+extern const BehaviorScript bhvRlBridge[];

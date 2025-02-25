@@ -43,3 +43,5 @@
 #include "barrelJetYellow/geo.inc.c"
 #include "barrelSpeedUp/geo.inc.c"
 #include "barrelSpeedDown/geo.inc.c"
+
+#include "rlbridge/geo.inc.c"

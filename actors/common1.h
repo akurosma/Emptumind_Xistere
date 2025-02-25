@@ -355,4 +355,8 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "barrelSpeedDown/geo_header.h"
 
+#include "rlbridge/collision_header.h"
+
+#include "rlbridge/geo_header.h"
+
 #endif
