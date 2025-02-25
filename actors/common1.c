@@ -113,3 +113,6 @@ UNUSED static const u64 binid_22 = 22;
 #include "barrelJetYellow/model.inc.c"
 #include "barrelSpeedUp/model.inc.c"
 #include "barrelSpeedDown/model.inc.c"
+
+#include "rlbridge/collision.inc.c"
+#include "rlbridge/model.inc.c"

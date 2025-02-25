@@ -3,6 +3,9 @@
 
 #define MODEL_NONE                             0x00
 
+/* fast64 object exports get inserted here */
+#define MODEL_RL_BRIDGE                   0xE4
+
 /* Global models that are loaded for every level */
 
 #define MODEL_MARIO                            0x01        // mario_geo
@@ -558,6 +561,8 @@
 #define MODEL_SILVER_COIN                 0xE2        // silver_coin_geo
 #define MODEL_SILVER_COIN_NO_SHADOW       0xE3        // silver_coin_no_shadow_geo
 #endif
+
+#define MODEL_RL_BRIDGE                   0xE4
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

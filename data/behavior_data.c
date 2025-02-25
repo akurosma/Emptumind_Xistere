@@ -6300,3 +6300,15 @@ const BehaviorScript bhvSnufitBalls2[] = {
         CALL_NATIVE(bhv_snufit_balls2_loop),
     END_LOOP(),
 };
+const BehaviorScript bhvRlBridge[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rlbridge_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_rl_bridge_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_bridge_loop),
+    END_LOOP(),
+};
