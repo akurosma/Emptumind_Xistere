@@ -1701,7 +1701,7 @@ void render_pause_counter(void){
         remainingpause[17] = num1;
         remainingpause[18] = num2;
         remainingpause[19] = 0xFF;
-        print_generic_string(10, 33, remainingpause);
+        print_generic_string(10, 10, remainingpause);
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
 }
