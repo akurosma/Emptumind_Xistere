@@ -12,7 +12,7 @@
 #include "level_table.h"
 
 // X position of the mirror
-#define CASTLE_MIRROR_X 4331.53f
+#define CASTLE_MIRROR_X 0.0f
 
 /**
  * @file camera.h

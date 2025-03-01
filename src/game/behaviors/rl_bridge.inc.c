@@ -1,13 +1,13 @@
 struct ObjectHitbox sRlbridgeHitbox = {
-    /* interactType:      */ INTERACT_BREAKABLE,
-    /* downOffset:        */  5,
+    /* interactType:      */ 0,
+    /* downOffset:        */  150,
     /* damageOrCoinValue: */   0,
     /* health:            */   1,
     /* numLootCoins:      */   0,
-    /* radius:            */ 300,
-    /* height:            */ 200,
-    /* hurtboxRadius:     */ 300,
-    /* hurtboxHeight:     */ 200,
+    /* radius:            */ 350,
+    /* height:            */ 450,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
 };
 
 void bhv_rl_bridge_init(void) {
@@ -67,6 +67,12 @@ void hidden_rl_bridge_actions(void) {
 }
 
 void bhv_rl_bridge_loop(void) {
+    //char string[32];
+    //int x = 10;
+    //int y = 10;
+    //sprintf(string, "y:%d", obj_attack_collided_from_other_object(o));
+    //print_text(x, y, string, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
+    //print_set_envcolour(0, 255, 255, 255);
     obj_set_hitbox(o, &sRlbridgeHitbox);
     cur_obj_set_model(MODEL_RL_BRIDGE);
     if (o->oTimer == 0) breakable_box_init();

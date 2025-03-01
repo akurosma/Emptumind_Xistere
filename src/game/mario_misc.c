@@ -595,7 +595,7 @@ Gfx *geo_render_mirror_mario(s32 callContext, struct GraphNode *node, UNUSED Mat
             geo_remove_child(&gMirrorMario.node);
             break;
         case GEO_CONTEXT_RENDER:
-            if (mario->header.gfx.pos[0] > 1700.0f) {
+            if (mario->header.gfx.pos[1] >= 0.0f ) {
                 // TODO: Is this a geo layout copy or a graph node copy?
                 gMirrorMario.sharedChild = mario->header.gfx.sharedChild;
                 gMirrorMario.areaIndex = mario->header.gfx.areaIndex;
@@ -604,10 +604,33 @@ Gfx *geo_render_mirror_mario(s32 callContext, struct GraphNode *node, UNUSED Mat
                 vec3f_copy(gMirrorMario.scale, mario->header.gfx.scale);
 
                 gMirrorMario.animInfo = mario->header.gfx.animInfo;
-                mirroredX = CASTLE_MIRROR_X - gMirrorMario.pos[0];
+                mirroredX = CASTLE_MIRROR_X + gMirrorMario.pos[0];
                 gMirrorMario.pos[0] = mirroredX + CASTLE_MIRROR_X;
-                gMirrorMario.angle[1] = -gMirrorMario.angle[1];
+                // if (gMirrorMario.pos[1] < 0x0000 ) {
+                //     gMirrorMario.pos[1] -= 0x40000000 ;
+                // } else {
+                //     gMirrorMario.pos[1] += 0x40000000 ;
+                //}
+                gMirrorMario.pos[1] = -gMirrorMario.pos[1];
+
+                if (gMirrorMario.angle[1] < 0x0000 ) {
+                    gMirrorMario.angle[1] = 0x8000 +gMirrorMario.angle[1];
+                } else {
+                    gMirrorMario.angle[1] = gMirrorMario.angle[1] -0x8000;
+                } 
+                //gMirrorMario.angle[1] = 0xFFFF -gMirrorMario.angle[1];
+
+                gMirrorMario.angle[2] = -gMirrorMario.angle[2];
+                gMirrorMario.angle[0] = 0x7FFF -gMirrorMario.angle[0];
                 gMirrorMario.scale[0] *= -1.0f;
+
+                char string[32];
+                int x = 10;
+                int y = 10;
+                sprintf(string, "%f", gMirrorMario.pos[1] );
+                print_text(x, y, string, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
+                print_set_envcolour(0, 255, 255, 255);
+                
                 ((struct GraphNode *) &gMirrorMario)->flags |= GRAPH_RENDER_ACTIVE;
             } else {
                 ((struct GraphNode *) &gMirrorMario)->flags &= ~GRAPH_RENDER_ACTIVE;
