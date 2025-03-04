@@ -6,12 +6,12 @@
 
 void bhv_switch_block_switch_init(void) {
     gMarioState->switchSituation = 0;
-    o->oAction = gMarioState->switchSituation;
+    o->unused1 = gMarioState->switchSituation;
 
     switch(BPARAM1){
         case RED_MODEL:
             cur_obj_set_model(MODEL_RED_SWITCH_BLOCK_SWITCH);
-            o->header.gfx.scale[1] = (f32)((o->oAction)!=BPARAM1)*0.9f+0.1f;
+            o->header.gfx.scale[1] = (f32)((o->unused1)!=BPARAM1)*0.9f+0.1f;
             break;
         case BLUE_MODEL:
             cur_obj_set_model(MODEL_BLUE_SWITCH_BLOCK_SWITCH);
@@ -32,10 +32,10 @@ void bhv_switch_block_switch_loop(void) {
         }
     }
 
-    if(o->oAction != gMarioState->switchSituation){
+    if(o->unused1 != gMarioState->switchSituation){
         cur_obj_play_sound_2(SOUND_GENERAL2_PURPLE_SWITCH);
-        o->oAction = gMarioState->switchSituation;
-        o->header.gfx.scale[1] = (f32)((o->oAction)!=BPARAM1)*0.9f+0.1f;
+        o->unused1 = gMarioState->switchSituation;
+        o->header.gfx.scale[1] = (f32)((o->unused1)!=BPARAM1)*0.9f+0.1f;
     }
             
 }

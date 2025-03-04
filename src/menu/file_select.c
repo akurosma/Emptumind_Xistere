@@ -169,6 +169,9 @@ unsigned char textYes[] = { TEXT_YES };
 
 unsigned char textNo[] = { TEXT_NO };
 
+u8 answerButtonLog[7] = {10,0,5,0,4,0,2};
+u8 clickedCount = 0;
+u8 buttonLog[7] = {0,0,0,0,0,0,0};
 
 /**
  * Yellow Background Menu Initial Action
@@ -542,7 +545,27 @@ void check_score_menu_clicked_buttons(struct Object *scoreButton) {
                         }
                         else {
                             // If clicked in a non-existing save file, play buzz sound
+                            
+#if DEBUG_CHEATING_STAR_DISPLAY
+                            starDisplayKiller = 0;
                             play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+#else
+                            if(clickedCount >= 7) clickedCount = 0;
+                            buttonLog[clickedCount] = buttonID - 7;
+                            clickedCount++;
+                            if((buttonLog[0] == answerButtonLog[0]) &&
+                            (buttonLog[1] == answerButtonLog[1]) && 
+                            (buttonLog[2] == answerButtonLog[2]) && 
+                            (buttonLog[3] == answerButtonLog[3]) && 
+                            (buttonLog[4] == answerButtonLog[4]) && 
+                            (buttonLog[5] == answerButtonLog[5]) && 
+                            (buttonLog[6] == answerButtonLog[6])) {
+                                play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+                            }else{
+                                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                            }
+#endif
+
 #if ENABLE_RUMBLE
                             queue_rumble_data(5, 80);
 #endif
@@ -588,7 +611,25 @@ void copy_action_file_button(struct Object *copyButton, s32 copyFileButtonID) {
                 sMainMenuTimer = 0;
             } else {
                 // If clicked in a non-existing save file, play buzz sound
+#if DEBUG_CHEATING_STAR_DISPLAY
+                starDisplayKiller = 0;
                 play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+#else
+                if(clickedCount >= 7) clickedCount = 0;
+                buttonLog[clickedCount] = copyFileButtonID - 10;
+                clickedCount++;
+                if((buttonLog[0] == answerButtonLog[0]) &&
+                (buttonLog[1] == answerButtonLog[1]) && 
+                (buttonLog[2] == answerButtonLog[2]) && 
+                (buttonLog[3] == answerButtonLog[3]) && 
+                (buttonLog[4] == answerButtonLog[4]) && 
+                (buttonLog[5] == answerButtonLog[5]) && 
+                (buttonLog[6] == answerButtonLog[6])) {
+                    play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+                }else{
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
+#endif
 #if ENABLE_RUMBLE
                 queue_rumble_data(5, 80);
 #endif
@@ -703,7 +744,25 @@ void erase_action_file_button(struct Object *eraseButton, s32 eraseFileButtonID)
                 sMainMenuTimer = 0;
             } else {
                 // If clicked in a non-existing save file, play buzz sound
+#if DEBUG_CHEATING_STAR_DISPLAY
+                starDisplayKiller = 0;
                 play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+#else
+                if(clickedCount >= 7) clickedCount = 0;
+                buttonLog[clickedCount] = eraseFileButtonID - 13;
+                clickedCount++;
+                if((buttonLog[0] == answerButtonLog[0]) &&
+                (buttonLog[1] == answerButtonLog[1]) && 
+                (buttonLog[2] == answerButtonLog[2]) && 
+                (buttonLog[3] == answerButtonLog[3]) && 
+                (buttonLog[4] == answerButtonLog[4]) && 
+                (buttonLog[5] == answerButtonLog[5]) && 
+                (buttonLog[6] == answerButtonLog[6])) {
+                    play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+                }else{
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
+#endif
 #if ENABLE_RUMBLE
                 queue_rumble_data(5, 80);
 #endif
@@ -1081,6 +1140,21 @@ void check_main_menu_clicked_buttons(void) {
         case MENU_BUTTON_PLAY_FILE_C:
         case MENU_BUTTON_PLAY_FILE_D:
             play_sound(SAVE_FILE_SOUND, gGlobalSoundSource);
+#if DEBUG_CHEATING_STAR_DISPLAY
+            starDisplayKiller = 0;
+#else
+            if((buttonLog[0] == answerButtonLog[0]) &&
+            (buttonLog[1] == answerButtonLog[1]) && 
+            (buttonLog[2] == answerButtonLog[2]) && 
+            (buttonLog[3] == answerButtonLog[3]) && 
+            (buttonLog[4] == answerButtonLog[4]) && 
+            (buttonLog[5] == answerButtonLog[5]) && 
+            (buttonLog[6] == answerButtonLog[6])) {
+                starDisplayKiller = 0;
+            }else{
+                starDisplayKiller = 1;
+            }
+#endif
 #if ENABLE_RUMBLE
             queue_rumble_data(60, 70);
             queue_rumble_decay(1);
@@ -1115,6 +1189,9 @@ void check_main_menu_clicked_buttons(void) {
  * is loaded, and that checks what buttonID is clicked in the main menu.
  */
 void bhv_menu_button_manager_loop(void) {
+    if(gPlayer1Controller->buttonPressed & L_TRIG){
+        clickedCount = 0;
+    }
     switch (sSelectedButtonID) {
         case MENU_BUTTON_NONE: check_main_menu_clicked_buttons(); break;
 

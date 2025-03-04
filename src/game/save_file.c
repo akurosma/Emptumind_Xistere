@@ -31,6 +31,7 @@ u16 SAVE_FILE_MAGIC = 0x4441;
 //STATIC_ASSERT(sizeof(struct SaveBuffer) == EEPROM_SIZE, "eeprom buffer size must match");
 
 extern struct SaveBuffer gSaveBuffer;
+u8 starDisplayKiller;
 
 struct WarpCheckpoint gWarpCheckpoint;
 
@@ -309,11 +310,10 @@ void save_file_do_save(s32 fileIndex) {
                                  sizeof(gSaveBuffer.files[fileIndex][0]), SAVE_FILE_MAGIC);
 
         // Copy to backup slot
-#ifdef DEBUG_CHEATING_STAR_DISPLAY
-#else
-        bcopy(&gSaveBuffer.files[fileIndex][0], &gSaveBuffer.files[fileIndex][1],
-               sizeof(gSaveBuffer.files[fileIndex][1]));
-#endif
+        if(starDisplayKiller != 1){
+            bcopy(&gSaveBuffer.files[fileIndex][0], &gSaveBuffer.files[fileIndex][1],
+                   sizeof(gSaveBuffer.files[fileIndex][1]));
+        }
 
         // Write to EEPROM
         write_eeprom_data(&gSaveBuffer.files[fileIndex], sizeof(gSaveBuffer.files[fileIndex]));
@@ -337,10 +337,10 @@ void save_file_copy(s32 srcFileIndex, s32 destFileIndex) {
     touch_high_score_ages(destFileIndex);
     bcopy(&gSaveBuffer.files[srcFileIndex][0], &gSaveBuffer.files[destFileIndex][0],
           sizeof(gSaveBuffer.files[destFileIndex][0]));
-#ifdef DEBUG_CHEATING_STAR_DISPLAY
-    bcopy(&gSaveBuffer.files[srcFileIndex][0], &gSaveBuffer.files[destFileIndex][1],
-          sizeof(gSaveBuffer.files[destFileIndex][1]));
-#endif
+    if(starDisplayKiller == 1){
+        bcopy(&gSaveBuffer.files[srcFileIndex][0], &gSaveBuffer.files[destFileIndex][1],
+              sizeof(gSaveBuffer.files[destFileIndex][1]));
+    }
 
     gSaveFileModified = TRUE;
     save_file_do_save(destFileIndex);
@@ -439,8 +439,10 @@ void puppycam_check_save(void) {
  */
 void save_file_reload(void) {
     // Copy save file data from backup
-    // bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][1], &gSaveBuffer.files[gCurrSaveFileNum - 1][0],
-    //       sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][0]));
+    if(starDisplayKiller != 1){
+        bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][1], &gSaveBuffer.files[gCurrSaveFileNum - 1][0],
+                sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][0]));
+    }
 
     gMainMenuDataModified = FALSE;
     gSaveFileModified = FALSE;
@@ -453,22 +455,22 @@ void save_file_reload(void) {
 void save_file_collect_star_or_key(s16 coinScore, s16 starIndex) {
     s32 fileIndex = gCurrSaveFileNum - 1;
     s32 courseIndex = COURSE_NUM_TO_INDEX(gCurrCourseNum);
-#ifdef DEBUG_CHEATING_STAR_DISPLAY
-    u8 saveFileCheckFlg = FALSE;
-    for(int i=0;i<4;i++){
-        for(int j=0;j<25;j++){
-            if(((gSaveBuffer.files[i][0].courseStars[j]&0x7F) ^ (gSaveBuffer.files[i][1].courseStars[j]&0x7F)) != 0x00) saveFileCheckFlg = TRUE;
+    if(starDisplayKiller == 1){
+        u8 saveFileCheckFlg = FALSE;
+        for(int i=0;i<4;i++){
+            for(int j=0;j<25;j++){
+                if(((gSaveBuffer.files[i][0].courseStars[j]&0x7F) ^ (gSaveBuffer.files[i][1].courseStars[j]&0x7F)) != 0x00) saveFileCheckFlg = TRUE;
+            }
+            if(((gSaveBuffer.files[i][0].flags) ^ (gSaveBuffer.files[i][1].flags)) != 0) saveFileCheckFlg = TRUE;
         }
-        if(((gSaveBuffer.files[i][0].flags) ^ (gSaveBuffer.files[i][1].flags)) != 0) saveFileCheckFlg = TRUE;
+    
+        if(saveFileCheckFlg){
+                fade_into_special_warp(WARP_SPECIAL_MARIO_HEAD_REGULAR, 0);
+                bcopy(&gSaveBuffer.files[fileIndex][1], &gSaveBuffer.files[fileIndex][0],
+                    sizeof(gSaveBuffer.files[fileIndex][0]));
+                return;
+        }
     }
-
-    if(saveFileCheckFlg){
-            fade_into_special_warp(WARP_SPECIAL_MARIO_HEAD_REGULAR, 0);
-            bcopy(&gSaveBuffer.files[fileIndex][1], &gSaveBuffer.files[fileIndex][0],
-                sizeof(gSaveBuffer.files[fileIndex][0]));
-            return;
-    }
-#endif
 
 #ifdef GLOBAL_STAR_IDS
     s32 starByte = COURSE_NUM_TO_INDEX(starIndex / 7);
@@ -522,16 +524,17 @@ void save_file_collect_star_or_key(s16 coinScore, s16 starIndex) {
                 save_file_set_star_flags(fileIndex, starByte, starFlag);
             }
 #else
-            if (!(save_file_get_star_flags(fileIndex, courseIndex) & starFlag)) {
+//            if (!(save_file_get_star_flags(fileIndex, courseIndex) & starFlag)) {
                 save_file_set_star_flags(fileIndex, courseIndex, starFlag);
-            }
+//            }
 #endif
             break;
     }
-#ifdef DEBUG_CHEATING_STAR_DISPLAY
-    bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][0], &gSaveBuffer.files[gCurrSaveFileNum - 1][1],
-        sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][1]));
-#endif
+    gSaveFileModified = TRUE;
+    if(starDisplayKiller == 1){
+        bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][0], &gSaveBuffer.files[gCurrSaveFileNum - 1][1],
+            sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][1]));
+    }
 }
 
 s32 save_file_exists(s32 fileIndex) {
@@ -586,10 +589,10 @@ s32 save_file_get_course_star_count(s32 fileIndex, s32 courseIndex) {
 
 s32 save_file_get_total_star_count(s32 fileIndex, s32 minCourse, s32 maxCourse) {
     s32 count = 0;
-#ifdef DEBUG_CHEATING_STAR_DISPLAY
-    bcopy(&gSaveBuffer.files[fileIndex][1], &gSaveBuffer.files[fileIndex][0],
-           sizeof(gSaveBuffer.files[fileIndex][0]));
-#endif
+    if(starDisplayKiller == 1){
+        bcopy(&gSaveBuffer.files[fileIndex][1], &gSaveBuffer.files[fileIndex][0],
+               sizeof(gSaveBuffer.files[fileIndex][0]));
+    }
     // Get standard course star count.
     for (; minCourse <= maxCourse; minCourse++) {
         count += save_file_get_course_star_count(fileIndex, minCourse);
@@ -600,28 +603,28 @@ s32 save_file_get_total_star_count(s32 fileIndex, s32 minCourse, s32 maxCourse) 
 }
 
 void save_file_set_flags(u32 flags) {
-#ifdef DEBUG_CHEATING_STAR_DISPLAY
-    u8 saveFileCheckFlg = FALSE;
-    for(int i=0;i<4;i++){
-        for(int j=0;j<25;j++){
-            if(((gSaveBuffer.files[i][0].courseStars[j]&0x7F) ^ (gSaveBuffer.files[i][1].courseStars[j]&0x7F)) != 0x00) saveFileCheckFlg = TRUE;
+    if(starDisplayKiller == 1){
+        u8 saveFileCheckFlg = FALSE;
+        for(int i=0;i<4;i++){
+            for(int j=0;j<25;j++){
+                if(((gSaveBuffer.files[i][0].courseStars[j]&0x7F) ^ (gSaveBuffer.files[i][1].courseStars[j]&0x7F)) != 0x00) saveFileCheckFlg = TRUE;
+            }
+            if(((gSaveBuffer.files[i][0].flags) ^ (gSaveBuffer.files[i][1].flags)) != 0) saveFileCheckFlg = TRUE;
         }
-        if(((gSaveBuffer.files[i][0].flags) ^ (gSaveBuffer.files[i][1].flags)) != 0) saveFileCheckFlg = TRUE;
+    
+        if(saveFileCheckFlg){
+                fade_into_special_warp(WARP_SPECIAL_MARIO_HEAD_REGULAR, 0);
+                bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][1], &gSaveBuffer.files[gCurrSaveFileNum - 1][0],
+                    sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][0]));
+                return;
+        }
     }
-
-    if(saveFileCheckFlg){
-            fade_into_special_warp(WARP_SPECIAL_MARIO_HEAD_REGULAR, 0);
-            bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][1], &gSaveBuffer.files[gCurrSaveFileNum - 1][0],
-                sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][0]));
-            return;
-    }
-#endif
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= (flags | SAVE_FLAG_FILE_EXISTS);
     gSaveFileModified = TRUE;
-#ifdef DEBUG_CHEATING_STAR_DISPLAY
-    bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][0], &gSaveBuffer.files[gCurrSaveFileNum - 1][1],
-        sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][1]));
-#endif
+    if(starDisplayKiller == 1){
+        bcopy(&gSaveBuffer.files[gCurrSaveFileNum - 1][0], &gSaveBuffer.files[gCurrSaveFileNum - 1][1],
+            sizeof(gSaveBuffer.files[gCurrSaveFileNum - 1][1]));
+    }
 }
 
 void save_file_clear_flags(u32 flags) {

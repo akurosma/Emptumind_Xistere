@@ -1,4 +1,3 @@
-#include "../mario_actions_cutscene.h"
 struct ObjectHitbox barrelJetHitbox = {
     /* interactType:      */ 0,
     /* downOffset:        */ 190,
@@ -137,7 +136,7 @@ void bhv_barrelJet_loop(void) {
     // int x = 10;
     // int y = 10;
     // if(o->unused1 == 1){
-    //     sprintf(aCnt, "y:%d", gMarioState->barrelSpeedItem);
+    //     sprintf(aCnt, "y:%d", buttonLog[0]);
     //     print_text(x, y, aCnt, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
     //     print_set_envcolour(0, 255, 255, 255);
     // }
