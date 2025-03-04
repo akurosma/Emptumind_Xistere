@@ -97,5 +97,7 @@
 
 /**
  * StarDisplayから値変化させた時に殺す
+ * 0:デバッグ無効(StarDisplayで付けてもリセットされる)
+ * 1:デバッグ有効(StarDisplayで付けてもリセットされない)
  */
-#define DEBUG_CHEATING_STAR_DISPLAY
+#define DEBUG_CHEATING_STAR_DISPLAY 0

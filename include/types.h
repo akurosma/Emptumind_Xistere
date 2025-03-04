@@ -444,16 +444,16 @@ struct MarioState {
     /*0xC0*/ f32 quicksandDepth;
     /*0xC4*/ f32 windGravity;
     // -- HackerSM64 MarioState fields begin --
-    /*0xC8*/ s16 switchSituation;
-    /*0xD0*/ s16 shiftSituation;
+    /*0xC8*/ u8 switchSituation;
+    /*0xD0*/ u8 shiftSituation;
     /*0xD4*/ s16 wallLastType;
     /*0xD8*/ s16 wallKickedOf;
              u8  prevForwardVel;
+             u8  barrelStatus;
+             s8  barrelSpeedItem;
              u8  numRedkey;
              u8  numBluekey;
              u8  numGreenkey;
-             u8  barrelStatus;
-             s8  barrelSpeedItem;
 
 #ifdef BREATH_METER
              s16 breath;

@@ -160,6 +160,9 @@ struct WarpCheckpoint {
     /*0x04*/ u8 warpNode;
 };
 
+extern u8 starDisplayKiller;
+extern u8 buttonLog[7];
+
 extern struct WarpCheckpoint gWarpCheckpoint;
 
 extern s8 gMainMenuDataModified;
