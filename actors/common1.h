@@ -359,4 +359,12 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "rlbridge/geo_header.h"
 
+#include "rlsquarefloating/collision_header.h"
+
+#include "rlsquarefloating/geo_header.h"
+
+#include "rlexelevator/collision_header.h"
+
+#include "rlexelevator/geo_header.h"
+
 #endif

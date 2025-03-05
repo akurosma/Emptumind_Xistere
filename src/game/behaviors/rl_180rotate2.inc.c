@@ -1,21 +1,8 @@
-struct ObjectHitbox sRl180rotate = {
-    /* interactType:      */ 0,
-    /* downOffset:        */  20,
-    /* damageOrCoinValue: */   0,
-    /* health:            */   1,
-    /* numLootCoins:      */   0,
-    /* radius:            */ 300,
-    /* height:            */ 400,
-    /* hurtboxRadius:     */ 300,
-    /* hurtboxHeight:     */ 400,
-};
-
 void bhv_rl_180rotate2_init(void) {
    
 }
 
 void bhv_rl_180rotate2_loop(void) {
-    obj_set_hitbox(o, &sRl180rotate);
     cur_obj_scale(1.5f);
   if (o->oAction == 0) {
         o->oAngleVelYaw = 0;

@@ -116,3 +116,7 @@ UNUSED static const u64 binid_22 = 22;
 
 #include "rlbridge/collision.inc.c"
 #include "rlbridge/model.inc.c"
+#include "rlsquarefloating/collision.inc.c"
+#include "rlsquarefloating/model.inc.c"
+#include "rlexelevator/collision.inc.c"
+#include "rlexelevator/model.inc.c"
