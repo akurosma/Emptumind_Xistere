@@ -2576,7 +2576,10 @@ const BehaviorScript bhvFish[] = {
 const BehaviorScript bhvWdwExpressElevator[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    LOAD_COLLISION_DATA(wdw_seg7_collision_express_elevator_platform),
+    //rulu
+    LOAD_COLLISION_DATA(rlexelevator_collision),
+    //default
+    //LOAD_COLLISION_DATA(wdw_seg7_collision_express_elevator_platform),
     SET_HOME(),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_wdw_express_elevator_loop),
@@ -4817,7 +4820,10 @@ const BehaviorScript bhvSnowMoundSpawn[] = {
 const BehaviorScript bhvWdwSquareFloatingPlatform[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    LOAD_COLLISION_DATA(wdw_seg7_collision_square_floating_platform),
+    //rulu
+    LOAD_COLLISION_DATA(rlsquarefloating_collision),
+    //default
+    //LOAD_COLLISION_DATA(wdw_seg7_collision_square_floating_platform),
     SET_FLOAT(oFloatingPlatformHeightOffset, 64),
     SET_HOME(),
     BEGIN_LOOP(),

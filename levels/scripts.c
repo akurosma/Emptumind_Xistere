@@ -215,7 +215,10 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BARREL_SPEED_UP,              barrelSpeedUp_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BARREL_SPEED_DOWN,            barrelSpeedDown_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RL_BRIDGE,                    rlbridge_geo),
-    
+    LOAD_MODEL_FROM_GEO(MODEL_RL_SQUAREFLOATING,            rlsquarefloating_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RL_EXELEVATOR,                rlexelevator_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RL_SQUAREFLOATING,            rlsquarefloating_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RL_EXELEVATOR,                rlexelevator_geo),
 
     RETURN(),
 };
