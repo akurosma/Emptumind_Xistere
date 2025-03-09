@@ -13,6 +13,7 @@ const GeoLayout pss_area_1_geo[] = {
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
+		GEO_ASM(  0, geo_render_mirror_mario),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
