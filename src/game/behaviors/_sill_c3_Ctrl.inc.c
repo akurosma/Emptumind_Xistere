@@ -108,7 +108,7 @@ void bhv_master_Key_init(void) {
 void bhv_master_Key_loop(void) {
     o->oAngleVelYaw = 0x200;
     o->oFaceAngleYaw += o->oAngleVelYaw;
-    o->oPosY = o->oHomeY + 20 * sins(o->oTimer*1000);
+    o->oPosY = o->oHomeY + 20 * sins(gGlobalTimer*1000);
 
     if(obj_check_if_collided_with_object(o, gMarioObject)){
         switch(BPARAM1){
@@ -134,6 +134,25 @@ void bhv_sinMovingPlatform_init(void) {
 }
 
 void bhv_sinMovingPlatform_loop(void) {
-   
+    if(cur_obj_is_mario_on_platform()){
+        o->oTimer--;
+    }
+    else{
+        f32 range = BPARAM2 * 100 * sins(o->oTimer * BPARAM3 * 100);
+        o->oAngleVelYaw = range;
+        switch(BPARAM1){
+            case 0:
+                o->oPosX = o->oHomeX + range;
+                break;
+            case 1:
+                o->oPosY = o->oHomeY + range;
+                break;
+            case 2:
+                o->oPosZ = o->oHomeZ + range;
+                break;
+            default:
+                break;
+        }
+    }
 }
 

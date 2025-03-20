@@ -147,6 +147,7 @@
 #define MODEL_KEY_RED                             0x43
 #define MODEL_KEY_GREEN                           0x44
 #define MODEL_KEY_BLUE                            0x45
+#define MODEL_CUBOID                              0x46
 
 // thi
 #define MODEL_THI_HUGE_ISLAND_TOP                 0x36        // thi_geo_0005B0

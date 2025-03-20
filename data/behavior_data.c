@@ -6246,11 +6246,13 @@ const BehaviorScript bhvMasterKey[] = {
 const BehaviorScript bhvSinmovingplatform[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(metal_box_seg8_collision_08024C28),
     SET_HOME(),
     SET_FLOAT(oDrawingDistance, 20000),
     SET_FLOAT(oCollisionDistance, 20000),
     CALL_NATIVE(bhv_sinMovingPlatform_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_sinMovingPlatform_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

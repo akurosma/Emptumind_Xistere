@@ -834,6 +834,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
 #endif
         save_file_collect_star_or_key(m->numCoins, starIndex);
 
+
         m->numStars =
             save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
 

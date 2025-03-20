@@ -69,6 +69,7 @@ const LevelScript level_jrb_entry[] = {
 		OBJECT(MODEL_NONE, -414, 600, -775, 0, 0, 0, (2 << 24), bhvKeyBlock),
 		OBJECT(MODEL_STAR, 36, 523, -441, 0, 0, 0, (1 << 24), bhvMasterKey),
 		OBJECT(MODEL_NONE, 36, 600, -775, 0, 0, 0, (1 << 24), bhvKeyBlock),
+		OBJECT(MODEL_METAL_BOX, 486, 523, 372, 0, 0, 0, (0 << 24) | (5 << 16) | (4 << 8), bhvSinmovingplatform),
 		OBJECT(MODEL_RED_COIN, -3951, 4344, 8932, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_STAR, 486, 523, -441, 0, 0, 0, 0x00000000, bhvMasterKey),
 		OBJECT(MODEL_NONE, 486, 600, -775, 0, 0, 0, 0x00000000, bhvKeyBlock),
@@ -80,12 +81,11 @@ const LevelScript level_jrb_entry[] = {
 		OBJECT(MODEL_STAR, -12060, 4407, 405, 0, 0, 0, (4 << 24), bhvStar),
 		TERRAIN(jrb_area_1_collision),
 		MACRO_OBJECTS(jrb_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x27, SEQ_PROMISE_OF_THE_19),
+		SET_BACKGROUND_MUSIC(0x2E, SEQ_PROMISE_OF_THE_19),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 
 	FREE_LEVEL_POOL(),
 	MARIO_POS(1, 0, 0, 0, 0),
