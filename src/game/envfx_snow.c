@@ -75,8 +75,8 @@ s32 envfx_init_snow(s32 mode) {
             break;
 
         case ENVFX_SNOW_BLIZZARD:
-            gSnowParticleMaxCount = 140;
-            gSnowParticleCount = 140;
+            gSnowParticleMaxCount = 270;
+            gSnowParticleCount = 270;
             break;
     }
 

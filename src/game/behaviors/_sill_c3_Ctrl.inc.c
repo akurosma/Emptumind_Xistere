@@ -134,6 +134,25 @@ void bhv_sinMovingPlatform_init(void) {
 }
 
 void bhv_sinMovingPlatform_loop(void) {
-   
+    if(cur_obj_is_mario_on_platform()){
+        o->oTimer--;
+    }
+    else{
+        f32 range = BPARAM2 * 100 * sins(o->oTimer * BPARAM3 * 100);
+        o->oAngleVelYaw = range;
+        switch(BPARAM1){
+            case 0:
+                o->oPosX = o->oHomeX + range;
+                break;
+            case 1:
+                o->oPosY = o->oHomeY + range;
+                break;
+            case 2:
+                o->oPosZ = o->oHomeZ + range;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
