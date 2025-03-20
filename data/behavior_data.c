@@ -6123,6 +6123,7 @@ const BehaviorScript bhvFlashingBlock[] = {
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(flashingBlock_collision),
+    CALL_NATIVE(bhv_flashing_block_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_flashing_block_loop),
     END_LOOP(),

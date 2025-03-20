@@ -99,5 +99,8 @@
  * StarDisplayから値変化させた時に殺す
  * 0:デバッグ無効(StarDisplayで付けてもリセットされる)
  * 1:デバッグ有効(StarDisplayで付けてもリセットされない)
+ * ※FILE_SELECT画面で有効無効を判断しているため、FILE_SELECT画面をスキップするようなデバッグ実行をしていると
+ * DEBUG_CHEATING_STAR_DISPLAYの値にかかわらずデバッグ有効のステータスと同じ動きを取る
+ * (一度ファイル選択画面に行けばDEBUG_CHEATING_STAR_DISPLAYの値に応じた振る舞いをする)
  */
-#define DEBUG_CHEATING_STAR_DISPLAY 0
+#define DEBUG_CHEATING_STAR_DISPLAY 1

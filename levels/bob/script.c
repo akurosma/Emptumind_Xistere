@@ -144,7 +144,6 @@ const LevelScript level_bob_entry[] = {
 		OBJECT(MODEL_RED_COIN, -772, 6062, -3592, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_NONE, 543, 5687, -4547, 0, 0, 0, (5 << 24), bhvHiddenRedCoinStar),
 		OBJECT(MODEL_FLYGUY, -5517, 1125, -2973, 0, 0, 0, (2 << 16), bhvScuttlebug),
-		OBJECT(MODEL_NONE, -5438, 6681, 3919, 0, 0, 0, 0x00000000, bhvSnufit),
 		OBJECT(MODEL_LAUNCH_SPRING, 2512, 571, -491, -60, -180, 0, (200 << 24) | (60 << 16), bhvLaunchSpring),
 		OBJECT(MODEL_LAUNCH_SPRING, 2070, 312, -5828, -80, -180, 0, (125 << 24) | (80 << 16), bhvLaunchSpring),
 		OBJECT(MODEL_LAUNCH_SPRING, 1825, 5188, 736, -80, -180, 0, (125 << 24) | (80 << 16), bhvLaunchSpring),
