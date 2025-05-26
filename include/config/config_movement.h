@@ -128,7 +128,7 @@
 /**
  * Re-enables upwarping when entering water. Forces you to only enter water from the top.
  */
-#define WATER_PLUNGE_UPWARP
+//#define WATER_PLUNGE_UPWARP
 
 /** 
  * This bug allows mario to move when initiating a dialog,

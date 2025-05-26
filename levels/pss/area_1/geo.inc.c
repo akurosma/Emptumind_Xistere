@@ -3,17 +3,71 @@
 const GeoLayout pss_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, pss_dl_PSS_v2_2_mesh_layer_1),
+		GEO_SWITCH_CASE(8, geo_switch_area),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, pss_dl_PSS_v2_2_mesh_layer_5),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, pss_dl_PSS_v2_2_mesh_layer_4),
+			GEO_BRANCH(1, pss_dl_bridge_geo),
+			GEO_BRANCH(1, pss_dl_Enemy_geo),
+			GEO_BRANCH(1, pss_dl_PSS_rain01_v1_6_geo),
+			GEO_BRANCH(1, pss_dl_PSS_rain02_v1_2_geo),
+			GEO_BRANCH(1, pss_dl_red_geo),
+			GEO_BRANCH(1, pss_dl_rotate_geo),
+			GEO_BRANCH(1, pss_dl_wdw_geo),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout pss_dl_bridge_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout pss_dl_Enemy_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout pss_dl_PSS_rain01_v1_6_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, pss_dl_PSS_rain01_v1_6_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, pss_dl_PSS_rain01_v1_6_mesh_layer_5),
+		GEO_CLOSE_NODE(),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout pss_dl_PSS_rain02_v1_2_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, pss_dl_PSS_rain02_v1_2_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, pss_dl_PSS_rain02_v1_2_mesh_layer_5),
+		GEO_CLOSE_NODE(),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout pss_dl_red_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-		GEO_ASM(  0, geo_render_mirror_mario),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout pss_dl_rotate_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout pss_dl_wdw_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -24,7 +78,7 @@ const GeoLayout pss_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND(BACKGROUND_OCEAN_SKY, geo_skybox_main),
+				GEO_BACKGROUND(BACKGROUND_BELOW_CLOUDS, geo_skybox_main),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),
@@ -36,8 +90,6 @@ const GeoLayout pss_area_1[] = {
 					GEO_BRANCH(1, pss_area_1_geo),
 					GEO_RENDER_OBJ(),
 					GEO_ASM(ENVFX_SNOW_BLIZZARD, geo_envfx_main),
-					GEO_ASM(0,               geo_movtex_pause_control),
-                    GEO_ASM(PSS_MOVTEX_WATER, geo_movtex_draw_water_regions),
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),

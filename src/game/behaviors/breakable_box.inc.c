@@ -25,6 +25,11 @@ void breakable_box_init(void) {
 
 void hidden_breakable_box_actions(void) {
     struct Object *switchObj;
+        if(BPARAM1 == 1){
+        cur_obj_scale(1.5f);
+    }
+    else{
+    }
     obj_set_hitbox(o, &sBreakableBoxHitbox);
     cur_obj_set_model(MODEL_BREAKABLE_BOX);
     switch (o->oAction) {
