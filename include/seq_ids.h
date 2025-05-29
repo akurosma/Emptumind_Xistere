@@ -60,6 +60,7 @@ enum SeqId {
     SEQ_HIS_WORLD,                    // 0x2D
     SEQ_PROMISE_OF_THE_19,            // 0x2E
     SEQ_VILILY,                       // 0x2F
+    SEQ_KING_K_ROOL,                  // 0x30
     // end 2024/12/15 akuro
     SEQ_COUNT
 };
