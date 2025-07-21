@@ -47,3 +47,5 @@
 #include "rlbridge/geo.inc.c"
 #include "rlsquarefloating/geo.inc.c"
 #include "rlexelevator/geo.inc.c"
+#include "rlmetalbox/geo.inc.c"
+#include "rlmetalblock/geo.inc.c"

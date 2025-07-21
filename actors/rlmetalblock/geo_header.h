@@ -1,0 +1,16 @@
+extern const GeoLayout rlmetalblock_geo[];
+extern u8 rlmetalblock_metal_box_ci8[];
+extern u8 rlmetalblock_metal_box_pal_rgba16[];
+extern u8 rlmetalblock__14_invisible_ia8[];
+extern Vtx rlmetalblock_rlmetalblock_mesh_layer_1_vtx_cull[8];
+extern Vtx rlmetalblock_rlmetalblock_mesh_layer_1_vtx_0[24];
+extern Gfx rlmetalblock_rlmetalblock_mesh_layer_1_tri_0[];
+extern Vtx rlmetalblock_rlmetalblock_mesh_layer_5_vtx_cull[8];
+extern Vtx rlmetalblock_rlmetalblock_mesh_layer_5_vtx_0[52];
+extern Gfx rlmetalblock_rlmetalblock_mesh_layer_5_tri_0[];
+extern Gfx mat_rlmetalblock_bomb[];
+extern Gfx mat_revert_rlmetalblock_bomb[];
+extern Gfx mat_rlmetalblock_f3dlite_material[];
+extern Gfx mat_revert_rlmetalblock_f3dlite_material[];
+extern Gfx rlmetalblock_rlmetalblock_mesh_layer_1[];
+extern Gfx rlmetalblock_rlmetalblock_mesh_layer_5[];

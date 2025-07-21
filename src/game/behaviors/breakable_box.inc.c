@@ -31,7 +31,12 @@ void hidden_breakable_box_actions(void) {
     else{
     }
     obj_set_hitbox(o, &sBreakableBoxHitbox);
-    cur_obj_set_model(MODEL_BREAKABLE_BOX);
+    if(BPARAM3 == 1){
+        cur_obj_set_model(MODEL_NONE);
+        }
+        else{
+        cur_obj_set_model(MODEL_BREAKABLE_BOX);
+        }
     switch (o->oAction) {
         case BREAKABLE_BOX_ACT_HIDDEN:
             cur_obj_disable_rendering();

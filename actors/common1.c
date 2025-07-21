@@ -120,3 +120,7 @@ UNUSED static const u64 binid_22 = 22;
 #include "rlsquarefloating/model.inc.c"
 #include "rlexelevator/collision.inc.c"
 #include "rlexelevator/model.inc.c"
+#include "rlmetalbox/collision.inc.c"
+#include "rlmetalbox/model.inc.c"
+#include "rlmetalblock/collision.inc.c"
+#include "rlmetalblock/model.inc.c"

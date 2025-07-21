@@ -50,6 +50,9 @@ void small_breakable_box_act_move(void) {
         obj_spawn_yellow_coins(o, 3);
         create_sound_spawner(SOUND_GENERAL_BREAK_BOX);
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+         if(BPARAM3 == 1){
+        create_respawner(MODEL_BREAKABLE_BOX, bhvBreakableBoxSmall, 2000);
+        }
     }
 
     obj_check_floor_death(collisionFlags, sObjFloor);
@@ -78,6 +81,9 @@ void breakable_box_small_idle_loop(void) {
 
         case OBJ_ACT_LAVA_DEATH:
             obj_lava_death();
+            if(BPARAM3 == 1){
+        create_respawner(MODEL_BREAKABLE_BOX, bhvBreakableBoxSmall, 2000);
+            }
             break;
 
         case OBJ_ACT_DEATH_PLANE_DEATH:

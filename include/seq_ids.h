@@ -62,6 +62,11 @@ enum SeqId {
     SEQ_VILILY,                       // 0x2F
     SEQ_KING_K_ROOL,                  // 0x30
     // end 2024/12/15 akuro
+    // start 2025/07/21 Rulu
+    // 曲追加
+    SEQ_PSS_MAIN,                     // 0x31
+    SEQ_PSS_MIRROR,                     // 0x32
+    // end
     SEQ_COUNT
 };
 

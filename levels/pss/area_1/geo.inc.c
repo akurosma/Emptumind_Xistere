@@ -5,7 +5,7 @@ const GeoLayout pss_area_1_geo[] = {
 	GEO_OPEN_NODE(),
 		GEO_SWITCH_CASE(8, geo_switch_area),
 		GEO_OPEN_NODE(),
-			GEO_BRANCH(1, pss_dl_bridge_geo),
+			GEO_BRANCH(1, pss_dl_bridge_001_geo),
 			GEO_BRANCH(1, pss_dl_Enemy_geo),
 			GEO_BRANCH(1, pss_dl_PSS_rain01_v1_6_geo),
 			GEO_BRANCH(1, pss_dl_PSS_rain02_v1_2_geo),
@@ -17,7 +17,7 @@ const GeoLayout pss_area_1_geo[] = {
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout pss_dl_bridge_geo[] = {
+const GeoLayout pss_dl_bridge_001_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),

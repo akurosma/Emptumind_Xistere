@@ -22,7 +22,7 @@ void bhv_bobomb_init(void) {
 void bobomb_spawn_coin(void) {
     if (!(GET_BPARAM3(o->oBehParams) & RESPAWN_INFO_TYPE_NORMAL)) {
         obj_spawn_yellow_coins(o, 1);
-        SET_FULL_BPARAM3(o->oBehParams, RESPAWN_INFO_TYPE_NORMAL);
+        SET_BPARAM3(o->oBehParams, RESPAWN_INFO_TYPE_NORMAL);
         set_object_respawn_info_bits(o, RESPAWN_INFO_TYPE_NORMAL);
     }
 }
@@ -130,8 +130,11 @@ void generic_bobomb_free_loop(void) {
 
     bobomb_check_interactions();
 
-    if (o->oBobombFuseTimer > 150) {
+    if (BPARAM1 == 1 && o->oBobombFuseTimer > 450){
         o->oAction = 3;
+    }
+    else if(BPARAM1 == 0 && o->oBobombFuseTimer > 150){
+       o->oAction = 3; 
     }
 }
 
@@ -159,8 +162,11 @@ void stationary_bobomb_free_loop(void) {
 
     bobomb_check_interactions();
 
-    if (o->oBobombFuseTimer > 150) {
+    if (BPARAM1 == 1 && o->oBobombFuseTimer > 450){
         o->oAction = 3;
+    }
+    else if(BPARAM1 == 0 && o->oBobombFuseTimer > 150){
+       o->oAction = 3; 
     }
 }
 
@@ -178,14 +184,18 @@ void bobomb_held_loop(void) {
     cur_obj_set_pos_relative(gMarioObject, 0.0f, 60.0f, 100.0f);
 
     o->oBobombFuseLit = TRUE;
-    if (o->oBobombFuseTimer > 150) {
-        //! Although the Bob-omb's action is set to explode when the fuse timer expires,
-        //  bobomb_act_explode() will not execute until the bob-omb's held state changes.
-        //  This allows the Bob-omb to be regrabbed indefinitely.
+    if(BPARAM1 == 1 && o->oBobombFuseTimer > 450){
         gMarioObject->oInteractStatus |= INT_STATUS_MARIO_DROP_OBJECT;
         o->oAction = BOBOMB_ACT_EXPLODE;
     }
+    else if(BPARAM1 == 0 && o->oBobombFuseTimer > 150){
+        gMarioObject->oInteractStatus |= INT_STATUS_MARIO_DROP_OBJECT;
+        o->oAction = BOBOMB_ACT_EXPLODE; 
+    }
 }
+        //! Although the Bob-omb's action is set to explode when the fuse timer expires,
+        //  bobomb_act_explode() will not execute until the bob-omb's held state changes.
+        //  This allows the Bob-omb to be regrabbed indefinitely.
 
 void bobomb_dropped_loop(void) {
     cur_obj_get_dropped();
