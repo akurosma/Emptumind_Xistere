@@ -624,13 +624,14 @@ Gfx *geo_render_mirror_mario(s32 callContext, struct GraphNode *node, UNUSED Mat
                 gMirrorMario.angle[0] = 0x7FFF -gMirrorMario.angle[0];
                 gMirrorMario.scale[0] *= -1.0f;
 
-                char string[32];
+                /*char string[32];
                 int x = 10;
                 int y = 10;
                 sprintf(string, "%f", gMirrorMario.pos[1] );
                 print_text(x, y, string, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
                 print_set_envcolour(0, 255, 255, 255);
-                
+                */
+
                 ((struct GraphNode *) &gMirrorMario)->flags |= GRAPH_RENDER_ACTIVE;
             } else {
                 ((struct GraphNode *) &gMirrorMario)->flags &= ~GRAPH_RENDER_ACTIVE;

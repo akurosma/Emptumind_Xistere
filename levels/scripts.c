@@ -219,6 +219,7 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_RL_EXELEVATOR,                rlexelevator_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RL_SQUAREFLOATING,            rlsquarefloating_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RL_EXELEVATOR,                rlexelevator_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RL_METALBLOCK,                rlmetalblock_geo),
 
     RETURN(),
 };

@@ -620,3 +620,5 @@ void bhv_barrel_speed_up_init(void);
 void bhv_barrel_speed_up_loop(void);
 void bhv_rl_bridge_init(void);
 void bhv_rl_bridge_loop(void);
+void bhv_rl_metalblock_init(void);
+void bhv_rl_metalblock_loop(void);
