@@ -9,9 +9,6 @@ const GeoLayout pss_area_5_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_ALPHA, pss_dl_PSS_mirror_v1_2_mesh_layer_4),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -146, 45, -61),
-		GEO_OPEN_NODE(),
-			GEO_TRANSLATE_NODE(LAYER_OPAQUE, 146, -45, 61),
-		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
