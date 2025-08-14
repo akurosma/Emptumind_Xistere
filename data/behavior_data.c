@@ -6123,7 +6123,6 @@ const BehaviorScript bhvFlashingBlock[] = {
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_FLOAT(oDrawingDistance, 20000),
     LOAD_COLLISION_DATA(flashingBlock_collision),
-    CALL_NATIVE(bhv_flashing_block_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_flashing_block_loop),
     END_LOOP(),
@@ -6330,5 +6329,31 @@ const BehaviorScript bhvRlMetalblock[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_metalblock_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlLift[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_lift_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    CALL_NATIVE(bhv_rl_lift_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_lift_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlPillar[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_pillar_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    CALL_NATIVE(bhv_rl_pillar_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_pillar_loop),
     END_LOOP(),
 };

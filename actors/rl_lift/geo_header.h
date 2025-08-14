@@ -1,0 +1,17 @@
+extern const GeoLayout rl_lift_geo[];
+extern u8 rl_lift_KKIIDDZZ_DAT_2512__p01_i4[];
+extern u8 rl_lift_KKIIDDZZ_DAT_2512__p00_i4[];
+extern u8 rl_lift_tile_half_ci8[];
+extern u8 rl_lift_tile_half_pal_rgba16[];
+extern Vtx rl_lift_rl_lift_mesh_layer_6_vtx_cull[8];
+extern Vtx rl_lift_rl_lift_mesh_layer_6_vtx_0[16];
+extern Gfx rl_lift_rl_lift_mesh_layer_6_tri_0[];
+extern Vtx rl_lift_rl_lift_mesh_layer_1_vtx_cull[8];
+extern Vtx rl_lift_rl_lift_mesh_layer_1_vtx_0[8];
+extern Gfx rl_lift_rl_lift_mesh_layer_1_tri_0[];
+extern Gfx mat_rl_lift_f3dlite_material_001_layer6[];
+extern Gfx mat_revert_rl_lift_f3dlite_material_001_layer6[];
+extern Gfx mat_rl_lift_tile[];
+extern Gfx mat_revert_rl_lift_tile[];
+extern Gfx rl_lift_rl_lift_mesh_layer_6[];
+extern Gfx rl_lift_rl_lift_mesh_layer_1[];

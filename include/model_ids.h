@@ -566,6 +566,8 @@
 #define MODEL_RL_SQUAREFLOATING           0xE5
 #define MODEL_RL_EXELEVATOR               0xE6
 #define MODEL_RL_METALBLOCK               0xE7
+#define MODEL_RL_LIFT                     0xE8
+#define MODEL_RL_PILLAR                   0xE9
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0
