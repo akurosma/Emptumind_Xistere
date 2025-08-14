@@ -49,3 +49,5 @@
 #include "rlexelevator/geo.inc.c"
 #include "rlmetalbox/geo.inc.c"
 #include "rlmetalblock/geo.inc.c"
+#include "rl_lift/geo.inc.c"
+#include "rl_pillar/geo.inc.c"

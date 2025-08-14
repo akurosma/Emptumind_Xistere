@@ -1,9 +1,14 @@
-s8 flashUnit;
-s8 flashStartNumber;
-s8 flashLastNumber;
-s8 flashSpeed;
 
 void bhv_flashing_block_init(void) {
+}
+
+
+void bhv_flashing_block_loop(void) {
+    s8 flashUnit;
+    s8 flashStartNumber;
+    s8 flashLastNumber;
+    s8 flashSpeed;
+
     flashUnit = BPARAM1;    
     flashStartNumber = BPARAM2 - 1;
     
@@ -22,15 +27,10 @@ void bhv_flashing_block_init(void) {
         flashSpeed = 30;
     }
 
-}
-
-
-void bhv_flashing_block_loop(void) {
-
     s8 flashCnt;
     u8 timer;
 
-    timer = o->oTimer/flashSpeed;
+    timer = gGlobalTimer/flashSpeed;
     flashCnt = timer%flashUnit;
 
     if((flashStartNumber <= flashCnt) && (flashCnt <= flashLastNumber)){
@@ -48,4 +48,3 @@ void bhv_flashing_block_loop(void) {
         o->oOpacity = 100;
     }
 }
-

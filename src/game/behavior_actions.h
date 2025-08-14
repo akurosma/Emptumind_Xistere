@@ -622,3 +622,7 @@ void bhv_rl_bridge_init(void);
 void bhv_rl_bridge_loop(void);
 void bhv_rl_metalblock_init(void);
 void bhv_rl_metalblock_loop(void);
+void bhv_rl_lift_init(void);
+void bhv_rl_lift_loop(void);
+void bhv_rl_pillar_init(void);
+void bhv_rl_pillar_loop(void);

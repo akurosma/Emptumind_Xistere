@@ -48,8 +48,9 @@ void bhv_thi_tiny_island_top_loop(void) {
         }
     } else {
         if (o->oTimer == 0) {
-            gEnvironmentRegions[18] = 700;
+            gEnvironmentRegions[18] = -1200;
         }
-        cur_obj_hide();
+        //下がった水の表面のテクスチャを表示させたままにする rulu
+        //cur_obj_hide();
     }
 }
