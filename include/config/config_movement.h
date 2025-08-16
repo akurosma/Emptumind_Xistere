@@ -26,7 +26,7 @@
  * - Precise turning control.
  * - Prevents falling from the edges.
  */
-// #define BETTER_HANGING
+#define BETTER_HANGING
 
 /**
  * Change the movement speed when hanging from a ceiling (the vanilla value is 4.0f, has no effect if BETTER_HANGING is enabled).
@@ -101,7 +101,7 @@
 /**
  * Allows Mario to grab hangable ceilings from any state.
  */
-// #define HANGING_FIX
+#define HANGING_FIX
 
 /**
  * The maximum angle the player can wall kick, in degrees. 0..90. To allow 45 degree wall kicks, you must supply `46` to allow 45 and under.

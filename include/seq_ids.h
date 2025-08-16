@@ -65,7 +65,8 @@ enum SeqId {
     // start 2025/07/21 Rulu
     // 曲追加
     SEQ_PSS_MAIN,                     // 0x31
-    SEQ_PSS_MIRROR,                     // 0x32
+    SEQ_PSS_MIRROR,                   // 0x32
+    SEQ_SCIENCE,                      // 0x33
     // end
     SEQ_COUNT
 };
