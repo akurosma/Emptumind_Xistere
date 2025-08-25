@@ -383,4 +383,12 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "rl_pillar/geo_header.h"
 
+#include "rl_top/collision_header.h"
+
+#include "rl_top/geo_header.h"
+
+#include "rl_swing/collision_header.h"
+
+#include "rl_swing/geo_header.h"
+
 #endif

@@ -54,7 +54,12 @@ void floating_platform_act_move_to_home(void) {
 }
 
 void bhv_floating_platform_loop(void) {
-    o->oHomeY = floating_platform_find_home_y();
+     o->oHomeY = floating_platform_find_home_y();
+        if(BPARAM1 == 1){
+        cur_obj_scale(0.4f);
+        } else {
+
+    }
 
     // o->oAction = o->oFloatingPlatformIsOnFloor;
     if (o->oFloatingPlatformIsOnFloor) {

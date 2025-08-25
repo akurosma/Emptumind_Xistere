@@ -6357,3 +6357,29 @@ const BehaviorScript bhvRlPillar[] = {
         CALL_NATIVE(bhv_rl_pillar_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRlSwing[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_swing_collision),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_swing_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_swing_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlTop[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_top_collision),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_top_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_top_loop),
+    END_LOOP(),
+};
