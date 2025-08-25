@@ -51,3 +51,5 @@
 #include "rlmetalblock/geo.inc.c"
 #include "rl_lift/geo.inc.c"
 #include "rl_pillar/geo.inc.c"
+#include "rl_top/geo.inc.c"
+#include "rl_swing/geo.inc.c"

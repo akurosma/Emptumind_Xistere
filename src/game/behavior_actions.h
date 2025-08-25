@@ -626,3 +626,7 @@ void bhv_rl_lift_init(void);
 void bhv_rl_lift_loop(void);
 void bhv_rl_pillar_init(void);
 void bhv_rl_pillar_loop(void);
+void bhv_rl_swing_init(void);
+void bhv_rl_swing_loop(void);
+void bhv_rl_top_init(void);
+void bhv_rl_top_loop(void);

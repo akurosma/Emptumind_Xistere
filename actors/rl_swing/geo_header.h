@@ -1,0 +1,17 @@
+extern const GeoLayout rl_swing_geo[];
+extern u8 rl_swing_sa_school_02_ci8[];
+extern u8 rl_swing_sa_school_02_pal_rgba16[];
+extern u8 rl_swing_sa_station_02_ci8[];
+extern u8 rl_swing_sa_station_02_pal_rgba16[];
+extern Vtx rl_swing_rl_swing_mesh_layer_4_vtx_cull[8];
+extern Vtx rl_swing_rl_swing_mesh_layer_4_vtx_0[54];
+extern Gfx rl_swing_rl_swing_mesh_layer_4_tri_0[];
+extern Vtx rl_swing_rl_swing_mesh_layer_1_vtx_cull[8];
+extern Vtx rl_swing_rl_swing_mesh_layer_1_vtx_0[24];
+extern Gfx rl_swing_rl_swing_mesh_layer_1_tri_0[];
+extern Gfx mat_rl_swing__01_f3d_chain[];
+extern Gfx mat_revert_rl_swing__01_f3d_chain[];
+extern Gfx mat_rl_swing__02_f3d_legno[];
+extern Gfx mat_revert_rl_swing__02_f3d_legno[];
+extern Gfx rl_swing_rl_swing_mesh_layer_4[];
+extern Gfx rl_swing_rl_swing_mesh_layer_1[];

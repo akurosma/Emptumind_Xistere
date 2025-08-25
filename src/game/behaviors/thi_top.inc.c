@@ -32,13 +32,14 @@ void bhv_thi_tiny_island_top_loop(void) {
             if (o->oDistanceToMario < 500.0f && gMarioStates[0].action == ACT_GROUND_POUND_LAND) {
                 o->oAction++;
                 cur_obj_spawn_particles(&sThiTopPuffs);
-                spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 0.3f, 3);
+                //spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 0.3f, 3);
                 cur_obj_play_sound_2(SOUND_GENERAL_ACTIVATE_CAP_SWITCH);
-                cur_obj_hide();
+                spawn_object(o, MODEL_RL_TOP, bhvRlTop);
+                //cur_obj_hide();
             }
         } else {
-            if (o->oTimer < 50) {
-                gEnvironmentRegions[18]--;
+            if (o->oTimer < 550) {
+                gEnvironmentRegions[18]++;
                 cur_obj_play_sound_1(SOUND_ENV_WATER_DRAIN);
             } else {
                 gTHIWaterDrained |= 1;
@@ -48,7 +49,9 @@ void bhv_thi_tiny_island_top_loop(void) {
         }
     } else {
         if (o->oTimer == 0) {
-            gEnvironmentRegions[18] = -1200;
+            gEnvironmentRegions[18] = 1100;
+            spawn_object_abs_with_rot(o, 0, MODEL_RL_LIFT, bhvRlLift, -9000, 1000, -9000, 0, 0, 0);
+            spawn_default_star(-9000.0f, 1300.0f, -9000.0f);
         }
         //下がった水の表面のテクスチャを表示させたままにする rulu
         //cur_obj_hide();
