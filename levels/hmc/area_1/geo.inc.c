@@ -3,8 +3,10 @@
 const GeoLayout hmc_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_SWITCH_CASE(12, geo_switch_area),
+		GEO_SWITCH_CASE(14, geo_switch_area),
 		GEO_OPEN_NODE(),
+			GEO_BRANCH(1, hmc_dl_blue_coins_geo),
+			GEO_BRANCH(1, hmc_dl_bounce_geo),
 			GEO_BRANCH(1, hmc_dl_Enemy_pillar_area_geo),
 			GEO_BRANCH(1, hmc_dl_Enemy_reds_area_geo),
 			GEO_BRANCH(1, hmc_dl_Lift_geo),
@@ -13,10 +15,24 @@ const GeoLayout hmc_area_1_geo[] = {
 			GEO_BRANCH(1, hmc_dl_red_blue_block_geo),
 			GEO_BRANCH(1, hmc_dl_red_coins_geo),
 			GEO_BRANCH(1, hmc_dl_school_geo),
-			GEO_BRANCH(1, hmc_dl_TIE_Area1_v1_8_geo),
 			GEO_BRANCH(1, hmc_dl_TIE_Area1_v1_8_1_geo),
-			GEO_BRANCH(1, hmc_dl_wdw_item_geo),
+			GEO_BRANCH(1, hmc_dl_TIE_Area1_v2_8_geo),
+			GEO_BRANCH(1, hmc_dl_warp_obj_geo),
 		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout hmc_dl_blue_coins_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout hmc_dl_bounce_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -77,16 +93,6 @@ const GeoLayout hmc_dl_school_geo[] = {
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout hmc_dl_TIE_Area1_v1_8_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, hmc_dl_TIE_Area1_v1_8_mesh_layer_1),
-		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, hmc_dl_TIE_Area1_v1_8_mesh_layer_4),
-		GEO_CLOSE_NODE(),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
 const GeoLayout hmc_dl_TIE_Area1_v1_8_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
@@ -94,7 +100,17 @@ const GeoLayout hmc_dl_TIE_Area1_v1_8_1_geo[] = {
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
-const GeoLayout hmc_dl_wdw_item_geo[] = {
+const GeoLayout hmc_dl_TIE_Area1_v2_8_geo[] = {
+	GEO_NODE_START(),
+	GEO_OPEN_NODE(),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, hmc_dl_TIE_Area1_v2_8_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, hmc_dl_TIE_Area1_v2_8_mesh_layer_4),
+		GEO_CLOSE_NODE(),
+	GEO_CLOSE_NODE(),
+	GEO_RETURN(),
+};
+const GeoLayout hmc_dl_warp_obj_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
