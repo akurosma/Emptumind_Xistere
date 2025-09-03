@@ -53,3 +53,5 @@
 #include "rl_pillar/geo.inc.c"
 #include "rl_top/geo.inc.c"
 #include "rl_swing/geo.inc.c"
+#include "rl_swimtube/geo.inc.c"
+#include "rl_bounce/geo.inc.c"

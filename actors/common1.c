@@ -132,3 +132,7 @@ UNUSED static const u64 binid_22 = 22;
 #include "rl_top/model.inc.c"
 #include "rl_swing/collision.inc.c"
 #include "rl_swing/model.inc.c"
+#include "rl_swimtube/collision.inc.c"
+#include "rl_swimtube/model.inc.c"
+#include "rl_bounce/collision.inc.c"
+#include "rl_bounce/model.inc.c"

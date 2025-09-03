@@ -6383,3 +6383,30 @@ const BehaviorScript bhvRlTop[] = {
         CALL_NATIVE(bhv_rl_top_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRlBounce[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_bounce_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    CALL_NATIVE(bhv_rl_bounce_init),
+    BEGIN_LOOP(),
+            CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_bounce_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlSwimtube[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_swimtube_collision),
+    SET_INTERACT_TYPE(INTERACT_BOUNCE_TOP),
+    SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_rl_swimtube_init),
+    BEGIN_LOOP(),
+            CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_swimtube_loop),
+    END_LOOP(),
+};

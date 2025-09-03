@@ -50,8 +50,10 @@ void bhv_thi_tiny_island_top_loop(void) {
     } else {
         if (o->oTimer == 0) {
             gEnvironmentRegions[18] = 1100;
-            spawn_object_abs_with_rot(o, 0, MODEL_RL_LIFT, bhvRlLift, -9000, 1000, -9000, 0, 0, 0);
-            spawn_default_star(-9000.0f, 1300.0f, -9000.0f);
+            //spawn_object_abs_with_rot(o, 0, MODEL_RL_LIFT, bhvRlLift, -9000, 1000, -9000, 0, 0, 0);
+            spawn_object_abs_with_rot(o, 0, MODEL_BUBBA, bhvBubba, -9000, 1000, -8100, 0, 0, 0);
+            spawn_object_abs_with_rot(o, 0, MODEL_BUBBA, bhvBubba, -9000, 1000, -9500, 0, 0, 0);
+            spawn_default_star(-9000.0f, 1500.0f, -8805.0f);
         }
         //下がった水の表面のテクスチャを表示させたままにする rulu
         //cur_obj_hide();

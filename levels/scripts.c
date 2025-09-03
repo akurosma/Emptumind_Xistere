@@ -224,6 +224,8 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_RL_PILLAR,                    rl_pillar_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RL_SWING,                     rl_swing_geo),
     LOAD_MODEL_FROM_GEO(MODEL_RL_TOP,                       rl_top_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RL_BOUNCE,                    rl_bounce_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RL_SWIMTUBE,                  rl_swimtube_geo),
 
     RETURN(),
 };

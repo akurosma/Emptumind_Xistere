@@ -1,0 +1,16 @@
+extern const GeoLayout rl_swimtube_geo[];
+extern u8 rl_swimtube_ring_rgba16[];
+extern u8 rl_swimtube_hole_001_ci4[];
+extern u8 rl_swimtube_hole_001_pal_rgba16[];
+extern Vtx rl_swimtube_rl_swimtube_mesh_layer_1_vtx_cull[8];
+extern Vtx rl_swimtube_rl_swimtube_mesh_layer_1_vtx_0[379];
+extern Gfx rl_swimtube_rl_swimtube_mesh_layer_1_tri_0[];
+extern Vtx rl_swimtube_rl_swimtube_mesh_layer_5_vtx_cull[8];
+extern Vtx rl_swimtube_rl_swimtube_mesh_layer_5_vtx_0[18];
+extern Gfx rl_swimtube_rl_swimtube_mesh_layer_5_tri_0[];
+extern Gfx mat_rl_swimtube_f3dlite_material[];
+extern Gfx mat_revert_rl_swimtube_f3dlite_material[];
+extern Gfx mat_rl_swimtube_f3dlite_material_002[];
+extern Gfx mat_revert_rl_swimtube_f3dlite_material_002[];
+extern Gfx rl_swimtube_rl_swimtube_mesh_layer_1[];
+extern Gfx rl_swimtube_rl_swimtube_mesh_layer_5[];

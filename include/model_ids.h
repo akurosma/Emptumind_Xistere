@@ -570,6 +570,8 @@
 #define MODEL_RL_PILLAR                   0xE9
 #define MODEL_RL_SWING                    0xEA
 #define MODEL_RL_TOP                      0xEB
+#define MODEL_RL_BOUNCE                   0xEC
+#define MODEL_RL_SWIMTUBE                 0xED
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

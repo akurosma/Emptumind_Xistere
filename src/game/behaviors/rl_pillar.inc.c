@@ -1,5 +1,9 @@
 void bhv_rl_pillar_init(void) {
-   
+    if (BPARAM3 == 1) {
+        obj_scale_xyz(o, 1.0f, 1.2f, 1.0f);
+    } else {
+
+    }   
 }
 
 void bhv_rl_pillar_loop(void) {
