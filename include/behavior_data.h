@@ -572,3 +572,4 @@ extern const BehaviorScript bhvRlSwing[];
 extern const BehaviorScript bhvRlTop[];
 extern const BehaviorScript bhvRlBounce[];
 extern const BehaviorScript bhvRlSwimtube[];
+extern const BehaviorScript bhvRlSparkle[];
