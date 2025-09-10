@@ -1515,6 +1515,7 @@ const BehaviorScript bhvFlamethrower[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_HOME(),
+    CALL_NATIVE(bhv_flamethrower_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_flamethrower_loop),
     END_LOOP(),
@@ -2371,10 +2372,15 @@ const BehaviorScript bhvLllFloatingWoodBridge[] = {
 };
 
 const BehaviorScript bhvVolcanoFlames[] = {
-    BEGIN(OBJ_LIST_UNIMPORTANT),
+    BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     BILLBOARD(),
+    SET_INTERACT_TYPE(INTERACT_FLAME),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 50, /*Height*/ 25, /*Downwards offset*/ 25),
+    SET_INT(oIntangibleTimer, 0),
+    CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
+        SET_INT(oInteractStatus, INT_STATUS_NONE),
         ADD_INT(oAnimState, 1),
         CALL_NATIVE(bhv_volcano_flames_loop),
     END_LOOP(),
@@ -6408,5 +6414,15 @@ const BehaviorScript bhvRlSwimtube[] = {
     BEGIN_LOOP(),
             CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_swimtube_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlSparkle[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 90, /*Height*/ 110, /*Downwards offset*/ 5),
+    SET_INT(oIntangibleTimer, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_sparkle_loop),
     END_LOOP(),
 };

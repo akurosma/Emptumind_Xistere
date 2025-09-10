@@ -1,5 +1,26 @@
 // flamethrower.inc.c
 
+void rl_ring_spawn_flames(void) {
+    int i;
+    if (random_float() < 0.5f) {
+        i = 0;
+    } else {
+        i = 1;
+    }
+    static const int FlamePattern[] = { MODEL_RED_FLAME, MODEL_BLUE_FLAME };
+    struct Object *flameObj = spawn_object(o, FlamePattern[i], bhvVolcanoFlames);
+
+    flameObj->oPosY += 800.0f;
+    flameObj->oMoveAngleYaw = (s16) random_u16();
+    flameObj->oForwardVel = random_float() * 40.0f + 20.0f;
+    flameObj->oVelY = random_float() * 50.0f + 10.0f;
+    flameObj->oVelY = random_float() * 50.0f + 10.0f;
+
+    f32 size = random_float() * 6.0f + 3.0f;
+
+    obj_scale(flameObj, size);
+}
+
 void bhv_flamethrower_flame_loop(void) {
     f32 scale;
     s32 remainingTime;
@@ -45,7 +66,17 @@ void bhv_flamethrower_flame_loop(void) {
     }
 
     o->oInteractStatus = INT_STATUS_NONE;
+
 }
+
+
+void bhv_flamethrower_init(void) {
+    if(BPARAM2 == 0 && BPARAM3 == 1){
+        cur_obj_set_model(MODEL_BOWLING_BALL);
+        cur_obj_scale(0.5f);
+        }
+    }
+
 
 void bhv_flamethrower_loop(void) {
     if (o->oAction == FLAMETHROWER_ACT_IDLE) {
@@ -83,6 +114,9 @@ void bhv_flamethrower_loop(void) {
 
         struct Object *flame = spawn_object_relative(o->oBehParams2ndByte, 0, 0, 0, o, model, bhvFlamethrowerFlame);
         flame->oForwardVel = flameVel;
+        if (BPARAM2 == 4 && BPARAM3 ==1) {
+        rl_ring_spawn_flames();
+        }
 
         cur_obj_play_sound_1(SOUND_AIR_BLOW_FIRE);
     } else if (o->oTimer > 60) {
