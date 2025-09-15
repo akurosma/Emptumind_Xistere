@@ -1,5 +1,6 @@
 // flamethrower.inc.c
 
+//rulu 9/10 9/13
 void rl_ring_spawn_flames(void) {
     int i;
     if (random_float() < 0.5f) {
@@ -8,6 +9,9 @@ void rl_ring_spawn_flames(void) {
         i = 1;
     }
     static const int FlamePattern[] = { MODEL_RED_FLAME, MODEL_BLUE_FLAME };
+
+    if (o->oAction == FLAMETHROWER_ACT_BLOW_FIRE) {
+
     struct Object *flameObj = spawn_object(o, FlamePattern[i], bhvVolcanoFlames);
 
     flameObj->oPosY += 800.0f;
@@ -19,7 +23,12 @@ void rl_ring_spawn_flames(void) {
     f32 size = random_float() * 6.0f + 3.0f;
 
     obj_scale(flameObj, size);
+    }
+    if (o->oTimer > 63) {
+            o->oAction++; 
+        }
 }
+//rulu
 
 void bhv_flamethrower_flame_loop(void) {
     f32 scale;
@@ -33,7 +42,7 @@ void bhv_flamethrower_flame_loop(void) {
     if (o->oBehParams2ndByte == FLAMETHROWER_BP_SLOW) {
         scale = o->oTimer * (o->oForwardVel - 6.0f) / 100.0f + 2.0f;
     } else {
-        scale = o->oTimer * (o->oForwardVel - 20.0f) / 100.0f + 1.0f;
+        scale = o->oTimer * (o->oForwardVel - 6.0f) / 100.0f + 2.0f;
     }
 
     if (o->oBehParams2ndByte == FLAMETHROWER_BP_TALL_HITBOX) {
@@ -71,12 +80,13 @@ void bhv_flamethrower_flame_loop(void) {
 
 
 void bhv_flamethrower_init(void) {
+    //rulu 9/10
     if(BPARAM2 == 0 && BPARAM3 == 1){
         cur_obj_set_model(MODEL_BOWLING_BALL);
         cur_obj_scale(0.5f);
         }
     }
-
+    //rulu
 
 void bhv_flamethrower_loop(void) {
     if (o->oAction == FLAMETHROWER_ACT_IDLE) {
@@ -100,6 +110,12 @@ void bhv_flamethrower_loop(void) {
             flameVel = 50.0f;
         }
 
+        //rulu 9/13
+        if (BPARAM2 == 4 && BPARAM3 == 1) {
+            flameVel = 45.0f;
+        }
+        //rulu
+
         f32 flameTimeRemaining = 1;
 
         if (o->oTimer < 60) {
@@ -114,9 +130,12 @@ void bhv_flamethrower_loop(void) {
 
         struct Object *flame = spawn_object_relative(o->oBehParams2ndByte, 0, 0, 0, o, model, bhvFlamethrowerFlame);
         flame->oForwardVel = flameVel;
-        if (BPARAM2 == 4 && BPARAM3 ==1) {
+        //rulu 9/10 9/13
+        if (BPARAM2 == 4 && BPARAM3 ==1 && o->oTimer > 10) {
+        rl_ring_spawn_flames();
         rl_ring_spawn_flames();
         }
+        //rulu
 
         cur_obj_play_sound_1(SOUND_AIR_BLOW_FIRE);
     } else if (o->oTimer > 60) {

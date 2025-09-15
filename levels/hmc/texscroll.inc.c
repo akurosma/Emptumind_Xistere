@@ -1,32 +1,11 @@
-void scroll_hmc_dl_TIE_Area1_v3_1_mesh_layer_1_vtx_24() {
+void scroll_hmc_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24() {
 	int i = 0;
-	int count = 17;
+	int count = 56;
 	int width = 32 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(hmc_dl_TIE_Area1_v3_1_mesh_layer_1_vtx_24);
-
-	deltaX = (int)(0.009999999776482582 * 0x20) % width;
-
-	if (absi(currentX) > width) {
-		deltaX -= (int)(absi(currentX) / width) * width * signum_positive(deltaX);
-	}
-
-	for (i = 0; i < count; i++) {
-		vertices[i].n.tc[0] += deltaX;
-	}
-	currentX += deltaX;
-}
-
-void scroll_hmc_dl_TIE_Area1_v3_1_mesh_layer_1_vtx_28() {
-	int i = 0;
-	int count = 24;
-	int width = 32 * 0x20;
-
-	static int currentX = 0;
-	int deltaX;
-	Vtx *vertices = segmented_to_virtual(hmc_dl_TIE_Area1_v3_1_mesh_layer_1_vtx_28);
+	Vtx *vertices = segmented_to_virtual(hmc_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24);
 
 	deltaX = (int)(0.009999999776482582 * 0x20) % width;
 
@@ -49,18 +28,7 @@ void scroll_gfx_mat_hmc_dl__09_f3d_layer1() {
 
 };
 
-void scroll_gfx_mat_hmc_dl__31_f3d_layer1() {
-	Gfx *mat = segmented_to_virtual(mat_hmc_dl__31_f3d_layer1);
-
-
-	shift_s(mat, 14, PACK_TILESIZE(0, 1));
-	shift_s(mat, 19, PACK_TILESIZE(0, 2));
-
-};
-
 void scroll_hmc() {
-	scroll_hmc_dl_TIE_Area1_v3_1_mesh_layer_1_vtx_24();
-	scroll_hmc_dl_TIE_Area1_v3_1_mesh_layer_1_vtx_28();
+	scroll_hmc_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24();
 	scroll_gfx_mat_hmc_dl__09_f3d_layer1();
-	scroll_gfx_mat_hmc_dl__31_f3d_layer1();
 };

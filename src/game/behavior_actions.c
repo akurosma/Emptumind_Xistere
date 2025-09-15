@@ -256,3 +256,4 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/rl_bounce.inc.c"
 #include "behaviors/rl_swimtube.inc.c"
 #include "behaviors/rl_sparkle.inc.c"
+#include "behaviors/rl_train.inc.c"
