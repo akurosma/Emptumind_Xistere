@@ -6426,3 +6426,27 @@ const BehaviorScript bhvRlSparkle[] = {
         CALL_NATIVE(bhv_rl_sparkle_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRlTrain[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_train_collision),
+    SET_FLOAT(oDrawingDistance, 10000),
+    CALL_NATIVE(bhv_rl_train_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_train_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlGate[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_rl_gate_init),
+    LOAD_COLLISION_DATA(hmc_seg7_collision_grill_door),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_gate_update),
+    END_LOOP(),
+};
