@@ -3,12 +3,14 @@
 //rulu 9/10 9/13
 void rl_ring_spawn_flames(void) {
     int i;
-    if (random_float() < 0.5f) {
+    if (random_float() < 0.4f) {
         i = 0;
-    } else {
+    } else if (random_float() < 0.5f) {
         i = 1;
+    } else {
+        i = 2;
     }
-    static const int FlamePattern[] = { MODEL_RED_FLAME, MODEL_BLUE_FLAME };
+    static const int FlamePattern[] = { MODEL_GREEN_FLAME, MODEL_PINK_FLAME, MODEL_BLUE_FLAME };
 
     if (o->oAction == FLAMETHROWER_ACT_BLOW_FIRE) {
 
@@ -112,6 +114,7 @@ void bhv_flamethrower_loop(void) {
 
         //rulu 9/13
         if (BPARAM2 == 4 && BPARAM3 == 1) {
+            model = MODEL_YELLOW_FLAME;
             flameVel = 45.0f;
         }
         //rulu
@@ -132,7 +135,6 @@ void bhv_flamethrower_loop(void) {
         flame->oForwardVel = flameVel;
         //rulu 9/10 9/13
         if (BPARAM2 == 4 && BPARAM3 ==1 && o->oTimer > 10) {
-        rl_ring_spawn_flames();
         rl_ring_spawn_flames();
         }
         //rulu

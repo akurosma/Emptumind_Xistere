@@ -14,6 +14,7 @@
 #include "door/geo.inc.c"
 #include "bowser_key/geo.inc.c"
 #include "flame/geo.inc.c"
+#include "flame2/geo.inc.c"
 #include "blue_fish/geo.inc.c"
 #include "leaves/geo.inc.c"
 #include "mario_cap/geo.inc.c"

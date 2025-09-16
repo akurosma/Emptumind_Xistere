@@ -89,7 +89,7 @@ const LevelScript level_hmc_entry[] = {
 		OBJECT(MODEL_NONE, 8473, 50, -10703, 0, 0, 0, 0x00000000, bhvBubSpawner),
 		OBJECT(MODEL_CHUCKYA, 12042, 651, -7034, 0, 0, 0, 0x00000000, bhvChuckya),
 		OBJECT(MODEL_CHUCKYA, 11813, 1601, -3352, 0, 0, 0, 0x00000000, bhvChuckya),
-		OBJECT(MODEL_CHUCKYA, 1700, 980, -7625, 0, 0, 0, 0x00000000, bhvChuckya),
+		//OBJECT(MODEL_CHUCKYA, 1700, 980, -7625, 0, 0, 0, 0x00000000, bhvChuckya),
 		OBJECT(MODEL_HMC_WOODEN_DOOR, 6955, 0, -13150, 0, -180, 0, (22 << 16), bhvDoorWarp),
 		OBJECT(MODEL_HMC_WOODEN_DOOR, 6181, 0, -12303, 0, 45, 0, (23 << 16), bhvDoorWarp),
 		OBJECT(MODEL_HMC_WOODEN_DOOR, 6287, 0, -12409, 0, -135, 0, (24 << 16), bhvDoorWarp),

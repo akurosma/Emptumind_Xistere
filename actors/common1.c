@@ -39,6 +39,9 @@ UNUSED static const u64 binid_6 = 6;
 #include "flame/model.inc.c"
 UNUSED static const u64 binid_7 = 7;
 
+#include "flame2/model.inc.c"
+UNUSED static const u64 rl_binid_7 = 7;
+
 #include "blue_fish/model.inc.c"
 #include "blue_fish/anims/data.inc.c"
 #include "blue_fish/anims/table.inc.c"
