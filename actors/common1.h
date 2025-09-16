@@ -169,6 +169,9 @@ extern const Gfx explosion_seg3_dl_03004328[];
 extern const GeoLayout red_flame_shadow_geo[];
 extern const GeoLayout red_flame_geo[];
 extern const GeoLayout blue_flame_geo[];
+extern const GeoLayout yellow_flame_geo[];
+extern const GeoLayout green_flame_geo[];
+extern const GeoLayout pink_flame_geo[];
 extern const Gfx flame_seg3_dl_0301B320[];
 extern const Gfx flame_seg3_dl_0301B3B0[];
 extern const Gfx flame_seg3_dl_0301B3C8[];
@@ -187,6 +190,25 @@ extern const Gfx flame_seg3_dl_0301B560[];
 extern const Gfx flame_seg3_dl_0301B578[];
 extern const Gfx flame_seg3_dl_0301B590[];
 extern const Gfx flame_seg3_dl_0301B5A8[];
+
+extern const Gfx green_flame_seg3_dl_0301B320[];
+extern const Gfx green_flame_seg3_dl_0301B3B0[];
+extern const Gfx green_flame_seg3_dl_0301B3C8[];
+extern const Gfx green_flame_seg3_dl_0301B3E0[];
+extern const Gfx green_flame_seg3_dl_0301B3F8[];
+extern const Gfx green_flame_seg3_dl_0301B410[];
+extern const Gfx green_flame_seg3_dl_0301B428[];
+extern const Gfx green_flame_seg3_dl_0301B440[];
+extern const Gfx green_flame_seg3_dl_0301B458[];
+extern const Gfx green_flame_seg3_dl_0301B470[];
+extern const Gfx pink_flame_seg3_dl_0301B500[];
+extern const Gfx pink_flame_seg3_dl_0301B518[];
+extern const Gfx pink_flame_seg3_dl_0301B530[];
+extern const Gfx pink_flame_seg3_dl_0301B548[];
+extern const Gfx pink_flame_seg3_dl_0301B560[];
+extern const Gfx pink_flame_seg3_dl_0301B578[];
+extern const Gfx pink_flame_seg3_dl_0301B590[];
+extern const Gfx pink_flame_seg3_dl_0301B5A8[];
 
 // leaves
 extern const GeoLayout leaves_geo[];

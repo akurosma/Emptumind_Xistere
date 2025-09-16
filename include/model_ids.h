@@ -573,6 +573,9 @@
 #define MODEL_RL_BOUNCE                   0xEC
 #define MODEL_RL_SWIMTUBE                 0xED
 #define MODEL_RL_TRAIN                    0xEE
+#define MODEL_YELLOW_FLAME                0xEF
+#define MODEL_GREEN_FLAME                 0xF0
+#define MODEL_PINK_FLAME                  0xF1
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0
