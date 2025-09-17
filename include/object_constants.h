@@ -2194,6 +2194,11 @@ enum animIDsFirePiranhaPlant {
     #define FIRE_SPITTER_ACT_IDLE                           0x0
     #define FIRE_SPITTER_ACT_SPIT_FIRE                      0x1
 
+/* Rl Fire Spitter */
+/* oAction */
+    #define RL_FIRESPITTER_ACT_IDLE                           0x0
+    #define RL_FIRESPITTER_ACT_SPIT_FIRE                      0x1
+
 /* Moving Flame */
     /* oBehParams2ndByte */
     #define MOVING_FLAME_BP_1FRAME                          0x0
@@ -2488,6 +2493,20 @@ enum animIDsFirePiranhaPlant {
     #define TRIPLET_BUTTERFLY_TYPE_EXPLODES                 0x0
     #define TRIPLET_BUTTERFLY_TYPE_SPAWN_1UP                0x1
 
+/* Rl Triplet butterfly */
+    /* oBehParams2ndByte */
+    #define RL_TRIPLETBUTTERFLY_BP_0                          0x0
+    #define RL_TRIPLETBUTTERFLY_BP_BUTTERFLY_NUM              0x3
+    #define RL_TRIPLETBUTTERFLY_BP_NO_BOMBS                   0x4
+    /* oAction */
+    #define RL_TRIPLETBUTTERFLY_ACT_INIT                      0x0
+    #define RL_TRIPLETBUTTERFLY_ACT_WANDER                    0x1
+    #define RL_TRIPLETBUTTERFLY_ACT_ACTIVATE                  0x2
+    #define RL_TRIPLETBUTTERFLY_ACT_EXPLODE                   0x3
+    /* oTripletButterflyType */
+    #define RL_TRIPLETBUTTERFLY_TYPE_NORMAL                  -0x1
+    #define RL_TRIPLETBUTTERFLY_TYPE_EXPLODES                 0x0
+    #define RL_TRIPLETBUTTERFLY_TYPE_SPAWN_1UP                0x1
 
 /* Changing Water Level */
     /* oAction */
