@@ -575,3 +575,5 @@ extern const BehaviorScript bhvRlSwimtube[];
 extern const BehaviorScript bhvRlSparkle[];
 extern const BehaviorScript bhvRlTrain[];
 extern const BehaviorScript bhvRlGate[];
+extern const BehaviorScript bhvRlFirespitter[];
+extern const BehaviorScript bhvRlTripletflame[];
