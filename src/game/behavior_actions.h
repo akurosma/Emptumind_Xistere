@@ -642,3 +642,6 @@ void bhv_rl_gate_init(void);
 void bhv_rl_gate_update(void);
 void bhv_rl_tripletflame_update(void);
 void bhv_rl_firespitter_update(void);
+void bhv_rl_movingflame_loop(void);
+void bhv_rl_growflame_init(void);
+void bhv_rl_growflame_loop(void);
