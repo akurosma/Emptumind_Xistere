@@ -67,6 +67,7 @@ enum SeqId {
     SEQ_PSS_MAIN,                     // 0x31
     SEQ_PSS_MIRROR,                   // 0x32
     SEQ_SCIENCE,                      // 0x33
+    SEQ_HMC_RULU,                     // 0x34
     // end
     SEQ_COUNT
 };

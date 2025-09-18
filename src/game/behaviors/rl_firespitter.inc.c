@@ -1,5 +1,18 @@
 // rl_fire_spitter.inc.c
 
+static f32 random_float_ft(f32 from, f32 to)
+{
+    f32 d = to - from;
+    return from + random_float() * d;
+}
+
+static f32 random_float_ft_biased(f32 from, f32 to, f32 bias)
+{
+    f32 d = to - from;
+    f32 rad = d / 100;
+    return from + bias * d + random_f32_around_zero(rad);
+}
+
 void bhv_rl_firespitter_update(void) {
     s32 scaleStatus;
 
@@ -80,6 +93,7 @@ void bhv_rl_firespitter_update(void) {
         break;
 
         case 5:
+            if (random_float() < 0.4f) {
             scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
             cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
             //spawn_object_abs_with_rot(o, 0, MODEL_RED_FLAME, bhvRlGrowflame, 8150, 550, 11088, 0, 0, 0);
@@ -97,6 +111,30 @@ void bhv_rl_firespitter_update(void) {
                 spawn_object_relative(i, 0, 0, 0, o, MODEL_BUTTERFLY, bhvTripletButterfly);
             }*/
             o->oAction = 0;
+            } else {
+                o->oAction = 6;
+            }
+        break;
+
+        case 6:
+        scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
+        struct Object* rlball;
+            for (i = 1; i <= 15; i++) {
+                rlball = spawn_object_relative(i, 0, 0, 0, o, MODEL_BOWLING_BALL, bhvRlGrowflame);
+                //obj_scale_xyz(rlball, 1.3f, 1.3f, 1.3f);
+                rlball->oPosX = random_float_ft(7600.f, 8750.f);
+                rlball->oPosY = 750.f - random_float() * 225.f;
+                rlball->oPosZ = random_float_ft(10525.f, 11650.f);
+                rlball->oFaceAngleYaw = random_u16();
+                rlball->oBehParams2ndByte = i;
+            }
+                o->oAction = 7;
+        break;
+
+        case 7:
+            if (o->oTimer > 10) {
+                o->oAction = 0;
+            }
         break;
         }
     }
