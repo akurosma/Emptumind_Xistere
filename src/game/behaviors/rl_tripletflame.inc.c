@@ -1,5 +1,5 @@
 // triplet_butterfly.inc.c
-
+//rulu 爆弾出現させるようで作ったけどよくわからんから保留。多分要らん
 struct RlTripletButterflyActivationData {
     ModelID32 model;
     const BehaviorScript *behavior;
@@ -60,7 +60,7 @@ static void rl_tripletbutterfly_act_wander(void) {
         obj_mark_for_deletion(o);
     } else {
         approach_f32_ptr(&o->oTripletButterflySpeed, 8.0f, 0.5f);
-        if (o->oTimer < 60) {
+        if (o->oTimer > 30) {
             o->oTripletButterflyTargetYaw = cur_obj_angle_to_home();
         } else {
             o->oTripletButterflyTargetYaw = (s32) o->oTripletButterflyBaseYaw;
@@ -125,7 +125,7 @@ static void rl_tripletbutterfly_act_explode(void) {
         spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
         obj_mark_for_deletion(o);
     } else {
-        if (o->oTimer > 120) {
+        if (o->oTimer > 55) {
             f32 scaleIncrease = 0.04f * coss(o->oTripletButterflyScalePhase);
             if (scaleIncrease > 0.0f) {
                 scaleIncrease *= 4.5f;

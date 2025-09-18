@@ -822,3 +822,19 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/bubba.inc.c"
 #include "behaviors/rl_firespitter.inc.c"
 #include "behaviors/rl_tripletflame.inc.c"
+
+/**
+ * Used by rl_firespitter.
+ */
+void obj_rl_movefire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 scale, ModelID32 model,
+                   f32 startSpeed, f32 endSpeed, s16 movePitch) {
+    struct Object *obj = spawn_object_relative_with_scale(MOVING_FLAME_BP_MOVE, relativePosX, relativePosY, relativePosZ,
+                                                           scale, o, model, bhvRlMovingflame);
+
+    if (obj != NULL) {
+        obj->oSmallPiranhaFlameStartSpeed = startSpeed;
+        obj->oSmallPiranhaFlameEndSpeed = endSpeed;
+        obj->oSmallPiranhaFlameModel = model;
+        obj->oMoveAnglePitch = movePitch;
+    }
+}

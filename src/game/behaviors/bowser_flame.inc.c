@@ -246,7 +246,11 @@ void bhv_flame_bouncing_loop(void) {
     if (bowser_flame_should_despawn(300)) {
         obj_mark_for_deletion(o);
     }
-
+    // rulu 9/18
+    if (o->oMoveFlags & (OBJ_MOVE_AT_WATER_SURFACE | OBJ_MOVE_UNDERWATER_OFF_GROUND | OBJ_MOVE_HIT_WALL)) {
+        obj_mark_for_deletion(o);
+    }
+    //rulu
     if (bowser != NULL) {
         if (bowser->oHeldState == HELD_FREE) {
             if (lateral_dist_between_objects(o, bowser) < 300.0f) {

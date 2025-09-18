@@ -2198,6 +2198,8 @@ enum animIDsFirePiranhaPlant {
 /* oAction */
     #define RL_FIRESPITTER_ACT_IDLE                           0x0
     #define RL_FIRESPITTER_ACT_SPIT_FIRE                      0x1
+    #define RL_FIRESPITTER_ACT_CIRCLE_IDLE                    0x2
+    #define RL_FIRESPITTER_ACT_CIRCLE_FIRE                    0x3
 
 /* Moving Flame */
     /* oBehParams2ndByte */
