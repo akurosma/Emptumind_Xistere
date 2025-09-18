@@ -1,3 +1,4 @@
+extern const BehaviorScript bhvHorStarParticleSpawner[];
 
 void bounce_off_object(struct MarioState *m, struct Object *o, f32 velY);
 struct ObjectHitbox sRlBounceHitbox = {
@@ -49,6 +50,7 @@ f32 B2 = BPARAM2;
 			break;
 	}
 	if (obj_check_if_collided_with_object(o, gMarioObject) && o->oAction==0) {
+		spawn_object(o, MODEL_NONE, bhvHorStarParticleSpawner);
             set_mario_action(gMarioState, ACT_TRIPLE_JUMP, 0);
 			//if (BPARAM1 <= 10) {
             //    gMarioState->forwardVel *= B1;
