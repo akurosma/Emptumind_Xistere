@@ -6434,6 +6434,7 @@ const BehaviorScript bhvRlTrain[] = {
     LOAD_COLLISION_DATA(rl_train_collision),
     SET_FLOAT(oDrawingDistance, 10000),
     CALL_NATIVE(bhv_rl_train_init),
+    CALL_NATIVE(rltrain_spawn),
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_train_loop),
