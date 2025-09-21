@@ -1,5 +1,13 @@
 // rl_fire_spitter.inc.c
 
+/*回数確認用
+    int countTOTAL = 0;
+    int countCase1 = 0;
+    int countCase2 = 0;
+    int countCase5 = 0;
+    int countCase6 = 0;
+*/
+
 static f32 random_float_ft(f32 from, f32 to)
 {
     f32 d = to - from;
@@ -14,6 +22,7 @@ static f32 random_float_ft_biased(f32 from, f32 to, f32 bias)
 }
 
 void bhv_rl_firespitter_update(void) {
+s32 i ;
     s32 scaleStatus;
 
     o->oMoveAngleYaw = o->oAngleToMario;
@@ -21,14 +30,25 @@ void bhv_rl_firespitter_update(void) {
     cur_obj_scale(o->header.gfx.scale[0]);
     o->oGraphYOffset = 40.0f;
 
-    /*char string[32];
-    int x = 10;
-    int y = 10;
-    sprintf(string, "y:%d", o->oAction);
-    print_text(x, y, string, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, 1);
-    print_set_envcolour(0, 255, 255, 255);*/
+/*回数確認用
+char buffer[64];
 
-    s32 i ;
+sprintf(buffer, "TOTAL:%d",countTOTAL);
+print_text(10, 10, buffer);
+
+sprintf(buffer, "Case 1:%d",countCase1);
+print_text(10, 30, buffer);
+
+sprintf(buffer, "Case 2:%d",countCase2);
+print_text(10, 50, buffer);
+
+sprintf(buffer, "Case 5:%d",countCase5);
+print_text(10, 70, buffer);
+
+sprintf(buffer, "Case 6:%d",countCase6);
+print_text(10, 90, buffer);
+*/
+
     switch (o->oAction) {
         case 0:
             approach_f32_ptr(&o->header.gfx.scale[0], 0.2f, 0.002f);
@@ -39,7 +59,13 @@ void bhv_rl_firespitter_update(void) {
         break;
 
         case 1:
-            if (random_float() < 0.4f) {
+        /*確認用
+            countTOTAL++;
+        */
+            if (random_float() < 0.25f) {
+                /*確認用
+                countCase1++;
+                */
                 scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
                 cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
                 spawn_object_relative_with_scale(1, 0, 0, 0, 8.0f, o, MODEL_BLUE_FLAME,
@@ -55,7 +81,10 @@ void bhv_rl_firespitter_update(void) {
         break;
 
         case 2:
-            if (random_float() < 0.4f) {
+            if (random_float() < 0.3333f) {
+            /*確認用
+            countCase2++;
+            */
             scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
             cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
             for (i = 0; i < 4; i++) {
@@ -93,7 +122,10 @@ void bhv_rl_firespitter_update(void) {
         break;
 
         case 5:
-            if (random_float() < 0.4f) {
+            if (random_float() < 0.5f) {
+            /*確認用
+            countCase5++;
+            */
             scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
             cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
             //spawn_object_abs_with_rot(o, 0, MODEL_RED_FLAME, bhvRlGrowflame, 8150, 550, 11088, 0, 0, 0);
@@ -117,14 +149,17 @@ void bhv_rl_firespitter_update(void) {
         break;
 
         case 6:
+        /*確認用
+        countCase6++;
+        */
         scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
         struct Object* rlball;
             for (i = 1; i <= 15; i++) {
                 rlball = spawn_object_relative(i, 0, 0, 0, o, MODEL_BOWLING_BALL, bhvRlGrowflame);
                 //obj_scale_xyz(rlball, 1.3f, 1.3f, 1.3f);
-                rlball->oPosX = random_float_ft(7600.f, 8750.f);
+                rlball->oPosX = random_float_ft(7550.f, 8800.f);
                 rlball->oPosY = 750.f - random_float() * 225.f;
-                rlball->oPosZ = random_float_ft(10525.f, 11650.f);
+                rlball->oPosZ = random_float_ft(10475.f, 11700.f);
                 rlball->oFaceAngleYaw = random_u16();
                 rlball->oBehParams2ndByte = i;
             }
