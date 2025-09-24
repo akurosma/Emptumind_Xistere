@@ -828,7 +828,7 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
  * Used by rl_firespitter.
  */
 void obj_rl_movefire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 scale, ModelID32 model,
-                   f32 startSpeed, f32 endSpeed, s16 movePitch) {
+                   f32 startSpeed, f32 endSpeed, s16 movePitch, s16 moveYaw) {
     struct Object *obj = spawn_object_relative_with_scale(MOVING_FLAME_BP_MOVE, relativePosX, relativePosY, relativePosZ,
                                                            scale, o, model, bhvRlMovingflame);
 
@@ -837,5 +837,6 @@ void obj_rl_movefire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 s
         obj->oSmallPiranhaFlameEndSpeed = endSpeed;
         obj->oSmallPiranhaFlameModel = model;
         obj->oMoveAnglePitch = movePitch;
+        obj->oMoveAngleYaw = moveYaw;
     }
 }

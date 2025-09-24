@@ -7,6 +7,9 @@
 static float TramScale = 1.0f;
 void bhv_rl_train_init(void) {
    TramScale = 1.0f;
+   //if (gCurrActNum == 1) {
+   //     obj_mark_for_deletion(o);
+   //}
 }
 
 void rltrain_spawn(void) {
