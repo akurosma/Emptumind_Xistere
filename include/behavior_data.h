@@ -579,3 +579,5 @@ extern const BehaviorScript bhvRlFirespitter[];
 extern const BehaviorScript bhvRlTripletflame[];
 extern const BehaviorScript bhvRlMovingflame[];
 extern const BehaviorScript bhvRlGrowflame[];
+extern const BehaviorScript bhvRlSpawnerbounce[];
+extern const BehaviorScript bhvRlStarindicator[];

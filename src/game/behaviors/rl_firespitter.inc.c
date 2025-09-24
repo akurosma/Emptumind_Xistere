@@ -88,8 +88,8 @@ print_text(10, 90, buffer);
             scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
             cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
             for (i = 0; i < 4; i++) {
-                o->oMoveAngleYaw += i * DEGREES(90);
-                obj_rl_movefire(0, 0, 0, 5.0f, MODEL_RED_FLAME, 20.0f, 15.0f, 0x1000);
+                s16 angle = i * 0x10000 / 4;
+                obj_rl_movefire(0, 0, 0, 5.0f, MODEL_RED_FLAME, 20.0f, 15.0f, 0x1000, angle);
                 o->oAction = 3;
             }
             } else {
@@ -102,8 +102,8 @@ print_text(10, 90, buffer);
                 scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
                 cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
                 for (i = 0; i < 8; i++) {
-                o->oMoveAngleYaw += i * DEGREES(45);
-                obj_rl_movefire(0, 0, 0, 5.0f, MODEL_PINK_FLAME, 20.0f, 15.0f, 0x1000);
+                s16 angle = i * 0x10000 / 8;
+                obj_rl_movefire(0, 0, 0, 5.0f, MODEL_PINK_FLAME, 20.0f, 15.0f, 0x1000, angle);
                 o->oAction = 4;    
             } 
             }
@@ -111,13 +111,13 @@ print_text(10, 90, buffer);
 
         case 4:
             if (o->oTimer > 30) {
-                scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
-                cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
-                for (i = 0; i < 20; i++) {
-                o->oMoveAngleYaw += i * DEGREES(2);
-                obj_rl_movefire(0, 0, 0, 5.0f, MODEL_BLUE_FLAME, 20.0f, 15.0f, 0x1000);
-                o->oAction = 0;    
-            } 
+                   scaleStatus = obj_grow_then_shrink(&o->oFireSpitterScaleVel, 0.15f, 0.1f);
+                    cur_obj_play_sound_2(SOUND_OBJ_FLAME_BLOWN);
+                    for (i = 0; i < 20; i++) {
+                        s16 angle = i * 0x10000 / 20;
+                        obj_rl_movefire(0, 0, 0, 5.0f, MODEL_BLUE_FLAME, 20.0f, 15.0f, 0x1000, angle);
+                        o->oAction = 0;
+                    }
             }
         break;
 

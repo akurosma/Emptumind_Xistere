@@ -6397,6 +6397,7 @@ const BehaviorScript bhvRlBounce[] = {
     LOAD_COLLISION_DATA(rl_bounce_collision),
     SET_FLOAT(oDrawingDistance, 6000),
     CALL_NATIVE(bhv_rl_bounce_init),
+    CALL_NATIVE(rlbounce_spawn),
     BEGIN_LOOP(),
             CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_bounce_loop),
@@ -6506,5 +6507,29 @@ const BehaviorScript bhvRlGrowflame[] = {
         CALL_NATIVE(bhv_rl_growflame_loop),
         SET_INT(oInteractStatus, INT_STATUS_NONE),
         ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlSpawnerbounce[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_bounce_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 90, /*Height*/ 110, /*Downwards offset*/ 5),
+    CALL_NATIVE(bhv_rl_spawnerbounce_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_spawnerbounce_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlStarindicator[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+        CALL_NATIVE(bhv_rl_starindicator_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_starindicator_loop),
     END_LOOP(),
 };
