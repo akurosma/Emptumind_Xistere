@@ -6,9 +6,9 @@ COURSE_ACTS(COURSE_WF, _(" 2 WHOMP'S FORTRESS"),
        _("CHIP OFF WHOMP'S BLOCK")        , _("TO THE TOP OF THE FORTRESS")    , _("SHOOT INTO THE WILD BLUE"),
        _("RED COINS ON THE FLOATING ISLE"), _("FALL ONTO THE CAGED ISLAND")    , _("BLAST AWAY THE WALL"))
 
-COURSE_ACTS(COURSE_JRB, _(" 3 Chamber of Twisting Paths"),
-       _("PLUNDER IN THE SUNKEN SHIP")    , _("CAN THE EEL COME OUT TO PLAY?") , _("TREASURE OF THE OCEAN CAVE"),
-       _("RED COINS ON THE SHIP AFLOAT")  , _("BLAST TO THE STONE PILLAR")     , _("MARIO IS YOU"))
+COURSE_ACTS(COURSE_JRB, _(" 3 The Luminize Lab"),
+       _("A")                             , _("A")                             , _("A"),
+       _("A")                             , _("A STAR BEHIND YOU")             , _("A"))
 
 COURSE_ACTS(COURSE_CCM, _(" 4 COOL, COOL MOUNTAIN"),
        _("SLIP SLIDIN' AWAY")             , _("LI'L PENGUIN LOST")             , _("BIG PENGUIN RACE"),

@@ -3,7 +3,12 @@
 const GeoLayout jrb_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 42, 150, -56, jrb_dl_Plane_mesh_layer_1),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, jrb_dl__C3_entrance_mesh_layer_1),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, jrb_dl__C3_room1_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, jrb_dl__C3_room1_mesh_layer_5),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, jrb_dl__C3_room1_mesh_layer_4),
+		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -14,7 +19,7 @@ const GeoLayout jrb_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND(BACKGROUND_STARRYSKY, geo_skybox_main),
+				GEO_BACKGROUND_COLOR(0x0001),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),

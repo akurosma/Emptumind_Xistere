@@ -129,11 +129,16 @@ void bhv_master_Key_loop(void) {
     }
 }
 
-void bhv_sinMovingPlatform_init(void) {
+void bhv_wavePlatform_init(void) {
    
 }
 
-void bhv_sinMovingPlatform_loop(void) {
+void bhv_wavePlatform_loop(void) {
+    /*
+    Bparam1 方向 012 xyz　Yが上
+    Bparam2 範囲 100×Bparm2 Unit
+    Bparam3 周期
+    */
     if(cur_obj_is_mario_on_platform()){
         o->oTimer--;
     }
@@ -153,6 +158,32 @@ void bhv_sinMovingPlatform_loop(void) {
             default:
                 break;
         }
+    }
+}
+
+void bhv_needle_platform_init(void) {
+    
+}
+
+void bhv_needle_platform_loop(void) {
+    switch (o->oAction) {
+        case 0: 
+            if (o->oTimer > 30) { 
+                o->oPosY -= 80;
+                o->oAction = 1;
+                o->oTimer = 0; 
+                cur_obj_hide();
+            }
+            break;
+
+        case 1: 
+            if (o->oTimer > 60) { 
+                o->oPosY = o->oHomeY;
+                o->oAction = 0;
+                o->oTimer = 0; 
+                cur_obj_unhide();
+            }
+            break;
     }
 }
 

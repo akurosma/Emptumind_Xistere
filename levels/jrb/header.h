@@ -82,4 +82,12 @@ extern const LevelScript level_jrb_entry[];
 
 #include "levels/jrb/key_blue/geo_header.h"
 
+#include "levels/jrb/needle/geo_header.h"
+
+#include "levels/jrb/wave_platform/geo_header.h"
+
+#include "levels/jrb/wave_platform/collision_header.h"
+
+#include "levels/jrb/needle/collision_header.h"
+
 #endif

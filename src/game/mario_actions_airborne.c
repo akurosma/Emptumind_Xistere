@@ -1142,6 +1142,11 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
 }
 
 s32 check_wall_kick(struct MarioState *m) {
+    if (m->wallLastType == SURFACE_NO_WALLKICKS)
+    {
+        return FALSE;
+    }
+    
     if(m->wallLastType == SURFACE_B_BUTTON_WALL){
         if ((m->input & INPUT_B_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
             m->faceAngle[1] += 0x8000;

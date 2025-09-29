@@ -561,7 +561,7 @@ extern const BehaviorScript bhvMovingWall[];
 
 extern const BehaviorScript bhvKeyBlock[];
 extern const BehaviorScript bhvMasterKey[];
-extern const BehaviorScript bhvSinmovingplatform[];
+extern const BehaviorScript bhvWaveplatform[];
 extern const BehaviorScript bhvBarreljet[];
 extern const BehaviorScript bhvBarrelSpeedUp[];
 extern const BehaviorScript bhvRlBridge[];
@@ -581,3 +581,4 @@ extern const BehaviorScript bhvRlMovingflame[];
 extern const BehaviorScript bhvRlGrowflame[];
 extern const BehaviorScript bhvRlSpawnerbounce[];
 extern const BehaviorScript bhvRlStarindicator[];
+extern const BehaviorScript bhvNeedlePlatform[];
