@@ -150,6 +150,8 @@
 #define MODEL_KEY_RED                             0x43
 #define MODEL_KEY_GREEN                           0x44
 #define MODEL_KEY_BLUE                            0x45
+#define MODEL_WAVE_PLATFORM                       0x46
+#define MODEL_NEEDLE                              0x47
 
 // thi
 #define MODEL_THI_HUGE_ISLAND_TOP                 0x36        // thi_geo_0005B0

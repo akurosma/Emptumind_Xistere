@@ -30,3 +30,5 @@
 #include "levels/jrb/key_green/geo.inc.c"
 #include "levels/jrb/key_red/geo.inc.c"
 #include "levels/jrb/key_blue/geo.inc.c"
+#include "levels/jrb/needle/geo.inc.c"
+#include "levels/jrb/wave_platform/geo.inc.c"

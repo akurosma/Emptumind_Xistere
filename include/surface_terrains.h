@@ -21,7 +21,7 @@ enum SurfaceTypes {
     SURFACE_DEGREES90_WALL,             // 0x000C // able to wallkick 90
     SURFACE_WATER,                      // 0x000D // Water, has no action, used on some waterboxes below
     SURFACE_FLOWING_WATER,              // 0x000E // Water (flowing), has parameters
-    SURFACE_000F,                       // 0x000F // Unused
+    SURFACE_NO_WALLKICKS,               // 0x000F // Unused
     SURFACE_0010,                       // 0x0010 // Unused
     SURFACE_0011,                       // 0x0011 // Unused
     SURFACE_INTANGIBLE,                 // 0x0012 // Intangible (Separates BBH mansion from merry-go-round, for room usage)

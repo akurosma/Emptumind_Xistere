@@ -6255,15 +6255,17 @@ const BehaviorScript bhvMasterKey[] = {
     END_LOOP(),
 };
 
-const BehaviorScript bhvSinmovingplatform[] = {
+const BehaviorScript bhvWaveplatform[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_HOME(),
     SET_FLOAT(oDrawingDistance, 20000),
     SET_FLOAT(oCollisionDistance, 20000),
-    CALL_NATIVE(bhv_sinMovingPlatform_init),
+    LOAD_COLLISION_DATA(wave_platform_collision),
+    CALL_NATIVE(bhv_wavePlatform_init),
     BEGIN_LOOP(),
-        CALL_NATIVE(bhv_sinMovingPlatform_loop),
+        CALL_NATIVE(bhv_wavePlatform_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
 
@@ -6531,5 +6533,18 @@ const BehaviorScript bhvRlStarindicator[] = {
         CALL_NATIVE(bhv_rl_starindicator_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rl_starindicator_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvNeedlePlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(needle_collision),
+    SET_FLOAT(oDrawingDistance, 10000),
+    CALL_NATIVE(bhv_needle_platform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_needle_platform_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

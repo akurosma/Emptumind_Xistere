@@ -50,3 +50,7 @@
 #include "levels/jrb/key_green/model.inc.c"
 #include "levels/jrb/key_red/model.inc.c"
 #include "levels/jrb/key_blue/model.inc.c"
+#include "levels/jrb/needle/model.inc.c"
+#include "levels/jrb/wave_platform/model.inc.c"
+#include "levels/jrb/wave_platform/collision.inc.c"
+#include "levels/jrb/needle/collision.inc.c"
