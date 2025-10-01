@@ -6548,3 +6548,16 @@ const BehaviorScript bhvNeedlePlatform[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+const BehaviorScript bhvRlMarker[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    SET_HOME(),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_marker_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    CALL_NATIVE(bhv_rl_marker_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_marker_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

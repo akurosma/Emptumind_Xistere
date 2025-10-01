@@ -432,43 +432,22 @@ For now, reporting live,\n\
 this has been the\n\
 Lakitu Bros."))
 
+//rulu
 DEFINE_DIALOG(DIALOG_035, 1, 5, 30, 200, _("\
-There are four camera, or\n\
-『[C],』 Buttons. Press [C]^\n\
-to look around using the\n\
-Control Stick.\n\
-\n\
-You'll usually see Mario\n\
-through Lakitu's camera.\n\
-It is the camera\n\
-recommended for normal\n\
-play.\n\
-You can change angles by\n\
-pressing [C]>. If you press\n\
-[R], the view switches to\n\
-Mario's camera, which\n\
-is directly behind him.\n\
-Press [R] again to return\n\
-to Lakitu's camera. Press\n\
-[C]| to see Mario from\n\
-afar, using either\n\
-Lakitu's or Mario's view."))
+Collect 5 stars and the\n\
+train will arrive\n\
+If you go to the gate\n\
+together the gate\n\
+will open."))
 
-DEFINE_DIALOG(DIALOG_036, 1, 5, 30, 200, _("\
-OBSERVATION PLATFORM\n\
-Press [C]^ to take a look\n\
-around. Don't miss\n\
-anything!\n\
-\n\
-Press [R] to switch to\n\
-Mario's camera. It\n\
-always follows Mario.\n\
-Press [R] again to switch\n\
-to Lakitu's camera.\n\
-Pause the game and\n\
-switch the mode to 『fix』\n\
-the camera in place while\n\
-holding [R]. Give it a try!"))
+//rulu
+DEFINE_DIALOG(DIALOG_036, 1, 3, 30, 200, _("\
+I don't recommend taking\n\
+this path.\n\
+There's an easier way.\n\
+Once you've collected six\n\
+stars, go to the location\n\
+marked with a star symbol."))
 
 DEFINE_DIALOG(DIALOG_037, 1, 2, 30, 200, _("\
 I win! You lose!\n\

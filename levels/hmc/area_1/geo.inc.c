@@ -85,7 +85,7 @@ const GeoLayout hmc_dl_Pillar_geo[] = {
 const GeoLayout hmc_dl_Plane_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -8000, 2194, 14912, hmc_dl_Plane_mesh_layer_5),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -8000, 2194, 16412, hmc_dl_Plane_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

@@ -653,3 +653,5 @@ void bhv_rl_starindicator_init(void);
 void bhv_rl_starindicator_loop(void);
 void bhv_needle_platform_init(void);
 void bhv_needle_platform_loop(void);
+void bhv_rl_marker_init(void);
+void bhv_rl_marker_loop(void);
