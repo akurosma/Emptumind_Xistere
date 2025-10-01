@@ -64,3 +64,26 @@ void bhv_thi_tiny_island_top_loop(void) {
         //cur_obj_hide();
     }
 }
+
+void bhv_rl_marker_init(void) {
+    o->oOpacity = 255;
+    obj_scale_xyz(o, 0.35f, 0.35f, 0.35f);
+    cur_obj_set_model(MODEL_RL_MARKER);
+    //o->oFaceAnglePitch = 0x7FFF;
+    o->oAngleVelYaw = -0x300;
+    o->parentObj = cur_obj_nearest_object_with_behavior(bhvThiTinyIslandTop);
+}
+
+void bhv_rl_marker_loop(void) {
+    o->oFaceAngleYaw += o->oAngleVelYaw;
+    o->oPosY = o->oHomeY + 20.0f * coss(1000 * gGlobalTimer);
+    //o->oFaceAnglePitch = 0x7FFF;
+    //o->oAngleVelYaw = -0x300;
+    o->parentObj = cur_obj_nearest_object_with_behavior(bhvThiTinyIslandTop);
+    if (o->parentObj->oAction == 1) {
+        o->oOpacity -= 6.5;
+        if (o->oOpacity < 1){
+        obj_mark_for_deletion(o);
+        }
+    }
+}

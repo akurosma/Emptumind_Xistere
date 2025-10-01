@@ -73,7 +73,7 @@ void bhv_rl_train_loop(void) {
         break;
 
         case 5:
-            if (o->oPosX >= 13900 && (o->oTimer > 75)) {
+            if (o->oPosX >= 13900 && (o->oTimer > 15)) {
                 o->oAction = 6;
             }
         break;

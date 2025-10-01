@@ -141,3 +141,5 @@ UNUSED static const u64 binid_22 = 22;
 #include "rl_bounce/model.inc.c"
 #include "rl_train/collision.inc.c"
 #include "rl_train/model.inc.c"
+#include "rl_marker/collision.inc.c"
+#include "rl_marker/model.inc.c"
