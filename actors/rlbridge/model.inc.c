@@ -153,7 +153,7 @@ Vtx rlbridge_rlbridge_mesh_layer_1_vtx_cull[8] = {
 	{{ {300, -100, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
 };
 
-Vtx rlbridge_rlbridge_mesh_layer_1_vtx_0[24] = {
+Vtx rlbridge_rlbridge_mesh_layer_1_vtx_0[20] = {
 	{{ {-300, 100, -300}, 0, {496, 1006}, {0, 127, 0, 255} }},
 	{{ {-300, 100, 300}, 0, {496, 2027}, {0, 127, 0, 255} }},
 	{{ {300, 100, 300}, 0, {1516, 2027}, {0, 127, 0, 255} }},
@@ -166,10 +166,6 @@ Vtx rlbridge_rlbridge_mesh_layer_1_vtx_0[24] = {
 	{{ {300, 100, 300}, 0, {-1545, 1006}, {0, 0, 127, 255} }},
 	{{ {-300, 100, 300}, 0, {-524, 1006}, {0, 0, 127, 255} }},
 	{{ {-300, -100, 300}, 0, {-524, -14}, {0, 0, 127, 255} }},
-	{{ {-300, -100, 300}, 0, {496, -1035}, {0, 129, 0, 255} }},
-	{{ {-300, -100, -300}, 0, {496, -14}, {0, 129, 0, 255} }},
-	{{ {300, -100, -300}, 0, {1516, -14}, {0, 129, 0, 255} }},
-	{{ {300, -100, 300}, 0, {1516, -1035}, {0, 129, 0, 255} }},
 	{{ {-300, -100, -300}, 0, {496, -14}, {0, 0, 129, 255} }},
 	{{ {-300, 100, -300}, 0, {496, 1006}, {0, 0, 129, 255} }},
 	{{ {300, 100, -300}, 0, {1516, 1006}, {0, 0, 129, 255} }},
@@ -181,18 +177,30 @@ Vtx rlbridge_rlbridge_mesh_layer_1_vtx_0[24] = {
 };
 
 Gfx rlbridge_rlbridge_mesh_layer_1_tri_0[] = {
-	gsSPVertex(rlbridge_rlbridge_mesh_layer_1_vtx_0 + 0, 24, 0),
+	gsSPVertex(rlbridge_rlbridge_mesh_layer_1_vtx_0 + 0, 20, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
 	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0),
 	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0),
 	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0),
-	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0),
+	gsSPEndDisplayList(),
+};
+
+Vtx rlbridge_rlbridge_mesh_layer_1_vtx_1[4] = {
+	{{ {-300, -100, 300}, 0, {496, -1035}, {0, 129, 0, 255} }},
+	{{ {-300, -100, -300}, 0, {496, -14}, {0, 129, 0, 255} }},
+	{{ {300, -100, -300}, 0, {1516, -14}, {0, 129, 0, 255} }},
+	{{ {300, -100, 300}, 0, {1516, -1035}, {0, 129, 0, 255} }},
+};
+
+Gfx rlbridge_rlbridge_mesh_layer_1_tri_1[] = {
+	gsSPVertex(rlbridge_rlbridge_mesh_layer_1_vtx_1 + 0, 4, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 
 
-Gfx mat_rlbridge_f3dlite_material[] = {
+Gfx mat_rlbridge_f3dlite_material_001[] = {
 	gsSPLightColor(LIGHT_1, 0xFFFFFFFF),
 	gsSPLightColor(LIGHT_2, 0x7F7F7FFF),
 	gsDPPipeSync(),
@@ -211,7 +219,33 @@ Gfx mat_rlbridge_f3dlite_material[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_rlbridge_f3dlite_material[] = {
+Gfx mat_revert_rlbridge_f3dlite_material_001[] = {
+	gsDPPipeSync(),
+	gsDPSetAlphaDither(G_AD_DISABLE),
+	gsDPSetTextureLUT(G_TT_NONE),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_rlbridge_f3dlite_material_slippery[] = {
+	gsSPLightColor(LIGHT_1, 0xFFFFFFFF),
+	gsSPLightColor(LIGHT_2, 0x7F7F7FFF),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
+	gsDPSetAlphaDither(G_AD_NOISE),
+	gsDPSetTextureLUT(G_TT_RGBA16),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, rlbridge_floor_pal_rgba16),
+	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadTLUTCmd(5, 25),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, rlbridge_floor_ci8),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 511, 512),
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
+	gsDPSetTileSize(0, 0, 0, 124, 124),
+	gsSPEndDisplayList(),
+};
+
+Gfx mat_revert_rlbridge_f3dlite_material_slippery[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),
@@ -223,9 +257,12 @@ Gfx rlbridge_rlbridge_mesh_layer_1[] = {
 	gsSPVertex(rlbridge_rlbridge_mesh_layer_1_vtx_cull + 0, 8, 0),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
-	gsSPDisplayList(mat_rlbridge_f3dlite_material),
+	gsSPDisplayList(mat_rlbridge_f3dlite_material_001),
 	gsSPDisplayList(rlbridge_rlbridge_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_rlbridge_f3dlite_material),
+	gsSPDisplayList(mat_revert_rlbridge_f3dlite_material_001),
+	gsSPDisplayList(mat_rlbridge_f3dlite_material_slippery),
+	gsSPDisplayList(rlbridge_rlbridge_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_rlbridge_f3dlite_material_slippery),
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),

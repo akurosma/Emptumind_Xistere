@@ -42,7 +42,6 @@ const LevelScript level_pss_entry[] = {
 
 	AREA(1, pss_area_1),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		//CASTLE_GROUNDSのワープはblenderで設定必要
 		WARP_NODE(0xF0, LEVEL_CASTLE_GROUNDS, 0x01, 0x34, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_CASTLE_GROUNDS, 0x01, 0x35, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x14, LEVEL_PSS, 0x02, 0x0A, WARP_NO_CHECKPOINT),
@@ -149,7 +148,6 @@ const LevelScript level_pss_entry[] = {
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 	AREA(2, pss_area_2),
-		//CASTLE_GROUNDSのワープはblenderで設定必要
 		WARP_NODE(0xF0, LEVEL_CASTLE_GROUNDS, 0x01, 0x34, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_CASTLE_GROUNDS, 0x01, 0x35, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_YELLOW_COIN, -1050, 2200, -6167, 0, 0, 0, 0x00000000, bhvYellowCoin),
@@ -174,7 +172,6 @@ const LevelScript level_pss_entry[] = {
 	END_AREA(),
 	AREA(3, pss_area_3),
 		INSTANT_WARP(0x00, 0x03, 0, 0, 3384),
-		//CASTLE_GROUNDSのワープはblenderで設定必要
 		WARP_NODE(0xF0, LEVEL_CASTLE_GROUNDS, 0x01, 0x34, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_CASTLE_GROUNDS, 0x01, 0x35, WARP_NO_CHECKPOINT),
 		INSTANT_WARP(0x02, 0x04, 0, 0, 0),
@@ -276,7 +273,6 @@ const LevelScript level_pss_entry[] = {
 	AREA(4, pss_area_4),
 		INSTANT_WARP(0x00, 0x04, 0, 0, 3384),
 		INSTANT_WARP(0x01, 0x03, 0, 0, 0),
-		//CASTLE_GROUNDSのワープはblenderで設定必要
 		WARP_NODE(0xF0, LEVEL_CASTLE_GROUNDS, 0x01, 0x34, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_CASTLE_GROUNDS, 0x01, 0x35, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x14, LEVEL_PSS, 0x02, 0x0A, WARP_NO_CHECKPOINT),
@@ -375,14 +371,12 @@ const LevelScript level_pss_entry[] = {
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 	AREA(5, pss_area_5),
-		//CASTLE_GROUNDSのワープはblenderで設定必要
 		WARP_NODE(0xF0, LEVEL_CASTLE_GROUNDS, 0x01, 0x34, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_PSS, 0x04, 0x0B, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x15, LEVEL_PSS, 0x04, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_BLACK_BOBOMB, -2075, 1400, 2201, 0, 0, 0, (1 << 24) | (1 << 16) | (0 << 8), bhvBobomb),
 		OBJECT(MODEL_BREAKABLE_BOX_SMALL, 1997, 0, -2263, 0, 0, 0, (1 << 8), bhvBreakableBoxSmall),
-		OBJECT(MODEL_RL_BRIDGE, 1997, 0, 1937, 90, 0, 0, (1 << 24), bhvRlBridge),
-		OBJECT(MODEL_RL_BRIDGE, 1997, 0, 2137, 90, 0, 0, (1 << 24), bhvRlBridge),
+		OBJECT(MODEL_RL_BRIDGE, 1997, 0, 2037, 90, 0, 0, (1 << 24), bhvRlBridge),
 		OBJECT(MODEL_BREAKABLE_BOX, 380, -400, -363, 0, 0, 0, (1 << 24) | (0 << 8), bhvHiddenObject),
 		OBJECT(MODEL_BREAKABLE_BOX, 380, -400, -1063, 0, 0, 0, (1 << 24) | (0 << 8), bhvHiddenObject),
 		OBJECT(MODEL_BREAKABLE_BOX, 380, 400, -363, 0, 0, 0, (1 << 24) | (1 << 8), bhvHiddenObject),

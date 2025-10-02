@@ -233,7 +233,7 @@ void bhv_blue_coin_switch_loop(void) {
                         stopFlg = 2;
                         stop_background_music(SEQUENCE_ARGS(4, music));
                         //rulu 9/13 詰み防止
-                        if (gCurrLevelNum == LEVEL_HMC) {
+                        if (gCurrLevelNum == LEVEL_WF) {
                             spawn_default_star_for_blue(-6900, 1900, 11089); 
                         } else {
                         spawn_default_star_for_blue(gMarioState->pos[0], gMarioState->pos[1] + 200,gMarioState->pos[2]);
