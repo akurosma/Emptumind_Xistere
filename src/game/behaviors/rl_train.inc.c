@@ -87,7 +87,7 @@ void bhv_rl_train_loop(void) {
 	        }
 	        if (TramScale < 0) {
 		        mark_obj_for_deletion(o);
-                spawn_object_abs_with_rot(o, 0, MODEL_RL_TRAIN, bhvRlTrain, -14000, 90, 7750, 0, 0, 0);
+                spawn_object_abs_with_rot(o, 0, MODEL_WF_RL_TRAIN, bhvRlTrain, -14000, 90, 7750, 0, 0, 0);
                 //SET_BPARAM3(o->oBehParams, trainparam);
             }   
         break;

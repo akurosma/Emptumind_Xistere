@@ -4,7 +4,6 @@
 #define MODEL_NONE                             0x00
 
 /* fast64 object exports get inserted here */
-#define MODEL_RL_BRIDGE                   0xE4
 
 /* Global models that are loaded for every level */
 
@@ -283,6 +282,9 @@
 #define MODEL_WF_TOWER_DOOR                       0x39        // wf_geo_000BE0
 #define MODEL_WF_KICKABLE_BOARD_FELLED            0x3A        // wf_geo_000BC8
 #define MODEL_WF_RL_GRILL                         0x3B
+#define MODEL_WF_RL_MARKER                        0x3C
+#define MODEL_WF_RL_TRAIN                         0x3D
+#define MODEL_WF_RL_SWING                         0x3E
 
 // ending
 
@@ -571,15 +573,14 @@
 #define MODEL_RL_METALBLOCK               0xE7
 #define MODEL_RL_LIFT                     0xE8
 #define MODEL_RL_PILLAR                   0xE9
-#define MODEL_RL_SWING                    0xEA
+
 #define MODEL_RL_TOP                      0xEB
 #define MODEL_RL_BOUNCE                   0xEC
 #define MODEL_RL_SWIMTUBE                 0xED
-#define MODEL_RL_TRAIN                    0xEE
+
 #define MODEL_YELLOW_FLAME                0xEF
 #define MODEL_GREEN_FLAME                 0xF0
 #define MODEL_PINK_FLAME                  0xF1
-#define MODEL_RL_MARKER                   0xF2
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

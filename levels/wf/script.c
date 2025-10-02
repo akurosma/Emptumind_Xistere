@@ -67,6 +67,9 @@ const LevelScript level_wf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_WF_KICKABLE_BOARD_FELLED, wf_geo_000BC8), 
 	LOAD_MODEL_FROM_GEO(MODEL_HMC_WOODEN_DOOR, wooden_door_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_GRILL, rl_grill_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_MARKER, rl_marker_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_TRAIN, rl_train_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_SWING, rl_swing_geo),
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -175,11 +178,11 @@ const LevelScript level_wf_entry[] = {
 		OBJECT(MODEL_RL_PILLAR, -13000, -500, 1492, 0, 0, 0, 0x00000000, bhvRlPillar),
 		OBJECT(MODEL_RL_PILLAR, -12050, 21, -2481, 0, 23, 0, (1 << 8), bhvRlPillar),
 		OBJECT(MODEL_RL_SWIMTUBE, -8005, 500, -8812, 0, 0, 0, (1 << 8), bhvRlSwimtube),
-		OBJECT(MODEL_RL_SWING, -1500, 1280, -10452, 0, 0, 0, 0x00000000, bhvRlSwing),
-		OBJECT(MODEL_RL_SWING, -1500, 1280, -9652, 0, 180, 0, 0x00000000, bhvRlSwing),
+		OBJECT(MODEL_WF_RL_SWING, -1500, 1280, -10452, 0, 0, 0, 0x00000000, bhvRlSwing),
+		OBJECT(MODEL_WF_RL_SWING, -1500, 1280, -9652, 0, 180, 0, 0x00000000, bhvRlSwing),
 		OBJECT(MODEL_NONE, -10783, 1350, -10112, 0, 0, 0, (2 << 24), bhvThiTinyIslandTop),
-		OBJECT_WITH_ACTS(MODEL_RL_TRAIN, -1875, 75, 7750, 0, 0, 0, (1 << 8), bhvRlTrain, ACT_6),
-		OBJECT_WITH_ACTS(MODEL_RL_TRAIN, 27500, -10000, 7750, 0, 0, 0, (2 << 8), bhvRlTrain, ACT_1 | ACT_2 | ACT_3 | ACT_4 | ACT_5),
+		OBJECT_WITH_ACTS(MODEL_WF_RL_TRAIN, -1875, 75, 7750, 0, 0, 0, (1 << 8), bhvRlTrain, ACT_6),
+		OBJECT_WITH_ACTS(MODEL_WF_RL_TRAIN, 27500, -10000, 7750, 0, 0, 0, (2 << 8), bhvRlTrain, ACT_1 | ACT_2 | ACT_3 | ACT_4 | ACT_5),
 		OBJECT(MODEL_SKEETER, 1694, 50, 3710, 0, 0, 0, 0x00000000, bhvSkeeter),
 		OBJECT(MODEL_SKEETER, -3944, 50, 2267, 0, 0, 0, 0x00000000, bhvSkeeter),
 		OBJECT(MODEL_SKEETER, 6014, 50, -5452, 0, 0, 0, 0x00000000, bhvSkeeter),

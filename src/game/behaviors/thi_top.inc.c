@@ -68,7 +68,7 @@ void bhv_thi_tiny_island_top_loop(void) {
 void bhv_rl_marker_init(void) {
     o->oOpacity = 255;
     obj_scale_xyz(o, 0.35f, 0.35f, 0.35f);
-    cur_obj_set_model(MODEL_RL_MARKER);
+    cur_obj_set_model(MODEL_WF_RL_MARKER);
     //o->oFaceAnglePitch = 0x7FFF;
     o->oAngleVelYaw = -0x300;
     o->parentObj = cur_obj_nearest_object_with_behavior(bhvThiTinyIslandTop);
