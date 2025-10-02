@@ -36,6 +36,7 @@ extern const GeoLayout wf_geo_000BA8[];
 extern const GeoLayout wf_geo_000BC8[];
 extern const GeoLayout wf_geo_000BE0[];
 extern const GeoLayout wf_geo_000BF8[];
+extern const GeoLayout rl_grill_geo[];
 
 // leveldata
 extern const Gfx wf_seg7_dl_070050C8[];
@@ -78,6 +79,7 @@ extern const Gfx wf_seg7_dl_0700F340[];
 extern const Gfx wf_seg7_dl_0700F610[];
 extern const Gfx wf_seg7_dl_0700F6C0[];
 extern const Gfx wf_seg7_dl_0700F7F8[];
+extern const Gfx rl_grill_rl_grill_mesh_layer_4[];
 extern const Collision wf_seg7_collision_small_bomp[];
 extern const Collision wf_seg7_collision_large_bomp[];
 extern const Collision wf_seg7_collision_clocklike_rotation[];
@@ -93,6 +95,7 @@ extern const Collision wf_seg7_collision_rotating_platform[];
 extern const Collision wf_seg7_collision_tower[];
 extern const Collision wf_seg7_collision_bullet_bill_cannon[];
 extern const Collision wf_seg7_collision_070102D8[];
+extern const Collision rl_grill_collision[];
 extern const MacroObject wf_seg7_macro_objs[];
 extern const struct MovtexQuadCollection wf_movtex_water[];
 

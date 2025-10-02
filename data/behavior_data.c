@@ -6448,7 +6448,7 @@ const BehaviorScript bhvRlGate[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     CALL_NATIVE(bhv_rl_gate_init),
-    LOAD_COLLISION_DATA(hmc_seg7_collision_grill_door),
+    LOAD_COLLISION_DATA(rl_grill_collision),
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_gate_update),

@@ -282,6 +282,7 @@
 #define MODEL_WF_KICKABLE_BOARD                   0x38        // wf_geo_000BA8
 #define MODEL_WF_TOWER_DOOR                       0x39        // wf_geo_000BE0
 #define MODEL_WF_KICKABLE_BOARD_FELLED            0x3A        // wf_geo_000BC8
+#define MODEL_WF_RL_GRILL                         0x3B
 
 // ending
 
