@@ -15,7 +15,7 @@ const Collision rl_marker_collision[] = {
 	COL_VERTEX(210, 50, 50),
 	COL_VERTEX(0, -150, 50),
 	COL_VERTEX(-210, 50, 50),
-	COL_TRI_INIT(SURFACE_DEFAULT, 22),
+	COL_TRI_INIT(SURFACE_WATER, 22),
 	COL_TRI(0, 1, 2),
 	COL_TRI(0, 2, 3),
 	COL_TRI(4, 5, 3),
