@@ -1,19 +1,19 @@
 
-#define SWIMMING_BEAST_IN_THE_CAVERN    (1 << 0)
-#define ELEVATE_FOR_8_RED_COINS         (1 << 1)
-#define METAL_HEAD_MARIO_CAN_MOVE       (1 << 2)
-#define NAVIGATING_THE_TOXIC_MAZE       (1 << 3)
-#define A_MAZE_ING_EMERGENCY_EXIT       (1 << 4)
-#define WATCH_FOR_ROLLING_ROCKS         (1 << 5)
+#define BOUNCE_TO_THE_STAR    (1 << 0)
+#define SINKING_PILLARS         (1 << 1)
+#define A_FULL_POOL       (1 << 2)
+#define RED_COIN_ON_THE_TRACKS       (1 << 3)
+#define SCATTERED_SECRETS       (1 << 4)
+#define FINAL_DESTINATION        (1 << 5)
 
 
-#define HMC_ALL_STARS ( \
-    SWIMMING_BEAST_IN_THE_CAVERN | \
-    ELEVATE_FOR_8_RED_COINS | \
-    METAL_HEAD_MARIO_CAN_MOVE | \
-    NAVIGATING_THE_TOXIC_MAZE | \
-    A_MAZE_ING_EMERGENCY_EXIT | \
-    WATCH_FOR_ROLLING_ROCKS \
+#define WF_ALL_STARS ( \
+    BOUNCE_TO_THE_STAR | \
+    SINKING_PILLARS | \
+    A_FULL_POOL | \
+    RED_COIN_ON_THE_TRACKS | \
+    SCATTERED_SECRETS | \
+    FINAL_DESTINATION \
 )
 
 
@@ -38,10 +38,10 @@ struct ObjectHitbox sRlBounceHitbox = {
 void bhv_rl_bounce_init(void) {
     obj_set_hitbox(o, &sRlBounceHitbox);
 
-    u32 rlbounceFlags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_HMC));
+    u32 rlbounceFlags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_WF));
 
     // スター6枚すべて取得しているか判定
-    int allStarsCollected = (rlbounceFlags & HMC_ALL_STARS) == HMC_ALL_STARS;
+    int allStarsCollected = (rlbounceFlags & WF_ALL_STARS) == WF_ALL_STARS;
 
 if (!allStarsCollected && o->oPosY < 75) {
     obj_mark_for_deletion(o);

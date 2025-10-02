@@ -2,9 +2,9 @@ COURSE_ACTS(COURSE_BOB, _(" 1 COMEBACK HOME"),
        _("KING BALCONY")                 , _("LETS BE PUMPKIN AND INTO LOGGO"), _("PASS OVER THE CLOCK"),
        _("EXPLORE THE KITCHEN")          , _("YOU THOUGHT IT WAS TROLL?")     , _("EXPLORE THE 2ND FLOOR"))
 
-COURSE_ACTS(COURSE_WF, _(" 2 WHOMP'S FORTRESS"),
-       _("CHIP OFF WHOMP'S BLOCK")        , _("TO THE TOP OF THE FORTRESS")    , _("SHOOT INTO THE WILD BLUE"),
-       _("RED COINS ON THE FLOATING ISLE"), _("FALL ONTO THE CAGED ISLAND")    , _("BLAST AWAY THE WALL"))
+COURSE_ACTS(COURSE_WF, _(" 2 MARINE TERMINAL"),
+       _("BOUNCE TO THE STAR")        , _("SINKING PILLARS")    , _("A FULL POOL"),
+       _("RED COIN ON THE TRACKS"), _("SCATTERED SECRETS")    , _("FINAL DESTINATION"))
 
 COURSE_ACTS(COURSE_JRB, _(" 3 The Luminize Lab"),
        _("A")                             , _("A")                             , _("A"),

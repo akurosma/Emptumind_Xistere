@@ -1,12 +1,12 @@
-#define HMC_STAR_COUNT 6
+#define WF_STAR_COUNT 6
 
-const u32 hmcStars[HMC_STAR_COUNT] = {
-    SWIMMING_BEAST_IN_THE_CAVERN,
-    ELEVATE_FOR_8_RED_COINS,
-    METAL_HEAD_MARIO_CAN_MOVE,
-    NAVIGATING_THE_TOXIC_MAZE,
-    A_MAZE_ING_EMERGENCY_EXIT,
-    WATCH_FOR_ROLLING_ROCKS
+const u32 wfStars[WF_STAR_COUNT] = {
+    BOUNCE_TO_THE_STAR,
+    SINKING_PILLARS,
+    A_FULL_POOL,
+    RED_COIN_ON_THE_TRACKS,
+    SCATTERED_SECRETS,
+    FINAL_DESTINATION
 };
 
 void bhv_rl_starindicator_init(void) {
@@ -14,11 +14,11 @@ void bhv_rl_starindicator_init(void) {
 }
 
 void bhv_rl_starindicator_loop(void) {
-    u32 rlstarindicatorFlags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_HMC));
+    u32 rlstarindicatorFlags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_WF));
     u32 rlstarindicatoronflag = 0;
 
-    for (int i = 0; i < HMC_STAR_COUNT; i++) {
-        if (rlstarindicatorFlags & hmcStars[i]) {
+    for (int i = 0; i < WF_STAR_COUNT; i++) {
+        if (rlstarindicatorFlags & wfStars[i]) {
             rlstarindicatoronflag++;
         }
     }
