@@ -108,7 +108,7 @@ void bhv_rl_train_loop(void) {
     }
 
 void bhv_rl_gate_init(void) {
-    obj_scale_xyz(o, 1.45f, 1.1f, 1.0f);
+    //obj_scale_xyz(o, 1.45f, 1.1f, 1.0f);
     //ここに書くとスポーンしたRlTrainに反応しない
     o->parentObj = cur_obj_nearest_object_with_behavior(bhvRlTrain);
 }
