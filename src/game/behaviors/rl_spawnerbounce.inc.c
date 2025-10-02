@@ -1,4 +1,6 @@
+extern const Collision rl_marker_collision[];
 void bhv_rl_spawnerbounce_init(void) {
+    obj_set_collision_data(o, rl_marker_collision);
     //o->oOpacity = 55;
 }
 
