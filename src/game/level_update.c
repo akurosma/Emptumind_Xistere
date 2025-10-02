@@ -148,7 +148,7 @@ u8 g100CoinStarSpawned = FALSE;
 
 //start 2024/12/15 sill ポーズ制限追加
 s8 gPauseCounter;
-int maxPauseCountOfLevel[] = {-1, 10, 99, 99, 99, 5, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 2, 99, 99, 99, 5, 99, 99,};
+int maxPauseCountOfLevel[] = {-1, 10, 3, 99, 99, 5, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 2, 99, 99, 99, 5, 99, 99,};
 //end 2024/12/15 sill
 
 struct MarioState *gMarioState = &gMarioStates[0];
