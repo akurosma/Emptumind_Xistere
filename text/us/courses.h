@@ -7,7 +7,7 @@ COURSE_ACTS(COURSE_WF, _(" 2 WHOMP'S FORTRESS"),
        _("RED COINS ON THE FLOATING ISLE"), _("FALL ONTO THE CAGED ISLAND")    , _("BLAST AWAY THE WALL"))
 
 COURSE_ACTS(COURSE_JRB, _(" 3 The Luminize Lab"),
-       _("A")                             , _("A")                             , _("A"),
+       _("DIVERGING PATH")                , _("A")                             , _("A"),
        _("A")                             , _("A STAR BEHIND YOU")             , _("A"))
 
 COURSE_ACTS(COURSE_CCM, _(" 4 COOL, COOL MOUNTAIN"),

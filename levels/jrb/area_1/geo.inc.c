@@ -9,6 +9,12 @@ const GeoLayout jrb_area_1_geo[] = {
 			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, jrb_dl__C3_room1_mesh_layer_5),
 			GEO_DISPLAY_LIST(LAYER_ALPHA, jrb_dl__C3_room1_mesh_layer_4),
 		GEO_CLOSE_NODE(),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, jrb_dl__C3_room2_1_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, jrb_dl__C3_room2_1_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, jrb_dl__C3_room2_1_mesh_layer_5),
+		GEO_CLOSE_NODE(),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, jrb_dl__C3_room2_2_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
