@@ -69,5 +69,11 @@
 #include "levels/wf/areas/1/movtext.inc.c"
 #include "levels/wf/rl_grill/model.inc.c"
 #include "levels/wf/rl_grill/collision.inc.c"
+#include "levels/wf/rl_marker/model.inc.c"
+#include "levels/wf/rl_marker/collision.inc.c"
+#include "levels/wf/rl_train/model.inc.c"
+#include "levels/wf/rl_train/collision.inc.c"
+#include "levels/wf/rl_swing/model.inc.c"
+#include "levels/wf/rl_swing/collision.inc.c"
 
 #include "levels/wf/leveldata.inc.c"
