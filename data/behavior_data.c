@@ -6554,7 +6554,7 @@ const BehaviorScript bhvRlMarker[] = {
     SET_HOME(),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(rl_marker_collision),
-    SET_FLOAT(oDrawingDistance, 6000),
+    SET_FLOAT(oDrawingDistance, 8500),
     CALL_NATIVE(bhv_rl_marker_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rl_marker_loop),

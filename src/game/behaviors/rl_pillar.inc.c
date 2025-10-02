@@ -15,13 +15,13 @@ void bhv_rl_pillar_loop(void) {
                 spawn_triangle_break_particles(2, MODEL_DIRT_ANIMATION, 3.0f, 4);
                 o->oPosY -= 4.0;
             }
-            if (gMarioObject->platform != o && o->oPosY <= (o->oHomeY) && (o->oTimer > 90)) {
+            if (gMarioObject->platform != o && o->oPosY <= (o->oHomeY) && (o->oTimer > 60)) {
                 o->oAction = 1;
             }
         break;
 
         case 1:
-        if (gMarioObject->platform != o && o->oPosY <= (o->oHomeY) && (o->oTimer > 90)) {
+        if (gMarioObject->platform != o && o->oPosY <= (o->oHomeY) && (o->oTimer > 60)) {
             o->oPosY += 4.0;
         } else {
             if (gMarioObject->platform == o) {
