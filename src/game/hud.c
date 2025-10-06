@@ -673,19 +673,16 @@ void render_hud(void) {
             int x = 20;
             int y = 175;
             print_set_envcolour(255, 255, 255, 255);
-            print_small_text(x, y-5, "Keys", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            print_small_text(x, 39+y, "Keys:", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            sprintf(numRedKey, "%u", gMarioState->numRedkey);
             print_set_envcolour(255, 0, 0, 255);
-            sprintf(numRedKey, ":%u", gMarioState->numRedkey);
-            print_small_text(x, 13+y, "RED", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
-            print_small_text(x+40, 13+y, numRedKey, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            print_small_text(x+32, 39+y, numRedKey, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            sprintf(numGreenKey, "%u", gMarioState->numGreenkey);
             print_set_envcolour(0, 255, 0, 255);
-            sprintf(numGreenKey, ":%u", gMarioState->numGreenkey);
-            print_small_text(x, 26+y, "GREEN", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
-            print_small_text(x+40, 26+y, numGreenKey, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            print_small_text(x+42, 39+y, numGreenKey, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            sprintf(numBlueKey, "%u", gMarioState->numBluekey);
             print_set_envcolour(0, 0, 255, 255);
-            sprintf(numBlueKey, ":%u", gMarioState->numBluekey);
-            print_small_text(x, 39+y, "BLUE", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
-            print_small_text(x+40, 39+y, numBlueKey, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            print_small_text(x+52, 39+y, numBlueKey, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
             print_set_envcolour(255, 255, 255, 255);
         }
         //end 2024/12/18 sill
