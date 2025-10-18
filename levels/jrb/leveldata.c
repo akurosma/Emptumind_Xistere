@@ -54,3 +54,5 @@
 #include "levels/jrb/wave_platform/model.inc.c"
 #include "levels/jrb/wave_platform/collision.inc.c"
 #include "levels/jrb/needle/collision.inc.c"
+#include "levels/jrb/wave_platform_green/model.inc.c"
+#include "levels/jrb/fadingwall/model.inc.c"

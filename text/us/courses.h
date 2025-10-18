@@ -3,12 +3,12 @@ COURSE_ACTS(COURSE_BOB, _(" 1 COMEBACK HOME"),
        _("EXPLORE THE KITCHEN")          , _("YOU THOUGHT IT WAS TROLL?")     , _("EXPLORE THE 2ND FLOOR"))
 
 COURSE_ACTS(COURSE_WF, _(" 2 MARINE TERMINAL"),
-       _("BOUNCE TO THE STAR")        , _("SINKING PILLARS")    , _("A FULL POOL"),
-       _("RED COIN ON THE TRACKS"), _("SCATTERED SECRETS")    , _("FINAL DESTINATION"))
+       _("BOUNCE TO THE STAR")            , _("SINKING PILLARS")              , _("A FULL POOL"),
+       _("RED COIN ON THE TRACKS")        , _("SCATTERED SECRETS")            , _("FINAL DESTINATION"))
 
 COURSE_ACTS(COURSE_JRB, _(" 3 The Luminize Lab"),
-       _("DIVERGING PATH")                , _("A")                             , _("A"),
-       _("A")                             , _("A STAR BEHIND YOU")             , _("A"))
+       _("A STAR BEHIND YOU")             , _("DIVERGING PATH")                , _("SLOPE MASTERY"),
+       _("PUZZLE CUBE 64")                , _("SECRET OF THE CLIFF")           , _("COLLECT THE RED FRAGMENTS"))
 
 COURSE_ACTS(COURSE_CCM, _(" 4 COOL, COOL MOUNTAIN"),
        _("SLIP SLIDIN' AWAY")             , _("LI'L PENGUIN LOST")             , _("BIG PENGUIN RACE"),
