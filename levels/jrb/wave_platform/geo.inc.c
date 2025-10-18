@@ -1,6 +1,6 @@
 #include "src/game/envfx_snow.h"
 
-const GeoLayout wave_platform[] = {
+const GeoLayout wave_platform_blue[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, wave_platform_wave_platform_mesh_layer_1),

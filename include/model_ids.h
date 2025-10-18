@@ -151,6 +151,8 @@
 #define MODEL_KEY_BLUE                            0x45
 #define MODEL_WAVE_PLATFORM                       0x46
 #define MODEL_NEEDLE                              0x47
+#define MODEL_WAVE_PLATFORM_G                     0x48
+#define MODEL_FADINGWALL                          0X49
 
 // thi
 #define MODEL_THI_HUGE_ISLAND_TOP                 0x36        // thi_geo_0005B0
