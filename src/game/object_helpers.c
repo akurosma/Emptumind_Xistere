@@ -2328,3 +2328,67 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     spawn_default_star(targetX, targetY, targetZ);
     o->oPosY = objectPosY;
 }
+
+Gfx *geo_update_prim(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx) {
+    if (callContext != GEO_CONTEXT_RENDER) {
+        return NULL;
+    }
+
+    struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+    Gfx *dlStart = alloc_display_list(sizeof(Gfx) * 2);
+    if (!dlStart) {
+        return NULL;
+    }
+    Gfx *dlHead = dlStart;
+
+    static f32 sHue = 0.0f;
+    if ((gGlobalTimer & 0x1) == 0) {
+        const f32 hueStep = 2.5f;
+        sHue += hueStep;
+        if (sHue >= 360.0f) {
+            sHue -= 360.0f;
+        }
+    }
+
+    f32 hPrime = sHue / 60.0f;
+    f32 c = 1.0f;
+    f32 hMod = hPrime;
+    while (hMod >= 2.0f) {
+        hMod -= 2.0f;
+    }
+    while (hMod < 0.0f) {
+        hMod += 2.0f;
+    }
+    f32 x = c * (1.0f - absf(hMod - 1.0f));
+    f32 rf = 0.0f;
+    f32 gf = 0.0f;
+    f32 bf = 0.0f;
+
+    if (hPrime < 1.0f) {
+        rf = c;
+        gf = x;
+    } else if (hPrime < 2.0f) {
+        rf = x;
+        gf = c;
+    } else if (hPrime < 3.0f) {
+        gf = c;
+        bf = x;
+    } else if (hPrime < 4.0f) {
+        gf = x;
+        bf = c;
+    } else if (hPrime < 5.0f) {
+        rf = x;
+        bf = c;
+    } else {
+        rf = c;
+        bf = x;
+    }
+
+    u8 primR = (u8)(CLAMP(rf, 0.0f, 1.0f) * 255.0f);
+    u8 primG = (u8)(CLAMP(gf, 0.0f, 1.0f) * 255.0f);
+    u8 primB = (u8)(CLAMP(bf, 0.0f, 1.0f) * 255.0f);
+    gDPSetPrimColor(dlHead++, 0, 0, primR, primG, primB, 255);
+    gSPEndDisplayList(dlHead);
+    currentGraphNode->fnNode.node.flags |= (LAYER_OPAQUE << 8);
+    return dlStart;
+}

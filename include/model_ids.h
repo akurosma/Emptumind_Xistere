@@ -244,6 +244,7 @@
 
 // lll
 #define MODEL_LLL_DRAWBRIDGE_PART                 0x38        // lll_geo_000B20
+#define MODEL_ICOSPHERE                           0x39
 #define MODEL_LLL_ROTATING_BLOCK_FIRE_BARS        0x3A        // lll_geo_000B38
 #define MODEL_LLL_ROTATING_HEXAGONAL_RING         0x3E        // lll_geo_000BB0
 #define MODEL_LLL_SINKING_RECTANGULAR_PLATFORM    0x3F        // lll_geo_000BC8
