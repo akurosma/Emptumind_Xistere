@@ -45,9 +45,9 @@ void bhv_key_Block_loop(void) {
             break;
         case 1:
             obj_set_collision_data(o, key_block_intangible_collision);
-            if (-200.f*(BPARAM2+1)<dx && dx<200.f*(BPARAM2+1) && 
-                -150.f*(BPARAM3+1)<dy && dy<310.f*(BPARAM3+1) && 
-                -200.f*(BPARAM4+1)<dz && dz<200.f*(BPARAM4+1)){
+            if ((-50.f-150.f*(BPARAM2+1))<dx && dx<(50.f+150.f*(BPARAM2+1)) && 
+                -150.f*(BPARAM3+1)<dy && dy<(160.f+150.f*(BPARAM3+1)) && 
+                (-50.f-150.f*(BPARAM4+1))<dz && dz<(50.f+150.f*(BPARAM4+1))){
                 gMarioStates->numRedkey--;
                 cur_obj_play_sound_2(SOUND_GENERAL_OPEN_CHEST);
                 obj_mark_for_deletion(o);
@@ -55,9 +55,9 @@ void bhv_key_Block_loop(void) {
             break;
         case 2:
             obj_set_collision_data(o, key_block_intangible_collision);
-            if (-200.f*(BPARAM2+1)<dx && dx<200.f*(BPARAM2+1) && 
-                -150.f*(BPARAM3+1)<dy && dy<310.f*(BPARAM3+1) && 
-                -200.f*(BPARAM4+1)<dz && dz<200.f*(BPARAM4+1)){
+            if ((-50.f-150.f*(BPARAM2+1))<dx && dx<(50.f+150.f*(BPARAM2+1)) && 
+                -150.f*(BPARAM3+1)<dy && dy<(160.f+150.f*(BPARAM3+1)) && 
+                (-50.f-150.f*(BPARAM4+1))<dz && dz<(50.f+150.f*(BPARAM4+1))){
                 gMarioStates->numGreenkey--;
                 cur_obj_play_sound_2(SOUND_GENERAL_OPEN_CHEST);
                 obj_mark_for_deletion(o);
@@ -65,9 +65,9 @@ void bhv_key_Block_loop(void) {
             break;
         case 3:
             obj_set_collision_data(o, key_block_intangible_collision);
-            if (-200.f*(BPARAM2+1)<dx && dx<200.f*(BPARAM2+1) && 
-                -150.f*(BPARAM3+1)<dy && dy<310.f*(BPARAM3+1) && 
-                -200.f*(BPARAM4+1)<dz && dz<200.f*(BPARAM4+1)){
+            if ((-50.f-150.f*(BPARAM2+1))<dx && dx<(50.f+150.f*(BPARAM2+1)) && 
+                -150.f*(BPARAM3+1)<dy && dy<(160.f+150.f*(BPARAM3+1)) && 
+                (-50.f-150.f*(BPARAM4+1))<dz && dz<(50.f+150.f*(BPARAM4+1))){
                 gMarioStates->numBluekey--;
                 cur_obj_play_sound_2(SOUND_GENERAL_OPEN_CHEST);
                 obj_mark_for_deletion(o);
