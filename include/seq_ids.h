@@ -69,6 +69,7 @@ enum SeqId {
     SEQ_SCIENCE,                      // 0x33
     SEQ_HMC_RULU,                     // 0x34
     SEQ_TIME_TRIAL,                   // 0x35
+    SEQ_HEAD_HONCHO_CARPACCIO,        // 0x36
     // end
     SEQ_COUNT
 };

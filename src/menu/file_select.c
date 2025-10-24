@@ -540,6 +540,23 @@ void check_score_menu_clicked_buttons(struct Object *scoreButton) {
 #if ENABLE_RUMBLE
                             queue_rumble_data(5, 80);
 #endif
+#if DEBUG_CHEATING_STAR_DISPLAY
+                            starDisplayKiller = 0;
+                            play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+#else
+                            if(clickedCount >= 7) clickedCount = 0;
+                            buttonLog[clickedCount] = buttonID - 7;
+                            clickedCount++;
+                            if((buttonLog[0] == answerButtonLog[0]) &&
+                            (buttonLog[1] == answerButtonLog[1]) && 
+                            (buttonLog[2] == answerButtonLog[2]) && 
+                            (buttonLog[3] == answerButtonLog[3]) && 
+                            (buttonLog[4] == answerButtonLog[4]) && 
+                            (buttonLog[5] == answerButtonLog[5]) && 
+                            (buttonLog[6] == answerButtonLog[6])) {
+                                play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+                            }
+#endif
                             sMainMenuButtons[buttonID]->oMenuButtonState = MENU_BUTTON_STATE_GROWING;
                             sSelectedButtonID = buttonID;
                         }
@@ -603,6 +620,24 @@ void copy_action_file_button(struct Object *copyButton, s32 copyFileButtonID) {
                 play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
 #if ENABLE_RUMBLE
                 queue_rumble_data(5, 80);
+#endif
+
+#if DEBUG_CHEATING_STAR_DISPLAY
+                starDisplayKiller = 0;
+                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+#else
+                if(clickedCount >= 7) clickedCount = 0;
+                buttonLog[clickedCount] = copyFileButtonID - 10;
+                clickedCount++;
+                if((buttonLog[0] == answerButtonLog[0]) &&
+                (buttonLog[1] == answerButtonLog[1]) && 
+                (buttonLog[2] == answerButtonLog[2]) && 
+                (buttonLog[3] == answerButtonLog[3]) && 
+                (buttonLog[4] == answerButtonLog[4]) && 
+                (buttonLog[5] == answerButtonLog[5]) && 
+                (buttonLog[6] == answerButtonLog[6])) {
+                    play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+                }
 #endif
                 sMainMenuButtons[copyFileButtonID]->oMenuButtonState = MENU_BUTTON_STATE_ZOOM_IN;
                 sSelectedFileIndex = copyFileButtonID - MENU_BUTTON_COPY_MIN;
@@ -736,6 +771,23 @@ void erase_action_file_button(struct Object *eraseButton, s32 eraseFileButtonID)
                 play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
 #if ENABLE_RUMBLE
                 queue_rumble_data(5, 80);
+#endif
+#if DEBUG_CHEATING_STAR_DISPLAY
+                starDisplayKiller = 0;
+                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+#else
+                if(clickedCount >= 7) clickedCount = 0;
+                buttonLog[clickedCount] = eraseFileButtonID - 13;
+                clickedCount++;
+                if((buttonLog[0] == answerButtonLog[0]) &&
+                (buttonLog[1] == answerButtonLog[1]) && 
+                (buttonLog[2] == answerButtonLog[2]) && 
+                (buttonLog[3] == answerButtonLog[3]) && 
+                (buttonLog[4] == answerButtonLog[4]) && 
+                (buttonLog[5] == answerButtonLog[5]) && 
+                (buttonLog[6] == answerButtonLog[6])) {
+                    play_sound(SOUND_MARIO_WAAAOOOW, gGlobalSoundSource);
+                }
 #endif
                 sMainMenuButtons[eraseFileButtonID]->oMenuButtonState = MENU_BUTTON_STATE_ZOOM_IN;
                 sSelectedFileIndex = eraseFileButtonID - MENU_BUTTON_ERASE_MIN;

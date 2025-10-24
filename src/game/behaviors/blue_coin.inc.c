@@ -176,8 +176,10 @@ void bhv_blue_coin_switch_loop(void) {
         case BLUE_COIN_SWITCH_ACT_TICKING:
         if(TAFlg == 1){
             if(stopFlg == 0) {
-                if(random_u16()%2 == 0) music = SEQ_SSBM_MASTERHAND;
-                else music = SEQ_TIME_TRIAL;
+                int rand = random_u16()%3;
+                if(rand == 0) music = SEQ_SSBM_MASTERHAND;
+                else if(rand == 1) music = SEQ_TIME_TRIAL;
+                else music = SEQ_HEAD_HONCHO_CARPACCIO;
                 play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(15, music), 0);
                 stopFlg = 1;
             }

@@ -53,5 +53,6 @@
     "32_PSS_mirror":["0C_extended_bank"],
     "33_Science":["0C_extended_bank"],
     "34_hmc":["0C_extended_bank"],
-    "35_Time_Trial":["0C_extended_bank"]
+    "35_Time_Trial":["0C_extended_bank"],
+    "36_Head_Honcho_Carpaccio":["0C_extended_bank"]
 }
