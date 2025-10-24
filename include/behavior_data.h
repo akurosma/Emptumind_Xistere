@@ -583,3 +583,4 @@ extern const BehaviorScript bhvRlSpawnerbounce[];
 extern const BehaviorScript bhvRlStarindicator[];
 extern const BehaviorScript bhvNeedlePlatform[];
 extern const BehaviorScript bhvRlMarker[];
+extern const BehaviorScript bhvFadingwall[];

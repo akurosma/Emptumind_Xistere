@@ -6401,7 +6401,7 @@ const BehaviorScript bhvRlBounce[] = {
     CALL_NATIVE(bhv_rl_bounce_init),
     CALL_NATIVE(rlbounce_spawn),
     BEGIN_LOOP(),
-            CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_bounce_loop),
     END_LOOP(),
 };
@@ -6559,5 +6559,14 @@ const BehaviorScript bhvRlMarker[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rl_marker_loop),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+const BehaviorScript bhvFadingwall[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    SET_FLOAT(oDrawingDistance, 10000),
+    CALL_NATIVE(bhv_fadingwall_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fadingwall_loop),
     END_LOOP(),
 };

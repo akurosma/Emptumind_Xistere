@@ -8,6 +8,7 @@
 #include "game/moving_texture.h"
 #include "game/screen_transition.h"
 #include "game/paintings.h"
+#include "game/object_helpers.h"
 
 #include "make_const_nonconst.h"
 
@@ -42,3 +43,7 @@
 #include "levels/lll/areas/1/geo.inc.c"
 #include "levels/lll/volcano_falling_trap/geo.inc.c"
 #include "levels/lll/areas/2/geo.inc.c"
+
+#include "levels/lll/geo.inc.c"
+
+#include "levels/lll/icosphere/geo.inc.c"

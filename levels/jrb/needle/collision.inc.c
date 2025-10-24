@@ -42,7 +42,7 @@ const Collision needle_collision[] = {
 	COL_VERTEX(38, 75, -38),
 	COL_VERTEX(-112, 75, -38),
 	COL_VERTEX(-38, 75, -38),
-	COL_TRI_INIT(SURFACE_INSTANT_QUICKSAND, 64),
+	COL_TRI_INIT(SURFACE_BURNING, 64),
 	COL_TRI(0, 1, 2),
 	COL_TRI(1, 3, 2),
 	COL_TRI(4, 3, 1),

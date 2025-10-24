@@ -17,6 +17,8 @@ void bhv_key_Block_init(void) {
             cur_obj_set_model(MODEL_NONE);
             break;
     }
+
+    obj_scale_xyz(o, BPARAM2+1,  BPARAM3+1, BPARAM4+1);
 }
 
 void bhv_key_Block_loop(void) {
@@ -43,7 +45,9 @@ void bhv_key_Block_loop(void) {
             break;
         case 1:
             obj_set_collision_data(o, key_block_intangible_collision);
-            if (-200.f<dx && dx<200.f && -150.f<dy && dy<310.f&& -200.f<dz && dz<200.f){
+            if ((-50.f-150.f*(BPARAM2+1))<dx && dx<(50.f+150.f*(BPARAM2+1)) && 
+                -150.f*(BPARAM3+1)<dy && dy<(160.f+150.f*(BPARAM3+1)) && 
+                (-50.f-150.f*(BPARAM4+1))<dz && dz<(50.f+150.f*(BPARAM4+1))){
                 gMarioStates->numRedkey--;
                 cur_obj_play_sound_2(SOUND_GENERAL_OPEN_CHEST);
                 obj_mark_for_deletion(o);
@@ -51,7 +55,9 @@ void bhv_key_Block_loop(void) {
             break;
         case 2:
             obj_set_collision_data(o, key_block_intangible_collision);
-            if (-200.f<dx && dx<200.f && -150.f<dy && dy<310.f&& -200.f<dz && dz<200.f){
+            if ((-50.f-150.f*(BPARAM2+1))<dx && dx<(50.f+150.f*(BPARAM2+1)) && 
+                -150.f*(BPARAM3+1)<dy && dy<(160.f+150.f*(BPARAM3+1)) && 
+                (-50.f-150.f*(BPARAM4+1))<dz && dz<(50.f+150.f*(BPARAM4+1))){
                 gMarioStates->numGreenkey--;
                 cur_obj_play_sound_2(SOUND_GENERAL_OPEN_CHEST);
                 obj_mark_for_deletion(o);
@@ -59,7 +65,9 @@ void bhv_key_Block_loop(void) {
             break;
         case 3:
             obj_set_collision_data(o, key_block_intangible_collision);
-            if (-200.f<dx && dx<200.f && -150.f<dy && dy<310.f&& -200.f<dz && dz<200.f){
+            if ((-50.f-150.f*(BPARAM2+1))<dx && dx<(50.f+150.f*(BPARAM2+1)) && 
+                -150.f*(BPARAM3+1)<dy && dy<(160.f+150.f*(BPARAM3+1)) && 
+                (-50.f-150.f*(BPARAM4+1))<dz && dz<(50.f+150.f*(BPARAM4+1))){
                 gMarioStates->numBluekey--;
                 cur_obj_play_sound_2(SOUND_GENERAL_OPEN_CHEST);
                 obj_mark_for_deletion(o);
@@ -139,7 +147,7 @@ void bhv_wavePlatform_loop(void) {
     Bparam2 範囲 100×Bparm2 Unit
     Bparam3 周期
     */
-    if(cur_obj_is_mario_on_platform()){
+    if(cur_obj_is_mario_on_platform() && BPARAM4 == 0){
         o->oTimer--;
     }
     else{
@@ -184,6 +192,21 @@ void bhv_needle_platform_loop(void) {
                 cur_obj_unhide();
             }
             break;
+    }
+}
+
+void bhv_fadingwall_init(void) {
+    o->oOpacity = 255;
+}
+
+void bhv_fadingwall_loop(void) {
+    f32 marioDist = dist_between_objects(gCurrentObject, gMarioObject);
+
+    if(marioDist < 1500.f){
+        o->oOpacity = (marioDist / 1500.f) * 255.f;
+    }
+    else{
+        o->oOpacity = 255;
     }
 }
 

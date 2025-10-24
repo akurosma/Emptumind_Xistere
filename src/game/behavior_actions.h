@@ -655,3 +655,5 @@ void bhv_needle_platform_init(void);
 void bhv_needle_platform_loop(void);
 void bhv_rl_marker_init(void);
 void bhv_rl_marker_loop(void);
+void bhv_fadingwall_init(void);
+void bhv_fadingwall_loop(void);

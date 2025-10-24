@@ -151,6 +151,8 @@
 #define MODEL_KEY_BLUE                            0x45
 #define MODEL_WAVE_PLATFORM                       0x46
 #define MODEL_NEEDLE                              0x47
+#define MODEL_WAVE_PLATFORM_G                     0x48
+#define MODEL_FADINGWALL                          0X49
 
 // thi
 #define MODEL_THI_HUGE_ISLAND_TOP                 0x36        // thi_geo_0005B0
@@ -242,6 +244,7 @@
 
 // lll
 #define MODEL_LLL_DRAWBRIDGE_PART                 0x38        // lll_geo_000B20
+#define MODEL_ICOSPHERE                           0x39
 #define MODEL_LLL_ROTATING_BLOCK_FIRE_BARS        0x3A        // lll_geo_000B38
 #define MODEL_LLL_ROTATING_HEXAGONAL_RING         0x3E        // lll_geo_000BB0
 #define MODEL_LLL_SINKING_RECTANGULAR_PLATFORM    0x3F        // lll_geo_000BC8
