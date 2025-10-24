@@ -70,7 +70,9 @@ enum SeqId {
     SEQ_HMC_RULU,                     // 0x34
     SEQ_TIME_TRIAL,                   // 0x35
     SEQ_SD_BATTLE2,                   // 0x36
-    SEQ_HEAD_HONCHO_CARPACCIO,        // 0x36
+    SEQ_HEAD_HONCHO_CARPACCIO,        // 0x37
+    SEQ_FIST_BUMP,                    // 0x38
+    SEQ_WIND_FORTRESS,                // 0x39
     // end
     SEQ_COUNT
 };
