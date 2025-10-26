@@ -73,6 +73,7 @@ enum SeqId {
     SEQ_HEAD_HONCHO_CARPACCIO,        // 0x37
     SEQ_FIST_BUMP,                    // 0x38
     SEQ_WIND_FORTRESS,                // 0x39
+    SEQ_WITH_ME,                      // 0x3A
     // end
     SEQ_COUNT
 };

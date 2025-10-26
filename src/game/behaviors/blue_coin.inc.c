@@ -176,7 +176,7 @@ void bhv_blue_coin_switch_loop(void) {
         case BLUE_COIN_SWITCH_ACT_TICKING:
         if(TAFlg == 1){
             if(stopFlg == 0) {
-                int rand = random_u16()%4;
+                int rand = random_u16()%5;
                 switch(rand){
                     case 0:
                         music = SEQ_SSBM_MASTERHAND;
@@ -186,6 +186,9 @@ void bhv_blue_coin_switch_loop(void) {
                         break;
                     case 2:
                         music = SEQ_HEAD_HONCHO_CARPACCIO;
+                        break;
+                    case 3:
+                        music = SEQ_WITH_ME;
                         break;
                     default:
                         music = SEQ_TIME_TRIAL;
