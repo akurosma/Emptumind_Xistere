@@ -584,3 +584,6 @@ extern const BehaviorScript bhvRlStarindicator[];
 extern const BehaviorScript bhvNeedlePlatform[];
 extern const BehaviorScript bhvRlMarker[];
 extern const BehaviorScript bhvFadingwall[];
+extern const BehaviorScript bhvTestCube[];
+extern const BehaviorScript bhvMusicSelector[];
+extern const BehaviorScript bhvDebugSound[];

@@ -1276,12 +1276,37 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     }
 }
 
+/*sticky*/
+extern s32 f32_find_wall_collision_ex(struct WallCollisionData* collision, f32 *xPtr, f32 *yPtr, f32 *zPtr, f32 offsetY, f32 radius);
+static s32 sWallBoostColldown = 0;
+
+static void check_boost(struct WallCollisionData* collData, struct MarioState *m, s32* boosted)
+{
+    if (*boosted)
+        return;
+
+    for (int i = 0; i < collData->numWalls; i++)
+    {
+        struct Surface* wall = collData->walls[i];
+        if (wall->type == SURFACE_BURNING)
+        {
+            *boosted = 1;
+            sWallBoostColldown = 4;
+            return (void) drop_and_set_mario_action(m, ACT_LAVA_BOOST, 0);
+        }
+    }
+}
+/*sticky*/
+
 /**
  * Resolves wall collisions, and updates a variety of inputs.
  */
 void update_mario_geometry_inputs(struct MarioState *m) {
     f32 gasLevel;
     f32 ceilToFloorDist;
+    /*sticky*/
+    struct WallCollisionData collData;
+    /*sticky*/
 
     f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 60.0f, 50.0f);
     f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
@@ -1382,9 +1407,10 @@ void update_mario_inputs(struct MarioState *m) {
     if (m->wallKickTimer > 0) {
         m->wallKickTimer--;
     }
+    /*stickyのためコメントアウト
     if(((m->wallKickTimer == 0 && (m->action != ACT_AIR_HIT_WALL)) && (!(m->input & INPUT_B_DOWN) && !(m->input & INPUT_A_DOWN))) || !(m->action & ACT_FLAG_AIR)){
         m->wallLastType = SURFACE_DEFAULT;
-    }
+    }*/
 
     if (m->doubleJumpTimer > 0) {
         m->doubleJumpTimer--;
@@ -1547,6 +1573,10 @@ void update_mario_info_for_cam(struct MarioState *m) {
     if (!(m->flags & MARIO_LEDGE_CLIMB_CAMERA)) {
         vec3f_copy(m->statusForCamera->pos, m->pos);
     }
+    /*sticky*/
+    if (gGravityMode)
+        m->statusForCamera->pos[1] -= 165.f;
+    /*sticky*/
 }
 
 /**
@@ -1915,3 +1945,12 @@ void init_mario_from_save_file(void) {
     gHudDisplay.coins = 0;
     gHudDisplay.wedges = 8;
 }
+
+/*sticky*/
+void vec3f_copy_with_gravity_switch(Vec3f dst, Vec3f src) {
+    dst[0] = src[0];
+    dst[1] = src[1];
+    if (gGravityMode) dst[1] = 9000.f - dst[1];
+    dst[2] = src[2];
+}
+/*sticky*/

@@ -1,0 +1,308 @@
+#include "sm64.h"
+#include "game/sound_init.h"
+#include "game/print.h"
+
+// 鳴る音の名前リスト
+const char *sDebugSoundNames[] = {
+    "ACTIVATE_CAP_SWITCH",
+    "FLAME_OUT",
+    "OPEN_WOOD_DOOR",
+    "CLOSE_WOOD_DOOR",
+    "OPEN_IRON_DOOR",
+    "CLOSE_IRON_DOOR",
+    "BUBBLES",
+    "MOVING_WATER",
+    "WING_FLAP",
+    "QUIET_BUBBLE",
+    "VOLCANO_EXPLOSION",
+    "QUIET_BUBBLE2",
+    "CASTLE_TRAP_OPEN",
+    "WALL_EXPLOSION",
+    "COIN",
+    "COIN_WATER",
+    "SHORT_STAR",
+    "BIG_CLOCK",
+    "LOUD_POUND",
+    "LOUD_POUND2",
+    "SHORT_POUND1",
+    "SHORT_POUND2",
+    "SHORT_POUND3",
+    "SHORT_POUND4",
+    "SHORT_POUND5",
+    "SHORT_POUND6",
+    "OPEN_CHEST",
+    "OPEN_CHEST_WATER",
+    "BOX_LANDING_UNUSED",
+    "SMALL_BOX_LANDING",
+    "UNKNOWN1",
+    "ROLLING_LOG",
+    "CLAM_SHELL_OPEN",
+    "CLAM_SHELL_CLOSE",
+    "PAINTING_EJECT",
+    "LEVEL_SELECT_CHANGE",
+    "PLATFORM",
+    "DONUT_PLATFORM_EXPLOSION",
+    "BOWSER_BOMB_EXPLOSION",
+    "COIN_SPURT",
+    "EXPLOSION6",
+    "UNK32",
+    "DRAWBRIDGE_LOWER",
+    "DRAWBRIDGE_RAISE",
+    "COIN_DROP",
+    "BOWSER_KEY_LAND",
+    "PENDULUM_SWING",
+    "CHAIN_CHOMP1",
+    "CHAIN_CHOMP2",
+    "DOOR_TURN_KEY",
+    "MOVING_IN_SAND",
+    "ELEVATOR_WOBBLE_LOWPRIO",
+    "KICKABLE_BOARD_FALL",
+    "MOVING_PLATFORM_SWITCH",
+    "CAGE_OPEN",
+    "QUIET_POUND1_LOWPRIO",
+    "QUIET_POUND1",
+    "BREAK_BOX",
+    "DOOR_INSERT_KEY",
+    "VOLCANO_TRAP_FALL",
+    "BIG_POUND",
+    "VOLCANO_TRAP_RISE",
+    "TOX_BOX_MOVE",
+    "CANNON_UP",
+    "GRINDEL_ROLL",
+    "EXPLOSION7",
+    "SHAKE_COFFIN",
+    "RACE_GUN_SHOT",
+    "STAR_DOOR_OPEN",
+    "STAR_DOOR_CLOSE",
+    "POUND_ROCK",
+    "STAR_APPEARS",
+    "COLLECT_1UP",
+    "BUTTON_PRESS_LOWPRIO",
+    "BUTTON_PRESS",
+    "BUTTON_PRESS_2_LOWPRIO",
+    "BUTTON_PRESS_2",
+    "ELEVATOR_MOVE",
+    "ELEVATOR_MOVE_2",
+    "SWISH_AIR_UNUSED",
+    "HAUNTED_CHAIR_SWISH_AIR",
+    "HAUNTED_CHAIR_SPIN",
+    "BOO_CAGE_SOFT_LANDING",
+    "HAUNTED_CHAIR_FALL",
+    "BOWSER_PLATFORM_UNUSED",
+    "BOWSER_PLATFORM_FALL",
+    "HEART_SPIN",
+    "POUND_WOOD_POST",
+    "WATER_LEVEL_TRIG",
+    "SWITCH_DOOR_OPEN",
+    "RED_COIN",
+    "BIRDS_FLY_AWAY",
+    "ELEVATOR_LAND",
+    "CRAZY_BOX_BOING_SLOW",
+    "MONEYBAG_BOING_LOWPRIO",
+    "CRAZY_BOX_BOING_FAST",
+    "YOSHI_WALK",
+    "ENEMY_ALERT1",
+    "YOSHI_TALK",
+    "SPLATTERING",
+    "BOING3_UNUSED",
+    "GRAND_STAR",
+    "GRAND_STAR_JUMP",
+    "BOAT_ROCK",
+    "VANISH_SFX",
+    "LAUNCH_SPRING"
+};
+
+// 音IDリスト（名前に対応）
+const s32 sDebugSoundIds[] = {
+    SOUND_GENERAL_ACTIVATE_CAP_SWITCH,
+    SOUND_GENERAL_FLAME_OUT,
+    SOUND_GENERAL_OPEN_WOOD_DOOR,
+    SOUND_GENERAL_CLOSE_WOOD_DOOR,
+    SOUND_GENERAL_OPEN_IRON_DOOR,
+    SOUND_GENERAL_CLOSE_IRON_DOOR,
+    SOUND_GENERAL_BUBBLES,
+    SOUND_GENERAL_MOVING_WATER,
+    SOUND_GENERAL_WING_FLAP,
+    SOUND_GENERAL_QUIET_BUBBLE,
+    SOUND_GENERAL_VOLCANO_EXPLOSION,
+    SOUND_GENERAL_QUIET_BUBBLE2,
+    SOUND_GENERAL_CASTLE_TRAP_OPEN,
+    SOUND_GENERAL_WALL_EXPLOSION,
+    SOUND_GENERAL_COIN,
+    SOUND_GENERAL_COIN_WATER,
+    SOUND_GENERAL_SHORT_STAR,
+    SOUND_GENERAL_BIG_CLOCK,
+    SOUND_GENERAL_LOUD_POUND,
+    SOUND_GENERAL_LOUD_POUND2,
+    SOUND_GENERAL_SHORT_POUND1,
+    SOUND_GENERAL_SHORT_POUND2,
+    SOUND_GENERAL_SHORT_POUND3,
+    SOUND_GENERAL_SHORT_POUND4,
+    SOUND_GENERAL_SHORT_POUND5,
+    SOUND_GENERAL_SHORT_POUND6,
+    SOUND_GENERAL_OPEN_CHEST,
+    SOUND_GENERAL_OPEN_CHEST_WATER,
+    SOUND_GENERAL_BOX_LANDING_UNUSED,
+    SOUND_GENERAL_SMALL_BOX_LANDING,
+    SOUND_GENERAL_UNKNOWN1,
+    SOUND_GENERAL_ROLLING_LOG,
+    SOUND_GENERAL_CLAM_SHELL_OPEN,
+    SOUND_GENERAL_CLAM_SHELL_CLOSE,
+    SOUND_GENERAL_PAINTING_EJECT,
+    SOUND_GENERAL_LEVEL_SELECT_CHANGE,
+    SOUND_GENERAL_PLATFORM,
+    SOUND_GENERAL_DONUT_PLATFORM_EXPLOSION,
+    SOUND_GENERAL_BOWSER_BOMB_EXPLOSION,
+    SOUND_GENERAL_COIN_SPURT,
+    SOUND_GENERAL_EXPLOSION6,
+    SOUND_GENERAL_UNK32,
+    SOUND_GENERAL_DRAWBRIDGE_LOWER,
+    SOUND_GENERAL_DRAWBRIDGE_RAISE,
+    SOUND_GENERAL_COIN_DROP,
+    SOUND_GENERAL_BOWSER_KEY_LAND,
+    SOUND_GENERAL_PENDULUM_SWING,
+    SOUND_GENERAL_CHAIN_CHOMP1,
+    SOUND_GENERAL_CHAIN_CHOMP2,
+    SOUND_GENERAL_DOOR_TURN_KEY,
+    SOUND_GENERAL_MOVING_IN_SAND,
+    SOUND_GENERAL_ELEVATOR_WOBBLE_LOWPRIO,
+    SOUND_GENERAL_KICKABLE_BOARD_FALL,
+    SOUND_GENERAL_MOVING_PLATFORM_SWITCH,
+    SOUND_GENERAL_CAGE_OPEN,
+    SOUND_GENERAL_QUIET_POUND1_LOWPRIO,
+    SOUND_GENERAL_QUIET_POUND1,
+    SOUND_GENERAL_BREAK_BOX,
+    SOUND_GENERAL_DOOR_INSERT_KEY,
+    SOUND_GENERAL_VOLCANO_TRAP_FALL,
+    SOUND_GENERAL_BIG_POUND,
+    SOUND_GENERAL_VOLCANO_TRAP_RISE,
+    SOUND_GENERAL_TOX_BOX_MOVE,
+    SOUND_GENERAL_CANNON_UP,
+    SOUND_GENERAL_GRINDEL_ROLL,
+    SOUND_GENERAL_EXPLOSION7,
+    SOUND_GENERAL_SHAKE_COFFIN,
+    SOUND_GENERAL_RACE_GUN_SHOT,
+    SOUND_GENERAL_STAR_DOOR_OPEN,
+    SOUND_GENERAL_STAR_DOOR_CLOSE,
+    SOUND_GENERAL_POUND_ROCK,
+    SOUND_GENERAL_STAR_APPEARS,
+    SOUND_GENERAL_COLLECT_1UP,
+    SOUND_GENERAL_BUTTON_PRESS_LOWPRIO,
+    SOUND_GENERAL_BUTTON_PRESS,
+    SOUND_GENERAL_BUTTON_PRESS_2_LOWPRIO,
+    SOUND_GENERAL_BUTTON_PRESS_2,
+    SOUND_GENERAL_ELEVATOR_MOVE,
+    SOUND_GENERAL_ELEVATOR_MOVE_2,
+    SOUND_GENERAL_SWISH_AIR_UNUSED,
+    SOUND_GENERAL_HAUNTED_CHAIR_SWISH_AIR,
+    SOUND_GENERAL_HAUNTED_CHAIR_SPIN,
+    SOUND_GENERAL_BOO_CAGE_SOFT_LANDING,
+    SOUND_GENERAL_HAUNTED_CHAIR_FALL,
+    SOUND_GENERAL_BOWSER_PLATFORM_UNUSED,
+    SOUND_GENERAL_BOWSER_PLATFORM_FALL,
+    SOUND_GENERAL_HEART_SPIN,
+    SOUND_GENERAL_POUND_WOOD_POST,
+    SOUND_GENERAL_WATER_LEVEL_TRIG,
+    SOUND_GENERAL_SWITCH_DOOR_OPEN,
+    SOUND_GENERAL_RED_COIN,
+    SOUND_GENERAL_BIRDS_FLY_AWAY,
+    SOUND_GENERAL_ELEVATOR_LAND,
+    SOUND_GENERAL_CRAZY_BOX_BOING_SLOW,
+    SOUND_GENERAL_MONEYBAG_BOING_LOWPRIO,
+    SOUND_GENERAL_CRAZY_BOX_BOING_FAST,
+    SOUND_GENERAL_YOSHI_WALK,
+    SOUND_GENERAL_ENEMY_ALERT1,
+    SOUND_GENERAL_YOSHI_TALK,
+    SOUND_GENERAL_SPLATTERING,
+    SOUND_GENERAL_BOING3_UNUSED,
+    SOUND_GENERAL_GRAND_STAR,
+    SOUND_GENERAL_GRAND_STAR_JUMP,
+    SOUND_GENERAL_BOAT_ROCK,
+    SOUND_GENERAL_VANISH_SFX,
+    SOUND_GENERAL_LAUNCH_SPRING
+};
+
+// 配列サイズ
+#define DEBUG_SOUND_COUNT (sizeof(sDebugSoundNames) / sizeof(sDebugSoundNames[0]))
+
+static s32 sDebugSoundIndex = 0;
+static s32 sDebugSoundScroll = 0;
+static s32 sInputCooldown = 0;
+static u8 sActive = 0; // モードがアクティブか
+
+void bhv_Debug_Sound_init(void) {
+    o->oDebugSoundTrigger = TRUE;
+}
+
+void debug_sound_update_inputs(void) {
+    if (!sActive) return;
+
+    if (sInputCooldown > 0) {
+        sInputCooldown--;
+        return;
+    }
+
+    if (gPlayer1Controller != NULL) {
+        // スティック上下で選択移動
+        if (gPlayer1Controller->stickY > 30) {
+            sDebugSoundIndex--;
+            if (sDebugSoundIndex < 0) sDebugSoundIndex = 0;
+            sInputCooldown = 10;
+            cur_obj_play_sound_1(SOUND_MENU_CHANGE_SELECT);
+        } else if (gPlayer1Controller->stickY < -30) {
+            sDebugSoundIndex++;
+            if (sDebugSoundIndex >= DEBUG_SOUND_COUNT) sDebugSoundIndex = DEBUG_SOUND_COUNT - 1;
+            sInputCooldown = 10;
+            cur_obj_play_sound_1(SOUND_MENU_CHANGE_SELECT);
+        }
+
+        // Lボタンでサウンド再生
+        if (gPlayer1Controller->buttonPressed & Z_TRIG) {
+            s32 soundId = sDebugSoundIds[sDebugSoundIndex];
+            if (soundId != 0) {
+                cur_obj_play_sound_1(soundId);
+            }
+        }
+    }
+
+    sDebugSoundScroll = sDebugSoundIndex / 8;
+}
+
+void debug_sound_render(void) {
+    if (!sActive) return;
+
+    for (s32 i = 0; i < 8; i++) {
+        s32 idx = i + sDebugSoundScroll * 8;
+        if (idx >= DEBUG_SOUND_COUNT) break;
+
+        char buf[64];
+        sprintf(buf, "%s %s", (idx == sDebugSoundIndex) ? "×" : " ", sDebugSoundNames[idx]);
+        print_text(10, 150 - i * 16, buf);
+        print_text(120, 180, "Z");
+    }
+}
+
+void bhv_Debug_Sound_loop(void) {
+    // オブジェクトに乗ったらモード開始
+    if (!sActive && gMarioObject->platform == o && o->oDebugSoundTrigger) {
+        sActive = 1;
+        sDebugSoundIndex = 0;
+        sDebugSoundScroll = 0;
+        o->oTimer = 0;
+    set_mario_npc_dialog(MARIO_DIALOG_STATUS_START);
+    o->oDebugSoundTrigger = FALSE;
+    }
+
+    if (gMarioObject->platform != o) {
+        o->oAction = 0;
+        o->oDebugSoundTrigger = TRUE;
+    }
+
+    if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+        sActive = 0;
+        set_mario_npc_dialog(MARIO_DIALOG_STATUS_NONE);
+    }
+
+    debug_sound_update_inputs();
+    debug_sound_render();
+}

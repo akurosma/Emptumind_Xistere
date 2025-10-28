@@ -292,6 +292,11 @@ struct SequencePlayer {
 #ifdef VERSION_SH
     /*              0x00C*/ s16 tempoAdd;
 #endif
+/*rulu music selector*/
+#ifdef VERSION_US
+    /*              0x00C*/ s16 tempoAdd;
+#endif
+/*rulu music selector*/
     /*0x010, 0x00C, 0x00E*/ s16 transposition;
     /*0x012, 0x00E, 0x010*/ u16 delay;
 #if defined(VERSION_EU) || defined(VERSION_SH)

@@ -1,0 +1,15 @@
+extern const GeoLayout test_cube_geo[];
+extern u8 test_cube_sticky_ci4[];
+extern u8 test_cube_sticky_pal_rgba16[];
+extern u8 test_cube_ceill_ci4[];
+extern u8 test_cube_ceill_pal_rgba16[];
+extern Vtx test_cube_test_cube_mesh_layer_1_vtx_cull[8];
+extern Vtx test_cube_test_cube_mesh_layer_1_vtx_0[16];
+extern Gfx test_cube_test_cube_mesh_layer_1_tri_0[];
+extern Vtx test_cube_test_cube_mesh_layer_1_vtx_1[8];
+extern Gfx test_cube_test_cube_mesh_layer_1_tri_1[];
+extern Gfx mat_test_cube_f3dlite_material_001[];
+extern Gfx mat_revert_test_cube_f3dlite_material_001[];
+extern Gfx mat_test_cube_f3dlite_material[];
+extern Gfx mat_revert_test_cube_f3dlite_material[];
+extern Gfx test_cube_test_cube_mesh_layer_1[];

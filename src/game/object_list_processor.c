@@ -229,7 +229,7 @@ void copy_mario_state_to_object(void) {
     gCurrentObject->oVelZ = gMarioStates[i].vel[2];
 
     gCurrentObject->oPosX = gMarioStates[i].pos[0];
-    gCurrentObject->oPosY = gMarioStates[i].pos[1];
+    gCurrentObject->oPosY = (gGravityMode ? 9000.f - gMarioStates[i].pos[1] : gMarioStates[i].pos[1]);
     gCurrentObject->oPosZ = gMarioStates[i].pos[2];
 
     gCurrentObject->oMoveAnglePitch = gCurrentObject->header.gfx.angle[0];
@@ -264,6 +264,10 @@ void bhv_mario_update(void) {
     u32 particleFlags = 0;
     s32 i;
 
+    /*sticky*/
+    gGravityMode = gIsGravityFlipped;
+    /*sticky*/
+
     particleFlags = execute_mario_action(gCurrentObject);
     gCurrentObject->oMarioParticleFlags = particleFlags;
 
@@ -280,6 +284,10 @@ void bhv_mario_update(void) {
 
         i++;
     }
+    /*sticky*/
+    if (gGravityMode) gMarioObject->header.gfx.angle[2] += 0x8000; // Turn Mario upside down
+    gGravityMode = FALSE;
+    /*sticky*/
 }
 
 /**

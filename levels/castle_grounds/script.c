@@ -116,6 +116,8 @@ const LevelScript level_castle_grounds_entry[] = {
 		OBJECT(MODEL_CASTLE_GROUNDS_WARP_PIPE, -1353, 0, -754, 0, 0, 0, (221 << 16), bhvWarpPipe),
 		OBJECT(MODEL_CASTLE_GROUNDS_WARP_PIPE, -1353, 0, -454, 0, 0, 0, (201 << 16), bhvWarpPipe),
 		OBJECT(MODEL_CASTLE_GROUNDS_WARP_PIPE, -1353, 0, 1046, 0, 0, 0, (171 << 16), bhvWarpPipe),
+		OBJECT(MODEL_RL_SWIMTUBE, 600, 0, -100, 0, 0, 0, 0x00000000, bhvMusicSelector),
+		OBJECT(MODEL_RL_SWIMTUBE, -600, 0, -100, 0, 0, 0, 0x00000000, bhvDebugSound),
 		TERRAIN(castle_grounds_area_1_collision),
 		MACRO_OBJECTS(castle_grounds_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

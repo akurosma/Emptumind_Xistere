@@ -14,6 +14,9 @@
 #include "mario_step.h"
 #include "save_file.h"
 #include "rumble_init.h"
+/*sticky*/
+#include "engine/surface_collision.h"
+/*sticky*/
 
 #include "config.h"
 
@@ -376,7 +379,7 @@ u32 common_air_action_step(struct MarioState *m, u32 landAction, s32 animation, 
             break;
 
         case AIR_STEP_HIT_WALL:
-        case AIR_STEP_HIT_CEILING:
+        //case AIR_STEP_HIT_CEILING://Rulu ceilling解除時の挙動改善のため
             set_mario_animation(m, animation);
 
             if (m->forwardVel > 16.0f) {
@@ -746,12 +749,26 @@ s32 act_dive(struct MarioState *m) {
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_NONE:
+            //stickyのため６行コメントアウト
+            //if (m->vel[1] < 0.0f && m->faceAngle[0] > -DEGREES(60)) {
+            //    m->faceAngle[0] -= 0x200;
+            //    if (m->faceAngle[0] < -DEGREES(60)) {
+            //        m->faceAngle[0] = -DEGREES(60);
+            //    }
+            //}
+            /*sticky*/
             if (m->vel[1] < 0.0f && m->faceAngle[0] > -DEGREES(60)) {
-                m->faceAngle[0] -= 0x200;
-                if (m->faceAngle[0] < -DEGREES(60)) {
-                    m->faceAngle[0] = -DEGREES(60);
+                if (gGravityMode) {
+                    m->faceAngle[0] += 0x200;
+                    if (m->faceAngle[0] > 0x2AAA)
+                        m->faceAngle[0] = 0x2AAA;
+                } else {
+                    m->faceAngle[0] -= 0x200;
+                    if (m->faceAngle[0] < -0x2AAA)
+                        m->faceAngle[0] = -0x2AAA;
                 }
             }
+            /*sticky*/
             m->marioObj->header.gfx.angle[0] = -m->faceAngle[0];
             break;
 
@@ -930,6 +947,10 @@ s32 act_ground_pound(struct MarioState *m) {
                 m->pos[1] += yOffset;
                 m->peakHeight = m->pos[1];
                 vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+                /*sticky*/
+                if (gGravityMode)
+                    m->marioObj->header.gfx.pos[1] = 9000.f - m->marioObj->header.gfx.pos[1];
+                /*sticky*/
             }
         }
 
@@ -1142,43 +1163,177 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
 }
 
 s32 check_wall_kick(struct MarioState *m) {
-    if (m->wallLastType == SURFACE_NO_WALLKICKS)
-    {
+    if (m->wallLastType == SURFACE_NO_WALLKICKS) {
         return FALSE;
     }
-    
-    if(m->wallLastType == SURFACE_B_BUTTON_WALL){
+
+    if (m->wallLastType == SURFACE_B_BUTTON_WALL) {
+
         if ((m->input & INPUT_B_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
             m->faceAngle[1] += 0x8000;
             m->wallKickedOf = m->wallLastType;
             return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
         }
-        if(m->framesSinceB < 2 && m->actionArg == 3){
+
+        if (m->framesSinceB < 2 && m->actionArg == 3) {
             m->wallKickTimer = 0;
             m->faceAngle[1] += 0x8000;
             m->wallKickedOf = m->wallLastType;
             return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
         }
-    }
-    else{
+
+    } else {
+
         if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
+            /* stickyのためまるごと変更
+            m->faceAngle[1] += 0x8000;
+            m->wallKickedOf = m->wallLastType;
+            return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+            }
+            if (m->framesSinceA < 2 && m->actionArg == 3) {
+                m->wallKickTimer = 0;
+                m->faceAngle[1] += 0x8000;
+                m->wallKickedOf = m->wallLastType;
+                return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
+            } */
+
+            /* sticky */
+            if (m->forwardVel > 16.f)
+                mario_set_forward_vel(m, 16.f);
+
             m->faceAngle[1] += 0x8000;
             m->wallKickedOf = m->wallLastType;
             return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
         }
-        if(m->framesSinceA < 2 && m->actionArg == 3){
+
+        if (m->framesSinceA < 2 && m->actionArg == 3) {
             m->wallKickTimer = 0;
             m->faceAngle[1] += 0x8000;
             m->wallKickedOf = m->wallLastType;
             return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
         }
+
+        /* sticky */
     }
+
     return FALSE;
 }
 
+/*sticky*/
+static s32 _bonk_or_hit_lava_wall(struct MarioState *m, struct WallCollisionData *wallData) {
+    s16 i;
+    s16 wallDYaw;
+    s32 oldWallDYaw;
+    s32 result = AIR_STEP_NONE;
+
+    if (m->wall != NULL) {
+        oldWallDYaw = abs_angle_diff(m->wallYaw, m->faceAngle[1]);
+    } else {
+        oldWallDYaw = 0x0;
+    }
+
+    for (i = 0; i < wallData->numWalls; i++) {
+        if (wallData->walls[i] != NULL) {
+            // Update wall reference (bonked wall) only if the new wall has a better facing angle
+            wallDYaw = abs_angle_diff(SURFACE_YAW(wallData->walls[i]), m->faceAngle[1]);
+            if (wallDYaw > oldWallDYaw) {
+                oldWallDYaw = wallDYaw;
+                set_mario_wall(m, wallData->walls[i]);
+            }
+        }
+    }
+
+    return result;
+}
+
+static void filterStickyWalls(struct WallCollisionData *wallData)
+{
+    struct Surface *walls[MAX_REFERENCED_WALLS];
+    int wallWriteCnt = 0;
+    for (int i = 0; i < wallData->numWalls; i++)
+    {
+        struct Surface* curWall = wallData->walls[i];
+        if (curWall->type == SURFACE_STICKY)
+        {
+            walls[wallWriteCnt++] = curWall;
+        }
+    }
+
+    for (int i = 0; i < wallWriteCnt; i++)
+    {
+        wallData->walls[i] = walls[i];
+    }
+    wallData->numWalls = wallWriteCnt;
+}
+
+static s32 _perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u32 stepArg) {
+    set_mario_wall(m, NULL);
+    s16 i;
+    s32 stepResult = AIR_STEP_NONE;
+
+    Vec3f nextPos, ledgePos;
+    struct WallCollisionData upperWall, lowerWall;
+    struct Surface *ceil, *floor, *ledgeFloor;
+    struct Surface *grabbedWall = NULL;
+
+    vec3f_copy(nextPos, intendedPos);
+
+    resolve_and_return_wall_collisions(nextPos, 150.0f, 100.0f, &upperWall);
+    resolve_and_return_wall_collisions(nextPos, 30.0f, 100.0f, &lowerWall);
+    filterStickyWalls(&upperWall);
+    filterStickyWalls(&lowerWall);
+
+    f32 floorHeight = find_floor(nextPos[0], nextPos[1], nextPos[2], &floor);
+    f32 ceilHeight = find_mario_ceil(nextPos, floorHeight, &ceil);
+
+    set_mario_floor(m, floor, floorHeight);
+    if (upperWall.numWalls > 0) {
+        stepResult  = _bonk_or_hit_lava_wall(m, &upperWall);
+        if (stepResult != AIR_STEP_NONE) {
+            return stepResult;
+        }
+    }
+
+    return (lowerWall.numWalls > 0) ? _bonk_or_hit_lava_wall(m, &lowerWall) : AIR_STEP_NONE;
+}
+
+static s32 manage_sticky_wall(struct MarioState *m){
+	if( (gPlayer1Controller->buttonPressed&Z_TRIG) || m->wall == NULL){
+		return set_mario_action(m, ACT_FREEFALL, 0);
+	}
+	vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
+	m->marioObj->header.gfx.angle[1] = m->faceAngle[1]+0x8000;
+    m->faceAngle[1] = m->faceAngle[1]+0x8000;
+    _perform_air_quarter_step(m, m->pos, 0);
+    m->faceAngle[1] = m->faceAngle[1]+0x8000;
+	return FALSE;
+}
+/*sticky*/
+
+/*sticky*/
+extern f32 find_floor(f32 xPos, f32 yPos, f32 zPos, struct Surface **pfloor);
+//extern f32 gAglabThrowSpeed;
+/*sticky*/
 s32 act_backward_air_kb(struct MarioState *m) {
+    /*sticky*/
+    if (gCamera->cutscene == CUTSCENE_SSL_PYRAMID_EXPLODE) {
+        //gAglabThrowSpeed = 0;
+        if (m->actionTimer++ > ((8 * 30) + 10)) {
+            struct Surface *floor;
+            f32 y = find_floor(m->marioObj->header.gfx.pos[0], m->marioObj->header.gfx.pos[1], m->marioObj->header.gfx.pos[2], &floor);
+            m->floor = floor;
+            m->floorHeight = y;
+        }
+        return FALSE;
+    }
+    /*sticky*/
+
     if (check_wall_kick(m)) {
         return TRUE;
+    /*sticky*/
+    }else if(m->prevAction == ACT_AIR_HIT_WALL && m->actionArg == 3){
+		return manage_sticky_wall(m);
+    /*sticky*/
     }
 
     play_knockback_sound(m);
@@ -1189,6 +1344,10 @@ s32 act_backward_air_kb(struct MarioState *m) {
 s32 act_forward_air_kb(struct MarioState *m) {
     if (check_wall_kick(m)) {
         return TRUE;
+    /*sticky*/
+    }else if(m->prevAction == ACT_AIR_HIT_WALL && m->actionArg == 3){
+		return manage_sticky_wall(m);
+    /*sticky*/
     }
 
     play_knockback_sound(m);
@@ -1252,6 +1411,10 @@ s32 act_thrown_forward(struct MarioState *m) {
 s32 act_soft_bonk(struct MarioState *m) {
     if (check_wall_kick(m)) {
         return TRUE;
+    /*sticky*/
+    }else if(m->prevAction == ACT_AIR_HIT_WALL && m->actionArg == 3){
+		return manage_sticky_wall(m);
+    /*sticky*/
     }
 
     play_knockback_sound(m);
@@ -1310,10 +1473,18 @@ s32 act_air_hit_wall(struct MarioState *m) {
         mario_drop_held_object(m);
     }
 
-    m->prevForwardVel = m->forwardVel;
+    /* sticky */
+    if (m->wall->type == SURFACE_NO_WALLKICKS) {
+        return set_mario_action(m, ACT_SOFT_BONK, 0);
+    }
+    /* sticky */
 
-    if (++(m->actionTimer) <= 2) {
-        if ((m->input & INPUT_A_PRESSED && m->wallLastType != SURFACE_B_BUTTON_WALL) || (m->wallLastType == SURFACE_B_BUTTON_WALL && m->input & INPUT_B_PRESSED)) {
+    /* sticky */
+    if (++(m->actionTimer) <= FIRSTY_LAST_FRAME) {
+        /* sticky */
+        if ((m->input & INPUT_A_PRESSED && m->wallLastType != SURFACE_B_BUTTON_WALL)
+            || (m->wallLastType == SURFACE_B_BUTTON_WALL && (m->input & INPUT_B_PRESSED))) {
+
             m->vel[1] = 52.0f;
             m->faceAngle[1] += 0x8000;
             m->wallKickedOf = m->wallLastType;
@@ -1321,14 +1492,27 @@ s32 act_air_hit_wall(struct MarioState *m) {
         }
     } else if (m->forwardVel >= 38.0f) {
         m->wallKickTimer = 5;
+
         if (m->vel[1] > 0.0f) {
             m->vel[1] = 0.0f;
         }
 
         m->particleFlags |= PARTICLE_VERTICAL_STAR;
-        return set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+
+        /* sticky */
+        if (m->wall && m->wall->type == SURFACE_STICKY) {
+            m->forwardVel = 0.0f;
+            m->vel[1] = 0.0f;
+            set_mario_animation(m, MARIO_ANIM_START_WALLKICK);
+            return set_mario_action(m, ACT_BACKWARD_AIR_KB, 3);
+        } else {
+            /* sticky */
+            return set_mario_action(m, ACT_BACKWARD_AIR_KB, 0);
+        }
+
     } else {
         m->wallKickTimer = 5;
+
         if (m->vel[1] > 0.0f) {
             m->vel[1] = 0.0f;
         }
@@ -1336,13 +1520,31 @@ s32 act_air_hit_wall(struct MarioState *m) {
         if (m->forwardVel > 8.0f) {
             mario_set_forward_vel(m, -8.0f);
         }
-        return set_mario_action(m, ACT_SOFT_BONK, 0);
+
+        /* sticky */
+        if (m->wall && m->wall->type == SURFACE_STICKY) {
+            m->forwardVel = 0.0f;
+            m->vel[1] = 0.0f;
+            set_mario_animation(m, MARIO_ANIM_START_WALLKICK);
+            return set_mario_action(m, ACT_SOFT_BONK, 3);
+        } else {
+            /* sticky */
+            return set_mario_action(m, ACT_SOFT_BONK, 0);
+        }
     }
 
+    /* sticky */
+#if FIRSTY_LAST_FRAME > 1
+    /* sticky */
     set_mario_animation(m, MARIO_ANIM_START_WALLKICK);
+    /* sticky */
+    m->marioObj->header.gfx.angle[1] = m->wallYaw;
+#endif
 
+    /* sticky */
     return TRUE;
 }
+
 
 s32 act_forward_rollout(struct MarioState *m) {
     if (m->actionState == 0) {

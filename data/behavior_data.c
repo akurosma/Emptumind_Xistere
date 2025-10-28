@@ -5450,9 +5450,14 @@ const BehaviorScript bhvTTCPendulum[] = {
     END_LOOP(),
 };
 
+/*sticky一部変更*/
 const BehaviorScript bhvTTCTreadmill[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_NO_AUTO_DISPLACEMENT)),
+#ifdef PLATFORM_DISPLACEMENT_2
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_VELOCITY_PLATFORM)),
+#else
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+#endif
     SET_FLOAT(oCollisionDistance, 750),
     CALL_NATIVE(bhv_ttc_treadmill_init),
     DELAY(1),
@@ -5462,6 +5467,7 @@ const BehaviorScript bhvTTCTreadmill[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+/*sticky*/
 
 const BehaviorScript bhvTTCMovingBar[] = {
     BEGIN(OBJ_LIST_SURFACE),
@@ -6568,5 +6574,47 @@ const BehaviorScript bhvFadingwall[] = {
     CALL_NATIVE(bhv_fadingwall_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_fadingwall_loop),
+    END_LOOP(),
+};
+
+extern const Collision test_cube_collision[];
+const BehaviorScript bhvTestCube[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(test_cube_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_test_cube_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_test_cube_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvMusicSelector[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    LOAD_COLLISION_DATA(rl_swimtube_collision),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_Music_Selector_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_Music_Selector_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvDebugSound[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    LOAD_COLLISION_DATA(rl_swimtube_collision),
+    SET_INT(oIntangibleTimer, 0),
+    SET_FLOAT(oDrawingDistance, 10000),
+    CALL_NATIVE(bhv_Debug_Sound_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_Debug_Sound_loop),
+        CALL_NATIVE(debug_sound_render),
+        CALL_NATIVE(debug_sound_update_inputs),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

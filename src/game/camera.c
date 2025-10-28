@@ -5935,9 +5935,7 @@ struct CameraTrigger sCamCotMC[] = {
  * The CCM triggers are used to set the flag that says when Mario is in the slide shortcut.
  */
 struct CameraTrigger sCamCCM[] = {
-    { 2, cam_ccm_enter_slide_shortcut, -4846, 2061, 27, 1229, 1342, 396, 0 },
-    { 2, cam_ccm_leave_slide_shortcut, -6412, -3917, -6246, 307, 185, 132, 0 },
-    NULL_TRIGGER
+	NULL_TRIGGER
 };
 
 /**
@@ -6478,6 +6476,10 @@ void find_mario_floor_and_ceil(struct PlayerGeometry *pg) {
     struct Surface *surf;
     s32 tempCollisionFlags = gCollisionFlags;
     gCollisionFlags |= COLLISION_FLAG_CAMERA;
+
+    /*sticky*/
+    gGravityMode = gIsGravityFlipped;
+    /*sticky*/
 
     if (find_floor(sMarioCamState->pos[0], sMarioCamState->pos[1] + 10.f,
                    sMarioCamState->pos[2], &surf) != FLOOR_LOWER_LIMIT) {

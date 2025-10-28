@@ -447,7 +447,7 @@ struct MarioState {
     /*0xC8*/ u8 switchSituation;
     /*0xD0*/ u8 shiftSituation;
     /*0xD4*/ s16 wallLastType;
-    /*0xD8*/ s16 wallKickedOf;
+    /*0xD8*/ s32 wallKickedOf;//sticky s16 -> s32
              u8  prevForwardVel;
              u8  barrelStatus;
              s8  barrelSpeedItem;

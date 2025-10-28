@@ -10,6 +10,15 @@
 #include "surface_load.h"
 #include "game/puppyprint.h"
 
+//sticky
+u32 gGravityMode = FALSE; // Is flipped gravity currently being applied (only when Mario is updated)
+u32 gIsGravityFlipped = FALSE; // Is gravity flipped
+
+struct Surface gCeilingDeathPlane = {
+    SURFACE_DEATH_PLANE, 0,    0,    0, 0, 0, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 },
+    { 0.0f, -1.0f, 0.0f },  0.0f, NULL,
+};
+
 /**************************************************
  *                      WALLS                     *
  **************************************************/
@@ -62,6 +71,15 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
     f32 invDenom;
     TerrainData type = SURFACE_DEFAULT;
     s32 numCols = 0;
+
+    /*sticky*/
+    if (radius > 200) {
+        radius = 200;
+    }
+
+    // Unlike floors/ceils, walls use regular co-ordinates for collision, so undo the transform.
+    if (gGravityMode) pos[1] = 9000.f - pos[1];
+    /*sticky*/
 
     f32 margin_radius = radius - 1.0f;
 
@@ -196,6 +214,28 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
     return numCols;
 }
 
+/*sticky*/
+s32 f32_find_wall_collision_ex(struct WallCollisionData* collision, f32 *xPtr, f32 *yPtr, f32 *zPtr, f32 offsetY, f32 radius)
+{
+    collision->offsetY = offsetY;
+    collision->radius = radius;
+
+    collision->x = *xPtr;
+    collision->y = *yPtr;
+    collision->z = *zPtr;
+
+    collision->numWalls = 0;
+
+    s32 numCollisions = find_wall_collisions(collision);
+
+    *xPtr = collision->x;
+    *yPtr = collision->y;
+    *zPtr = collision->z;
+
+    return numCollisions;
+}
+/*sticky*/
+
 /**
  * Formats the position and wall search for find_wall_collisions.
  */
@@ -323,6 +363,29 @@ static s32 check_within_ceil_triangle_bounds(s32 x, s32 z, struct Surface *surf,
     return TRUE;
 }
 
+/*sticky場所移動しただけ*/
+/**************************************************
+ *                     FLOORS                     *
+ **************************************************/
+
+static s32 check_within_floor_triangle_bounds(s32 x, s32 z, struct Surface *surf) {
+    Vec3i vx, vz;
+    vx[0] = surf->vertex1[0];
+    vz[0] = surf->vertex1[2];
+    vx[1] = surf->vertex2[0];
+    vz[1] = surf->vertex2[2];
+
+    if (((vz[0] - z) * (vx[1] - vx[0]) - (vx[0] - x) * (vz[1] - vz[0])) < 0) return FALSE;
+
+    vx[2] = surf->vertex3[0];
+    vz[2] = surf->vertex3[2];
+
+    if (((vz[1] - z) * (vx[2] - vx[1]) - (vx[1] - x) * (vz[2] - vz[1])) < 0) return FALSE;
+    if (((vz[2] - z) * (vx[0] - vx[2]) - (vx[2] - x) * (vz[0] - vz[2])) < 0) return FALSE;
+    return TRUE;
+}
+/*sticky*/
+
 /**
  * Iterate through the list of ceilings and find the first ceiling over a given point.
  */
@@ -338,7 +401,15 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
         type = surf->type;
 
         // Exclude all ceilings below the point
-        if (y > surf->upperY) continue;
+        //if (y > surf->upperY) continue;//sticky
+        /*sticky*/
+        if (gGravityMode) {
+            // TODO: uncba
+            // if (y < surf->lowerY) continue;
+        } else {
+            if (y > surf->upperY) continue;
+        }
+        /*sticky*/
 
         // Determine if checking for the camera or not
         if (gCollisionFlags & COLLISION_FLAG_CAMERA) {
@@ -351,7 +422,14 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
         }
 
         // Check that the point is within the triangle bounds
-        if (!check_within_ceil_triangle_bounds(x, z, surf, 1.5f)) continue;
+        //if (!check_within_ceil_triangle_bounds(x, z, surf, 1.5f)) continue;//sticky
+        /*sticky*/
+        if (gGravityMode) {
+            if (!check_within_floor_triangle_bounds(x, z, surf)) continue;
+        } else {
+            if (!check_within_ceil_triangle_bounds(x, z, surf, 1.5f)) continue;
+        }
+        /*sticky*/
 
         //start 2024/12/24 sill
         if (gCollisionFlags & COLLISION_FLAG_WATER)
@@ -383,6 +461,10 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
 
         // Find the height of the ceil at the given location
         height = get_surface_height_at_location(x, z, surf);
+        /*sticky*/
+        // Transform ceiling height
+        if (gGravityMode) height = 9000.f - height;
+        /*sticky*/
 
         // Exclude ceilings above the previous lowest ceiling
         if (height > *pheight) continue;
@@ -413,6 +495,9 @@ f32 find_ceil(f32 posX, f32 posY, f32 posZ, struct Surface **pceil) {
     s32 x = posX;
     s32 y = posY;
     s32 z = posZ;
+    /*sticky*/
+    s32 ceilPartition = (gGravityMode ? SPATIAL_PARTITION_FLOORS : SPATIAL_PARTITION_CEILS);
+    /*sticky*/
     *pceil = NULL;
 
     if (is_outside_level_bounds(x, z)) {
@@ -463,27 +548,6 @@ f32 find_ceil(f32 posX, f32 posY, f32 posZ, struct Surface **pceil) {
     return height;
 }
 
-/**************************************************
- *                     FLOORS                     *
- **************************************************/
-
-static s32 check_within_floor_triangle_bounds(s32 x, s32 z, struct Surface *surf) {
-    Vec3i vx, vz;
-    vx[0] = surf->vertex1[0];
-    vz[0] = surf->vertex1[2];
-    vx[1] = surf->vertex2[0];
-    vz[1] = surf->vertex2[2];
-
-    if (((vz[0] - z) * (vx[1] - vx[0]) - (vx[0] - x) * (vz[1] - vz[0])) < 0) return FALSE;
-
-    vx[2] = surf->vertex3[0];
-    vz[2] = surf->vertex3[2];
-
-    if (((vz[1] - z) * (vx[2] - vx[1]) - (vx[1] - x) * (vz[2] - vz[1])) < 0) return FALSE;
-    if (((vz[2] - z) * (vx[0] - vx[2]) - (vx[2] - x) * (vz[0] - vz[2])) < 0) return FALSE;
-    return TRUE;
-}
-
 /**
  * Iterate through the list of floors and find the first floor under a given point.
  */
@@ -492,6 +556,10 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
     register SurfaceType type = SURFACE_DEFAULT;
     register f32 height;
     register s32 bufferY = y + FIND_FLOOR_BUFFER;
+
+    /*sticky*/
+    if (gGravityMode) floor = &gCeilingDeathPlane;
+    /*sticky*/
 
     // Iterate through the list of floors until there are no more floors.
     while (surfaceNode != NULL) {
@@ -546,10 +614,21 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
         // Exclude all floors above the point.
         if (bufferY < surf->lowerY) continue;
         // Check that the point is within the triangle bounds.
-        if (!check_within_floor_triangle_bounds(x, z, surf)) continue;
+        //if (!check_within_floor_triangle_bounds(x, z, surf)) continue;//sticky
+        /*sticky*/
+        if (gGravityMode) {
+            if (!check_within_ceil_triangle_bounds(x, z, surf, 0.0f)) continue;
+        } else {
+            if (!check_within_floor_triangle_bounds(x, z, surf)) continue;
+        }
+        /*sticky*/
 
         // Get the height of the floor under the current location.
         height = get_surface_height_at_location(x, z, surf);
+        /*sticky*/
+        // Transform floor height
+        if (gGravityMode) height = 9000.f - height;
+        /*sticky*/
 
         // Exclude floors lower than the previous highest floor.
         if (height <= *pheight) continue;
@@ -647,6 +726,9 @@ f32 find_floor_height(f32 x, f32 y, f32 z) {
  */
 f32 unused_find_dynamic_floor(f32 xPos, f32 yPos, f32 zPos, struct Surface **pfloor) {
     f32 floorHeight = FLOOR_LOWER_LIMIT;
+    /*sticky*/
+    s32 floorPartition = (gGravityMode ? SPATIAL_PARTITION_CEILS : SPATIAL_PARTITION_FLOORS);
+    /*sticky*/
 
     // Would normally cause PUs, but dynamic floors unload at that range.
     s32 x = xPos;
@@ -673,6 +755,9 @@ f32 find_floor(f32 xPos, f32 yPos, f32 zPos, struct Surface **pfloor) {
 
     f32 height        = FLOOR_LOWER_LIMIT;
     f32 dynamicHeight = FLOOR_LOWER_LIMIT;
+    /*sticky*/
+    s32 floorPartition = (gGravityMode ? SPATIAL_PARTITION_CEILS : SPATIAL_PARTITION_FLOORS);
+    /*sticky*/
 
     //! (Parallel Universes) Because position is casted to an s16, reaching higher
     //  float locations can return floors despite them not existing there.

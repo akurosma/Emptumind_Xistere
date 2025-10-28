@@ -66,8 +66,15 @@ void play_step_sound(struct MarioState *m, s16 frame1, s16 frame2) {
 
 void align_with_floor(struct MarioState *m) {
     struct Surface *floor = m->floor;
-    if ((floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {
-        m->pos[1] = m->floorHeight;
+    //if ((floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {//sticky
+        //m->pos[1] = m->floorHeight;//sticky
+        /*sticky*/
+        if (!gGravityMode && (floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {
+        // Use a temp position so m->pos is not passed to the function
+        Vec3f tempPos;
+        vec3f_copy(tempPos,m->pos);
+        tempPos[1] = m->floorHeight;
+        /*sticky*/
 #ifdef FAST_FLOOR_ALIGN
         if (absf(m->forwardVel) > FAST_FLOOR_ALIGN) {
             Vec3f floorNormal;

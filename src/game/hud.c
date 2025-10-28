@@ -17,6 +17,9 @@
 #include "engine/math_util.h"
 #include "puppycam2.h"
 #include "puppyprint.h"
+#include "game/music_selector.h"
+#include "audio/external.h"
+#include "audio/seqplayer.h"
 
 #include "config.h"
 #include "behavior_data.h"
@@ -643,6 +646,7 @@ void render_hud(void) {
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {
             render_hud_timer();
         }
+        render_music_selector_ui();//rulu music selector
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
         if (gCustomDebugMode) {
@@ -688,3 +692,59 @@ void render_hud(void) {
         //end 2024/12/18 sill
     }
 }
+
+/*rulu music selector*/
+extern u8 gMusicSelectorActive;
+const char *get_instrument_name(struct Instrument *instr);
+extern s32 sInstrumentListActive;
+extern struct Object *gMusicSelectorObject;
+
+void render_music_selector_ui(void) {
+    int baseY = 40;
+
+    if (gMusicSelectorObject != NULL && gMusicSelectorObject->oAction == 1) {
+        // instrument list が表示中でなければ R/L を表示
+        if (!sInstrumentListActive) {
+            // Lボタン（緑）
+            print_set_envcolour(0, 255, 0, 255);
+            print_small_text(80, baseY, "L", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            // Rボタン（赤）
+            print_set_envcolour(255, 0, 0, 255);
+            print_small_text(260, baseY, "R", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+        }
+            // 中央ラベル（白）
+        print_set_envcolour(255, 255, 255, 255);
+        switch (gMusicSelectorObject->oMusicSelectorMode) {
+            case MUSIC_SELECTOR_MODE_MUSIC:
+                print_small_text(140, baseY, "Select Music", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                break;
+            case MUSIC_SELECTOR_MODE_TEMPO:
+                print_small_text(140, baseY, "Select Tempo", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                break;
+            case MUSIC_SELECTOR_MODE_INSTR:
+                if (sInstrumentListActive) {
+                    // instrument list 表示中
+                    print_small_text(140, baseY, "Instrument List", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                    print_set_envcolour(128, 128, 128, 255);
+                    print_small_text(110, baseY, "Z", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                } else {
+                // 通常の楽器選択中
+                print_small_text(140, baseY, "Select Instrument", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                print_small_text(100, 70, "back <Instrument> next", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                print_set_envcolour(255, 0, 0, 255);
+                print_small_text(60, 70, "Start", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                print_set_envcolour(0, 0, 255, 255);
+                print_small_text(225, 70, "A", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                }
+                print_set_envcolour(128, 128, 128, 255);
+                print_small_text(110, baseY, "Z", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                break;
+        }
+
+        // 色を戻す（白）
+        print_set_envcolour(255, 255, 255, 255);
+
+        if (!gMusicSelectorActive) return;
+    }
+}
+/*rulu music selector*/

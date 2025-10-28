@@ -2291,6 +2291,11 @@ void sequence_player_process_sequence(struct SequencePlayer *seqPlayer) {
 #ifdef VERSION_SH
     seqPlayer->tempoAcc += seqPlayer->tempoAdd;
 #endif
+/*rulu music selector*/
+#ifdef VERSION_US
+    seqPlayer->tempoAcc += seqPlayer->tempoAdd;
+#endif
+/*rulu music selector*/
     if (seqPlayer->tempoAcc < gTempoInternalToExternal) {
         return;
     }
@@ -2424,7 +2429,8 @@ void sequence_player_process_sequence(struct SequencePlayer *seqPlayer) {
                         break;
 
                     case 0xdd: // seq_settempo (bpm)
-#ifndef VERSION_SH
+//#ifndef VERSION_SH//rulu music selsector
+#ifndef VERSION_US
                     case 0xdc: // seq_addtempo (bpm)
 #endif
 #ifdef VERSION_SH
@@ -2449,7 +2455,8 @@ void sequence_player_process_sequence(struct SequencePlayer *seqPlayer) {
                         }
                         break;
 
-#ifdef VERSION_SH
+//#ifdef VERSION_SH//music selectorのためコメントアウト
+#ifdef VERSION_US
                     case 0xdc: // seq_addtempo (bpm)
                         seqPlayer->tempoAdd = (s8) m64_read_u8(state) * TEMPO_SCALE;
                         break;
@@ -2738,6 +2745,11 @@ void init_sequence_player(u32 player) {
 #ifdef VERSION_SH
     seqPlayer->tempoAdd = 0;
 #endif
+/*rulu music selector*/
+#ifdef VERSION_US
+    seqPlayer->tempoAdd = 0;
+#endif
+/*rulu music selector*/
     seqPlayer->transposition = 0;
 #ifndef VERSION_SH
     seqPlayer->muteBehavior = MUTE_BEHAVIOR_STOP_SCRIPT | MUTE_BEHAVIOR_STOP_NOTES | MUTE_BEHAVIOR_SOFTEN;

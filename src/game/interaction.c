@@ -1243,7 +1243,11 @@ u32 interact_bully(struct MarioState *m, UNUSED u32 interactType, struct Object 
 
         attack_object(obj, interaction);
         bounce_back_from_attack(m, interaction);
+        /*sticky*/
+        if ((interaction & INT_HIT_FROM_BELOW) && (!gGravityMode)) {
+        /*sticky*/
         return TRUE;
+        }
     } else if (!sInvulnerable && !(m->flags & MARIO_VANISH_CAP)
              && !(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
         obj->oInteractStatus = INT_STATUS_INTERACTED;
