@@ -73,6 +73,14 @@
  */
 // #define PREVENT_CAP_LOSS
 
+/*sticky*/
+// Platform displacement 2 also known as momentum patch. Makes Mario keep the momemtum from moving platforms. Doesn't break treadmills anymore!
+#define PLATFORM_DISPLACEMENT_2
+
+// The last frame that will be considered a firsty when wallkicking
+#define FIRSTY_LAST_FRAME 0
+/*stikcy*/
+
 /**
  * Uses Shindou's pole behavior.
  */

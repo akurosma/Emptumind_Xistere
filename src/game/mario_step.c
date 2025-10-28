@@ -404,6 +404,20 @@ struct Surface *check_ledge_grab(struct MarioState *m, struct Surface *prevWall,
     ledgePos[2] = nextPos[2] - (wall->normal.z * 60.0f);
     ledgePos[1] = find_floor(ledgePos[0], nextPos[1] + 160.0f, ledgePos[2], ledgeFloor);
 
+    /*sticky*/
+    f32 dir = gGravityMode ? -1.0f : 1.0f;
+    if (ledgeFloor == NULL
+        || (*ledgeFloor) == NULL
+        || ledgePos[1] < nextPos[1] + (dir*100.0f)
+        || ABS((*ledgeFloor)->normal.y) < COS45 // H64 TODO: check if floor is actually slippery
+        || SURFACE_IS_UNSAFE((*ledgeFloor)->type)) {
+        return NULL;
+    }
+
+    return returnedWall;
+}
+/*sticky*/
+    /*stickyのため
     if (ledgeFloor == NULL
         || (*ledgeFloor) == NULL
         || ledgePos[1] < nextPos[1] + 100.0f
@@ -415,7 +429,7 @@ struct Surface *check_ledge_grab(struct MarioState *m, struct Surface *prevWall,
     }
 
     return returnedWall;
-}
+}*/
 
 #undef hdot_surf
 

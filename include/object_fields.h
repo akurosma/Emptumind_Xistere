@@ -1261,6 +1261,13 @@
 #define /*0x0FC*/ oRlSwimtubeHeightOffset             OBJECT_FIELD_F32(0x1D)
 #define /*0x100*/ oRlSwimtubeWaterSurfaceWobbleOffset OBJECT_FIELD_S32(0x1E)
 
+/*musicselector*/
+#define oMusicSelectorIndex       OBJECT_FIELD_S32(0x1E)
+#define oMusicSelectorCanTrigger OBJECT_FIELD_S32(0x1F)
+#define oMusicSelectorMode OBJECT_FIELD_S32(0x20)
+
+/*rl_debugsound*/
+#define oDebugSoundTrigger       OBJECT_FIELD_S32(0x1B)
 
 /*Custom general defines:
 
