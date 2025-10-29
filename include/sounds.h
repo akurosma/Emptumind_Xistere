@@ -24,6 +24,17 @@
 #define SOUNDARGS_SHIFT_SOUNDID     16
 #define SOUNDARGS_SHIFT_PRIORITY    8
 
+// rulu_debug_sound用サウンドカテゴリビットマスク（ID上位4ビット識別用）
+#define SOUND_MARIO   0x20000000
+#define SOUND_PEACH   0x20000000
+#define SOUND_GENERAL   0x30000000
+#define SOUND_OBJ   0x50000000
+#define SOUND_ENV   0x40000000
+#define SOUND_AIR   0x60000000
+#define SOUND_MENU  0x70000000
+#define SOUND_OBJ2   0x90000000
+#define SOUND_GENERAL2   0x80000000
+
 /* Sound banks */
 enum SoundBank {
     SOUND_BANK_ACTION,

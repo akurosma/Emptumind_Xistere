@@ -9,6 +9,8 @@
 #include "game/debug.h"
 #include "game/main.h"
 
+extern s16 gCurrLevelNum;//rulu music selector
+
 #ifdef VERSION_SH
 void seq_channel_layer_process_script_part1(struct SequenceChannelLayer *layer);
 s32 seq_channel_layer_process_script_part2(struct SequenceChannelLayer *layer);
@@ -1657,11 +1659,68 @@ void sequence_channel_process_script(struct SequenceChannel *seqChannel) {
                         }
                         FALL_THROUGH;
 #endif
-
-                    case 0xc1: // chan_setinstr ("set program"?)
+/*もともとのコード
+case 0xc1: // chan_setinstr ("set program"?)
                         set_instrument(seqChannel, m64_read_u8(state));
                         break;
+*/
+/*rulu music selector start*/
+                    case 0xC1: // chan_setinstr ("set program"?)
+{
+    u8 newInstId = m64_read_u8(state);
+    set_instrument(seqChannel, newInstId);
 
+    extern s32 sChannelInstrumentId[16];
+    extern struct CtlEntry *gCtlEntries;
+    struct Instrument **set = gCtlEntries[0x0C].instruments;
+    s32 count = gCtlEntries[0x0C].numInstruments;
+
+    static s32 lastSeqId = -1;
+    static s32 justChanged = TRUE;
+
+    s32 currentSeqId = gSequencePlayers[SEQ_PLAYER_LEVEL].seqId;
+
+    // --- 曲の切り替えを検知 ---
+    if (currentSeqId != lastSeqId) {
+        justChanged = TRUE;
+        lastSeqId = currentSeqId;
+
+        // ✅ 曲が変わったら（別コースなど）楽器リストをリセット
+        for (s32 j = 0; j < 16; j++) {
+            sChannelInstrumentId[j] = -1;
+        }
+    }
+
+    for (s32 i = 0; i < 16; i++) {
+        if (seqChannel == gSequencePlayers[SEQ_PLAYER_LEVEL].channels[i]) {
+
+            // --- CASTLE_GROUNDS専用の挙動 ---
+            if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) {
+                if (justChanged) {
+                    // 🎵 新しい曲開始時 → MIDIのProgram Changeをそのまま使う
+                    sChannelInstrumentId[i] = newInstId;
+                } else {
+                    // 🔁 ループ中 → ユーザー設定を再適用
+                    s32 customId = sChannelInstrumentId[i];
+                    if (customId >= 0 && customId < count) {
+                        seqChannel->instrument = set[customId];
+                        seqChannel->instOrWave = (u8 *)set[customId];
+                    }
+                }
+            } else {
+                // 🏰 他のコースでは常にMIDIのProgram Changeを使う（変更影響なし）
+                sChannelInstrumentId[i] = -1;
+            }
+            break;
+        }
+    }
+    if (gSequencePlayers[SEQ_PLAYER_LEVEL].enabled &&
+        currentSeqId == lastSeqId) {
+        justChanged = FALSE;
+    }
+}
+break;
+/*rulu music selector end*/
                     case 0xc3: // chan_largenotesoff
                         seqChannel->largeNotes = FALSE;
                         break;
