@@ -19,6 +19,10 @@ enum SoundCategory {
     SOUND_CAT_AIR,
     SOUND_CAT_GENERAL2,
     SOUND_CAT_OBJECT2,
+    SOUND_CAT_PEACH,
+    SOUND_CAT_MARIO,
+    SOUND_CAT_MOVING,
+    SOUND_CAT_ACTION,
     SOUND_CAT_COUNT
 };
 
@@ -51,16 +55,92 @@ const char *sGeneralSoundNames[] = {
     "BIG_CLOCK",
     "LOUD_POUND",
     "LOUD_POUND2",
+    "SHORT_POUND1",
+    "SHORT_POUND2",
+    "SHORT_POUND3",
+    "SHORT_POUND4",
+    "SHORT_POUND5",
+    "SHORT_POUND6",
     "OPEN_CHEST",
     "OPEN_CHEST_WATER",
+    "BOX_LANDING_UNUSED",
+    "SMALL_BOX_LANDING",
+    "UNKNOWN1",
+    "ROLLING_LOG",
+    "CLAM_SHELL_OPEN",
+    "CLAM_SHELL_CLOSE",
+    "PAINTING_EJECT",
+    "LEVEL_SELECT_CHANGE",
+    "PLATFORM",
+    "DONUT_PLATFORM_EXPLOSION",
     "BOWSER_BOMB_EXPLOSION",
+    "COIN_SPURT",
+    "EXPLOSION6",
+    "UNK32",
+    "DRAWBRIDGE_LOWER",
+    "DRAWBRIDGE_RAISE",
+    "COIN_DROP",
+    "BOWSER_KEY_LAND",
+    "PENDULUM_SWING",
+    "CHAIN_CHOMP1",
+    "CHAIN_CHOMP2",
+    "DOOR_TURN_KEY",
+    "MOVING_IN_SAND",
+    "ELEVATOR_WOBBLE_LOWPRIO",
+    "KICKABLE_BOARD_FALL",
+    "MOVING_PLATFORM_SWITCH",
+    "CAGE_OPEN",
+    "QUIET_POUND1_LOWPRIO",
+    "QUIET_POUND1",
+    "BREAK_BOX",
+    "DOOR_INSERT_KEY",
+    "VOLCANO_TRAP_FALL",
+    "BIG_POUND",
+    "VOLCANO_TRAP_RISE",
+    "TOX_BOX_MOVE",
+    "CANNON_UP",
+    "GRINDEL_ROLL",
+    "EXPLOSION7",
+    "SHAKE_COFFIN",
+    "RACE_GUN_SHOT",
+    "STAR_DOOR_OPEN",
+    "STAR_DOOR_CLOSE",
+    "POUND_ROCK",
     "STAR_APPEARS",
     "COLLECT_1UP",
+    "BUTTON_PRESS_LOWPRIO",
     "BUTTON_PRESS",
+    "BUTTON_PRESS_2_LOWPRIO",
+    "BUTTON_PRESS_2",
     "ELEVATOR_MOVE",
+    "ELEVATOR_MOVE_2",
+    "SWISH_AIR_UNUSED",
+    "HAUNTED_CHAIR_SWISH_AIR",
+    "HAUNTED_CHAIR_SPIN",
+    "BOO_CAGE_SOFT_LANDING",
+    "HAUNTED_CHAIR_FALL",
+    "BOWSER_PLATFORM_UNUSED",
+    "BOWSER_PLATFORM_FALL",
+    "HEART_SPIN",
+    "POUND_WOOD_POST",
+    "WATER_LEVEL_TRIG",
+    "SWITCH_DOOR_OPEN",
     "RED_COIN",
     "BIRDS_FLY_AWAY",
-    "YOSHI_TALK"
+    "ELEVATOR_LAND",
+    "CRAZY_BOX_BOING_SLOW",
+    "MONEYBAG_BOING_LOWPRIO",
+    "CRAZY_BOX_BOING_FAST",
+    "YOSHI_WALK",
+    "ENEMY_ALERT1",
+    "YOSHI_TALK",
+    "SPLATTERING",
+    "BOING3_UNUSED",
+    "GRAND_STAR",
+    "GRAND_STAR_JUMP",
+    "BOAT_ROCK",
+    "VANISH_SFX",
+    "LAUNCH_SPRING"
 };
 
 const s32 sGeneralSoundIds[] = {
@@ -84,16 +164,92 @@ const s32 sGeneralSoundIds[] = {
     SOUND_GENERAL_BIG_CLOCK,
     SOUND_GENERAL_LOUD_POUND,
     SOUND_GENERAL_LOUD_POUND2,
+    SOUND_GENERAL_SHORT_POUND1,
+    SOUND_GENERAL_SHORT_POUND2,
+    SOUND_GENERAL_SHORT_POUND3,
+    SOUND_GENERAL_SHORT_POUND4,
+    SOUND_GENERAL_SHORT_POUND5,
+    SOUND_GENERAL_SHORT_POUND6,
     SOUND_GENERAL_OPEN_CHEST,
     SOUND_GENERAL_OPEN_CHEST_WATER,
+    SOUND_GENERAL_BOX_LANDING_UNUSED,
+    SOUND_GENERAL_SMALL_BOX_LANDING,
+    SOUND_GENERAL_UNKNOWN1,
+    SOUND_GENERAL_ROLLING_LOG,
+    SOUND_GENERAL_CLAM_SHELL_OPEN,
+    SOUND_GENERAL_CLAM_SHELL_CLOSE,
+    SOUND_GENERAL_PAINTING_EJECT,
+    SOUND_GENERAL_LEVEL_SELECT_CHANGE,
+    SOUND_GENERAL_PLATFORM,
+    SOUND_GENERAL_DONUT_PLATFORM_EXPLOSION,
     SOUND_GENERAL_BOWSER_BOMB_EXPLOSION,
+    SOUND_GENERAL_COIN_SPURT,
+    SOUND_GENERAL_EXPLOSION6,
+    SOUND_GENERAL_UNK32,
+    SOUND_GENERAL_DRAWBRIDGE_LOWER,
+    SOUND_GENERAL_DRAWBRIDGE_RAISE,
+    SOUND_GENERAL_COIN_DROP,
+    SOUND_GENERAL_BOWSER_KEY_LAND,
+    SOUND_GENERAL_PENDULUM_SWING,
+    SOUND_GENERAL_CHAIN_CHOMP1,
+    SOUND_GENERAL_CHAIN_CHOMP2,
+    SOUND_GENERAL_DOOR_TURN_KEY,
+    SOUND_GENERAL_MOVING_IN_SAND,
+    SOUND_GENERAL_ELEVATOR_WOBBLE_LOWPRIO,
+    SOUND_GENERAL_KICKABLE_BOARD_FALL,
+    SOUND_GENERAL_MOVING_PLATFORM_SWITCH,
+    SOUND_GENERAL_CAGE_OPEN,
+    SOUND_GENERAL_QUIET_POUND1_LOWPRIO,
+    SOUND_GENERAL_QUIET_POUND1,
+    SOUND_GENERAL_BREAK_BOX,
+    SOUND_GENERAL_DOOR_INSERT_KEY,
+    SOUND_GENERAL_VOLCANO_TRAP_FALL,
+    SOUND_GENERAL_BIG_POUND,
+    SOUND_GENERAL_VOLCANO_TRAP_RISE,
+    SOUND_GENERAL_TOX_BOX_MOVE,
+    SOUND_GENERAL_CANNON_UP,
+    SOUND_GENERAL_GRINDEL_ROLL,
+    SOUND_GENERAL_EXPLOSION7,
+    SOUND_GENERAL_SHAKE_COFFIN,
+    SOUND_GENERAL_RACE_GUN_SHOT,
+    SOUND_GENERAL_STAR_DOOR_OPEN,
+    SOUND_GENERAL_STAR_DOOR_CLOSE,
+    SOUND_GENERAL_POUND_ROCK,
     SOUND_GENERAL_STAR_APPEARS,
     SOUND_GENERAL_COLLECT_1UP,
+    SOUND_GENERAL_BUTTON_PRESS_LOWPRIO,
     SOUND_GENERAL_BUTTON_PRESS,
+    SOUND_GENERAL_BUTTON_PRESS_2_LOWPRIO,
+    SOUND_GENERAL_BUTTON_PRESS_2,
     SOUND_GENERAL_ELEVATOR_MOVE,
+    SOUND_GENERAL_ELEVATOR_MOVE_2,
+    SOUND_GENERAL_SWISH_AIR_UNUSED,
+    SOUND_GENERAL_HAUNTED_CHAIR_SWISH_AIR,
+    SOUND_GENERAL_HAUNTED_CHAIR_SPIN,
+    SOUND_GENERAL_BOO_CAGE_SOFT_LANDING,
+    SOUND_GENERAL_HAUNTED_CHAIR_FALL,
+    SOUND_GENERAL_BOWSER_PLATFORM_UNUSED,
+    SOUND_GENERAL_BOWSER_PLATFORM_FALL,
+    SOUND_GENERAL_HEART_SPIN,
+    SOUND_GENERAL_POUND_WOOD_POST,
+    SOUND_GENERAL_WATER_LEVEL_TRIG,
+    SOUND_GENERAL_SWITCH_DOOR_OPEN,
     SOUND_GENERAL_RED_COIN,
     SOUND_GENERAL_BIRDS_FLY_AWAY,
-    SOUND_GENERAL_YOSHI_TALK
+    SOUND_GENERAL_ELEVATOR_LAND,
+    SOUND_GENERAL_CRAZY_BOX_BOING_SLOW,
+    SOUND_GENERAL_MONEYBAG_BOING_LOWPRIO,
+    SOUND_GENERAL_CRAZY_BOX_BOING_FAST,
+    SOUND_GENERAL_YOSHI_WALK,
+    SOUND_GENERAL_ENEMY_ALERT1,
+    SOUND_GENERAL_YOSHI_TALK,
+    SOUND_GENERAL_SPLATTERING,
+    SOUND_GENERAL_BOING3_UNUSED,
+    SOUND_GENERAL_GRAND_STAR,
+    SOUND_GENERAL_GRAND_STAR_JUMP,
+    SOUND_GENERAL_BOAT_ROCK,
+    SOUND_GENERAL_VANISH_SFX,
+    SOUND_GENERAL_LAUNCH_SPRING
 };
 
 // ---- Environment ----
@@ -104,6 +260,8 @@ const char *sEnvSoundNames[] = {
     "DRONING1",
     "DRONING2",
     "WIND1",
+    "MOVING_SAND_SNOW",
+    "UNK07",
     "ELEVATOR2",
     "WATER",
     "BOWLING_BALL_ROLL",
@@ -114,6 +272,7 @@ const char *sEnvSoundNames[] = {
     "MOVINGSAND",
     "MERRY_GO_ROUND_CREAKING",
     "WIND2",
+    "UNK12",
     "SLIDING",
     "STAR",
     "MOVING_BIG_PLATFORM",
@@ -129,6 +288,8 @@ const s32 sEnvSoundIds[] = {
     SOUND_ENV_DRONING1,
     SOUND_ENV_DRONING2,
     SOUND_ENV_WIND1,
+    SOUND_ENV_MOVING_SAND_SNOW,
+    SOUND_ENV_UNK07,
     SOUND_ENV_ELEVATOR2,
     SOUND_ENV_WATER,
     SOUND_ENV_BOWLING_BALL_ROLL,
@@ -139,6 +300,7 @@ const s32 sEnvSoundIds[] = {
     SOUND_ENV_MOVINGSAND,
     SOUND_ENV_MERRY_GO_ROUND_CREAKING,
     SOUND_ENV_WIND2,
+    SOUND_ENV_UNK12,
     SOUND_ENV_SLIDING,
     SOUND_ENV_STAR,
     SOUND_ENV_MOVING_BIG_PLATFORM,
@@ -400,7 +562,9 @@ const char *sMenuSoundNames[] = {
 "EXIT_A_SIGN",
 "HIGH_SCORE",
 "STAR_SOUND_OKEY_DOKEY",
-"STAR_SOUND_LETS_A_GO"
+"STAR_SOUND_LETS_A_GO",
+"COLLECT_RED_COIN",
+"COLLECT_SECRET"
 };
 
 const s32 sMenuSoundIds[] = {
@@ -440,7 +604,9 @@ SOUND_MENU_READ_A_SIGN,
 SOUND_MENU_EXIT_A_SIGN,                   
 SOUND_MENU_HIGH_SCORE,                    
 SOUND_MENU_STAR_SOUND_OKEY_DOKEY,         
-SOUND_MENU_STAR_SOUND_LETS_A_GO
+SOUND_MENU_STAR_SOUND_LETS_A_GO,
+SOUND_MENU_COLLECT_RED_COIN,
+SOUND_MENU_COLLECT_SECRET
 };
 
 const char *sAirSoundNames[] = {
@@ -559,6 +725,270 @@ SOUND_OBJ2_BOSS_DIALOG_GRUNT,
 SOUND_OBJ2_MRI_SPINNING
 };
 
+const char *sPeachSoundNames[] = {
+"DEAR_MARIO",
+"MARIO",             
+"POWER_OF_THE_STARS",
+"THANKS_TO_YOU",     
+"THANK_YOU_MARIO",   
+"SOMETHING_SPECIAL", 
+"BAKE_A_CAKE",       
+"FOR_MARIO",         
+"MARIO2"
+};
+
+const s32 sPeachSoundIds[] = {
+SOUND_PEACH_DEAR_MARIO,
+SOUND_PEACH_MARIO,             
+SOUND_PEACH_POWER_OF_THE_STARS,
+SOUND_PEACH_THANKS_TO_YOU,     
+SOUND_PEACH_THANK_YOU_MARIO,   
+SOUND_PEACH_SOMETHING_SPECIAL, 
+SOUND_PEACH_BAKE_A_CAKE,       
+SOUND_PEACH_FOR_MARIO,         
+SOUND_PEACH_MARIO2
+};
+
+const char *sMarioSoundNames[] = {
+"YAH_WAH_HOO",
+"HOOHOO",
+"YAHOO",
+"UH",
+"HRMM",
+"WAH2",
+"WHOA",
+"EEUH",
+"ATTACKED",
+"OOOF",
+"OOOF2",
+"HERE_WE_GO",
+"YAWNING",
+"SNORING1",
+"SNORING2",
+"WAAAOOOW",
+"HAHA",
+"HAHA_WATER",
+"UH_LEDGE_CLIMB_FAST",
+"UH_LONG_JUMP_LAND",
+"ON_FIRE",
+"DYING",
+"PANTING_COLD",
+"PANTING",
+"COUGHING1",
+"COUGHING2",
+"COUGHING3",
+"PUNCH_YAH",
+"PUNCH_HOO",
+"MAMA_MIA",
+"OKEY_DOKEY",
+"GROUND_POUND_WAH",
+"DROWNING",
+"PUNCH_WAH",
+"YAHOO_WAHA_YIPPEE",
+"DOH",
+"GAME_OVER",
+"HELLO",
+"PRESS_START_TO_PLAY",
+"TWIRL_BOUNCE",
+"SNORING3",
+"SO_LONGA_BOWSER",
+"IMA_TIRED"
+};
+
+const s32 sMarioSoundIds[] = {
+SOUND_MARIO_YAH_WAH_HOO,                  
+SOUND_MARIO_HOOHOO,                       
+SOUND_MARIO_YAHOO,                        
+SOUND_MARIO_UH,                           
+SOUND_MARIO_HRMM,                         
+SOUND_MARIO_WAH2,                         
+SOUND_MARIO_WHOA,                         
+SOUND_MARIO_EEUH,                         
+SOUND_MARIO_ATTACKED,                     
+SOUND_MARIO_OOOF,                         
+SOUND_MARIO_OOOF2,                        
+SOUND_MARIO_HERE_WE_GO,                   
+SOUND_MARIO_YAWNING,                      
+SOUND_MARIO_SNORING1,                     
+SOUND_MARIO_SNORING2,                     
+SOUND_MARIO_WAAAOOOW,                     
+SOUND_MARIO_HAHA,                         
+SOUND_MARIO_HAHA_WATER,                   
+SOUND_MARIO_UH_LEDGE_CLIMB_FAST,          
+SOUND_MARIO_UH_LONG_JUMP_LAND,            
+SOUND_MARIO_ON_FIRE,                      
+SOUND_MARIO_DYING,                        
+SOUND_MARIO_PANTING_COLD,                 
+SOUND_MARIO_PANTING,                      
+SOUND_MARIO_COUGHING1,                    
+SOUND_MARIO_COUGHING2,                    
+SOUND_MARIO_COUGHING3,                    
+SOUND_MARIO_PUNCH_YAH,                    
+SOUND_MARIO_PUNCH_HOO,                    
+SOUND_MARIO_MAMA_MIA,                     
+SOUND_MARIO_OKEY_DOKEY,                   
+SOUND_MARIO_GROUND_POUND_WAH,             
+SOUND_MARIO_DROWNING,                     
+SOUND_MARIO_PUNCH_WAH,                   
+SOUND_MARIO_YAHOO_WAHA_YIPPEE,            
+SOUND_MARIO_DOH,                          
+SOUND_MARIO_GAME_OVER,                    
+SOUND_MARIO_HELLO,                        
+SOUND_MARIO_PRESS_START_TO_PLAY,          
+SOUND_MARIO_TWIRL_BOUNCE,                 
+SOUND_MARIO_SNORING3,                     
+SOUND_MARIO_SO_LONGA_BOWSER,              
+SOUND_MARIO_IMA_TIRED
+};
+
+const char *sMovingSoundNames[] = {
+"TERRAIN_SLIDE",
+"TERRAIN_RIDING_SHELL",
+"LAVA_BURN",
+"SLIDE_DOWN_POLE",
+"SLIDE_DOWN_TREE",
+"QUICKSAND_DEATH",
+"SHOCKED",
+"FLYING",
+"ALMOST_DROWNING",
+"AIM_CANNON",
+"UNK1A",
+"RIDING_SHELL_LAVA"
+};
+
+const s32 sMovingSoundIds[] = {
+SOUND_MOVING_TERRAIN_SLIDE,
+SOUND_MOVING_TERRAIN_RIDING_SHELL,
+SOUND_MOVING_LAVA_BURN,
+SOUND_MOVING_SLIDE_DOWN_POLE,
+SOUND_MOVING_SLIDE_DOWN_TREE,
+SOUND_MOVING_QUICKSAND_DEATH,
+SOUND_MOVING_SHOCKED,
+SOUND_MOVING_FLYING,
+SOUND_MOVING_ALMOST_DROWNING,
+SOUND_MOVING_AIM_CANNON,
+SOUND_MOVING_UNK1A,
+SOUND_MOVING_RIDING_SHELL_LAVA
+};
+
+const char *sActionSoundNames[] = {
+"TERRAIN_JUMP",
+"TERRAIN_LANDING",
+"TERRAIN_STEP",
+"TERRAIN_BODY_HIT_GROUND",
+"TERRAIN_STEP_TIPTOE",
+"TERRAIN_STUCK_IN_GROUND",
+"TERRAIN_HEAVY_LANDING",
+"METAL_JUMP",
+"METAL_LANDING",
+"METAL_STEP",
+"METAL_HEAVY_LANDING",
+"CLAP_HANDS_COLD",
+"HANGING_STEP",
+"QUICKSAND_STEP",
+"METAL_STEP_TIPTOE",
+"WATER_PLUNGE",
+"SWIM_SURFACE",
+"WATER_JUMP",
+"SWIM",
+"FLUTTER_KICK",
+"THROW",
+"KEY_SWISH",
+"SPIN",
+"TWIRL",
+"CLIMB_UP_TREE",
+"CLIMB_DOWN_TREE",
+"UNK3C",
+"TAKE_OFF_CAP",
+"PUT_ON_CAP",
+"PAT_BACK",
+"BRUSH_HAIR",
+"CLIMB_UP_POLE",
+"METAL_BONK",
+"UNSTUCK_FROM_GROUND",
+"HIT",
+"HIT_2",
+"HIT_3",
+"BONK",
+"SHRINK_INTO_BBH",
+"SWIM_FAST",
+"METAL_JUMP_WATER",
+"METAL_LAND_WATER",
+"METAL_STEP_WATER",
+"UNK53",
+"UNK54",
+"UNK55",
+"FLYING_FAST",
+"TELEPORT",
+"SNUFFIT_BULLET_HIT_METAL",
+"BOUNCE_OFF_OBJECT",
+"SIDE_FLIP_UNK",
+"READ_SIGN",
+"KEY_UNKNOWN45C",
+"UNK5D",
+"INTRO_UNK45E",
+"INTRO_UNK45F"
+};
+
+const s32 sActionSoundIds[] = {
+SOUND_ACTION_TERRAIN_JUMP,
+SOUND_ACTION_TERRAIN_LANDING,
+SOUND_ACTION_TERRAIN_STEP,
+SOUND_ACTION_TERRAIN_BODY_HIT_GROUND,
+SOUND_ACTION_TERRAIN_STEP_TIPTOE,
+SOUND_ACTION_TERRAIN_STUCK_IN_GROUND,
+SOUND_ACTION_TERRAIN_HEAVY_LANDING,
+SOUND_ACTION_METAL_JUMP,
+SOUND_ACTION_METAL_LANDING,
+SOUND_ACTION_METAL_STEP,
+SOUND_ACTION_METAL_HEAVY_LANDING,
+SOUND_ACTION_CLAP_HANDS_COLD,
+SOUND_ACTION_HANGING_STEP,
+SOUND_ACTION_QUICKSAND_STEP,
+SOUND_ACTION_METAL_STEP_TIPTOE,
+SOUND_ACTION_WATER_PLUNGE,
+SOUND_ACTION_SWIM_SURFACE,
+SOUND_ACTION_WATER_JUMP,
+SOUND_ACTION_SWIM,
+SOUND_ACTION_FLUTTER_KICK,
+SOUND_ACTION_THROW,
+SOUND_ACTION_KEY_SWISH,
+SOUND_ACTION_SPIN,
+SOUND_ACTION_TWIRL,
+SOUND_ACTION_CLIMB_UP_TREE,
+SOUND_ACTION_CLIMB_DOWN_TREE,
+SOUND_ACTION_UNK3C,
+SOUND_ACTION_TAKE_OFF_CAP,
+SOUND_ACTION_PUT_ON_CAP,
+SOUND_ACTION_PAT_BACK,
+SOUND_ACTION_BRUSH_HAIR,
+SOUND_ACTION_CLIMB_UP_POLE,
+SOUND_ACTION_METAL_BONK,
+SOUND_ACTION_UNSTUCK_FROM_GROUND,
+SOUND_ACTION_HIT,
+SOUND_ACTION_HIT_2,
+SOUND_ACTION_HIT_3,
+SOUND_ACTION_BONK,
+SOUND_ACTION_SHRINK_INTO_BBH,
+SOUND_ACTION_SWIM_FAST,
+SOUND_ACTION_METAL_JUMP_WATER,
+SOUND_ACTION_METAL_LAND_WATER,
+SOUND_ACTION_METAL_STEP_WATER,
+SOUND_ACTION_UNK53,
+SOUND_ACTION_UNK54,
+SOUND_ACTION_UNK55,
+SOUND_ACTION_FLYING_FAST,
+SOUND_ACTION_TELEPORT,
+SOUND_ACTION_SNUFFIT_BULLET_HIT_METAL,
+SOUND_ACTION_BOUNCE_OFF_OBJECT,
+SOUND_ACTION_SIDE_FLIP_UNK,
+SOUND_ACTION_READ_SIGN,
+SOUND_ACTION_KEY_UNKNOWN45C,
+SOUND_ACTION_UNK5D,
+SOUND_ACTION_INTRO_UNK45E,
+SOUND_ACTION_INTRO_UNK45F
+};
+
 //==============================
 // 共通制御変数
 //==============================
@@ -579,6 +1009,10 @@ static const char **get_current_names(void) {
         case SOUND_CAT_AIR:        return sAirSoundNames;
         case SOUND_CAT_GENERAL2:        return sGeneral2SoundNames;
         case SOUND_CAT_OBJECT2:        return sObject2SoundNames;
+        case SOUND_CAT_PEACH:        return sPeachSoundNames;
+        case SOUND_CAT_MARIO:        return sMarioSoundNames;
+        case SOUND_CAT_MOVING:        return sMovingSoundNames;
+        case SOUND_CAT_ACTION:        return sActionSoundNames;
         default:                    return NULL;
     }
 }
@@ -592,6 +1026,10 @@ static const s32 *get_current_ids(void) {
         case SOUND_CAT_AIR:        return sAirSoundIds;
         case SOUND_CAT_GENERAL2:        return sGeneral2SoundIds;
         case SOUND_CAT_OBJECT2:        return sObject2SoundIds;
+        case SOUND_CAT_PEACH:        return sPeachSoundIds;
+        case SOUND_CAT_MARIO:        return sMarioSoundIds;
+        case SOUND_CAT_MOVING:        return sMovingSoundIds;
+        case SOUND_CAT_ACTION:        return sActionSoundIds;
         default:                    return NULL;
     }
 }
@@ -605,17 +1043,13 @@ static s32 get_current_count(void) {
         case SOUND_CAT_AIR:        return ARRAY_COUNT(sAirSoundNames);
         case SOUND_CAT_GENERAL2:        return ARRAY_COUNT(sGeneral2SoundNames);
         case SOUND_CAT_OBJECT2:        return ARRAY_COUNT(sObject2SoundNames);
+        case SOUND_CAT_PEACH:        return ARRAY_COUNT(sPeachSoundNames);
+        case SOUND_CAT_MARIO:        return ARRAY_COUNT(sMarioSoundNames);
+        case SOUND_CAT_MOVING:        return ARRAY_COUNT(sMovingSoundNames);
+        case SOUND_CAT_ACTION:        return ARRAY_COUNT(sActionSoundNames);
         default:                    return 0;
     }
 }
-
-// 配列サイズ
-/*#define DEBUG_SOUND_COUNT (sizeof(sDebugSoundNames) / sizeof(sDebugSoundNames[0]))
-
-static s32 sDebugSoundIndex = 0;
-static s32 sDebugSoundScroll = 0;
-static s32 sInputCooldown = 0;
-static u8 sActive = 0; // モードがアクティブか*/
 
 void bhv_Debug_Sound_init(void) {
     o->oDebugSoundTrigger = TRUE;
@@ -661,16 +1095,23 @@ if (gPlayer1Controller->buttonDown & A_BUTTON) {
     const s32 *ids = get_current_ids();
     s32 soundId = ids[sDebugSoundIndex];
 
-    // === 環境音・AIR音は長押しループ ===
+    // === 環境音・AIR音・MOVING音 は長押しループ ===
     if (soundId != 0 &&
         ((soundId & 0xF0000000) == SOUND_ENV ||
-         (soundId & 0xF0000000) == SOUND_AIR)) {
+         (soundId & 0xF0000000) == SOUND_AIR ||
+         (soundId & 0xF0000000) == SOUND_MOVING)) {
 
         if ((soundId & 0xF0000000) == SOUND_AIR) {
-            // AIRは距離に影響されない
+            // AIRは距離に影響されない（グローバル音源）
             play_sound(soundId, gGlobalSoundSource);
+        } else if ((soundId & 0xF0000000) == SOUND_MOVING) {
+            // MOVINGはマリオ基準（ENVに近い動作）
+            if (gMarioObject != NULL)
+                play_sound(soundId, gMarioObject->header.gfx.cameraToObject);
+            else
+                play_sound(soundId, gGlobalSoundSource);
         } else {
-            // ENVIRONMENTはマリオ基準
+            // ENVIRONMENT（滝音など）もマリオ基準
             if (gMarioObject != NULL)
                 play_sound(soundId, gMarioObject->header.gfx.cameraToObject);
             else
@@ -678,7 +1119,7 @@ if (gPlayer1Controller->buttonDown & A_BUTTON) {
         }
     }
 
-    // === 通常効果音は押した瞬間に一度だけ ===
+    // === 通常カテゴリは押した瞬間に一度だけ再生 ===
     else if (gPlayer1Controller->buttonPressed & A_BUTTON) {
         if (soundId != 0)
             cur_obj_play_sound_1(soundId);
@@ -724,7 +1165,11 @@ void debug_sound_render(void) {
         (sCurrentCategory == SOUND_CAT_MENU)        ? "MENU" :
         (sCurrentCategory == SOUND_CAT_AIR)        ? "AIR" :
         (sCurrentCategory == SOUND_CAT_GENERAL2) ? "GENERAL2" :
-        (sCurrentCategory == SOUND_CAT_OBJECT2)      ? "OBJECT2" : "UNKNOWN";
+        (sCurrentCategory == SOUND_CAT_OBJECT2)      ? "OBJECT2" :
+        (sCurrentCategory == SOUND_CAT_PEACH)      ? "PEACH" :
+        (sCurrentCategory == SOUND_CAT_MARIO)      ? "MARIO" :
+        (sCurrentCategory == SOUND_CAT_MOVING)      ? "MOVING" :
+        (sCurrentCategory == SOUND_CAT_ACTION)      ? "ACTION" : "UNKNOWN";
     print_text(10, 190, "<L               R>");
     print_text(50, 190, catName);
 
@@ -739,8 +1184,8 @@ void debug_sound_render(void) {
 
         print_text(30, 140 - i * 16, names[idx]);
     }
-    if (sCurrentCategory == SOUND_CAT_ENVIRONMENT || sCurrentCategory == SOUND_CAT_AIR) {
-        print_text(40, 165, "A_BUTTON_HOLDING");
+    if (sCurrentCategory == SOUND_CAT_ENVIRONMENT || sCurrentCategory == SOUND_CAT_AIR || sCurrentCategory == SOUND_CAT_MOVING) {
+        print_text(40, 165, "HOLD_A_BUTTON");
     }
 }
 

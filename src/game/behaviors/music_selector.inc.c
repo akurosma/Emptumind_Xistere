@@ -71,9 +71,9 @@ const char *sSeqNames[] = {
     "Intro Cutscene", "Victory", "Ending", "File Select", "Lakitu Cutscene",
     "Endless Possibility", "Solar System Disco", "Petit Bonheur", "Rocket Ride", "Black Tower",
     "Great Mighty Poo", "Got Star Cutscene", "SSBM Master Hand", "Southern Cross", "Aquarium Park",
-    "His World", "Promise of the 19", "Vilily", "King K Rool", "PSS Main",
-    "PSS Mirror", "Science", "HMC Rulu", "Time Trial", "SD Battle 2",
-    "Head Honcho Carpaccio", "Fist Bump", "Wind Fortress", "With Me"
+    "His World", "Promise of the 19", "Vilily", "King K Rool", "Adventurers Song",
+    "Boggys igloo", "Science", "HMC Rulu", "Time Trial", "SD Battle 2",
+    "Head Honcho Carpaccio", "Fist Bump", "Wind Fortress", "With Me", "Battle of Rose"
 };
 
 s16 sTempoOffset = 0;
