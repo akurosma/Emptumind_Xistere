@@ -25,6 +25,7 @@
 #define SOUNDARGS_SHIFT_PRIORITY    8
 
 // rulu_debug_sound用サウンドカテゴリビットマスク（ID上位4ビット識別用）
+#define SOUND_MOVING   0x10000000
 #define SOUND_MARIO   0x20000000
 #define SOUND_PEACH   0x20000000
 #define SOUND_GENERAL   0x30000000

@@ -74,6 +74,7 @@ enum SeqId {
     SEQ_FIST_BUMP,                    // 0x38
     SEQ_WIND_FORTRESS,                // 0x39
     SEQ_WITH_ME,                      // 0x3A
+    SEQ_C4_AREA1,                     // 0x3B
     // end
     SEQ_COUNT
 };
