@@ -521,6 +521,11 @@ s32 act_freefall(struct MarioState *m) {
         return set_mario_action(m, ACT_DIVE, 0);
     }
 
+    //rulu sticky状態でZボタンおしたらACT_FREEFALLにするメモ
+    //if ((m->input & INPUT_Z_PRESSED) && (m->marioObj->header.gfx.animInfo.animID
+    //!= MARIO_ANIM_START_WALLKICK)) {
+    //return set_mario_action(m, ACT_GROUND_POUND, 0);
+    //}
     if (m->input & INPUT_Z_PRESSED) {
         return set_mario_action(m, ACT_GROUND_POUND, 0);
     }
@@ -1298,7 +1303,8 @@ static s32 _perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u3
 }
 
 static s32 manage_sticky_wall(struct MarioState *m){
-	if( (gPlayer1Controller->buttonPressed&Z_TRIG) || m->wall == NULL){
+	if( (gPlayer1Controller->buttonPressed&Z_TRIG)){
+        //m->faceAngle[1] += 0x8000;//rulu ACT_FREEFALL用
 		return set_mario_action(m, ACT_FREEFALL, 0);
 	}
 	vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);

@@ -78,7 +78,7 @@
 #define PLATFORM_DISPLACEMENT_2
 
 // The last frame that will be considered a firsty when wallkicking
-#define FIRSTY_LAST_FRAME 0
+#define FIRSTY_LAST_FRAME 1
 /*stikcy*/
 
 /**
