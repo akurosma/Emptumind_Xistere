@@ -5,6 +5,7 @@ const GeoLayout lll_area_1_geo[] = {
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 9022, -4292, -18743, 90, 0, 0, lll_dl__Cloud_mesh_layer_5),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 9022, -4562, -18743, 90, 0, 0, lll_dl__cloud2_mesh_layer_5),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 6170, -1172, -18893, lll_dl__Cube_mesh_layer_5),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 9022, -2042, -18743),
 		GEO_OPEN_NODE(),
 			GEO_ASM(0, geo_update_prim),
