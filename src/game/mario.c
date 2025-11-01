@@ -1421,10 +1421,13 @@ void update_mario_inputs(struct MarioState *m) {
         m->wallLastType = SURFACE_DEFAULT;
     } else if (m->wallKickTimer == 0
                && m->action != ACT_AIR_HIT_WALL
-               && m->action != ACT_WALL_KICK_AIR
                && !(m->action == ACT_SOFT_BONK && m->actionArg == 3)
                && !(m->action == ACT_BACKWARD_AIR_KB && m->actionArg == 3)) {
-        m->wallLastType = SURFACE_DEFAULT;
+        u32 holdInputDown = (m->wallLastType == SURFACE_B_BUTTON_WALL) ? (m->input & INPUT_B_DOWN)
+                                                                       : (m->input & INPUT_A_DOWN);
+        if (!(m->action == ACT_WALL_KICK_AIR && holdInputDown)) {
+            m->wallLastType = SURFACE_DEFAULT;
+        }
     }
 
     if (m->doubleJumpTimer > 0) {
