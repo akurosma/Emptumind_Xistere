@@ -21,6 +21,9 @@
 #include "audio/external.h"
 #include "audio/seqplayer.h"
 
+#include "object_constants.h"
+#include "object_fields.h"
+
 #include "config.h"
 #include "behavior_data.h"
 
@@ -698,11 +701,36 @@ extern u8 gMusicSelectorActive;
 const char *get_instrument_name(struct Instrument *instr);
 extern s32 sInstrumentListActive;
 extern struct Object *gMusicSelectorObject;
+extern s16 gMusicSelectorLevelNum;
 
 void render_music_selector_ui(void) {
     int baseY = 40;
 
-    if (gMusicSelectorObject != NULL && gMusicSelectorObject->oAction == 1) {
+    if (gMusicSelectorObject == NULL) {
+        return;
+    }
+
+    if (gMusicSelectorLevelNum != gCurrLevelNum) {
+        gMusicSelectorObject = NULL;
+        return;
+    }
+
+    if (!(gMusicSelectorObject->activeFlags & ACTIVE_FLAG_ACTIVE)) {
+        gMusicSelectorObject = NULL;
+        return;
+    }
+
+    const BehaviorScript *musicSelectorBehavior = segmented_to_virtual(bhvMusicSelector);
+    if (gMusicSelectorObject->behavior != musicSelectorBehavior
+        && gMusicSelectorObject->behavior != bhvMusicSelector) {
+        gMusicSelectorObject = NULL;
+        return;
+    }
+
+    if (gMusicSelectorObject->oAction != 1) {
+        return;
+    }
+
         // instrument list が表示中でなければ R/L を表示
         if (!sInstrumentListActive) {
             // Lボタン（緑）
@@ -745,6 +773,5 @@ void render_music_selector_ui(void) {
         print_set_envcolour(255, 255, 255, 255);
 
         if (!gMusicSelectorActive) return;
-    }
 }
 /*rulu music selector*/
