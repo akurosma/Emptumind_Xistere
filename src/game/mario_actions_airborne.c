@@ -1203,8 +1203,9 @@ s32 check_wall_kick(struct MarioState *m) {
             } */
 
             /* sticky */
-            if (m->forwardVel > 16.f)
+            if (m->wallLastType != SURFACE_FIRSTY_WALLKICK && m->forwardVel > 16.f) {
                 mario_set_forward_vel(m, 16.f);
+            }
 
             m->faceAngle[1] += 0x8000;
             m->wallKickedOf = m->wallLastType;

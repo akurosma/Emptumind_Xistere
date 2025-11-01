@@ -660,6 +660,16 @@ Bool32 set_mario_wall(struct MarioState *m, struct Surface *wall) {
     if (m->wall != wall) {
         m->wall = wall;
         if(wall){
+            if (wall->type == SURFACE_FIRSTY_WALLKICK) {
+                f32 storedVel = m->forwardVel;
+                if (storedVel < 0.0f) {
+                    storedVel = -storedVel;
+                }
+                if (storedVel > 255.0f) {
+                    storedVel = 255.0f;
+                }
+                m->prevForwardVel = (u8) storedVel;
+            }
             m->wallLastType = wall->type;
         }
         if (m->wall != NULL) m->wallYaw = SURFACE_YAW(wall);
@@ -1407,10 +1417,15 @@ void update_mario_inputs(struct MarioState *m) {
     if (m->wallKickTimer > 0) {
         m->wallKickTimer--;
     }
-    /*stickyのためコメントアウト
-    if(((m->wallKickTimer == 0 && (m->action != ACT_AIR_HIT_WALL)) && (!(m->input & INPUT_B_DOWN) && !(m->input & INPUT_A_DOWN))) || !(m->action & ACT_FLAG_AIR)){
+    if (!(m->action & ACT_FLAG_AIR)) {
         m->wallLastType = SURFACE_DEFAULT;
-    }*/
+    } else if (m->wallKickTimer == 0
+               && m->action != ACT_AIR_HIT_WALL
+               && m->action != ACT_WALL_KICK_AIR
+               && !(m->action == ACT_SOFT_BONK && m->actionArg == 3)
+               && !(m->action == ACT_BACKWARD_AIR_KB && m->actionArg == 3)) {
+        m->wallLastType = SURFACE_DEFAULT;
+    }
 
     if (m->doubleJumpTimer > 0) {
         m->doubleJumpTimer--;

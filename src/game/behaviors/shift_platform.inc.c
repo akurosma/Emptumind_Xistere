@@ -5,7 +5,6 @@
 #define SHIFT_PURPLE      1
 
 void bhv_shift_platform_init(void) {
-    /*stickyのためコメントアウト
     gMarioState->shiftSituation = 0;
 
     switch(BPARAM1){
@@ -18,12 +17,10 @@ void bhv_shift_platform_init(void) {
         default:
             cur_obj_set_model(MODEL_NONE);
             break;
-    }*/
+    }
 }
 
 void bhv_shift_platform_loop(void) {
-    
-    /*stickyのためコメントアウト
     if((gMarioObject->platform == o) && (gMarioStates->controller->buttonPressed & A_BUTTON)){ 
         if(gMarioState->shiftSituation == YELLOW_MODEL){
             gMarioState->shiftSituation = SHIFT_PURPLE;
@@ -68,7 +65,7 @@ void bhv_shift_platform_loop(void) {
         default:
             o->oOpacity = 0;
             break;
-    }*/
+    }
     
 }
 

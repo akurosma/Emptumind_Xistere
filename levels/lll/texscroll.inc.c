@@ -1,6 +1,6 @@
 void scroll_lll_dl__Cloud_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 1003;
+	int count = 949;
 	int width = 64 * 0x20;
 
 	static int currentX = 0;
