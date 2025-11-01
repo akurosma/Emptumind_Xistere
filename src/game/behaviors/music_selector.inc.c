@@ -22,6 +22,7 @@ static s16 sMusicIndex = 1;
 
 struct Object* gMusicSelectorObject = NULL;
 u8 gMusicSelectorActive = FALSE;
+s16 gMusicSelectorLevelNum = -1;
 const char *get_instrument_name(struct Instrument *instr);
 
 // === 楽器管理 ===
@@ -90,6 +91,7 @@ void bhv_Music_Selector_init(void) {
 void bhv_Music_Selector_loop(void) {
     s32 currentTempo = gSequencePlayers[SEQ_PLAYER_LEVEL].tempo + gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
     gMusicSelectorObject = o;
+    gMusicSelectorLevelNum = gCurrLevelNum;
     if (gCurrLevelNum != sLastLevelNum) {
     // コースが変わった瞬間だけリセット
     extern s32 sChannelInstrumentId[16];

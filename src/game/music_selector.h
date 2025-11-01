@@ -18,6 +18,7 @@ extern s32 gSelectedMusicIndex;
 extern s32 gTempoAdd;
 
 extern struct Object* gMusicSelectorObject;
+extern s16 gMusicSelectorLevelNum;
 
 //ui
 #define MUSIC_SELECTOR_MODE_MUSIC 0
