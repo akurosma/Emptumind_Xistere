@@ -26,6 +26,8 @@
 #include "rendering_graph_node.h"
 #include "spawn_object.h"
 #include "spawn_sound.h"
+#include "src/game/segment2.h"
+#include "color.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -37,6 +39,31 @@ Gfx *geo_update_projectile_pos_from_parent(s32 callContext, UNUSED struct GraphN
             obj_set_gfx_pos_from_pos(projObj->prevObj);
         }
     }
+    return NULL;
+}
+
+extern Vtx rl_temporeset_rl_temporeset_mesh_layer_1_vtx_0[];
+Gfx *geo_set_envcolor(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    if (callContext != GEO_CONTEXT_RENDER) return NULL;
+
+    hsv hsvcol;
+    rgb rgbcol;
+
+    hsvcol.h = (gGlobalTimer * 1000) % 65535;
+    hsvcol.s = 1.0f;
+    hsvcol.v = 255;
+    hsv2rgb(&hsvcol, &rgbcol);
+
+    Vtx *vtx = segmented_to_virtual(rl_temporeset_rl_temporeset_mesh_layer_1_vtx_0);
+    s32 vtxCount = 56;
+
+    for (s32 i = 0; i < vtxCount; i++) {
+        vtx[i].v.cn[0] = rgbcol.r;
+        vtx[i].v.cn[1] = rgbcol.g;
+        vtx[i].v.cn[2] = rgbcol.b;
+        vtx[i].v.cn[3] = 255;
+    }
+
     return NULL;
 }
 

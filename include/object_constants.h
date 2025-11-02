@@ -679,6 +679,12 @@ enum oSubActionBowserActQuickJump { // BOWSER_ACT_QUICK_JUMP
     /* Animations */
     #define BUB_ANIM_SWIM                                   0x0
 
+/* rl snufit Spawner */
+    #define RL_SNUFIT_SPAWNER_ACT_SPAWN_BUBS                      0x0
+    #define RL_SNUFIT_SPAWNER_ACT_IDLE                            0x1
+    #define RL_SNUFIT_SPAWNER_ACT_REMOVE_BUBS                     0x2
+    #define RL_SNUFIT_SPAWNER_ACT_RESET                           0x3
+
 /* Bubba */
     /* oAction */
     #define BUBBA_ACT_IDLE                                  0x0

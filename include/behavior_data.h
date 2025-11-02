@@ -513,6 +513,8 @@ extern const BehaviorScript bhvFireSpitter[];
 extern const BehaviorScript bhvMovingFlameEmber[];
 #define bhvFlyguyFlame bhvMovingFlameEmber // backwards compatibility
 extern const BehaviorScript bhvSnufit[];
+extern const BehaviorScript bhvRlSnufit[];
+extern const BehaviorScript bhvRlSnufitspawner[];
 extern const BehaviorScript bhvSnufitBalls[];
 extern const BehaviorScript bhvSnufitBalls2[];
 extern const BehaviorScript bhvHorizontalGrindel[];
@@ -587,3 +589,5 @@ extern const BehaviorScript bhvFadingwall[];
 extern const BehaviorScript bhvTestCube[];
 extern const BehaviorScript bhvMusicSelector[];
 extern const BehaviorScript bhvDebugSound[];
+extern const BehaviorScript bhvRlBeepblock[];
+extern const BehaviorScript bhvRlTemporeset[];

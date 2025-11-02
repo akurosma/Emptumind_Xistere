@@ -3181,6 +3181,8 @@ layer_end
 
 .sound_general_loud_pound:
 chan_setbank 4
+chan_setvolscale 127
+chan_setval 127
 chan_setinstr 10
 chan_setlayer 0, .layer_1286
 chan_end
