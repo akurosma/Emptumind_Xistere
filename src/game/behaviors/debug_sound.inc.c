@@ -1147,7 +1147,6 @@ if (gPlayer1Controller->buttonPressed & L_TRIG) {
     sDebugSoundScroll = sDebugSoundIndex / 8;
 }
 
-
 //==============================
 // 描画
 //==============================

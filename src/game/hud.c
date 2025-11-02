@@ -735,16 +735,20 @@ void render_music_selector_ui(void) {
         if (!sInstrumentListActive) {
             // Lボタン（緑）
             print_set_envcolour(0, 255, 0, 255);
-            print_small_text(80, baseY, "L", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            print_small_text(90, baseY, "L", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
             // Rボタン（赤）
             print_set_envcolour(255, 0, 0, 255);
-            print_small_text(260, baseY, "R", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            print_small_text(250, baseY, "R", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+            //Dpad
+            print_set_envcolour(255, 255, 255, 255);
+            print_small_text(10, 225, "Play Down Dpad", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
         }
             // 中央ラベル（白）
         print_set_envcolour(255, 255, 255, 255);
         switch (gMusicSelectorObject->oMusicSelectorMode) {
             case MUSIC_SELECTOR_MODE_MUSIC:
                 print_small_text(140, baseY, "Select Music", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                print_small_text(110, 52, "Play A Button", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
                 break;
             case MUSIC_SELECTOR_MODE_TEMPO:
                 print_small_text(140, baseY, "Select Tempo", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
@@ -754,7 +758,7 @@ void render_music_selector_ui(void) {
                     // instrument list 表示中
                     print_small_text(140, baseY, "Instrument List", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
                     print_set_envcolour(128, 128, 128, 255);
-                    print_small_text(110, baseY, "Z", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                    print_small_text(120, baseY, "Z", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
                 } else {
                 // 通常の楽器選択中
                 print_small_text(140, baseY, "Select Instrument", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
@@ -765,7 +769,7 @@ void render_music_selector_ui(void) {
                 print_small_text(225, 70, "A", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
                 }
                 print_set_envcolour(128, 128, 128, 255);
-                print_small_text(110, baseY, "Z", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+                print_small_text(120, baseY, "Z", PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
                 break;
         }
 

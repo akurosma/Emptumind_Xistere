@@ -44,16 +44,18 @@ const LevelScript level_ccm_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_SNOW_TREE, snow_tree_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_ROPEWAY_LIFT, ccm_geo_0003D0), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_SNOWMAN_BASE, ccm_geo_0003F0), 
-	LOAD_MODEL_FROM_GEO(MODEL_CCM_SNOWMAN_HEAD, ccm_geo_00040C),
-	LOAD_MODEL_FROM_GEO(MODEL_CCM_TEST_CUBE, test_cube_geo),
-	//LOAD_MODEL_FROM_GEO(MODEL_RL_SWIMTUBE,                  rl_swimtube_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_SNOWMAN_HEAD, ccm_geo_00040C), 
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_TEST_CUBE, test_cube_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_RL_SWIMTUBE, rl_swimtube_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BEEPBLOCK, rl_beepblock_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_TEMPORESET, rl_temporeset_geo), 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, ccm_area_1),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0, LEVEL_CASTLE_GROUNDS, 0x01, 0x34, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_CASTLE_GROUNDS, 0x01, 0x35, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, 0, 200, 0),
 		OBJECT(MODEL_NONE, 0, 200, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		OBJECT(MODEL_CCM_TEST_CUBE, 800, 400, 0, 0, 0, 0, 0x00000000, bhvTestCube),
@@ -61,9 +63,13 @@ const LevelScript level_ccm_entry[] = {
 		OBJECT(MODEL_CCM_TEST_CUBE, 800, 400, -800, 0, 0, 0, 0x00020000, bhvTestCube),
 		OBJECT(MODEL_CCM_TEST_CUBE, -900, 400, -900, 0, 0, 0, 0x00030000, bhvTestCube),
 		OBJECT(MODEL_RL_SWIMTUBE, -900, 200, -0, 0, 0, 0, 0x00000000, bhvMusicSelector),
+		OBJECT(MODEL_CCM_RL_BEEPBLOCK, 1300, 400, 1000, 0, 0, 0, 0x00010000, bhvRlBeepblock),
+		OBJECT(MODEL_CCM_RL_BEEPBLOCK, 1300, 1500, 1000, 0, 0, 0, 0x00010000, bhvRlBeepblock),
+		OBJECT(MODEL_CCM_RL_BEEPBLOCK, 1900, 400, 1000, 0, 0, 0, 0x00010000, bhvRlBeepblock),
+		OBJECT(MODEL_CCM_RL_TEMPORESET, 1300, 400, -1000, 0, 0, 0, 0x00020000, bhvRlTemporeset),
 		TERRAIN(ccm_area_1_collision),
 		MACRO_OBJECTS(ccm_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_C4_AREA1),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

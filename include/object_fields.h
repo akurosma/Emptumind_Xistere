@@ -1261,6 +1261,11 @@
 #define /*0x0FC*/ oRlSwimtubeHeightOffset             OBJECT_FIELD_F32(0x1D)
 #define /*0x100*/ oRlSwimtubeWaterSurfaceWobbleOffset OBJECT_FIELD_S32(0x1E)
 
+/*rulu snufit spawner*/
+#define OBJ_FLAG_SNUFIT_SPAWNED 0x01
+#define orlsnufitSpawnerSpawnAmount OBJECT_FIELD_S32(0x1B)
+#define oSnufitSpawned OBJECT_FIELD_S32(0x1F)
+
 /*musicselector*/
 #define oMusicSelectorIndex       OBJECT_FIELD_S32(0x1E)
 #define oMusicSelectorCanTrigger OBJECT_FIELD_S32(0x1F)

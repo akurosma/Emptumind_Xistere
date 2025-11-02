@@ -88,6 +88,8 @@
 #define MODEL_CCM_ROPEWAY_LIFT                 0x36        // ccm_geo_0003D0
 #define MODEL_CCM_SNOWMAN_HEAD                 0x37        // ccm_geo_00040C
 #define MODEL_CCM_TEST_CUBE                    0x38
+#define MODEL_CCM_RL_BEEPBLOCK                 0x39
+#define MODEL_CCM_RL_TEMPORESET                0x3A
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18
