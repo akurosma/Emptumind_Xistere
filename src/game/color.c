@@ -1,3 +1,5 @@
+//serene fusionで使ってるプログラム
+
 #include "color.h"
 
 void rgb2hsv(rgb* in, hsv* out)

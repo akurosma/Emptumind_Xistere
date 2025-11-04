@@ -6409,10 +6409,14 @@ const BehaviorScript bhvRlTop[] = {
 };
 
 const BehaviorScript bhvRlTop2[] = {
-    BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-    LOAD_COLLISION_DATA(thi_seg7_collision_top_trap),
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_top2_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    CALL_NATIVE(bhv_rl_top2_init),
     BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_top2_loop),
     END_LOOP(),
 };
@@ -6663,5 +6667,19 @@ const BehaviorScript bhvRlTemporeset[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_temporeset_loop),
+    END_LOOP(),
+};
+
+extern const Collision rl_flippanel_collision[];
+const BehaviorScript bhvRlFlippanel[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_flippanel_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_flippanel_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_flippanel_loop),
     END_LOOP(),
 };

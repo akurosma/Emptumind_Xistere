@@ -48,7 +48,8 @@ const LevelScript level_ccm_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_TEST_CUBE, test_cube_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_RL_SWIMTUBE, rl_swimtube_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BEEPBLOCK, rl_beepblock_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_TEMPORESET, rl_temporeset_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_TEMPORESET, rl_temporeset_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_FLIPPANEL, rl_flippanel_geo),
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -67,6 +68,11 @@ const LevelScript level_ccm_entry[] = {
 		OBJECT(MODEL_CCM_RL_BEEPBLOCK, 1300, 1500, 1000, 0, 0, 0, 0x00010000, bhvRlBeepblock),
 		OBJECT(MODEL_CCM_RL_BEEPBLOCK, 1900, 400, 1000, 0, 0, 0, 0x00010000, bhvRlBeepblock),
 		OBJECT(MODEL_CCM_RL_TEMPORESET, 1300, 400, -1000, 0, 0, 0, 0x00020000, bhvRlTemporeset),
+		OBJECT(MODEL_CCM_RL_FLIPPANEL, 200, 400, 200, 0, 0, 0, 0x00010000, bhvRlFlippanel),
+		OBJECT(MODEL_CCM_RL_FLIPPANEL, 200, 400, -200, 0, 0, 0, 0x01010000, bhvRlFlippanel),
+		OBJECT(MODEL_CCM_RL_FLIPPANEL, 200, 400, -600, 0, 0, 0, 0x02010000, bhvRlFlippanel),
+		OBJECT(MODEL_CCM_RL_FLIPPANEL, 200, 400, -1000, 0, 0, 0, 0x03010000, bhvRlFlippanel),
+		//OBJECT(MODEL_CCM_RL_TEMPORESET, 1800, 400, -1000, 0, 0, 0, (1 << 24), bhvRlTemporeset),
 		TERRAIN(ccm_area_1_collision),
 		MACRO_OBJECTS(ccm_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

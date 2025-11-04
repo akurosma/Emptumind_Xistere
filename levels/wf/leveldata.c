@@ -75,5 +75,7 @@
 #include "levels/wf/rl_train/collision.inc.c"
 #include "levels/wf/rl_swing/model.inc.c"
 #include "levels/wf/rl_swing/collision.inc.c"
+#include "levels/wf/rl_top2/model.inc.c"
+#include "levels/wf/rl_top2/collision.inc.c"
 
 #include "levels/wf/leveldata.inc.c"

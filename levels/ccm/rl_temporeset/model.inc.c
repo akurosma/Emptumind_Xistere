@@ -131,7 +131,7 @@ u8 rl_temporeset_Untitled_i8[] = {
 	
 };
 
-Vtx rl_temporeset_rl_temporeset_mesh_layer_1_vtx_cull[8] = {
+Vtx rl_temporeset_rl_temporeset_mesh_layer_5_vtx_cull[8] = {
 	{{ {-100, -100, 100}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {-100, 100, 100}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {-100, 100, -100}, 0, {0, 0}, {0, 0, 0, 0} }},
@@ -142,7 +142,7 @@ Vtx rl_temporeset_rl_temporeset_mesh_layer_1_vtx_cull[8] = {
 	{{ {100, -100, -100}, 0, {0, 0}, {0, 0, 0, 0} }},
 };
 
-Vtx rl_temporeset_rl_temporeset_mesh_layer_1_vtx_0[14] = {
+Vtx rl_temporeset_rl_temporeset_mesh_layer_5_vtx_0[14] = {
 	{{ {100, 100, -100}, 0, {624, 496}, {255, 0, 24, 255} }},
 	{{ {-100, 100, -100}, 0, {880, 496}, {255, 0, 24, 255} }},
 	{{ {-100, 100, 100}, 0, {880, 240}, {255, 0, 24, 255} }},
@@ -159,8 +159,8 @@ Vtx rl_temporeset_rl_temporeset_mesh_layer_1_vtx_0[14] = {
 	{{ {-100, -100, -100}, 0, {368, 752}, {0, 9, 255, 255} }},
 };
 
-Gfx rl_temporeset_rl_temporeset_mesh_layer_1_tri_0[] = {
-	gsSPVertex(rl_temporeset_rl_temporeset_mesh_layer_1_vtx_0 + 0, 14, 0),
+Gfx rl_temporeset_rl_temporeset_mesh_layer_5_tri_0[] = {
+	gsSPVertex(rl_temporeset_rl_temporeset_mesh_layer_5_vtx_0 + 0, 14, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(4, 0, 3, 0, 4, 3, 5, 0),
 	gsSP2Triangles(5, 3, 6, 0, 5, 6, 7, 0),
@@ -176,7 +176,7 @@ Gfx mat_rl_temporeset_f3dlite_material[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
-	gsSPTexture(0, 0, 0, 0, 0),
+	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetEnvColor(255, 255, 255, 255),
 	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 1, rl_temporeset_Untitled_i8),
 	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -193,13 +193,13 @@ Gfx mat_revert_rl_temporeset_f3dlite_material[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx rl_temporeset_rl_temporeset_mesh_layer_1[] = {
+Gfx rl_temporeset_rl_temporeset_mesh_layer_5[] = {
 	gsSPClearGeometryMode(G_LIGHTING),
-	gsSPVertex(rl_temporeset_rl_temporeset_mesh_layer_1_vtx_cull + 0, 8, 0),
+	gsSPVertex(rl_temporeset_rl_temporeset_mesh_layer_5_vtx_cull + 0, 8, 0),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
 	gsSPDisplayList(mat_rl_temporeset_f3dlite_material),
-	gsSPDisplayList(rl_temporeset_rl_temporeset_mesh_layer_1_tri_0),
+	gsSPDisplayList(rl_temporeset_rl_temporeset_mesh_layer_5_tri_0),
 	gsSPDisplayList(mat_revert_rl_temporeset_f3dlite_material),
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),

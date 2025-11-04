@@ -199,7 +199,7 @@ extern Gfx wf_dl_TIE_Area1_v3_6_mesh_layer_4_tri_1[];
 extern Vtx wf_dl_TIE_Area1_v3_6_mesh_layer_4_vtx_2[8];
 extern Gfx wf_dl_TIE_Area1_v3_6_mesh_layer_4_tri_2[];
 extern Vtx wf_dl_TIE_Area1_v3_6_mesh_layer_5_vtx_cull[8];
-extern Vtx wf_dl_TIE_Area1_v3_6_mesh_layer_5_vtx_0[23];
+extern Vtx wf_dl_TIE_Area1_v3_6_mesh_layer_5_vtx_0[39];
 extern Gfx wf_dl_TIE_Area1_v3_6_mesh_layer_5_tri_0[];
 extern Vtx wf_dl_TIE_Area1_v3_6_mesh_layer_5_vtx_1[23];
 extern Gfx wf_dl_TIE_Area1_v3_6_mesh_layer_5_tri_1[];

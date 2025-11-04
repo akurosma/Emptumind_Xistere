@@ -19,6 +19,7 @@
 #include "levels/ccm/test_cube/geo.inc.c"
 #include "levels/ccm/rl_beepblock/geo.inc.c"
 #include "levels/ccm/rl_temporeset/geo.inc.c"
+#include "levels/ccm/rl_flippanel/geo.inc.c"
 #include "levels/ccm/areas/1/6/geo.inc.c"
 #include "levels/ccm/areas/1/7/geo.inc.c"
 #include "levels/ccm/areas/1/8/geo.inc.c"

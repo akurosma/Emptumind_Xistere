@@ -209,20 +209,16 @@ void bhv_snufit_balls_loop(void) {
 }
 
 void bhv_snufit_balls2_loop(void) {
-    // If far from Mario or in a different room, despawn.
+    cur_obj_scale(0.25f);
     if ((o->activeFlags & ACTIVE_FLAG_IN_DIFFERENT_ROOM)
         || (o->oTimer != 0 && o->oDistanceToMario > 1500.0f)) {
         obj_mark_for_deletion(o);
     }
-
-    // Gravity =/= 0 after it has hit Mario while metal.
     if (o->oGravity == 0.0f) {
         cur_obj_update_floor_and_walls();
 
         obj_compute_vel_from_move_pitch(40.0f);
         if (obj_check_attacks(&sSnufitBulletHitbox, 1)) {
-            // We hit Mario while he is metal!
-            // Bounce off, and fall until the first check is true.
             o->oMoveAngleYaw += 0x8000;
             o->oForwardVel *= 0.05f;
             o->oVelY = 30.0f;
@@ -231,10 +227,6 @@ void bhv_snufit_balls2_loop(void) {
             cur_obj_become_intangible();
         } else if (o->oAction == 1 
                    || (o->oMoveFlags & (OBJ_MOVE_MASK_ON_GROUND | OBJ_MOVE_HIT_WALL))) {
-            // The Snufit shot Mario and has fulfilled its lonely existance.
-            //! The above check could theoretically be avoided by finding a geometric
-            //! situation that does not trigger those flags (Water?). If found,
-            //! this would be a route to hang the game via too many snufit bullets.
             o->oDeathSound = -1;
             obj_die_if_health_non_positive();          
             spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
