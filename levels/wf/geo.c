@@ -45,5 +45,6 @@
 #include "levels/wf/rl_marker/geo.inc.c"
 #include "levels/wf/rl_train/geo.inc.c"
 #include "levels/wf/rl_swing/geo.inc.c"
+#include "levels/wf/rl_top2/geo.inc.c"
 
 #include "levels/wf/geo.inc.c"

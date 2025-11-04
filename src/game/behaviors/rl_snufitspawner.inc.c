@@ -12,6 +12,10 @@ void rl_snufit_spawner_act_spawn_bubs(void) {
         snufitCount = 0;
         for (s32 i = 0; i < o->orlsnufitSpawnerSpawnAmount && i < MAX_SNUFITS; i++) {
             struct Object* snufit = spawn_object(o, MODEL_SNUFIT, bhvSnufit);
+            
+            // ここで Bparam1 をコピーする
+            SET_BPARAM1(snufit->oBehParams, GET_BPARAM1(o->oBehParams));
+
             spawnedSnufits[snufitCount++] = snufit;
         }
         o->oSnufitSpawned = TRUE;

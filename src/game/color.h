@@ -1,3 +1,5 @@
+//serene fusionで使ってるプログラム
+
 #pragma once
 
 #include "sm64.h"
