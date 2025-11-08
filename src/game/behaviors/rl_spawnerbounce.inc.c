@@ -16,3 +16,15 @@ void bhv_rl_spawnerbounce_loop(void) {
         obj_mark_for_deletion(o);
     }
 }
+
+void bhv_rl_top2_init(void) {
+    o->oOpacity = 55;
+    o->parentObj = cur_obj_nearest_object_with_behavior(bhvRlSpawnerbounce);
+}
+
+void bhv_rl_top2_loop(void) {
+    obj_scale_xyz(o, 1.1f, 1.1f + 0.2 * sins(o->oTimer * 0x678), 1.1f);
+    if (o->parentObj != NULL && o->parentObj->activeFlags == ACTIVE_FLAG_DEACTIVATED) {
+        obj_mark_for_deletion(o);
+    }
+}

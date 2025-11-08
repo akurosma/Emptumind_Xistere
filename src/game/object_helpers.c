@@ -26,6 +26,8 @@
 #include "rendering_graph_node.h"
 #include "spawn_object.h"
 #include "spawn_sound.h"
+#include "src/game/segment2.h"
+#include "color.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 

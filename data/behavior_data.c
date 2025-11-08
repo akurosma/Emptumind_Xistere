@@ -2613,6 +2613,16 @@ const BehaviorScript bhvBubSpawner[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRlSnufitspawner[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    SET_INT(orlsnufitSpawnerSpawnAmount, 1),
+    DISABLE_RENDERING(),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_snufitspawner_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvBub[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6398,6 +6408,19 @@ const BehaviorScript bhvRlTop[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRlTop2[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_top2_collision),
+    SET_FLOAT(oDrawingDistance, 6000),
+    CALL_NATIVE(bhv_rl_top2_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_top2_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvRlBounce[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6618,6 +6641,7 @@ const BehaviorScript bhvDebugSound[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
 const BehaviorScript bhvAirlockctrl[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
@@ -6625,5 +6649,47 @@ const BehaviorScript bhvAirlockctrl[] = {
     CALL_NATIVE(bhv_airlockCtrl_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_airlockCtrl_loop),
+    END_LOOP(),
+};
+
+extern const Collision rl_beepblock_collision[];
+const BehaviorScript bhvRlBeepblock[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_beepblock_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_rl_beepblock_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_beepblock_loop),
+    END_LOOP(),
+};
+
+extern const Collision rl_temporeset_collision[];
+const BehaviorScript bhvRlTemporeset[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_temporeset_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_temporeset_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_temporeset_loop),
+    END_LOOP(),
+};
+
+extern const Collision rl_flippanel_collision[];
+const BehaviorScript bhvRlFlippanel[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_flippanel_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_flippanel_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_flippanel_loop),
     END_LOOP(),
 };

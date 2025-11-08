@@ -65,17 +65,17 @@ const LevelScript level_wf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_WF_KICKABLE_BOARD, wf_geo_000BA8), 
 	LOAD_MODEL_FROM_GEO(MODEL_WF_TOWER_DOOR, wf_geo_000BE0), 
 	LOAD_MODEL_FROM_GEO(MODEL_WF_KICKABLE_BOARD_FELLED, wf_geo_000BC8), 
-	LOAD_MODEL_FROM_GEO(MODEL_HMC_WOODEN_DOOR, wooden_door_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_GRILL, rl_grill_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_MARKER, rl_marker_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_TRAIN, rl_train_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_HMC_WOODEN_DOOR, wooden_door_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_GRILL, rl_grill_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_MARKER, rl_marker_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_TRAIN, rl_train_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_SWING, rl_swing_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_TOP2, rl_top2_geo), 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, wf_area_1),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		//CASTLE_GROUNDSのワープはblenderで設定必要
 		WARP_NODE(0xF0, LEVEL_CASTLE_GROUNDS, 0x01, 0x34, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_CASTLE_GROUNDS, 0x01, 0x35, WARP_NO_CHECKPOINT),
 		WARP_NODE(0x15, LEVEL_WF, 0x01, 0x14, WARP_NO_CHECKPOINT),
@@ -167,7 +167,6 @@ const LevelScript level_wf_entry[] = {
 		OBJECT(MODEL_RL_BOUNCE, -2715, 3000, 2154, 0, 0, 0, (130 << 24) | (95 << 16), bhvRlBounce),
 		OBJECT(MODEL_RL_BOUNCE, -6434, 4301, 3254, 0, 0, 0, (145 << 24) | (95 << 16), bhvRlBounce),
 		OBJECT(MODEL_RL_BOUNCE, 185, 4301, 3254, 0, 0, 0, (110 << 24) | (86 << 16), bhvRlBounce),
-		//blender上ではrl_grillのx座標違うからインポート時注意
 		OBJECT_WITH_ACTS(MODEL_WF_RL_GRILL, 14063, 1, 8650, 0, 0, 0, (0 << 24) | (1 << 8), bhvRlGate, ACT_6),
 		OBJECT_WITH_ACTS(MODEL_WF_RL_GRILL, 14063, 1, 8650, 0, 0, 0, (0 << 24) | (0 << 16), bhvRlGate, ACT_1 | ACT_2 | ACT_3 | ACT_4 | ACT_5),
 		OBJECT(MODEL_RL_LIFT, 10442, 100, 2877, 0, 0, 0, 0x00000000, bhvRlLift),
@@ -195,6 +194,8 @@ const LevelScript level_wf_entry[] = {
 		OBJECT(MODEL_NONE, 7085, 125, -11727, 0, 0, 0, (1 << 16), bhvRlSparkle),
 		OBJECT(MODEL_NONE, -2444, 850, 9756, 0, 0, 0, (1 << 16), bhvRlSparkle),
 		OBJECT(MODEL_RL_BOUNCE, 9425, 550, 9362, 0, 0, 0, (30 << 24), bhvRlSpawnerbounce),
+		//blenderで設定必要
+		//OBJECT(MODEL_WF_RL_TOP2, 10050, 55, 7750, 0, 0, 0, 0x00000000, bhvRlTop2),
 		OBJECT(MODEL_RL_SQUAREFLOATING, -5550, 50, 8920, 0, 0, 0, (1 << 24), bhvWdwSquareFloatingPlatform),
 		OBJECT(MODEL_RL_SQUAREFLOATING, -9000, 50, 11489, 0, 0, 0, (1 << 24), bhvWdwSquareFloatingPlatform),
 		OBJECT(MODEL_RL_SQUAREFLOATING, -5100, 50, 12700, 0, 0, 0, (1 << 24), bhvWdwSquareFloatingPlatform),

@@ -1665,30 +1665,36 @@ case 0xc1: // chan_setinstr ("set program"?)
                         break;
 */
 /*rulu music selector start*/
-                    case 0xC1: // chan_setinstr ("set program"?)
+case 0xC1: // chan_setinstr ("set program"?)
 {
     u8 newInstId = m64_read_u8(state);
     set_instrument(seqChannel, newInstId);
 
     extern s32 sChannelInstrumentId[16];
     extern struct CtlEntry *gCtlEntries;
-    struct Instrument **set = gCtlEntries[0x0C].instruments;
-    s32 count = gCtlEntries[0x0C].numInstruments;
+    extern u8 get_bank_for_sequence(s32 seqId);
+
+    s32 currentSeqId = gSequencePlayers[SEQ_PLAYER_LEVEL].seqId;
+    u8 bankIndex = get_bank_for_sequence(currentSeqId);
+    struct Instrument **set = gCtlEntries[bankIndex].instruments;
+    s32 count = gCtlEntries[bankIndex].numInstruments;
 
     static s32 lastSeqId = -1;
     static s32 justChanged = TRUE;
 
-    s32 currentSeqId = gSequencePlayers[SEQ_PLAYER_LEVEL].seqId;
-
     // --- 曲の切り替えを検知 ---
     if (currentSeqId != lastSeqId) {
         justChanged = TRUE;
-        lastSeqId = currentSeqId;
 
-        // ✅ 曲が変わったら（別コースなど）楽器リストをリセット
-        for (s32 j = 0; j < 16; j++) {
-            sChannelInstrumentId[j] = -1;
+        // --- 非ループ曲ならリセットをスキップ ---
+        extern int is_non_looping_sequence(s32 seqId);
+        if (!is_non_looping_sequence(currentSeqId)) {
+            for (s32 j = 0; j < 16; j++) {
+                sChannelInstrumentId[j] = -1;
+            }
         }
+
+        lastSeqId = currentSeqId;
     }
 
     for (s32 i = 0; i < 16; i++) {
@@ -1714,6 +1720,7 @@ case 0xc1: // chan_setinstr ("set program"?)
             break;
         }
     }
+
     if (gSequencePlayers[SEQ_PLAYER_LEVEL].enabled &&
         currentSeqId == lastSeqId) {
         justChanged = FALSE;

@@ -48,5 +48,11 @@
 
 #include "levels/ccm/test_cube/model.inc.c"
 #include "levels/ccm/test_cube/collision.inc.c"
+#include "levels/ccm/rl_beepblock/model.inc.c"
+#include "levels/ccm/rl_beepblock/collision.inc.c"
+#include "levels/ccm/rl_temporeset/model.inc.c"
+#include "levels/ccm/rl_temporeset/collision.inc.c"
+#include "levels/ccm/rl_flippanel/model.inc.c"
+#include "levels/ccm/rl_flippanel/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"
