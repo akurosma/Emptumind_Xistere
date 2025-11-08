@@ -71,9 +71,13 @@ const LevelScript level_intro_splash_screen[] = {
     // Start animation
     LOAD_AREA(/*area*/ 1),
 
-    SET_MENU_MUSIC(/*seq*/ SEQ_SOUND_PLAYER),
-    CALL(/*arg*/ LVL_INTRO_PLAY_ITS_A_ME_MARIO, /*func*/ lvl_intro_update),
-    SLEEP(/*frames*/ 75),
+    //SET_MENU_MUSIC(/*seq*/ SEQ_SOUND_PLAYER),
+    SET_MENU_MUSIC(/*seq*/ SEQ_SONIC_NIGHTSPINBALL),
+    //CALL(/*arg*/ LVL_INTRO_PLAY_ITS_A_ME_MARIO, /*func*/ lvl_intro_update),
+    LOOP_BEGIN(),
+        CALL(/*arg*/ LVL_INTRO_SPLASH_SCREEN, /*func*/ lvl_intro_update),
+        SLEEP(/*frames*/ 1),
+    LOOP_UNTIL(/*op*/ OP_NEQ, /*arg*/ 0),
     TRANSITION(/*transType*/ WARP_TRANSITION_FADE_INTO_COLOR, /*time*/ 16, /*color*/ 0x00, 0x00, 0x00),
     SLEEP(/*frames*/ 16),
 #endif

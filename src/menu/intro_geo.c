@@ -12,6 +12,8 @@
 #include "buffers/framebuffers.h"
 #include "game/game_init.h"
 #include "audio/external.h"
+#include "levels/intro/titlelogodl/header.h"
+#include "game/skybox.h"
 
 // frame counts for the zoom in, hold, and zoom out of title model
 #define INTRO_STEPS_ZOOM_IN 20
@@ -35,10 +37,17 @@ static s32 sGameOverFrameCounter;
 static s32 sGameOverTableIndex;
 static s16 sIntroFrameCounter;
 static s32 sTmCopyrightAlpha;
+static s8 sLogoZoomInSoundPlayed;
 
 /**
  * Geo callback to render the "Super Mario 64" logo on the title screen
  */
+void intro_force_logo_zoom_out(void) {
+    if (sIntroFrameCounter > INTRO_STEPS_HOLD_1) {
+        sIntroFrameCounter = INTRO_STEPS_HOLD_1;
+    }
+}
+
 Gfx *geo_intro_super_mario_64_logo(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     struct GraphNode *graphNode = node;
     Gfx *dl = NULL;
@@ -46,6 +55,7 @@ Gfx *geo_intro_super_mario_64_logo(s32 callContext, struct GraphNode *node, UNUS
 
     if (callContext != GEO_CONTEXT_RENDER) {
         sIntroFrameCounter = 0;
+        sLogoZoomInSoundPlayed = FALSE;
     } else if (callContext == GEO_CONTEXT_RENDER) {
         f32 *scaleTable1 = segmented_to_virtual(intro_seg7_table_scale_1);
         f32 *scaleTable2 = segmented_to_virtual(intro_seg7_table_scale_2);
@@ -58,6 +68,10 @@ Gfx *geo_intro_super_mario_64_logo(s32 callContext, struct GraphNode *node, UNUS
         // determine scale based on the frame counter
         if (sIntroFrameCounter >= 0 && sIntroFrameCounter < INTRO_STEPS_ZOOM_IN) {
             // zooming in
+            if (!sLogoZoomInSoundPlayed && sIntroFrameCounter == 0) {
+                play_sound(SOUND_MENU_STAR_SOUND, gGlobalSoundSource); // お好みの SE に変更
+                sLogoZoomInSoundPlayed = TRUE;
+            }
             vec3f_copy(scale, &scaleTable1[sIntroFrameCounter * 3]);
         } else if (sIntroFrameCounter >= INTRO_STEPS_ZOOM_IN && sIntroFrameCounter < INTRO_STEPS_HOLD_1) {
             // holding
@@ -72,7 +86,7 @@ Gfx *geo_intro_super_mario_64_logo(s32 callContext, struct GraphNode *node, UNUS
         guScale(scaleMat, scale[0], scale[1], scale[2]);
 
         gSPMatrix(dlIter++, scaleMat, G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
-        gSPDisplayList(dlIter++, &intro_seg7_dl_main_logo);  // draw model
+        gSPDisplayList(dlIter++, &titlelogodl_titlelogo_mesh);
         gSPPopMatrix(dlIter++, G_MTX_MODELVIEW);
         gSPEndDisplayList(dlIter);
 

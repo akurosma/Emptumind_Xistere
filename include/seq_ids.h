@@ -75,6 +75,7 @@ enum SeqId {
     SEQ_WIND_FORTRESS,                // 0x39
     SEQ_WITH_ME,                      // 0x3A
     SEQ_C4_AREA1,                     // 0x3B
+    SEQ_SONIC_NIGHTSPINBALL,          // 0X3C
     // end
     SEQ_COUNT
 };
