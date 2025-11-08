@@ -242,6 +242,27 @@ s32 intro_game_over(void) {
 
 #endif
 
+static s8 sSplashActive = FALSE;
+static s32 intro_wait_for_splash_button(void) {
+    s32 sway = (sins(gGlobalTimer * 0x400) * 4);
+    print_text_centered(160, 20 + sway, "press A button");
+
+
+    if (!sSplashActive) {
+        sSplashActive = TRUE;
+        return FALSE;
+    }
+
+    if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
+        sSplashActive = FALSE;
+        play_sound(SOUND_MENU_STAR_SOUND, gGlobalSoundSource);
+        return TRUE;
+    }
+
+    intro_force_logo_zoom_out();
+    return FALSE;
+}
+
 /**
  * Plays the casual "It's a me mario" when the game stars.
  */
@@ -257,6 +278,7 @@ s32 intro_play_its_a_me_mario(void) {
 s32 lvl_intro_update(s16 arg, UNUSED s32 unusedArg) {
     switch (arg) {
         case LVL_INTRO_PLAY_ITS_A_ME_MARIO: return intro_play_its_a_me_mario();
+        case LVL_INTRO_SPLASH_SCREEN:     return intro_wait_for_splash_button();
 #ifdef KEEP_MARIO_HEAD
         case LVL_INTRO_REGULAR:             return intro_regular();
         case LVL_INTRO_GAME_OVER:           return intro_game_over();

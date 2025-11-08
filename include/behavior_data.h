@@ -590,6 +590,7 @@ extern const BehaviorScript bhvFadingwall[];
 extern const BehaviorScript bhvTestCube[];
 extern const BehaviorScript bhvMusicSelector[];
 extern const BehaviorScript bhvDebugSound[];
+extern const BehaviorScript bhvAirlockctrl[];
 extern const BehaviorScript bhvRlBeepblock[];
 extern const BehaviorScript bhvRlTemporeset[];
 extern const BehaviorScript bhvRlFlippanel[];

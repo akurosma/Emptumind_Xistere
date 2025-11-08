@@ -668,6 +668,8 @@ void bhv_Debug_Sound_init(void);
 void bhv_Debug_Sound_loop(void);
 void debug_sound_render(void);
 void debug_sound_update_inputs(void);
+void bhv_airlockCtrl_init(void);
+void bhv_airlockCtrl_loop(void);
 void bhv_rl_beepblock_init(void);
 void bhv_rl_beepblock_loop(void);
 void bhv_rl_temporeset_init(void);
