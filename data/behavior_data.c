@@ -1580,6 +1580,18 @@ const BehaviorScript bhvFireParticleSpawner[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvBlackFlameParticle[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BILLBOARD(),
+    SET_FLOAT(oGraphYOffset, 70),
+    SET_INT(oAnimState, OBJ_ANIM_STATE_INIT_ANIM),
+    BEGIN_LOOP(),
+        ADD_INT(oAnimState, 1),
+        CALL_NATIVE(bhv_ccmflame_mario_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvBlackSmokeMario[] = {
     BEGIN(OBJ_LIST_UNIMPORTANT),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6396,7 +6408,7 @@ const BehaviorScript bhvRlSwing[] = {
 };
 
 const BehaviorScript bhvRlTop[] = {
-    BEGIN(OBJ_LIST_SURFACE),
+    BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_HOME(),
     LOAD_COLLISION_DATA(rl_top_collision),
@@ -6494,20 +6506,19 @@ const BehaviorScript bhvRlFirespitter[] = {
     END_LOOP(),
 };
 
-const BehaviorScript bhvRlTripletflame[] = {
-    BEGIN(OBJ_LIST_GENACTOR),
-    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    LOAD_ANIMATIONS(oAnimations, butterfly_seg3_anims_030056B0),
-    ANIMATE(BUTTERFLY_ANIM_FLYING),
-    HIDE(),
+const BehaviorScript bhvRlCcmflame[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BILLBOARD(),
     SET_HOME(),
-    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 0, /*Gravity*/ 0, /*Bounciness*/ 0, /*Drag strength*/ 0, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
-    SET_INTERACT_TYPE(INTERACT_FLAME),
+    SCALE(/*Unused*/ 0, /*Field*/ 700),
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 50, /*Height*/ 25, /*Downwards offset*/ 25),
     SET_INT(oIntangibleTimer, 0),
-    SET_FLOAT(oTripletButterflyScale, 1),
+    CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
-        CALL_NATIVE(bhv_triplet_butterfly_update),
+        CALL_NATIVE(bhv_ccmflame_loop),
+        SET_INT(oInteractStatus, INT_STATUS_NONE),
+        ANIMATE_TEXTURE(oAnimState, 2),
     END_LOOP(),
 };
 
@@ -6691,5 +6702,46 @@ const BehaviorScript bhvRlFlippanel[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_flippanel_loop),
+    END_LOOP(),
+};
+
+extern const Collision rl_onda_collision[];
+const BehaviorScript bhvRlOnda[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_onda_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_onda_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_onda_loop),
+    END_LOOP(),
+};
+
+extern const Collision rl_wave_collision[];
+const BehaviorScript bhvRlWave[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_wave_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_wave_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_wave_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlShrinkpanel[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(rl_flippanel_collision),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 5000),
+    CALL_NATIVE(bhv_rl_shrinkpanel_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_shrinkpanel_loop),
     END_LOOP(),
 };

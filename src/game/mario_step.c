@@ -13,6 +13,49 @@
 
 #include "config.h"
 
+// ===========================================
+// RL: CCMカスタムDEATH面用リスポーン処理
+// ===========================================
+
+// 調整可能：DEATH床からどれくらい余裕を持たせるか
+static const f32 DEATH_TRIGGER_OFFSET = 200.0f;
+
+// 調整可能：仮リスポーン座標
+#define CCM_RESPAWN_X  0.0f
+#define CCM_RESPAWN_Y  400.0f
+#define CCM_RESPAWN_Z -0.0f
+
+// 落下前判定＆リスポーン
+void rl_check_ccm_death_plane(struct MarioState *m) {
+
+    // floorHeight はマリオの真下の床のY座標（SURFACE_CCM_DEATH 含む）
+    // ここから一定高度以上落ち込んだら即リスポーン
+    if (m->floor && m->floor->type == SURFACE_CCM_DEATH1) {
+
+        // DEATH床より offset 高い位置を境界にする
+        f32 triggerHeight = m->floorHeight + DEATH_TRIGGER_OFFSET;
+
+        // マリオがこのラインより下に落ち込んだらリスポーン
+        if (m->pos[1] < triggerHeight) {
+
+            // マリオリスポーン（座標セット）
+            m->pos[0] = CCM_RESPAWN_X;
+            m->pos[1] = CCM_RESPAWN_Y;
+            m->pos[2] = CCM_RESPAWN_Z;
+
+            // 落下速度が残ると地面にめり込む可能性があるので速度リセット
+            m->vel[0] = 0.0f;
+            m->vel[1] = 0.0f;
+            m->vel[2] = 0.0f;
+
+            // 行動状態を初期化（不要なアニメ挙動を避けるため）
+            set_mario_action(m, ACT_IDLE, 0);
+
+            // カメラは今回は通常挙動のまま（ここでは触らない）
+        }
+    }
+}
+
 static s16 sMovingSandSpeeds[] = { 12, 8, 4, 0 };
 
 struct Surface gWaterSurfacePseudoFloor = {
@@ -493,6 +536,61 @@ s32 perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u32 stepAr
 
     f32 floorHeight = find_floor(nextPos[0], nextPos[1], nextPos[2], &floor);
     f32 ceilHeight = find_mario_ceil(nextPos, floorHeight, &ceil);
+
+    // === CUSTOM CCM DEATH PLANE FALL CHECK ===
+if (floor != NULL && floor->type == SURFACE_CCM_DEATH1) {
+    f32 triggerHeight = floorHeight + DEATH_TRIGGER_OFFSET;
+
+    if (nextPos[1] < triggerHeight) {
+
+        // ブラックアウト演出スタート
+        play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 30, 0, 0, 0);
+
+        // 2ダメージ
+m->health -= 0x0200;
+
+// 最低1HP残す（ギミックで死なせない）
+if (m->health <= 0x100) {
+    m->health = 0x100;
+}
+
+//ダメージ上限なしリスポーン時に死ぬパターン
+/*if (m->health < 0) {
+    m->health = 0;
+}*/
+
+// 点滅無敵（約2秒）
+m->invincTimer = 30;
+
+        // リスポーン座標 (仮)
+        m->pos[0] = CCM_RESPAWN_X;
+        m->pos[1] = CCM_RESPAWN_Y;
+        m->pos[2] = CCM_RESPAWN_Z;
+
+
+       // 物理速度を完全ゼロ
+m->vel[0] = 0.0f;
+m->vel[1] = 0.0f;
+m->vel[2] = 0.0f;
+
+// 向き設定（例："奥の方向を見る"）
+m->faceAngle[1] = 0x4000;   // 90度
+
+// 前方向速度（地上移動速度）もゼロ
+m->forwardVel = 0.0f;
+
+// 滑り速度もゼロ（念のため）
+m->slideVelX = 0.0f;
+m->slideVelZ = 0.0f;
+
+        // Idle 状態に遷移
+        set_mario_action(m, ACT_IDLE, 0);
+
+        // これ以上の空中処理を止める
+        return AIR_STEP_NONE;
+    }
+}
+
 
     f32 waterLevel = find_water_level(nextPos[0], nextPos[2]);
 

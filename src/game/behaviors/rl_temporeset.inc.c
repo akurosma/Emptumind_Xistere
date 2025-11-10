@@ -51,6 +51,33 @@ void bhv_rl_temporeset_loop(void) {
         }
     }
 
+    //デバッグ用
+    if (gPlayer1Controller->buttonPressed & D_JPAD) {
+        s32 currentTempo =
+            gSequencePlayers[SEQ_PLAYER_LEVEL].tempo +
+            gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
+
+        if (currentTempo < MAX_TEMPO) {
+            gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd += 1000;
+
+            // 上限を超えないように再チェック
+            s32 newTempo =
+                gSequencePlayers[SEQ_PLAYER_LEVEL].tempo +
+                gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
+            if (newTempo > MAX_TEMPO) {
+                // tempoAddを補正
+                gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd =
+                    MAX_TEMPO - gSequencePlayers[SEQ_PLAYER_LEVEL].tempo;
+            }
+
+            char buf[64];
+            sprintf(buf, "Tempo:%d", newTempo);
+            print_text(100, 180, buf);
+        } else {
+            print_text(100, 180, "MAX TEMPO REACHED!");
+        }
+    }
+
     wasOnPlatform = isOnPlatform;
 }
 

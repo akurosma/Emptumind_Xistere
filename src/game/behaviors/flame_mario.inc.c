@@ -52,3 +52,17 @@ void bhv_flame_mario_loop(void) {
         gMarioObject->prevObj = NULL;
     }
 }
+
+//rulu ccmflame
+void bhv_ccmflame_mario_loop(void) {
+    cur_obj_scale(4.0f);
+
+    gMarioObject->prevObj = o; // weird?
+    obj_set_parent_relative_pos(o, 40, 0, 0);
+
+    if (!(gMarioObject->oMarioParticleFlags & ACTIVE_PARTICLE_BLACKFLAME)) {
+        o->parentObj->oActiveParticleFlags &= ~ACTIVE_PARTICLE_BLACKFLAME;
+        obj_mark_for_deletion(o);
+        gMarioObject->prevObj = NULL;
+    }
+}

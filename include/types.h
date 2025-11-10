@@ -454,6 +454,8 @@ struct MarioState {
              u8  numRedkey;
              u8  numBluekey;
              u8  numGreenkey;
+             u8  amaterasu;
+             u8  kagutsuchi;
 
 #ifdef BREATH_METER
              s16 breath;
