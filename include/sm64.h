@@ -175,6 +175,7 @@ enum MarioParticleFlags {
     PARTICLE_BREATH               = /* 0x00020000 */ (1 << 17),
     PARTICLE_TRIANGLE             = /* 0x00040000 */ (1 << 18),
     PARTICLE_19                   = /* 0x00080000 */ (1 << 19),
+    PARTICLE_BLACKFLAME           = /* 0x00080000 */ (1 << 20),
 };
 
 enum ModelStates {

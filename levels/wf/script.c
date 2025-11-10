@@ -195,7 +195,7 @@ const LevelScript level_wf_entry[] = {
 		OBJECT(MODEL_NONE, -2444, 850, 9756, 0, 0, 0, (1 << 16), bhvRlSparkle),
 		OBJECT(MODEL_RL_BOUNCE, 9425, 550, 9362, 0, 0, 0, (30 << 24), bhvRlSpawnerbounce),
 		//blenderで設定必要
-		//OBJECT(MODEL_WF_RL_TOP2, 10050, 55, 7750, 0, 0, 0, 0x00000000, bhvRlTop2),
+		OBJECT_WITH_ACTS(MODEL_WF_RL_TOP2, 10050, 55, 7750, 0, 0, 0, 0x00000000, bhvRlTop2, ACT_6),
 		OBJECT(MODEL_RL_SQUAREFLOATING, -5550, 50, 8920, 0, 0, 0, (1 << 24), bhvWdwSquareFloatingPlatform),
 		OBJECT(MODEL_RL_SQUAREFLOATING, -9000, 50, 11489, 0, 0, 0, (1 << 24), bhvWdwSquareFloatingPlatform),
 		OBJECT(MODEL_RL_SQUAREFLOATING, -5100, 50, 12700, 0, 0, 0, (1 << 24), bhvWdwSquareFloatingPlatform),

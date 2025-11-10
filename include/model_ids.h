@@ -91,6 +91,11 @@
 #define MODEL_CCM_RL_BEEPBLOCK                 0x39
 #define MODEL_CCM_RL_TEMPORESET                0x3A
 #define MODEL_CCM_RL_FLIPPANEL                 0x3B
+#define MODEL_CCM_RL_ONDA                      0x3C
+#define MODEL_CCM_RL_WAVE                      0x3D
+#define MODEL_CCM_RL_BLACKFLAME                0x3E
+#define MODEL_CCM_RL_WHITEFLAME                0x3F
+#define MODEL_CCM_RL_BLACKFLAME_SHADOW         0x40
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18

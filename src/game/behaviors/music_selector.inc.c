@@ -40,7 +40,7 @@ s32 sInstrumentScrollTimer = 0;
 
 // --- 楽器名リスト ---
 const char *instrument_names[] = {
-    "Accordion", "Slap Bass", "Ele Guitar", "Ele Piano", "Grand Piano",
+    "Accordion", "Slap Bass", "Ele Guitar", "crystal rhodes", "Grand Piano",
     "French Horn", "Pan Flute", "Strings", "Acoustic Guitar", "Sleigh Bells",
     "Hi-Hat", "Crash Cymbal", "Triangle&Cabasa", "Celesta", "Banjo",
     "Fiddle", "Whistle", "Acoustic Bass", "Snare Clap", "Pizzicato Strings",
@@ -73,7 +73,7 @@ const char *sSeqNames[] = {
     "Great Mighty Poo", "Got Star Cutscene", "SSBM Master Hand", "Southern Cross", "Aquarium Park",
     "His World", "Promise of the 19", "Vilily", "King K Rool", "Adventurers Song",
     "Boggys igloo", "Science", "Lets Girls Talk", "Time Trial", "SD Battle 2",
-    "Head Honcho Carpaccio", "Fist Bump", "Wind Fortress", "With Me", "Battle of Rose"
+    "Head Honcho Carpaccio", "Fist Bump", "Wind Fortress", "With Me", "Battle of Rose", "SONIC NIGHTSPINBALL"
 };
 
 s16 sTempoOffset = 0;
