@@ -1463,7 +1463,13 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
             //! Puts Mario in ground action even when in air, making it easy to
             // escape air actions into crouch slide (shell cancel)
-            return set_mario_action(m, ACT_RIDING_SHELL_GROUND, 0);
+            u8 bparam2 = obj->oBehParams2ndByte;//rulu
+            if (bparam2 == 1) {//rulu
+                return set_mario_action(m, ACT_RIDING_HYPERTUBE, 0);//rulu
+            } else {
+                return set_mario_action(m, ACT_RIDING_SHELL_GROUND, 0);
+            }
+
         }
 
         push_mario_out_of_object(m, obj, 2.0f);
