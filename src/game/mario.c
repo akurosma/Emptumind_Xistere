@@ -1486,13 +1486,17 @@ void update_mario_health(struct MarioState *m) {
     if (m->health >= 0x100) {
         // rulu ccmflame start
     if (m->amaterasu) {
-        // 燃焼中は常にHP減少（例: 0x20ずつ）
-        m->health -= 0x03;
-        m->particleFlags |= PARTICLE_BLACKFLAME;
 
-        // HPが尽きたら死亡
-        if (m->health < 0x100) {
-            m->health = 0xFF;
+    // HPを減らす（生存中のみ）
+        if (m->health > 0x100) {
+            m->health -= 0x03; //HP減少 0x03ずつ
+            m->particleFlags |= PARTICLE_BLACKFLAME;
+        }
+
+        // ★死亡ラインに到達したら燃焼を停止
+        if (m->health <= 0x100) {
+            m->health = 0xFF;    // 死亡ラインに固定
+            m->amaterasu = FALSE; // ← これが重要！（フリーズ防止）
         }
     }
 
