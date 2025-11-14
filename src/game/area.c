@@ -19,6 +19,7 @@
 #include "rendering_graph_node.h"
 #include "level_update.h"
 #include "engine/geo_layout.h"
+#include "level_geo.h"
 #include "save_file.h"
 #include "level_table.h"
 #include "dialog_ids.h"
@@ -247,6 +248,8 @@ void load_area(s32 index) {
         }
 
         geo_call_global_function_nodes(&gCurrentArea->graphNode->node, GEO_CONTEXT_AREA_LOAD);
+        // rulu skybox
+        reload_area_skybox();
     }
 }
 

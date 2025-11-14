@@ -18,5 +18,11 @@ enum EnvFxMode {
 
 Gfx *geo_envfx_main(s32 callContext, struct GraphNode *node, Mat4 mtxf);
 Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx);
+void set_area_envfx(s16 mode);
+void set_area_skybox(s8 background);
+s8 get_area_skybox(void);
+// rulu skybox
+void skybox_reset_state(s8 player);
+void reload_area_skybox(void);
 
 #endif // LEVEL_GEO_H

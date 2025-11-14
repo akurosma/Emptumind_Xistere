@@ -166,6 +166,7 @@ extern const BehaviorScript bhvFlameBouncing[];
 extern const BehaviorScript bhvFlameMovingForwardGrowing[];
 extern const BehaviorScript bhvFlameBowser[];
 extern const BehaviorScript bhvFlameLargeBurningOut[];
+extern const BehaviorScript bhvRlSkyboxTrigger[];
 extern const BehaviorScript bhvBlueFish[];
 extern const BehaviorScript bhvTankFishGroup[];
 extern const BehaviorScript bhvCheckerboardElevatorGroup[];
