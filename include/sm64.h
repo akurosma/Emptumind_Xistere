@@ -29,6 +29,9 @@
 #define GET_LOW_S16_OF_32(var) ((s16)((var) & 0xFFFF))
 #define SET_HIGH_U16_OF_32(var, x) ((var) = ((var) & 0xFFFF) | ((x) << 16))
 #define SET_HIGH_S16_OF_32(var, x) ((var) = ((var) & 0xFFFF) | ((x) << 16))
+// rulu skybox
+#define SET_LOW_U16_OF_32(var, x)  ((var) = ((var) & 0xFFFF0000) | ((x) & 0xFFFF))
+#define SET_LOW_S16_OF_32(var, x)  ((var) = ((var) & 0xFFFF0000) | ((x) & 0xFFFF))
 
 // Common cos values for degrees, often used for surface Y normals
 // These are different than coss()

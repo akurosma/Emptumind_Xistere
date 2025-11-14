@@ -2167,6 +2167,15 @@ const BehaviorScript bhvFlameLargeBurningOut[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRlSkyboxTrigger[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    CALL_NATIVE(bhv_rl_skybox_trigger_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_skybox_trigger_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvBlueFish[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),

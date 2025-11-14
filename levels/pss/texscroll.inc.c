@@ -155,7 +155,7 @@ void scroll_pss_dl_room1_mesh_layer_5_vtx_0() {
 
 void scroll_pss_dl_PSS_sunny_v1_6_mesh_layer_5_vtx_0() {
 	int i = 0;
-	int count = 121;
+	int count = 120;
 	int width = 32 * 0x20;
 
 	static int currentX = 0;

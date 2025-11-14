@@ -61,6 +61,20 @@ struct Skybox {
 
 struct Skybox sSkyBoxInfo[2];
 
+// rulu skybox start
+void skybox_reset_state(s8 player) {
+    if (player < 0 || player >= 2) {
+        return;
+    }
+
+    sSkyBoxInfo[player].yaw = 0;
+    sSkyBoxInfo[player].pitch = 0;
+    sSkyBoxInfo[player].scaledX = 0;
+    sSkyBoxInfo[player].scaledY = 0;
+    sSkyBoxInfo[player].upperLeftTile = 0;
+}
+// rulu skybox end
+
 typedef const Texture *const SkyboxTexture[80 * SKYBOX_SIZE * SKYBOX_SIZE];
 
 extern SkyboxTexture bbh_skybox_ptrlist;

@@ -8,6 +8,81 @@
 #include "camera.h"
 #include "envfx_snow.h"
 #include "level_geo.h"
+#include "segment_symbols.h"
+#include "memory.h"
+#include "segments.h"
+
+// rulu skybox start
+static struct GraphNodeGenerated *sEnvfxNode = NULL;
+static s16 sEnvfxOverride = -1;
+static struct GraphNodeBackground *sSkyboxNode = NULL;
+static s8 sSkyboxOverride = -1;
+static s8 sLoadedSkyboxId = -1;
+
+struct SkyboxSegment {
+    u8 *romStart;
+    u8 *romEnd;
+};
+
+static const struct SkyboxSegment sSkyboxSegments[] = {
+    { _water_skybox_yay0SegmentRomStart, _water_skybox_yay0SegmentRomEnd },             // BACKGROUND_OCEAN_SKY
+    { _bitfs_skybox_yay0SegmentRomStart, _bitfs_skybox_yay0SegmentRomEnd },             // BACKGROUND_FLAMING_SKY
+    { _wdw_skybox_yay0SegmentRomStart, _wdw_skybox_yay0SegmentRomEnd },                 // BACKGROUND_UNDERWATER_CITY
+    { _cloud_floor_skybox_yay0SegmentRomStart, _cloud_floor_skybox_yay0SegmentRomEnd }, // BACKGROUND_BELOW_CLOUDS
+    { _ccm_skybox_yay0SegmentRomStart, _ccm_skybox_yay0SegmentRomEnd },                 // BACKGROUND_SNOW_MOUNTAINS
+    { _ssl_skybox_yay0SegmentRomStart, _ssl_skybox_yay0SegmentRomEnd },                 // BACKGROUND_DESERT
+    { _bbh_skybox_yay0SegmentRomStart, _bbh_skybox_yay0SegmentRomEnd },                 // BACKGROUND_HAUNTED
+    { _bidw_skybox_yay0SegmentRomStart, _bidw_skybox_yay0SegmentRomEnd },               // BACKGROUND_GREEN_SKY
+    { _clouds_skybox_yay0SegmentRomStart, _clouds_skybox_yay0SegmentRomEnd },           // BACKGROUND_ABOVE_CLOUDS
+    { _bits_skybox_yay0SegmentRomStart, _bits_skybox_yay0SegmentRomEnd },               // BACKGROUND_PURPLE_SKY
+    { _starrysky_skybox_yay0SegmentRomStart, _starrysky_skybox_yay0SegmentRomEnd },     // BACKGROUND_STARRYSKY
+    { _sunset_skybox_yay0SegmentRomStart, _sunset_skybox_yay0SegmentRomEnd },           // BACKGROUND_SUNSET
+    { _disworld_skybox_yay0SegmentRomStart, _disworld_skybox_yay0SegmentRomEnd },       // BACKGROUND_DISWORLD
+};
+// rulu skybox end
+
+void set_area_envfx(s16 mode) {
+    sEnvfxOverride = mode;
+    if (sEnvfxNode != NULL && mode >= 0) {
+        SET_LOW_U16_OF_32(sEnvfxNode->parameter, mode);
+    }
+}
+
+void set_area_skybox(s8 background) {
+    sSkyboxOverride = background;
+    if (sSkyboxNode != NULL && background >= 0) {
+        // rulu skybox start
+        if (background < ARRAY_COUNT(sSkyboxSegments)) {
+            if (sLoadedSkyboxId != background) {
+                load_segment_decompress(SEGMENT_SKYBOX,
+                    sSkyboxSegments[background].romStart,
+                    sSkyboxSegments[background].romEnd);
+                sLoadedSkyboxId = background;
+            }
+        }
+        sSkyboxNode->background = (background << 16) | background;
+        skybox_reset_state(0);
+        // rulu skybox end
+    }
+}
+
+// rulu skybox start
+void reload_area_skybox(void) {
+    if (sSkyboxNode != NULL) {
+        s8 background = sSkyboxNode->background & 0xFFFF;
+        if (background >= 0) {
+            set_area_skybox(background);
+        }
+    }
+}
+// rulu skybox end
+
+s8 get_area_skybox(void) {
+    if (sSkyboxNode == NULL) {
+        return -1;
+    }
+    return sSkyboxNode->background & 0xFFFF;
+}
 
 /**
  * Geo function that generates a displaylist for environment effects such as
@@ -24,9 +99,11 @@ Gfx *geo_envfx_main(s32 callContext, struct GraphNode *node, Mat4 mtxf) {
         struct GraphNodeGenerated *execNode = (struct GraphNodeGenerated *) node;
         u32 *params = &execNode->parameter; // accessed a s32 as 2 u16s by pointing to the variable and
                                             // casting to a local struct as necessary.
+        sEnvfxNode = execNode;
 
         if (GET_HIGH_U16_OF_32(*params) != gAreaUpdateCounter) {
-            s32 snowMode = GET_LOW_U16_OF_32(*params);
+            s32 snowMode = (sEnvfxOverride >= 0) ? sEnvfxOverride : GET_LOW_U16_OF_32(*params);
+            SET_LOW_U16_OF_32(*params, snowMode);
 
             vec3f_to_vec3s(camTo, gCurGraphNodeCamera->focus);
             vec3f_to_vec3s(camFrom, gCurGraphNodeCamera->pos);
@@ -64,8 +141,14 @@ Gfx *geo_skybox_main(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) 
 
     if (callContext == GEO_CONTEXT_AREA_LOAD) {
         backgroundNode->unused = 0;
+        sSkyboxNode = backgroundNode;
+        sSkyboxOverride = backgroundNode->background & 0xFFFF;
 #ifndef L3DEX2_ALONE
     } else if (callContext == GEO_CONTEXT_RENDER) {
+        sSkyboxNode = backgroundNode;
+        if (sSkyboxOverride >= 0) {
+            backgroundNode->background = (sSkyboxOverride << 16) | sSkyboxOverride;
+        }
         struct GraphNodeCamera *camNode = (struct GraphNodeCamera *) gCurGraphNodeRoot->views[0];
         struct GraphNodePerspective *camFrustum =
             (struct GraphNodePerspective *) camNode->fnNode.node.parent;
