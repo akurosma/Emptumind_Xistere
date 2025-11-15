@@ -6714,6 +6714,15 @@ const BehaviorScript bhvRlFlippanel[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvFileselectbg[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_fileselectbg_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_fileselectbg_loop),
+    END_LOOP(),
+};
+
 extern const Collision rl_onda_collision[];
 const BehaviorScript bhvRlOnda[] = {
     BEGIN(OBJ_LIST_SURFACE),

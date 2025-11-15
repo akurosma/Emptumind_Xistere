@@ -680,6 +680,8 @@ void bhv_rl_temporeset_init(void);
 void bhv_rl_temporeset_loop(void);
 void bhv_rl_flippanel_init(void);
 void bhv_rl_flippanel_loop(void);
+void bhv_fileselectbg_init(void);
+void bhv_fileselectbg_loop(void);
 void bhv_rl_onda_init(void);
 void bhv_rl_onda_loop(void);
 void bhv_rl_wave_init(void);

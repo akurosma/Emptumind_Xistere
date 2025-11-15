@@ -595,6 +595,19 @@
 #define MODEL_GREEN_FLAME                 0xF0
 #define MODEL_PINK_FLAME                  0xF1
 
+
+
+
+
+
+
+
+
+
+
+
+#define MODEL_FILESELECTBG                0xFE
+#define MODEL_FILESELECTCIRCLE            0xFF
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0
 #define MODEL_MAIN_MENU_RED_ERASE_BUTTON          MODEL_LEVEL_GEOMETRY_04   // main_menu_geo_000290

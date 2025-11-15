@@ -201,3 +201,5 @@ const GeoLayout geo_menu_act_selector_strings[] = {
 };
 
 #include "levels/menu/act_select/geo.inc.c"
+#include "levels/menu/fileselectbg/geo.inc.c"
+#include "levels/menu/fileselectcircle/geo.inc.c"

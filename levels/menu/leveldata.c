@@ -1851,3 +1851,5 @@ const Collision main_menu_seg7_collision[] = {
 #endif
 
 #include "levels/menu/act_select/model.inc.c"
+#include "levels/menu/fileselectbg/model.inc.c"
+#include "levels/menu/fileselectcircle/model.inc.c"

@@ -596,6 +596,7 @@ extern const BehaviorScript bhvAirlockctrl[];
 extern const BehaviorScript bhvRlBeepblock[];
 extern const BehaviorScript bhvRlTemporeset[];
 extern const BehaviorScript bhvRlFlippanel[];
+extern const BehaviorScript bhvFileselectbg[];
 extern const BehaviorScript bhvRlOnda[];
 extern const BehaviorScript bhvRlWave[];
 extern const BehaviorScript bhvRlShrinkpanel[];
