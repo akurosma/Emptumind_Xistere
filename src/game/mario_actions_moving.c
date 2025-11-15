@@ -1252,6 +1252,73 @@ s32 act_riding_shell_ground(struct MarioState *m) {
     return FALSE;
 }
 
+//rulu
+s32 act_riding_hypertube(struct MarioState *m) {
+    s16 startYaw = m->faceAngle[1];
+    // ★ 甲羅に乗った瞬間の向き保存
+    static s16 fixedYaw = 0;
+    //s16 fixedYaw = m->area->camera->yaw;//カーブするとき使えるかも
+
+    if (m->input & INPUT_A_PRESSED) {
+        return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+    }
+
+    if (m->input & INPUT_Z_PRESSED) {
+        mario_stop_riding_object(m);
+        if (m->forwardVel < 24.0f) {
+            mario_set_forward_vel(m, 24.0f);
+        }
+        return set_mario_action(m, ACT_CROUCH_SLIDE, 0);
+    }
+
+    update_shell_speed(m);
+
+// スティック入力
+f32 stickX = m->controller->stickX;
+
+// 左右スライド速度（調整可能）
+f32 slide_speed = stickX * 1.5f;
+
+// 向きを固定（方向転換を禁止）
+m->faceAngle[1] = fixedYaw;
+
+// マリオの向きを完全固定
+m->faceAngle[1] = fixedYaw + 0x8000;
+
+// forwardVel を反対方向にする
+f32 forward_speed = -m->forwardVel;  // ★ここで反転！★
+
+m->vel[0] = slide_speed * sins(fixedYaw + 0x4000);
+m->vel[2] = forward_speed * coss(fixedYaw);
+
+struct Surface *floor = m->floor;
+
+    set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_RIDING_SHELL : MARIO_ANIM_RIDING_SHELL);
+
+    switch (perform_ground_step(m)) {
+        case GROUND_STEP_LEFT_GROUND:
+            set_mario_action(m, ACT_RIDING_SHELL_FALL, 0);
+            break;
+
+        case GROUND_STEP_HIT_WALL:
+            break;
+    }
+
+    tilt_body_ground_shell(m, startYaw);
+    if (m->floor->type == SURFACE_BURNING) {
+        play_sound(SOUND_MOVING_RIDING_SHELL_LAVA, m->marioObj->header.gfx.cameraToObject);
+    } else {
+        play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
+                   m->marioObj->header.gfx.cameraToObject);
+    }
+
+    adjust_sound_for_speed(m);
+#if ENABLE_RUMBLE
+    reset_rumble_timers_slip();
+#endif
+    return FALSE;
+}
+
 s32 act_crawling(struct MarioState *m) {
     if (should_begin_sliding(m)) {
         return set_mario_action(m, ACT_BEGIN_SLIDING, 0);
@@ -2022,6 +2089,7 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_QUICKSAND_JUMP_LAND:      cancel = act_quicksand_jump_land(m);      break;
         case ACT_HOLD_QUICKSAND_JUMP_LAND: cancel = act_hold_quicksand_jump_land(m); break;
         case ACT_LONG_JUMP_LAND:           cancel = act_long_jump_land(m);           break;
+        case ACT_RIDING_HYPERTUBE:         cancel = act_riding_hypertube(m);         break;
     }
     /* clang-format on */
 

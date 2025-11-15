@@ -89,7 +89,7 @@ extern const Gfx rl_train_rl_train_mesh_layer_1[];
 extern const Gfx rl_train_rl_train_mesh_layer_5[];
 extern const Gfx rl_swing_rl_swing_mesh_layer_4[];
 extern const Gfx rl_swing_rl_swing_mesh_layer_1[];
-extern const Gfx rl_top2_rl_top2_mesh_layer_1[];
+extern const Gfx rl_top2_rl_top2_mesh_layer_6[];
 extern const Collision wf_seg7_collision_small_bomp[];
 extern const Collision wf_seg7_collision_large_bomp[];
 extern const Collision wf_seg7_collision_clocklike_rotation[];

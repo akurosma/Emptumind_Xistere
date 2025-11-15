@@ -821,8 +821,9 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
 #include "behaviors/triplet_butterfly.inc.c"
 #include "behaviors/bubba.inc.c"
 #include "behaviors/rl_firespitter.inc.c"
-#include "behaviors/rl_tripletflame.inc.c"
+#include "behaviors/rl_ccmflame.inc.c"
 #include "behaviors/rl_growflame.inc.c"
+#include "behaviors/rl_skybox_trigger.inc.c"
 
 /**
  * Used by rl_firespitter.

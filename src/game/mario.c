@@ -1484,6 +1484,30 @@ void update_mario_health(struct MarioState *m) {
     s32 terrainIsSnow;
 
     if (m->health >= 0x100) {
+        // rulu ccmflame start
+    if (m->amaterasu) {
+
+    // HPを減らす（生存中のみ）
+        if (m->health > 0x100) {
+            m->health -= 0x03; //HP減少 0x03ずつ
+            m->particleFlags |= PARTICLE_BLACKFLAME;
+        }
+
+        // ★死亡ラインに到達したら燃焼を停止
+        if (m->health <= 0x100) {
+            m->health = 0xFF;    // 死亡ラインに固定
+            m->amaterasu = FALSE; // ← これが重要！（フリーズ防止）
+        }
+    }
+
+    // --- Custom Healing (白火状態) ---
+    if (m->kagutsuchi) {
+        // 白火に触れると全回復
+        m->health = 0x880;
+        m->amaterasu = FALSE; // 燃焼解除
+        m->kagutsuchi = FALSE; // 回復フラグも解除
+    }
+    //rulu ccmflame end
         // When already healing or hurting Mario, Mario's HP is not changed any more here.
         if (((u32) m->healCounter | (u32) m->hurtCounter) == 0) {
             if ((m->input & INPUT_IN_POISON_GAS) && !(m->action & ACT_FLAG_INTANGIBLE)) {

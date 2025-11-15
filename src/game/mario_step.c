@@ -13,6 +13,43 @@
 
 #include "config.h"
 
+// 調整可能：DEATH床からどれくらい余裕を持たせるか
+static const f32 DEATH_TRIGGER_OFFSET = 200.0f;
+
+struct CcmRespawnPoint {
+    f32 x, y, z;
+    s16 marioYaw;
+    s16 camYawOffset;
+};
+
+static void ccm_get_respawn_point(const struct Surface *floor, Vec3f outPos, s16 *outYaw, s16 *outCamOffset) {
+    static const struct CcmRespawnPoint sRespawnPoints[] = {
+        {    0.0f,         400.0f,           0.0f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // force 0
+        {  200.0f,         400.0f,         200.0f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 1
+        { -200.0f,         400.0f,        -200.0f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // force 2
+    };
+
+    u16 idx = 0;
+    if (floor != NULL) {
+        u16 candidate = floor->force;
+        if (candidate < ARRAY_COUNT(sRespawnPoints)) {
+            idx = candidate;
+        }
+    }
+
+    outPos[0] = sRespawnPoints[idx].x;
+    outPos[1] = sRespawnPoints[idx].y;
+    outPos[2] = sRespawnPoints[idx].z;
+    if (outYaw != NULL) {
+        *outYaw = sRespawnPoints[idx].marioYaw;
+    }
+    if (outCamOffset != NULL) {
+        *outCamOffset = sRespawnPoints[idx].camYawOffset;
+    }
+}
+
+extern s16 s8DirModeYawOffset;//rulu ccm death camera angle
+
 static s16 sMovingSandSpeeds[] = { 12, 8, 4, 0 };
 
 struct Surface gWaterSurfacePseudoFloor = {
@@ -493,6 +530,69 @@ s32 perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u32 stepAr
 
     f32 floorHeight = find_floor(nextPos[0], nextPos[1], nextPos[2], &floor);
     f32 ceilHeight = find_mario_ceil(nextPos, floorHeight, &ceil);
+
+    // === CUSTOM CCM DEATH PLANE FALL CHECK ===
+if (floor != NULL && floor->type == SURFACE_CCM_DEATH1) {
+    f32 triggerHeight = floorHeight + DEATH_TRIGGER_OFFSET;
+
+    if (nextPos[1] < triggerHeight) {
+
+            // ブラックアウト演出スタート
+            play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 30, 0, 0, 0);
+
+            // 2ダメージ
+            m->health -= 0x0200;
+
+            // 最低1HP残す（ギミックで死なせない）
+            if (m->health <= 0x100) {
+                m->health = 0x100;
+            }
+
+            //ダメージ上限なしリスポーン時に死ぬパターン
+            /*if (m->health < 0) {
+                m->health = 0;
+            }*/
+
+            // 点滅無敵（約2秒）
+            m->invincTimer = 30;
+
+            Vec3f respawnPos;
+            s16 respawnYaw, camYawOffset;
+            ccm_get_respawn_point(floor, respawnPos, &respawnYaw, &camYawOffset);
+            m->pos[0] = respawnPos[0];
+            m->pos[1] = respawnPos[1];
+            m->pos[2] = respawnPos[2];
+
+            // 物理速度を完全ゼロ
+            m->vel[0] = 0.0f;
+            m->vel[1] = 0.0f;
+            m->vel[2] = 0.0f;
+
+            // リスポーン時のマリオの向きとカメラをパラメータ別に設定
+            m->faceAngle[1] = respawnYaw;
+            s8DirModeYawOffset = camYawOffset;
+
+            // カメラの参照位置もマリオに合わせる
+            if (m->statusForCamera != NULL) {
+                m->statusForCamera->pos[0] = m->pos[0];
+                m->statusForCamera->pos[1] = m->pos[1];
+                m->statusForCamera->pos[2] = m->pos[2];
+            }
+
+            // 前方向速度（地上移動速度）もゼロ
+            m->forwardVel = 0.0f;
+
+            // 滑り速度もゼロ（念のため）
+            m->slideVelX = 0.0f;
+            m->slideVelZ = 0.0f;
+
+            // Idle 状態に遷移
+            set_mario_action(m, ACT_IDLE, 0);
+
+            // これ以上の空中処理を止める
+            return AIR_STEP_NONE;
+    }
+}
 
     f32 waterLevel = find_water_level(nextPos[0], nextPos[2]);
 

@@ -29,6 +29,9 @@
 #define GET_LOW_S16_OF_32(var) ((s16)((var) & 0xFFFF))
 #define SET_HIGH_U16_OF_32(var, x) ((var) = ((var) & 0xFFFF) | ((x) << 16))
 #define SET_HIGH_S16_OF_32(var, x) ((var) = ((var) & 0xFFFF) | ((x) << 16))
+// rulu skybox
+#define SET_LOW_U16_OF_32(var, x)  ((var) = ((var) & 0xFFFF0000) | ((x) & 0xFFFF))
+#define SET_LOW_S16_OF_32(var, x)  ((var) = ((var) & 0xFFFF0000) | ((x) & 0xFFFF))
 
 // Common cos values for degrees, often used for surface Y normals
 // These are different than coss()
@@ -175,6 +178,7 @@ enum MarioParticleFlags {
     PARTICLE_BREATH               = /* 0x00020000 */ (1 << 17),
     PARTICLE_TRIANGLE             = /* 0x00040000 */ (1 << 18),
     PARTICLE_19                   = /* 0x00080000 */ (1 << 19),
+    PARTICLE_BLACKFLAME           = /* 0x00080000 */ (1 << 20),
 };
 
 enum ModelStates {
@@ -325,7 +329,7 @@ enum MarioActionFlags {
 #define ACT_BURNING_GROUND             0x00020449 // (0x049 | ACT_FLAG_MOVING | ACT_FLAG_INVULNERABLE)
 #define ACT_DECELERATING               0x0400044A // (0x04A | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_FIRST_PERSON)
 #define ACT_HOLD_DECELERATING          0x0000044B // (0x04B | ACT_FLAG_MOVING)
-#define ACT_UNUSED_04C                 0x0000004C // (0x04C)
+#define ACT_RIDING_HYPERTUBE           0x2081044C // (0x04C) rulu
 #define ACT_UNUSED_04D                 0x0000004D // (0x04D)
 #define ACT_UNUSED_04E                 0x0000004E // (0x04E)
 #define ACT_UNUSED_04F                 0x0000004F // (0x04F)

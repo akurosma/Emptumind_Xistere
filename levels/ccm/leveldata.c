@@ -54,5 +54,10 @@
 #include "levels/ccm/rl_temporeset/collision.inc.c"
 #include "levels/ccm/rl_flippanel/model.inc.c"
 #include "levels/ccm/rl_flippanel/collision.inc.c"
+#include "levels/ccm/rl_onda/model.inc.c"
+#include "levels/ccm/rl_onda/collision.inc.c"
+#include "levels/ccm/rl_wave/model.inc.c"
+#include "levels/ccm/rl_wave/collision.inc.c"
+#include "levels/ccm/ccm_flame/model.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"

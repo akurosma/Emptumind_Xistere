@@ -22,6 +22,13 @@ void bhv_rl_beepblock_loop(void) {
     // 現在のテンポを取得
     s32 tempo = gSequencePlayers[SEQ_PLAYER_LEVEL].tempo + gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
 
+        // テンポに応じた点滅速度
+    s32 fadeSpeed;
+    if (tempo >= 11000) fadeSpeed = 40;
+    else if (tempo >= 9000) fadeSpeed = 30;
+    else if (tempo >= 7000) fadeSpeed = 20;
+    else fadeSpeed = 10;
+    
     // テンポに応じてLOUD_POUND間隔を調整
     s32 interval;
     if (tempo >= 11000) interval = 12;
@@ -53,13 +60,13 @@ void bhv_rl_beepblock_loop(void) {
     // 点滅フェード（見た目のみ）
     if (o->oAction == 1) {
     if (o->oF8 == 1) {
-        o->oOpacity += 20;
+        o->oOpacity += fadeSpeed;
         if (o->oOpacity >= 254) {
             o->oAction = 0;
             o->oOpacity = 255;
         }
     } else {
-        o->oOpacity -= 20;
+        o->oOpacity -= fadeSpeed;
         if (o->oOpacity <= 1) {
             o->oAction = 0;
             o->oOpacity = 0;
@@ -91,7 +98,7 @@ void bhv_rl_beepblock_loop(void) {
         obj_set_collision_data(o, rl_beepblock_collision);
     } else if (o->oOpacity == 0) {
         obj_set_collision_data(o, rl_top_collision);
-        //cur_obj_become_intangible();
+        cur_obj_become_intangible();
     }
 
     // === タイマー更新 ===
