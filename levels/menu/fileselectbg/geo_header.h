@@ -1,0 +1,16 @@
+extern const GeoLayout fileselectbg_geo[];
+extern Lights1 fileselectbg_f3dlite_material_lights;
+extern u8 fileselectbg_f_yuki_ci8[];
+extern u8 fileselectbg_f_yuki_pal_rgba16[];
+extern u8 fileselectbg_blockCity03_i8[];
+extern Vtx fileselectbg_fileselectbg_mesh_layer_1_vtx_cull[8];
+extern Vtx fileselectbg_fileselectbg_mesh_layer_1_vtx_0[12];
+extern Gfx fileselectbg_fileselectbg_mesh_layer_1_tri_0[];
+extern Vtx fileselectbg_fileselectbg_mesh_layer_5_vtx_cull[8];
+extern Vtx fileselectbg_fileselectbg_mesh_layer_5_vtx_0[12];
+extern Gfx fileselectbg_fileselectbg_mesh_layer_5_tri_0[];
+extern Gfx mat_fileselectbg_f3dlite_material_006[];
+extern Gfx mat_revert_fileselectbg_f3dlite_material_006[];
+extern Gfx mat_fileselectbg_f3dlite_material[];
+extern Gfx fileselectbg_fileselectbg_mesh_layer_1[];
+extern Gfx fileselectbg_fileselectbg_mesh_layer_5[];

@@ -51,4 +51,8 @@ extern const LevelScript level_main_menu_entry_act_select[];
 
 #include "levels/menu/act_select/geo_header.h"
 
+#include "levels/menu/fileselectbg/geo_header.h"
+
+#include "levels/menu/fileselectcircle/geo_header.h"
+
 #endif

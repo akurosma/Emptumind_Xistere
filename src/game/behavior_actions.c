@@ -269,3 +269,4 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/rl_beepblock.inc.c"
 #include "behaviors/rl_temporeset.inc.c"
 #include "behaviors/rl_flippanel.inc.c"
+#include "behaviors/fileselectbg.inc.c"
