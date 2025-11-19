@@ -488,6 +488,11 @@ SECTIONS
    YAY0_SEG(starrysky_skybox,   0x0A000000)
    YAY0_SEG(sunset_skybox,      0x0A000000)
    YAY0_SEG(disworld_skybox,    0x0A000000)
+   YAY0_SEG(blue_ref_skybox,    0x0A000000)
+   YAY0_SEG(rl_rain1_skybox,    0x0A000000)
+   YAY0_SEG(rl_rain2_skybox,    0x0A000000)
+   YAY0_SEG(rl_snow1_skybox,    0x0A000000)
+   YAY0_SEG(rl_snow2_skybox,    0x0A000000)
    
    // Texture bins
    YAY0_SEG(fire,     0x09000000)

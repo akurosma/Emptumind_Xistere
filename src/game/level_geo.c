@@ -38,6 +38,11 @@ static const struct SkyboxSegment sSkyboxSegments[] = {
     { _starrysky_skybox_yay0SegmentRomStart, _starrysky_skybox_yay0SegmentRomEnd },     // BACKGROUND_STARRYSKY
     { _sunset_skybox_yay0SegmentRomStart, _sunset_skybox_yay0SegmentRomEnd },           // BACKGROUND_SUNSET
     { _disworld_skybox_yay0SegmentRomStart, _disworld_skybox_yay0SegmentRomEnd },       // BACKGROUND_DISWORLD
+    { _blue_ref_skybox_yay0SegmentRomStart, _blue_ref_skybox_yay0SegmentRomEnd },       // BACKGROUND_BLUE_REF
+    { _rl_rain1_skybox_yay0SegmentRomStart, _rl_rain1_skybox_yay0SegmentRomEnd },       // BACKGROUND_RL_RAIN1
+    { _rl_rain2_skybox_yay0SegmentRomStart, _rl_rain2_skybox_yay0SegmentRomEnd },       // BACKGROUND_RL_RAIN2
+    { _rl_snow1_skybox_yay0SegmentRomStart, _rl_snow1_skybox_yay0SegmentRomEnd },       // BACKGROUND_RL_SNOW1
+    { _rl_snow2_skybox_yay0SegmentRomStart, _rl_snow2_skybox_yay0SegmentRomEnd },       // BACKGROUND_RL_SNOW2
 };
 // rulu skybox end
 
