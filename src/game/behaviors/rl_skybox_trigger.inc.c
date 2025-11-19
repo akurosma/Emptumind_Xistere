@@ -15,8 +15,8 @@ enum SkyboxWeatherPreset {
 // Adjust the backing list to match each weather preset.
 static const s8 sSkyboxBackgroundByPreset[SKYBOX_WEATHER_COUNT] = {
     BACKGROUND_OCEAN_SKY,       // 晴れ
-    BACKGROUND_GREEN_SKY,       // 雨（重い雲を想定）
-    BACKGROUND_SNOW_MOUNTAINS,  // 雪
+    BACKGROUND_RL_RAIN2,       // 雨（重い雲を想定）
+    BACKGROUND_RL_SNOW2,  // 雪
 };
 
 static void skybox_trigger_apply_state(s32 preset) {

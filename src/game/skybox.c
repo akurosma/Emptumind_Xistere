@@ -90,8 +90,13 @@ extern SkyboxTexture wdw_skybox_ptrlist;
 extern SkyboxTexture starrysky_skybox_ptrlist;
 extern SkyboxTexture sunset_skybox_ptrlist;
 extern SkyboxTexture disworld_skybox_ptrlist;
+extern SkyboxTexture blue_ref_skybox_ptrlist;
+extern SkyboxTexture rl_rain1_skybox_ptrlist;
+extern SkyboxTexture rl_rain2_skybox_ptrlist;
+extern SkyboxTexture rl_snow1_skybox_ptrlist;
+extern SkyboxTexture rl_snow2_skybox_ptrlist;
 
-SkyboxTexture *sSkyboxTextures[13] = {
+SkyboxTexture *sSkyboxTextures[18] = {
     &water_skybox_ptrlist,
     &bitfs_skybox_ptrlist,
     &wdw_skybox_ptrlist,
@@ -105,6 +110,11 @@ SkyboxTexture *sSkyboxTextures[13] = {
     &starrysky_skybox_ptrlist,
     &sunset_skybox_ptrlist,
     &disworld_skybox_ptrlist,
+    &blue_ref_skybox_ptrlist,
+    &rl_rain1_skybox_ptrlist,
+    &rl_rain2_skybox_ptrlist,
+    &rl_snow1_skybox_ptrlist,
+    &rl_snow2_skybox_ptrlist,
 };
 
 /**

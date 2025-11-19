@@ -363,7 +363,7 @@ const LevelScript level_pss_entry[] = {
 		OBJECT(MODEL_NONE, 3097, -843, 14537, 0, 0, 0, (1 << 24), bhvRlSnufitspawner),
 		OBJECT(MODEL_NONE, -9828, -700, 44, 0, -90, 0, 0x000B0000, bhvDeathWarp),
 		OBJECT(MODEL_NONE, 3097, -1920, 9618, 0, 0, 0, 0x00140000, bhvWarp),
-		OBJECT(MODEL_NONE, -10728, -700, 44, 0, 0, 0, 0x00150000, bhvWarp),
+		OBJECT(MODEL_NONE, -10728, -700, 44, 0, 0, 0, 0x1E150000, bhvWarp),//blenderでparamの調整必要
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvInitializeChangingWaterLevel),
 		OBJECT(MODEL_STAR, 9197, 700, 11781, 0, 0, 0, 0x00000000, bhvWaterLevelDiamond),
 		OBJECT(MODEL_STAR, 9484, -1650, 6823, 0, 0, 0, 0x00000000, bhvWaterLevelDiamond),
@@ -395,7 +395,7 @@ const LevelScript level_pss_entry[] = {
 		OBJECT(MODEL_NONE, 997, 0, -2163, 0, 0, 0, 0x00000000, bhvHiddenStarTrigger),
 		OBJECT(MODEL_NONE, 1997, 0, 2037, 0, 0, 0, 0x00000000, bhvHiddenStarTrigger),
 		OBJECT(MODEL_NONE, -2004, 200, -1963, 0, 0, 0, 0x00000000, bhvHiddenStarTrigger),
-		OBJECT(MODEL_NONE, -1404, 0, -2763, 0, 0, 0, 0x00150000, bhvWarp),
+		OBJECT(MODEL_NONE, -1404, 0, -2763, 0, 0, 0, 0x1E150000, bhvWarp),//blenderでparamの調整必要
 		OBJECT(MODEL_YELLOW_COIN, -1687, -1050, -1963, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, -2075, 100, -113, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, 997, 0, -2163, 0, 0, 0, 0x00000000, bhvYellowCoin),
