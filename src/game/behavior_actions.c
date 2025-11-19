@@ -214,6 +214,7 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/white_puff.inc.c"
 #include "behaviors/blue_coin.inc.c"
 #include "behaviors/grill_door.inc.c"
+#include "behaviors/metal_box_switch.inc.c"
 #include "behaviors/wdw_water_level.inc.c"
 #include "behaviors/tweester.inc.c"
 #include "behaviors/boo.inc.c"
