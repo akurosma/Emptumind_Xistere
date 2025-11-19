@@ -600,3 +600,6 @@ extern const BehaviorScript bhvFileselectbg[];
 extern const BehaviorScript bhvRlOnda[];
 extern const BehaviorScript bhvRlWave[];
 extern const BehaviorScript bhvRlShrinkpanel[];
+
+extern const BehaviorScript bhvSinkPlatform[];
+extern const BehaviorScript bhvInfoSwitch[];

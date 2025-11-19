@@ -1,0 +1,17 @@
+extern const GeoLayout ow_floatingplatform_geo[];
+extern u8 ow_floatingplatform__1_rgba16[];
+extern u8 ow_floatingplatform__2_rgba16[];
+extern u8 ow_floatingplatform__3_rgba16[];
+extern Vtx ow_floatingplatform_floatingplatform_mesh_layer_1_vtx_0[23];
+extern Gfx ow_floatingplatform_floatingplatform_mesh_layer_1_tri_0[];
+extern Vtx ow_floatingplatform_floatingplatform_mesh_layer_1_vtx_1[20];
+extern Gfx ow_floatingplatform_floatingplatform_mesh_layer_1_tri_1[];
+extern Vtx ow_floatingplatform_floatingplatform_mesh_layer_1_vtx_2[28];
+extern Gfx ow_floatingplatform_floatingplatform_mesh_layer_1_tri_2[];
+extern Gfx mat_ow_floatingplatform__1_f3d_001[];
+extern Gfx mat_revert_ow_floatingplatform__1_f3d_001[];
+extern Gfx mat_ow_floatingplatform__2_f3d_001[];
+extern Gfx mat_revert_ow_floatingplatform__2_f3d_001[];
+extern Gfx mat_ow_floatingplatform__3_f3d[];
+extern Gfx mat_revert_ow_floatingplatform__3_f3d[];
+extern Gfx ow_floatingplatform_floatingplatform_mesh_layer_1[];

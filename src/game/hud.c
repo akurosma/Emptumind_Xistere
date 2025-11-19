@@ -18,6 +18,7 @@
 #include "puppycam2.h"
 #include "puppyprint.h"
 #include "game/music_selector.h"
+#include "game/info_switch_ui.h"
 #include "audio/external.h"
 #include "audio/seqplayer.h"
 
@@ -650,6 +651,7 @@ void render_hud(void) {
             render_hud_timer();
         }
         render_music_selector_ui();//rulu music selector
+        info_switch_ui_render();
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
         if (gCustomDebugMode) {

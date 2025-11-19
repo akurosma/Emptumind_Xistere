@@ -417,4 +417,12 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "rl_bounce/geo_header.h"
 
+#include "ow_floatingplatform/geo_header.h"
+
+#include "ow_floatingplatform/collision_header.h"
+
+#include "ow_infoswitch/geo_header.h"
+
+#include "ow_infoswitch/collision_header.h"
+
 #endif

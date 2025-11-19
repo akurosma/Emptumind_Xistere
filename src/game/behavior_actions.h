@@ -688,3 +688,8 @@ void bhv_rl_wave_init(void);
 void bhv_rl_wave_loop(void);
 void bhv_rl_shrinkpanel_init(void);
 void bhv_rl_shrinkpanel_loop(void);
+
+void bhv_sink_Platform_init(void);
+void bhv_sink_Platform_loop(void);
+void bhv_info_Switch_init(void);
+void bhv_info_Switch_loop(void);
