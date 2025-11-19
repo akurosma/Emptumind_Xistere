@@ -55,6 +55,7 @@ const LevelScript level_ccm_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BLACKFLAME, black_flame_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_WHITEFLAME, white_flame_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BLACKFLAME_SHADOW, black_flame_shadow_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_CCMGRILL, rl_ccmgrill_geo),
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -86,6 +87,9 @@ const LevelScript level_ccm_entry[] = {
 		OBJECT(MODEL_CCM_RL_FLIPPANEL, -600, 400, 200, 0, 0, 0, 0x00000000, bhvRlShrinkpanel),
 		OBJECT(MODEL_CCM_RL_BLACKFLAME, -200, 400, -600, 0, 0, 0, 0x00000000, bhvRlCcmflame),
 		OBJECT(MODEL_CCM_RL_WHITEFLAME, -200, 400, -1000, 0, 0, 0, 0x00010000, bhvRlCcmflame),
+		OBJECT(MODEL_METAL_BOX, -666, 100, 2800, 0, -180, 0, 0x00000000, bhvPushableMetalBox),
+		OBJECT(MODEL_PURPLE_SWITCH, -666, 100, 3200, 0, -180, 0, 0x00000000, bhvMetalBoxSwitch),
+		OBJECT(MODEL_CCM_RL_CCMGRILL, -666, 100, 4400, 0, -180, 0, 0x00000000, bhvMetalBoxSwitchGate),
 		TERRAIN(ccm_area_1_collision),
 		MACRO_OBJECTS(ccm_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_C4_AREA1),

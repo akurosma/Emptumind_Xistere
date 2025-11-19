@@ -137,6 +137,8 @@ extern const BehaviorScript bhvFloorSwitchHiddenObjects[];
 extern const BehaviorScript bhvHiddenObject[];
 extern const BehaviorScript bhvBreakableBox[];
 extern const BehaviorScript bhvPushableMetalBox[];
+extern const BehaviorScript bhvMetalBoxSwitch[];
+extern const BehaviorScript bhvMetalBoxSwitchGate[];
 extern const BehaviorScript bhvHeaveHo[];
 extern const BehaviorScript bhvHeaveHoThrowMario[];
 extern const BehaviorScript bhvCcmTouchedStarSpawn[];

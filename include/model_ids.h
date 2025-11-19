@@ -96,6 +96,7 @@
 #define MODEL_CCM_RL_BLACKFLAME                0x3E
 #define MODEL_CCM_RL_WHITEFLAME                0x3F
 #define MODEL_CCM_RL_BLACKFLAME_SHADOW         0x40
+#define MODEL_CCM_RL_CCMGRILL                  0x41
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18

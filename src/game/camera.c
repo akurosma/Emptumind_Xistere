@@ -10263,6 +10263,22 @@ struct Cutscene sCutsceneSlidingDoorsOpen[] = {
     { cutscene_double_doors_end, 0 }
 };
 
+void cutscene_metal_box_gate(struct Camera *c) {
+    Vec3f pos = { -666.f, 1000.f, 2000.f };
+    Vec3f focus = { -666.f, 100.f, 4400.f };
+
+    vec3f_copy(c->pos, pos);
+    vec3f_copy(c->focus, focus);
+    vec3f_copy(gLakituState.goalPos, pos);
+    vec3f_copy(gLakituState.goalFocus, focus);
+    reset_pan_distance(c);
+}
+
+struct Cutscene sCutsceneMetalBoxGate[] = {
+    { cutscene_metal_box_gate, 60 },
+    { cutscene_double_doors_end, 0 }
+};
+
 /**
  * Cutscene that plays when Mario unlocks the basement or upstairs key door.
  */
@@ -10763,6 +10779,7 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_CREDITS,              sCutsceneCredits)
         CUTSCENE(CUTSCENE_CAP_SWITCH_PRESS,     sCutsceneCapSwitchPress)
         CUTSCENE(CUTSCENE_SLIDING_DOORS_OPEN,   sCutsceneSlidingDoorsOpen)
+        CUTSCENE(CUTSCENE_METAL_BOX_GATE,       sCutsceneMetalBoxGate)
         CUTSCENE(CUTSCENE_PREPARE_CANNON,       sCutscenePrepareCannon)
         CUTSCENE(CUTSCENE_UNLOCK_KEY_DOOR,      sCutsceneUnlockKeyDoor)
         CUTSCENE(CUTSCENE_STANDING_DEATH,       sCutsceneStandingDeath)
