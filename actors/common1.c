@@ -137,3 +137,7 @@ UNUSED static const u64 binid_22 = 22;
 #include "rl_swimtube/model.inc.c"
 #include "rl_bounce/collision.inc.c"
 #include "rl_bounce/model.inc.c"
+#include "ow_floatingplatform/model.inc.c"
+#include "ow_floatingplatform/collision.inc.c"
+#include "ow_infoswitch/model.inc.c"
+#include "ow_infoswitch/collision.inc.c"

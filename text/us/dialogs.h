@@ -2043,30 +2043,36 @@ get dizzy and pass out\n\
 from running around\n\
 this post."))
 
-DEFINE_DIALOG(DIALOG_166, 1, 4, 30, 200, _("\
-I'll be back soon.\n\
-I'm out training now,\n\
-so come back later.\n\
-//--Koopa the Quick"))
+DEFINE_DIALOG(DIALOG_166, 1, 7, 30, 200, _("\
+The number of pauses you \n\
+can use in each level is\n\
+limited to prevent\n\
+excessive pause buffering.\n\
+The pause limit for each \n\
+level is displayed at the\n\
+entrance."))
 
-DEFINE_DIALOG(DIALOG_167, 1, 4, 30, 200, _("\
-Princess Toadstool's\n\
-castle is just ahead.\n\
-\n\
-\n\
-Press [A] to jump, [Z] to\n\
-crouch, and [B] to punch,\n\
-read a sign, or grab\n\
-something.\n\
-Press [B] again to throw\n\
-something you're holding."))
+DEFINE_DIALOG(DIALOG_167, 1, 6, 30, 200, _("\
+There is no 100 coin\n\
+star for this Hack.\n\
+Instead, if you take\n\
+all the blue coins in time,\n\
+Star 7 will appear in\n\
+their place!"))
 
-DEFINE_DIALOG(DIALOG_168, 1, 5, 30, 200, _("\
-Hey! Knock it off! That's\n\
-the second time you've\n\
-nailed me. Now you're\n\
-asking for it, linguine\n\
-breath!"))
+DEFINE_DIALOG(DIALOG_168, 1, 8, 30, 200, _("\
+Thank you for downloading\n\
+this hack!\n\
+There are 182 stars\n\
+to collect.\n\
+The difficulty peaks at \n\
+AKURO toward the \n\
+end of the game.\n\
+I hope you will enjoy it!\n\
+-- CREDIT --\n\
+CREATOR: Akuro Sill Rulu\n\
+          HibaNYA\n\
+------------"))
 
 DEFINE_DIALOG(DIALOG_169, 1, 4, 30, 200, _("\
 You can jump infinitely\n\

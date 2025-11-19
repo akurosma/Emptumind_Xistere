@@ -605,8 +605,8 @@
 
 
 
-
-
+#define MODEL_OW_INFOSWITCH               0xFC
+#define MODEL_OW_FLOATINGPLATFORM         0xFD
 #define MODEL_FILESELECTBG                0xFE
 #define MODEL_FILESELECTCIRCLE            0xFF
 // Menu Models (overwrites Level Geometry IDs)

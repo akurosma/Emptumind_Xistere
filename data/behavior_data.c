@@ -6789,3 +6789,30 @@ const BehaviorScript bhvRlShrinkpanel[] = {
         CALL_NATIVE(bhv_rl_shrinkpanel_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvSinkPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(ow_floatingplatform_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    SET_FLOAT(oCollisionDistance, 20000),
+    CALL_NATIVE(bhv_sink_Platform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sink_Platform_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvInfoSwitch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    SET_HOME(),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(ow_infoswitch_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_info_Switch_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_info_Switch_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
