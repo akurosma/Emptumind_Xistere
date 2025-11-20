@@ -3,6 +3,8 @@
 #include "sm64.h"
 #include "area.h"
 #include "audio/external.h"
+#include "audio/load.h"
+#include "audio/internal.h"
 #include "behavior_actions.h"
 #include "behavior_data.h"
 #include "camera.h"
@@ -1659,6 +1661,71 @@ void sink_mario_in_quicksand(struct MarioState *m) {
  */
 u64 sCapFlickerFrames = 0b100010001000100010001001001001001001001001001010101010101010101;
 
+// CCM専用の楽器切替サーフェス (SURFACE_CCM_MUSIC) で使用する設定
+static s16 sCcmMusicLastParam = -1;
+static const u8 sCcmMusicBankId = 0x0C;
+static const u8 sCcmMusicInstrumentTable[] = {
+    4,   // 0x0001 -> Grand Piano
+    48,  // 0x0002 -> Music Box
+    7,   // 0x0003 -> Strings
+    6,   // 0x0004 -> Pan Flute
+    28,  // 0x0005 -> Brass
+    29,  // 0x0006 -> Synth Voice
+};
+
+static void apply_ccm_music_surface(struct MarioState *m) {
+    if (!m || !m->floor || m->floor->type != SURFACE_CCM_MUSIC) {
+        sCcmMusicLastParam = -1;
+        return;
+    }
+
+    if (!gSequencePlayers[SEQ_PLAYER_LEVEL].enabled) {
+        return;
+    }
+
+    u16 rawParam = (u16) m->floor->force;
+    if (rawParam == 0 || rawParam == sCcmMusicLastParam) {
+        return;
+    }
+
+    u16 tableIndex = rawParam - 1;
+    if (tableIndex >= ARRAY_COUNT(sCcmMusicInstrumentTable)) {
+        return;
+    }
+
+    u8 instrumentIndex = sCcmMusicInstrumentTable[tableIndex];
+
+    // チャンネル4 (index 3) の楽器を差し替える
+    struct SequenceChannel *channel = gSequencePlayers[SEQ_PLAYER_LEVEL].channels[3];
+    if (channel == NULL || channel == &gSequenceChannelNone) {
+        return;
+    }
+
+    // バンクが未ロードの場合は何もしない
+    if (gCtlEntries == NULL || gCtlEntries[sCcmMusicBankId].instruments == NULL) {
+        return;
+    }
+
+    struct CtlEntry *bankEntry = &gCtlEntries[sCcmMusicBankId];
+    if (instrumentIndex >= bankEntry->numInstruments) {
+        return;
+    }
+
+    struct Instrument *instrument = bankEntry->instruments[instrumentIndex];
+    if (instrument == NULL) {
+        return;
+    }
+
+    channel->bankId = sCcmMusicBankId;
+    channel->instrument = instrument;
+
+    // Music Selector との整合性を保つために記録も更新
+    extern s32 sChannelInstrumentId[16];
+    sChannelInstrumentId[3] = instrumentIndex;
+
+    sCcmMusicLastParam = rawParam;
+}
+
 /**
  * Updates the cap flags mainly based on the cap timer.
  */
@@ -1871,6 +1938,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             spawn_wind_particles(1, 0);
             play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
         }
+
+        apply_ccm_music_surface(gMarioState);
 
         play_infinite_stairs_music();
         gMarioState->marioObj->oInteractStatus = INT_STATUS_NONE;

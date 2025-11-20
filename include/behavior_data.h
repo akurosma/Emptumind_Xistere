@@ -136,6 +136,7 @@ extern const BehaviorScript bhvFloorSwitchHardcodedModel[];
 extern const BehaviorScript bhvFloorSwitchHiddenObjects[];
 extern const BehaviorScript bhvHiddenObject[];
 extern const BehaviorScript bhvBreakableBox[];
+extern const BehaviorScript bhvPushableMetalBoxSwitch[];
 extern const BehaviorScript bhvPushableMetalBox[];
 extern const BehaviorScript bhvMetalBoxSwitch[];
 extern const BehaviorScript bhvMetalBoxSwitchGate[];
