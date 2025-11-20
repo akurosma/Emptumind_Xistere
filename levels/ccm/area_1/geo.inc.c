@@ -3,9 +3,13 @@
 const GeoLayout ccm_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 28, 500, -27368, 90, 0, 0, ccm_dl_Circle_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, ccm_dl_Cube_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, ccm_dl_Cube_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_ALPHA, ccm_dl_Cube_mesh_layer_4),
+		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -667, 100, 4400),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 5028, 100, 4963, ccm_dl_Plane_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -16,7 +20,7 @@ const GeoLayout ccm_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND(BACKGROUND_OCEAN_SKY, geo_skybox_main),
+				GEO_BACKGROUND(BACKGROUND_GREEN_SKY, geo_skybox_main),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),

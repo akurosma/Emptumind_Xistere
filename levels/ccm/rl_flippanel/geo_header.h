@@ -1,6 +1,5 @@
 extern const GeoLayout rl_flippanel_geo[];
-extern u8 rl_flippanel_Untitled_ci4[];
-extern u8 rl_flippanel_Untitled_pal_rgba16[];
+extern u8 rl_flippanel_flip1_i8[];
 extern Vtx rl_flippanel_rl_flippanel_mesh_layer_1_vtx_cull[8];
 extern Vtx rl_flippanel_rl_flippanel_mesh_layer_1_vtx_0[36];
 extern Gfx rl_flippanel_rl_flippanel_mesh_layer_1_tri_0[];

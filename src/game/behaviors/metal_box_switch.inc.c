@@ -36,7 +36,7 @@ static void metal_box_switch_trigger_gates(u8 sharedId) {
 }
 
 static struct Object *metal_box_switch_find_box_on_top(void) {
-    uintptr_t *behaviorAddr = segmented_to_virtual(bhvPushableMetalBox);
+    uintptr_t *behaviorAddr = segmented_to_virtual(bhvPushableMetalBoxSwitch);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
     struct Object *box = (struct Object *) listHead->next;
 
