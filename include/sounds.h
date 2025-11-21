@@ -380,6 +380,7 @@ enum SoundBank {
 #define SOUND_GENERAL_BOAT_ROCK                  /* 0x30750081 */ SOUND_ARG_LOAD(SOUND_BANK_GENERAL,  0x75, 0x00, SOUND_DISCRETE) // unverified
 #define SOUND_GENERAL_VANISH_SFX                 /* 0x30762081 */ SOUND_ARG_LOAD(SOUND_BANK_GENERAL,  0x76, 0x20, SOUND_DISCRETE) // unverified
 #define SOUND_GENERAL_LAUNCH_SPRING                               SOUND_ARG_LOAD(SOUND_BANK_GENERAL,  0x77, 0x80, SOUND_CONSTANT_FREQUENCY | SOUND_DISCRETE)
+#define SOUND_GENERAL_CUSTOM_METAL_SWITCH        /* 0x3078A081 */ SOUND_ARG_LOAD(SOUND_BANK_GENERAL,  0x78, 0xA0, SOUND_DISCRETE)
 
 /* Environment Sound Effects */
 #define SOUND_ENV_WATERFALL1                     /* 0x40000001 */ SOUND_ARG_LOAD(SOUND_BANK_ENV,      0x00, 0x00, 0) // unverified
@@ -425,7 +426,7 @@ enum SoundBank {
 #define SOUND_OBJ_CANNON_TURN                    /* 0x500EF081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x0E, 0xF0, SOUND_DISCRETE) // unverified
 #define SOUND_OBJ_CANNON_BARREL_PITCH            /* 0x500FF081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x0F, 0xF0, SOUND_DISCRETE) // unverified
 #define SOUND_OBJ_JUMP_WALK_WATER                /* 0x50120001 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x12, 0x00, 0) // unverified, unused
-#define SOUND_OBJ_BOMP_SLIDE                     /* 0x50130081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x13, 0x00, SOUND_DISCRETE) // unverified
+#define SOUND_OBJ_BOMP_SLIDE                     /* 0x5513C081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x13, 0xC0, SOUND_NO_VOLUME_LOSS | SOUND_NO_PRIORITY_LOSS | SOUND_DISCRETE) // boosted priority, no fade with distance
 #define SOUND_OBJ_MRI_DEATH                      /* 0x50140081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x14, 0x00, SOUND_DISCRETE)
 #define SOUND_OBJ_POUNDING1                      /* 0x50155081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x15, 0x50, SOUND_DISCRETE) // unverified
 #define SOUND_OBJ_KING_BOBOMB_POUNDING1_HIGHPRIO /* 0x50158081 */ SOUND_ARG_LOAD(SOUND_BANK_OBJ,      0x15, 0x80, SOUND_DISCRETE) // unverified

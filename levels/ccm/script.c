@@ -56,6 +56,7 @@ const LevelScript level_ccm_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_WHITEFLAME, white_flame_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BLACKFLAME_SHADOW, black_flame_shadow_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_CCMGRILL, rl_ccmgrill_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BURNBRIDGE, rl_burnbridge_geo), 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -66,15 +67,18 @@ const LevelScript level_ccm_entry[] = {
 		MARIO_POS(0x01, 0, 0, 200, 0),
 		OBJECT(MODEL_NONE, 0, 200, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		OBJECT(MODEL_CCM_RL_BLACKFLAME, 2985, 200, 6677, 0, 0, 0, 0x00000000, bhvRlCcmflame),
-		OBJECT(MODEL_CCM_RL_CCMGRILL, 4728, 100, 8063, 0, 0, 0, 0x00000000, bhvMetalBoxSwitchGate),
+		OBJECT(MODEL_CCM_RL_CCMGRILL, 4728, 100, 8113, 0, 0, 0, 0x00000000, bhvMetalBoxSwitchGate),
 		OBJECT(MODEL_RL_SWIMTUBE, -748, 100, -809, 0, 0, 0, 0x00000000, bhvDebugSound),
 		OBJECT(MODEL_CCM_RL_FLIPPANEL, 3314, 100, 3900, 0, 0, 0, 0x00000000, bhvRlFlippanel),
 		OBJECT(MODEL_CCM_RL_FLIPPANEL, 3314, 0, 4800, 0, 0, 0, (1 << 16), bhvRlFlippanel),
-		OBJECT(MODEL_CCM_RL_FLIPPANEL, 3314, 0, 5700, 0, 0, 0, 0x01010000, bhvRlFlippanel),
+		OBJECT(MODEL_CCM_RL_FLIPPANEL, 3314, 0, 5700, 0, 0, 0, (1 << 24) | (2 << 16), bhvRlFlippanel),
 		OBJECT(MODEL_PURPLE_SWITCH, 800, 100, 5000, 0, 0, 0, 0x00000000, bhvMetalBoxSwitch),
 		OBJECT(MODEL_METAL_BOX, 800, 100, 2600, 0, 0, 0, 0x00000000, bhvPushableMetalBox),
 		OBJECT(MODEL_RL_SWIMTUBE, -748, 100, -1467, 0, 0, 0, 0x00000000, bhvMusicSelector),
+		OBJECT(MODEL_CCM_RL_BURNBRIDGE, 2985, 200, 7100, 0, 0, 0, 0x00000000, bhvRlBurnbridge),
+		OBJECT(MODEL_CCM_RL_BURNBRIDGE, 4000, 200, 7700, 0, 0, 0, 0x00000000, bhvRlBurnbridge),
 		OBJECT(MODEL_METAL_BOX, 800, 933, 3900, 0, 0, 0, 0x00000000, bhvPushableMetalBoxSwitch),
+		OBJECT(MODEL_CCM_RL_TEMPORESET, 800, 300, -600, 0, 0, 0, 0x00000000, bhvRlTemporeset),
 		OBJECT(MODEL_CCM_RL_WHITEFLAME, 3642, 200, 6677, 0, 0, 0, 0x00010000, bhvRlCcmflame),
 		TERRAIN(ccm_area_1_collision),
 		MACRO_OBJECTS(ccm_area_1_macro_objs),

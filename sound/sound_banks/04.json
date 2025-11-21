@@ -144,6 +144,11 @@
             "release_rate": 152,
             "envelope": "envelope10",
             "sound": "0D"
+        },
+        "inst14": {
+            "release_rate": 120,
+            "envelope": "envelope4",
+            "sound": "custom_metal_switch"
         }
     },
     "instrument_list": [
@@ -162,6 +167,7 @@
         null,
         "inst11",
         "inst12",
-        "inst13"
+        "inst13",
+        "inst14"
     ]
 }

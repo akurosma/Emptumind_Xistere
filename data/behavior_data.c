@@ -6389,6 +6389,39 @@ const BehaviorScript bhvSnufitBalls2[] = {
         CALL_NATIVE(bhv_snufit_balls2_loop),
     END_LOOP(),
 };
+
+extern const Collision rl_burnbridge_collision[];
+const BehaviorScript bhvRlBurnbridge[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_burnbridge_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_rl_burnbridge_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_burnbridge_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+const BehaviorScript bhvRlBurnbridgeFlame[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BILLBOARD(),
+    SET_FLOAT(oGraphYOffset, 70),
+    BEGIN_LOOP(),
+        ADD_INT(oAnimState, 1),
+        CALL_NATIVE(bhv_rl_burnbridge_flame_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvRlBurnbridgeSmoke[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    SET_FLOAT(oGraphYOffset, 50),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_burnbridge_smoke_loop),
+    END_LOOP(),
+};
 const BehaviorScript bhvRlBridge[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),

@@ -2869,6 +2869,7 @@ sound_ref .sound_general_grand_star_jump
 sound_ref .sound_general_boat_rock
 sound_ref .sound_general_vanish_sfx
 sound_ref .sound_general_launch_spring
+sound_ref .sound_general_custom_metal_switch
 sound_ref .sound_menu_enter_hole
 sound_ref .sound_general_red_coin
 sound_ref .sound_general_birds_fly_away
@@ -3301,6 +3302,16 @@ chan_end
 
 .layer_1337:
 layer_note1 39, 0x7f, 100
+layer_end
+
+.sound_general_custom_metal_switch:
+chan_setbank 4
+chan_setinstr 16
+chan_setlayer 0, .layer_custom_metal_switch
+chan_end
+
+.layer_custom_metal_switch:
+layer_note1 30, 0x200, 127
 layer_end
 
 .sound_general_painting_eject:

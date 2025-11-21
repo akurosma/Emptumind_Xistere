@@ -1662,7 +1662,7 @@ void sink_mario_in_quicksand(struct MarioState *m) {
 u64 sCapFlickerFrames = 0b100010001000100010001001001001001001001001001010101010101010101;
 
 // CCM専用の楽器切替サーフェス (SURFACE_CCM_MUSIC) で使用する設定
-static s16 sCcmMusicLastParam = -1;
+static s16 sCcmMusicLastParam[16] = { [0 ... 15] = -1 };
 static const u8 sCcmMusicBankId = 0x0C;
 static const u8 sCcmMusicInstrumentTable[] = {
     4,   // 0x0001 -> Grand Piano
@@ -1675,7 +1675,7 @@ static const u8 sCcmMusicInstrumentTable[] = {
 
 static void apply_ccm_music_surface(struct MarioState *m) {
     if (!m || !m->floor || m->floor->type != SURFACE_CCM_MUSIC) {
-        sCcmMusicLastParam = -1;
+        for (s32 i = 0; i < 16; i++) sCcmMusicLastParam[i] = -1;
         return;
     }
 
@@ -1684,11 +1684,22 @@ static void apply_ccm_music_surface(struct MarioState *m) {
     }
 
     u16 rawParam = (u16) m->floor->force;
-    if (rawParam == 0 || rawParam == sCcmMusicLastParam) {
+    u8 channelIndex = (rawParam >> 8) & 0xFF;  // 上位バイトでチャンネル指定 (0x0000=Ch1, 0x0100=Ch2, ...)
+    u8 instParam = rawParam & 0xFF;            // 下位バイトで楽器ID (1～6)
+
+    if (instParam == 0) {
         return;
     }
 
-    u16 tableIndex = rawParam - 1;
+    if (channelIndex >= 16) {
+        return;
+    }
+
+    if (rawParam == sCcmMusicLastParam[channelIndex]) {
+        return;
+    }
+
+    u16 tableIndex = instParam - 1;
     if (tableIndex >= ARRAY_COUNT(sCcmMusicInstrumentTable)) {
         return;
     }
@@ -1696,7 +1707,7 @@ static void apply_ccm_music_surface(struct MarioState *m) {
     u8 instrumentIndex = sCcmMusicInstrumentTable[tableIndex];
 
     // チャンネル4 (index 3) の楽器を差し替える
-    struct SequenceChannel *channel = gSequencePlayers[SEQ_PLAYER_LEVEL].channels[3];
+    struct SequenceChannel *channel = gSequencePlayers[SEQ_PLAYER_LEVEL].channels[channelIndex];
     if (channel == NULL || channel == &gSequenceChannelNone) {
         return;
     }
@@ -1721,9 +1732,9 @@ static void apply_ccm_music_surface(struct MarioState *m) {
 
     // Music Selector との整合性を保つために記録も更新
     extern s32 sChannelInstrumentId[16];
-    sChannelInstrumentId[3] = instrumentIndex;
+    sChannelInstrumentId[channelIndex] = instrumentIndex;
 
-    sCcmMusicLastParam = rawParam;
+    sCcmMusicLastParam[channelIndex] = rawParam;
 }
 
 /**
