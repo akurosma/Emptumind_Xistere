@@ -22,6 +22,7 @@
 #include "levels/ccm/rl_flippanel/geo.inc.c"
 #include "levels/ccm/rl_onda/geo.inc.c"
 #include "levels/ccm/rl_wave/geo.inc.c"
+#include "levels/ccm/rl_burnbridge/geo.inc.c"
 #include "levels/ccm/ccm_flame/geo.inc.c"
 #include "levels/ccm/rl_ccmgrill/geo.inc.c"
 #include "levels/ccm/areas/1/6/geo.inc.c"

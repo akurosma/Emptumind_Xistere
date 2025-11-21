@@ -1700,8 +1700,8 @@ case 0xC1: // chan_setinstr ("set program"?)
     for (s32 i = 0; i < 16; i++) {
         if (seqChannel == gSequencePlayers[SEQ_PLAYER_LEVEL].channels[i]) {
 
-            // --- CASTLE_GROUNDS専用の挙動 ---
-            if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) {
+            // --- CASTLE_GROUNDS と CCM での楽器固定（Music Selector / SURFACE_CCM_MUSIC 用） ---
+            if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS || gCurrLevelNum == LEVEL_CCM) {
                 if (justChanged) {
                     // 🎵 新しい曲開始時 → MIDIのProgram Changeをそのまま使う
                     sChannelInstrumentId[i] = newInstId;
@@ -2877,4 +2877,3 @@ void init_sequence_players(void) {
         init_sequence_player(i);
     }
 }
-

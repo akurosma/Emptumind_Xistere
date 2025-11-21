@@ -61,5 +61,7 @@
 #include "levels/ccm/ccm_flame/model.inc.c"
 #include "levels/ccm/rl_ccmgrill/model.inc.c"
 #include "levels/ccm/rl_ccmgrill/collision.inc.c"
+#include "levels/ccm/rl_burnbridge/model.inc.c"
+#include "levels/ccm/rl_burnbridge/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"

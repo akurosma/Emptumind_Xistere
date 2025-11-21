@@ -10263,6 +10263,8 @@ struct Cutscene sCutsceneSlidingDoorsOpen[] = {
     { cutscene_double_doors_end, 0 }
 };
 
+#define METAL_BOX_GATE_CUTSCENE_DURATION 150
+
 void cutscene_metal_box_gate(struct Camera *c) {
     Vec3f pos = { 4727.f, 100.f, 6500.f };
     Vec3f focus = { 4727.f, 500.f, 8000.f };
@@ -10275,7 +10277,7 @@ void cutscene_metal_box_gate(struct Camera *c) {
 }
 
 struct Cutscene sCutsceneMetalBoxGate[] = {
-    { cutscene_metal_box_gate, 60 },
+    { cutscene_metal_box_gate, METAL_BOX_GATE_CUTSCENE_DURATION },
     { cutscene_double_doors_end, 0 }
 };
 

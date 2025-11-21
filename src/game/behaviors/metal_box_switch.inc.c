@@ -1,12 +1,16 @@
 #include "levels/wf/header.h"
+#include "audio/external.h"
 #include "game/save_file.h"
 
 #define METAL_BOX_SWITCH_TRIGGER_HALF_EXTENT 180.0f
 #define METAL_BOX_SWITCH_MAX_HEIGHT_DIFF 160.0f
-#define METAL_BOX_GATE_RELEASE_DELAY 35
+#define METAL_BOX_GATE_RELEASE_DELAY 45
+#define METAL_BOX_GATE_RISE_DISTANCE 600.0f
+#define METAL_BOX_GATE_RISE_SPEED 5.0f
 #define oMetalBoxSwitchGateStoredAction o->o100
 #define oMetalBoxSwitchGateMarioFrozen o->o104
 #define oMetalBoxSwitchGateReleaseTimer o->o108
+#define oMetalBoxSwitchGateVolumeLowered o->o10C
 
 enum MetalBoxSwitchActions {
     METAL_BOX_SWITCH_ACT_IDLE,
@@ -97,10 +101,11 @@ void bhv_metal_box_switch_loop(void) {
 
 void bhv_metal_box_switch_gate_init(void) {
     o->oFloatF4 = o->oPosY;
-    o->oFloatF8 = o->oPosY + 600.0f;
+    o->oFloatF8 = o->oPosY + METAL_BOX_GATE_RISE_DISTANCE;
     oMetalBoxSwitchGateStoredAction = 0;
     oMetalBoxSwitchGateMarioFrozen = FALSE;
     oMetalBoxSwitchGateReleaseTimer = 0;
+    oMetalBoxSwitchGateVolumeLowered = FALSE;
     o->oF4 = FALSE;
 
     if (save_file_get_flags() & SAVE_FLAG_METAL_BOX_GATE_OPEN) {
@@ -127,8 +132,13 @@ void bhv_metal_box_switch_gate_loop(void) {
                     gMarioState->forwardVel = 0.0f;
                     vec3f_set(gMarioState->vel, 0.0f, 0.0f, 0.0f);
                 }
-                cur_obj_play_sound_2(SOUND_GENERAL_CAGE_OPEN);
+                cur_obj_play_sound_2(SOUND_GENERAL_CUSTOM_METAL_SWITCH);
+                //cur_obj_play_sound_2(SOUND_OBJ_BOMP_SLIDE);
                 cutscene_object(CUTSCENE_METAL_BOX_GATE, o);
+                if (!oMetalBoxSwitchGateVolumeLowered) {
+                    seq_player_lower_volume(SEQ_PLAYER_LEVEL, 30, 40);
+                    oMetalBoxSwitchGateVolumeLowered = TRUE;
+                }
                 o->oAction = METAL_BOX_GATE_ACT_OPENING;
             }
             break;
@@ -141,7 +151,7 @@ void bhv_metal_box_switch_gate_loop(void) {
                 gMarioState->forwardVel = 0.0f;
                 vec3f_set(gMarioState->vel, 0.0f, 0.0f, 0.0f);
             }
-            o->oPosY += 15.0f;
+            o->oPosY += METAL_BOX_GATE_RISE_SPEED; // gate上がる速度
             if (o->oPosY >= o->oFloatF8) {
                 o->oPosY = o->oFloatF8;
                 oMetalBoxSwitchGateReleaseTimer = METAL_BOX_GATE_RELEASE_DELAY;
@@ -163,6 +173,10 @@ void bhv_metal_box_switch_gate_loop(void) {
                     set_mario_action(gMarioState, action, 0);
                     oMetalBoxSwitchGateStoredAction = 0;
                     oMetalBoxSwitchGateMarioFrozen = FALSE;
+                    if (oMetalBoxSwitchGateVolumeLowered) {
+                        seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 30);
+                        oMetalBoxSwitchGateVolumeLowered = FALSE;
+                    }
                 }
             }
             break;
