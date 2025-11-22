@@ -2,6 +2,9 @@
 // Burnable bridge: disappears when Mario is in amaterasu state and touches it.
 #include "src/game/color.h"
 #include "audio/external.h"
+#include "game/print.h"
+
+#define ENABLE_BURNBRIDGE_SFX_DEBUG 0
 
 #define RL_BURNBRIDGE_ACT_IDLE    0
 #define RL_BURNBRIDGE_ACT_BURNING 1
@@ -30,6 +33,7 @@ static struct ObjectHitbox sRlBurnbridgeHitbox = {
 void bhv_rl_burnbridge_init(void) {
     // Ensure Mario can collide immediately.
     o->oIntangibleTimer = 0;
+    o->oOpacity = 255; // start with default (unburned) texture
 }
 
 void bhv_rl_burnbridge_loop(void) {
@@ -37,6 +41,7 @@ void bhv_rl_burnbridge_loop(void) {
 
     switch (o->oAction) {
         case RL_BURNBRIDGE_ACT_IDLE:
+            o->oOpacity = 255;
             // Start burning when touched by Mario while amaterasu is active.
             if (gMarioState != NULL && gMarioState->amaterasu) {
                 if (gMarioObject != NULL
@@ -52,10 +57,34 @@ void bhv_rl_burnbridge_loop(void) {
                 o->oObjF4 = spawn_object(o, MODEL_CCM_RL_BLACKFLAME, bhvRlBurnbridgeFlame);
             }
 
+            // Play burn sound once at start; sample length covers the burn window.
+            if (o->oTimer == 0) {
+                struct Object *soundTarget = (gMarioObject != NULL) ? gMarioObject : o;
+                //create_sound_spawner
+            cur_obj_play_sound_1(SOUND_GENERAL_CUSTOM_BURN_START/*, soundTarget->header.gfx.cameraToObject*/);
+            }
+
+            // Fade opacity from 255 -> 0 over RLBURNBRIDGE_BLACKEN_FR frames (texture switch uses oOpacity).
+            if (o->oTimer < RLBURNBRIDGE_BLACKEN_FR) {
+                s32 fade = 255 - (o->oTimer * 255 / RLBURNBRIDGE_BLACKEN_FR);
+                if (fade < 0) fade = 0;
+                o->oOpacity = fade;
+            } else {
+                o->oOpacity = 0;
+            }
+
+            // Play flame-out at the end of the burn window.
             if (o->oTimer == RLBURNBRIDGE_BLACKEN_FR) {
                 struct Object *soundTarget = (gMarioObject != NULL) ? gMarioObject : o;
                 play_sound(SOUND_GENERAL_FLAME_OUT, soundTarget->header.gfx.cameraToObject);
             }
+
+#if ENABLE_BURNBRIDGE_SFX_DEBUG
+            if (o->oTimer < 108) {
+                // Simple on-screen indicator that the burn SFX was requested.
+                print_text_fmt_int(16, 200, "BURN SFX %d", o->oTimer);
+            }
+#endif
 
             if (o->oTimer >= RLBURNBRIDGE_LIFETIME) {
                 if (o->oObjF4 != NULL) {
@@ -120,51 +149,9 @@ void bhv_rl_burnbridge_smoke_loop(void) {
     }
     o->oOpacity = fade;
 }
-
-// Gradually darken the bridge while burning.
+// Memo: previous ENV-based darkening (kept for reference)
+/*
 Gfx *geo_rl_burnbridge_blacken(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
-    if (callContext != GEO_CONTEXT_RENDER) {
-        return NULL;
-    }
-
-    struct Object *obj = (struct Object *)gCurGraphNodeObject;
-    if (obj == NULL) {
-        return NULL;
-    }
-
-    f32 t = 0.0f;
-    if (obj->oAction == RL_BURNBRIDGE_ACT_BURNING) {
-        t = (f32)obj->oTimer / (f32)RLBURNBRIDGE_BLACKEN_FR;
-        if (t > 1.0f) {
-            t = 1.0f;
-        }
-    }
-
-    static rgb sBaseColors[RLBURNBRIDGE_VTX_COUNT];
-    static u8  sBaseAlpha[RLBURNBRIDGE_VTX_COUNT];
-    static s32 sCaptured = FALSE;
-
-    Vtx *vtx = segmented_to_virtual(rl_burnbridge_rl_burnbridge_mesh_layer_1_vtx_0);
-
-    if (!sCaptured) {
-        for (s32 i = 0; i < RLBURNBRIDGE_VTX_COUNT; i++) {
-            sBaseColors[i].r = vtx[i].v.cn[0];
-            sBaseColors[i].g = vtx[i].v.cn[1];
-            sBaseColors[i].b = vtx[i].v.cn[2];
-            sBaseAlpha[i]    = vtx[i].v.cn[3];
-        }
-        sCaptured = TRUE;
-    }
-
-    f32 factor = 1.0f - t; // 1.0 -> 0.0 as it burns
-    if (factor < 0.0f) factor = 0.0f;
-
-    for (s32 i = 0; i < RLBURNBRIDGE_VTX_COUNT; i++) {
-        vtx[i].v.cn[0] = (u8)(sBaseColors[i].r * factor);
-        vtx[i].v.cn[1] = (u8)(sBaseColors[i].g * factor);
-        vtx[i].v.cn[2] = (u8)(sBaseColors[i].b * factor);
-        vtx[i].v.cn[3] = sBaseAlpha[i];
-    }
-
     return NULL;
 }
+*/
