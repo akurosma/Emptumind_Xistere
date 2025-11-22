@@ -6,7 +6,7 @@
 #define METAL_BOX_SWITCH_MAX_HEIGHT_DIFF 160.0f
 #define METAL_BOX_GATE_RELEASE_DELAY 45
 #define METAL_BOX_GATE_RISE_DISTANCE 600.0f
-#define METAL_BOX_GATE_RISE_SPEED 5.0f
+#define METAL_BOX_GATE_RISE_SPEED 4.5f
 #define oMetalBoxSwitchGateStoredAction o->o100
 #define oMetalBoxSwitchGateMarioFrozen o->o104
 #define oMetalBoxSwitchGateReleaseTimer o->o108
@@ -151,7 +151,7 @@ void bhv_metal_box_switch_gate_loop(void) {
                 gMarioState->forwardVel = 0.0f;
                 vec3f_set(gMarioState->vel, 0.0f, 0.0f, 0.0f);
             }
-            o->oPosY += METAL_BOX_GATE_RISE_SPEED; // gate上がる速度
+            o->oPosY += METAL_BOX_GATE_RISE_SPEED;
             if (o->oPosY >= o->oFloatF8) {
                 o->oPosY = o->oFloatF8;
                 oMetalBoxSwitchGateReleaseTimer = METAL_BOX_GATE_RELEASE_DELAY;

@@ -2870,6 +2870,7 @@ sound_ref .sound_general_boat_rock
 sound_ref .sound_general_vanish_sfx
 sound_ref .sound_general_launch_spring
 sound_ref .sound_general_custom_metal_switch
+sound_ref .sound_general_custom_burn_start
 sound_ref .sound_menu_enter_hole
 sound_ref .sound_general_red_coin
 sound_ref .sound_general_birds_fly_away
@@ -3312,6 +3313,16 @@ chan_end
 
 .layer_custom_metal_switch:
 layer_note1 30, 0x200, 127
+layer_end
+
+.sound_general_custom_burn_start:
+chan_setbank 4
+chan_setinstr 17
+chan_setlayer 0, .layer_custom_burn_start
+chan_end
+
+.layer_custom_burn_start:
+layer_note1 60, 0x160, 120
 layer_end
 
 .sound_general_painting_eject:

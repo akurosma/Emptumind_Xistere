@@ -79,6 +79,8 @@ const LevelScript level_ccm_entry[] = {
 		OBJECT(MODEL_CCM_RL_BURNBRIDGE, 4000, 200, 7700, 0, 0, 0, 0x00000000, bhvRlBurnbridge),
 		OBJECT(MODEL_METAL_BOX, 800, 933, 3900, 0, 0, 0, 0x00000000, bhvPushableMetalBoxSwitch),
 		OBJECT(MODEL_CCM_RL_TEMPORESET, 800, 300, -600, 0, 0, 0, 0x00000000, bhvRlTemporeset),
+		//OBJECT(MODEL_BOO, 800, 300, 600, 0, 0, 0, 0x00000000, bhvRlTemporeset),
+		OBJECT(MODEL_CCM_RL_BEEPBLOCK, 1800, 300, -600, 0, 0, 0, 0x00000000, bhvRlBeepblock),
 		OBJECT(MODEL_CCM_RL_WHITEFLAME, 3642, 200, 6677, 0, 0, 0, 0x00010000, bhvRlCcmflame),
 		TERRAIN(ccm_area_1_collision),
 		MACRO_OBJECTS(ccm_area_1_macro_objs),

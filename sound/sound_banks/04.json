@@ -149,6 +149,11 @@
             "release_rate": 120,
             "envelope": "envelope4",
             "sound": "custom_metal_switch"
+        },
+        "inst15": {
+            "release_rate": 120,
+            "envelope": "envelope4",
+            "sound": "custom_burn_start"
         }
     },
     "instrument_list": [
@@ -168,6 +173,7 @@
         "inst11",
         "inst12",
         "inst13",
-        "inst14"
+        "inst14",
+        "inst15"
     ]
 }
