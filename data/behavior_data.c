@@ -33,6 +33,7 @@
 #include "actors/group15.h"
 #include "actors/group16.h"
 #include "actors/group17.h"
+#include "levels/ccm/header.h"
 #include "levels/bbh/header.h"
 #include "levels/castle_inside/header.h"
 #include "levels/hmc/header.h"
@@ -1850,7 +1851,6 @@ const BehaviorScript bhvMetalBoxSwitch[] = {
     END_LOOP(),
 };
 
-extern const Collision rl_ccmgrill_collision[];
 const BehaviorScript bhvMetalBoxSwitchGate[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6390,7 +6390,6 @@ const BehaviorScript bhvSnufitBalls2[] = {
     END_LOOP(),
 };
 
-extern const Collision rl_burnbridge_collision[];
 const BehaviorScript bhvRlBurnbridge[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6420,6 +6419,27 @@ const BehaviorScript bhvRlBurnbridgeSmoke[] = {
     SET_FLOAT(oGraphYOffset, 50),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rl_burnbridge_smoke_loop),
+    END_LOOP(),
+};
+extern void bhv_rl_spidernet_flame_loop(void);
+const BehaviorScript bhvRlSpidernetFlame[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BILLBOARD(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_spidernet_flame_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvRlSpidernet[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_spidernet_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_rl_spidernet_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_spidernet_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
 const BehaviorScript bhvRlBridge[] = {
@@ -6691,7 +6711,6 @@ const BehaviorScript bhvFadingwall[] = {
     END_LOOP(),
 };
 
-extern const Collision test_cube_collision[];
 const BehaviorScript bhvTestCube[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6743,7 +6762,6 @@ const BehaviorScript bhvAirlockctrl[] = {
     END_LOOP(),
 };
 
-extern const Collision rl_beepblock_collision[];
 const BehaviorScript bhvRlBeepblock[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6757,7 +6775,6 @@ const BehaviorScript bhvRlBeepblock[] = {
     END_LOOP(),
 };
 
-extern const Collision rl_temporeset_collision[];
 const BehaviorScript bhvRlTemporeset[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6771,7 +6788,6 @@ const BehaviorScript bhvRlTemporeset[] = {
     END_LOOP(),
 };
 
-extern const Collision rl_flippanel_collision[];
 const BehaviorScript bhvRlFlippanel[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6794,7 +6810,6 @@ const BehaviorScript bhvFileselectbg[] = {
     END_LOOP(),
 };
 
-extern const Collision rl_onda_collision[];
 const BehaviorScript bhvRlOnda[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6808,7 +6823,6 @@ const BehaviorScript bhvRlOnda[] = {
     END_LOOP(),
 };
 
-extern const Collision rl_wave_collision[];
 const BehaviorScript bhvRlWave[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),

@@ -574,6 +574,8 @@ extern const BehaviorScript bhvBarrelSpeedUp[];
 extern const BehaviorScript bhvRlBurnbridge[];
 extern const BehaviorScript bhvRlBurnbridgeFlame[];
 extern const BehaviorScript bhvRlBurnbridgeSmoke[];
+extern const BehaviorScript bhvRlSpidernetFlame[];
+extern const BehaviorScript bhvRlSpidernet[];
 extern const BehaviorScript bhvRlBridge[];
 extern const BehaviorScript bhvRlMetalblock[];
 extern const BehaviorScript bhvRlLift[];

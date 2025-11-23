@@ -23,7 +23,7 @@ enum SurfaceTypes {
     SURFACE_FLOWING_WATER,              // 0x000E // Water (flowing), has parameters
     SURFACE_NO_WALLKICKS,               // 0x000F // Unused
     SURFACE_STICKY,                       // 0x0010 // sticky
-    SURFACE_0011,                       // 0x0011 // Unused
+    SURFACE_FLOWER,                     // 0x0011 // Flower envfx spawn surface
     SURFACE_INTANGIBLE,                 // 0x0012 // Intangible (Separates BBH mansion from merry-go-round, for room usage)
     SURFACE_VERY_SLIPPERY,              // 0x0013 // Very slippery, mostly used for slides
     SURFACE_SLIPPERY,                   // 0x0014 // Slippery

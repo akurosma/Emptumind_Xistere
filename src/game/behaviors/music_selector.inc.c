@@ -76,7 +76,8 @@ const char *sSeqNames[] = {
     "Great Mighty Poo", "Got Star Cutscene", "SSBM Master Hand", "Southern Cross", "Aquarium Park",
     "His World", "Promise of the 19", "Vilily", "King K Rool", "Adventurers Song",
     "Boggys igloo", "Science", "Lets Girls Talk", "Time Trial", "SD Battle 2",
-    "Head Honcho Carpaccio", "Fist Bump", "Wind Fortress", "With Me", "Battle of Rose", "SONIC NIGHTSPINBALL"
+    "Head Honcho Carpaccio", "Fist Bump", "Wind Fortress", "With Me", "Battle of Rose", "SONIC NIGHTSPINBALL",
+    "chao garden"
 };
 
 s16 sTempoOffset = 0;

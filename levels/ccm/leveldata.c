@@ -63,5 +63,7 @@
 #include "levels/ccm/rl_ccmgrill/collision.inc.c"
 #include "levels/ccm/rl_burnbridge/model.inc.c"
 #include "levels/ccm/rl_burnbridge/collision.inc.c"
+#include "levels/ccm/rl_spidernet/model.inc.c"
+#include "levels/ccm/rl_spidernet/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"

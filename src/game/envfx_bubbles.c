@@ -65,6 +65,32 @@ s32 random_flower_offset(void) {
 }
 
 /**
+ * Try to place a flower particle on SURFACE_FLOWER. Returns TRUE if succeeded.
+ */
+s32 envfx_place_flower_on_surface(s32 index, s16 centerX, s16 centerZ) {
+    s32 attempts = 20;
+
+    while (attempts--) {
+        struct Surface *surface = NULL;
+        // centered spread to allow spawning near the camera as well
+        s32 xOffset = (s32)(random_float() * 4000.0f) - 2000;
+        s32 zOffset = (s32)(random_float() * 4000.0f) - 2000;
+        s32 xPos = xOffset + centerX;
+        s32 zPos = zOffset + centerZ;
+        f32 yPos = find_floor(xPos, 10000.0f, zPos, &surface);
+
+        if (surface != NULL && surface->type == SURFACE_FLOWER) {
+            (gEnvFxBuffer + index)->xPos = xPos;
+            (gEnvFxBuffer + index)->zPos = zPos;
+            (gEnvFxBuffer + index)->yPos = yPos;
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+/**
  * Update flower particles. Flowers are scattered randomly in front of the
  * camera, and can land on any ground
  */
@@ -83,6 +109,32 @@ void envfx_update_flower(Vec3s centerPos) {
             (gEnvFxBuffer + i)->yPos = find_floor_height((gEnvFxBuffer + i)->xPos, 10000.0f, (gEnvFxBuffer + i)->zPos);
             (gEnvFxBuffer + i)->isAlive = TRUE;
             (gEnvFxBuffer + i)->animFrame = random_float() * 5.0f;
+        } else if (!(globalTimer & 3)) {
+            (gEnvFxBuffer + i)->animFrame++;
+            if ((gEnvFxBuffer + i)->animFrame > 5) {
+                (gEnvFxBuffer + i)->animFrame = 0;
+            }
+        }
+    }
+}
+
+/**
+ * Update flower particles restricted to SURFACE_FLOWER floors.
+ */
+void envfx_update_flower_surface_only(Vec3s centerPos) {
+    s32 i;
+    s32 globalTimer = gGlobalTimer;
+
+    s16 centerX = centerPos[0];
+    s16 centerZ = centerPos[2];
+
+    for (i = 0; i < sBubbleParticleMaxCount; i++) {
+        (gEnvFxBuffer + i)->isAlive = particle_is_laterally_close(i, centerX, centerZ, 3000);
+        if (!(gEnvFxBuffer + i)->isAlive) {
+            (gEnvFxBuffer + i)->isAlive = envfx_place_flower_on_surface(i, centerX, centerZ);
+            if ((gEnvFxBuffer + i)->isAlive) {
+                (gEnvFxBuffer + i)->animFrame = random_float() * 5.0f;
+            }
         } else if (!(globalTimer & 3)) {
             (gEnvFxBuffer + i)->animFrame++;
             if ((gEnvFxBuffer + i)->animFrame > 5) {
@@ -309,6 +361,14 @@ s32 envfx_init_bubble(s32 mode) {
             sBubbleParticleMaxCount = 30;
             break;
 
+        case ENVFX_FLOWERS2:
+            if (gEnvFxBubbleConfig[ENVFX_STATE_PARTICLECOUNT] == 0) {
+                gEnvFxBubbleConfig[ENVFX_STATE_PARTICLECOUNT] = 10;
+            }
+            sBubbleParticleMaxCount = MIN(gEnvFxBubbleConfig[ENVFX_STATE_PARTICLECOUNT], 30);
+            sBubbleParticleCount = sBubbleParticleMaxCount;
+            break;
+
         case ENVFX_LAVA_BUBBLES:
             sBubbleParticleCount = 15;
             sBubbleParticleMaxCount = 15;
@@ -353,6 +413,13 @@ void envfx_bubbles_update_switch(s32 mode, Vec3s camTo, Vec3s vertex1, Vec3s ver
     switch (mode) {
         case ENVFX_FLOWERS:
             envfx_update_flower(camTo);
+            vertex1[0] = 50;  vertex1[1] = 0;  vertex1[2] = 0;
+            vertex2[0] = 0;   vertex2[1] = 75; vertex2[2] = 0;
+            vertex3[0] = -50; vertex3[1] = 0;  vertex3[2] = 0;
+            break;
+
+        case ENVFX_FLOWERS2:
+            envfx_update_flower_surface_only(camTo);
             vertex1[0] = 50;  vertex1[1] = 0;  vertex1[2] = 0;
             vertex2[0] = 0;   vertex2[1] = 75; vertex2[2] = 0;
             vertex3[0] = -50; vertex3[1] = 0;  vertex3[2] = 0;
@@ -430,6 +497,11 @@ void envfx_set_bubble_texture(s32 mode, s16 index) {
             frame = (gEnvFxBuffer + index)->animFrame;
             break;
 
+        case ENVFX_FLOWERS2:
+            imageArr = segmented_to_virtual(&flower_bubbles_textures_ptr_0B002008);
+            frame = (gEnvFxBuffer + index)->animFrame;
+            break;
+
         case ENVFX_LAVA_BUBBLES:
             imageArr = segmented_to_virtual(&lava_bubble_ptr_0B006020);
             frame = (gEnvFxBuffer + index)->animFrame;
@@ -497,6 +569,12 @@ Gfx *envfx_update_bubble_particles(s32 mode, UNUSED Vec3s marioPos, Vec3s camFro
  */
 void envfx_set_max_bubble_particles(s32 mode) {
     switch (mode) {
+        case ENVFX_FLOWERS2:
+            if (gEnvFxBubbleConfig[ENVFX_STATE_PARTICLECOUNT] > 0) {
+                sBubbleParticleMaxCount = MIN(gEnvFxBubbleConfig[ENVFX_STATE_PARTICLECOUNT], 30);
+                sBubbleParticleCount = sBubbleParticleMaxCount;
+            }
+            break;
         case ENVFX_WHIRLPOOL_BUBBLES:
             sBubbleParticleMaxCount = gEnvFxBubbleConfig[ENVFX_STATE_PARTICLECOUNT];
             break;
@@ -527,6 +605,10 @@ Gfx *envfx_update_bubbles(s32 mode, Vec3s marioPos, Vec3s camTo, Vec3s camFrom) 
     switch (mode) {
         case ENVFX_FLOWERS:
             gfx = envfx_update_bubble_particles(ENVFX_FLOWERS, marioPos, camFrom, camTo);
+            break;
+
+        case ENVFX_FLOWERS2:
+            gfx = envfx_update_bubble_particles(ENVFX_FLOWERS2, marioPos, camFrom, camTo);
             break;
 
         case ENVFX_LAVA_BUBBLES:

@@ -28,7 +28,7 @@ const GeoLayout pss_area_3[] = {
 				GEO_OPEN_NODE(),
 					GEO_BRANCH(1, pss_area_3_geo),
 					GEO_RENDER_OBJ(),
-					GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+					GEO_ASM(ENVFX_FLOWERS2, geo_envfx_main),
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),

@@ -61,7 +61,7 @@ void bhv_rl_burnbridge_loop(void) {
             if (o->oTimer == 0) {
                 struct Object *soundTarget = (gMarioObject != NULL) ? gMarioObject : o;
                 //create_sound_spawner
-            cur_obj_play_sound_1(SOUND_GENERAL_CUSTOM_BURN_START/*, soundTarget->header.gfx.cameraToObject*/);
+            cur_obj_play_sound_1(SOUND_GENERAL2_CUSTOM_BURN_START/*, soundTarget->header.gfx.cameraToObject*/);
             }
 
             // Fade opacity from 255 -> 0 over RLBURNBRIDGE_BLACKEN_FR frames (texture switch uses oOpacity).

@@ -56,7 +56,8 @@ const LevelScript level_ccm_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_WHITEFLAME, white_flame_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BLACKFLAME_SHADOW, black_flame_shadow_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_CCMGRILL, rl_ccmgrill_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BURNBRIDGE, rl_burnbridge_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BURNBRIDGE, rl_burnbridge_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_SPIDERNET, rl_spidernet_geo), 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -79,6 +80,7 @@ const LevelScript level_ccm_entry[] = {
 		OBJECT(MODEL_CCM_RL_BURNBRIDGE, 4000, 200, 7700, 0, 0, 0, 0x00000000, bhvRlBurnbridge),
 		OBJECT(MODEL_METAL_BOX, 800, 933, 3900, 0, 0, 0, 0x00000000, bhvPushableMetalBoxSwitch),
 		OBJECT(MODEL_CCM_RL_TEMPORESET, 800, 300, -600, 0, 0, 0, 0x00000000, bhvRlTemporeset),
+		OBJECT(MODEL_CCM_RL_SPIDERNET, 700, 500, 1400, 0, 90, 0, 0x00000000, bhvRlSpidernet),
 		//OBJECT(MODEL_BOO, 800, 300, 600, 0, 0, 0, 0x00000000, bhvRlTemporeset),
 		OBJECT(MODEL_CCM_RL_BEEPBLOCK, 1800, 300, -600, 0, 0, 0, 0x00000000, bhvRlBeepblock),
 		OBJECT(MODEL_CCM_RL_WHITEFLAME, 3642, 200, 6677, 0, 0, 0, 0x00010000, bhvRlCcmflame),
