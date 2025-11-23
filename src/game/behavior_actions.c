@@ -252,6 +252,7 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/barrelJet.inc.c"
 #include "behaviors/barrel_speed_up.inc.c"
 #include "behaviors/rl_burnbridge.inc.c"
+#include "behaviors/rl_spidernet.inc.c"
 #include "behaviors/rl_bridge.inc.c"
 #include "behaviors/rl_metalblock.inc.c"
 #include "behaviors/rl_lift.inc.c"

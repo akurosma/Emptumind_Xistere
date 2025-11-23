@@ -23,6 +23,7 @@ extern const GeoLayout rl_onda_geo[];
 extern const GeoLayout rl_wave_geo[];
 extern const GeoLayout rl_ccmgrill_geo[];
 extern const GeoLayout rl_burnbridge_geo[];
+extern const GeoLayout rl_spidernet_geo[];
 
 // leveldata
 extern const Gfx ccm_seg7_dl_0700B090[];
@@ -53,6 +54,7 @@ extern const Gfx rl_onda_rl_onda_mesh_layer_1[];
 extern const Gfx rl_wave_rl_wave_mesh_layer_1[];
 extern const Gfx rl_ccmgrill_rl_ccmgrill_mesh_layer_1[];
 extern const Gfx rl_burnbridge_rl_burnbridge_mesh_layer_1[];
+extern const Gfx rl_spidernet_rl_spidernet_mesh_layer_4[];
 extern const Collision ccm_seg7_area_1_collision[];
 extern const MacroObject ccm_seg7_area_1_macro_objs[];
 extern const Collision ccm_seg7_collision_ropeway_lift[];
@@ -64,6 +66,7 @@ extern const Collision rl_onda_collision[];
 extern const Collision rl_wave_collision[];
 extern const Collision rl_ccmgrill_collision[];
 extern const Collision rl_burnbridge_collision[];
+extern const Collision rl_spidernet_collision[];
 extern const Trajectory ccm_seg7_trajectory_snowman[];
 extern const Trajectory ccm_seg7_trajectory_ropeway_lift[];
 extern const struct MovtexQuadCollection ccm_movtex_penguin_puddle_water[];
