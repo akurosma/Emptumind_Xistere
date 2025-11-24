@@ -21,6 +21,7 @@
 #include "ingame_menu.h"
 #include "obj_behaviors.h"
 #include "save_file.h"
+#include "rulu_htube.h"
 #if MULTILANG
 #include "memory.h"
 #include "eu_translation.h"
@@ -1265,6 +1266,7 @@ s32 init_level(void) {
 #endif
 
     set_play_mode(PLAY_MODE_NORMAL);
+    htube_set_for_level(gCurrLevelNum);
 
     sDelayedWarpOp = WARP_OP_NONE;
     sTransitionTimer = 0;

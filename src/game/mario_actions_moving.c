@@ -13,9 +13,56 @@
 #include "interaction.h"
 #include "memory.h"
 #include "behavior_data.h"
+#include "object_helpers.h"
+#include "object_list_processor.h"
 #include "rumble_init.h"
+#include "rulu_htube.h"
+#include "course_table.h"
 
 #include "config.h"
+
+// Debug print
+extern void print_text_fmt_int(int x, int y, const char *fmt, int value);
+
+// ハイパーチューブ用シェルを保持（レール乗降で壊さないためのキャッシュ） //rulu hypertube
+static struct Object *sHyperShell = NULL;
+
+// Simple particle puff helper used by rail grind effects.
+static void puffAt(struct Object *obj, float size, int numParticles, f32 yoff) {
+    f32 sizeBase = size;
+    f32 sizeRange = size / 20.f;
+    f32 forwardVelBase = 40.f;
+    f32 forwardVelRange = 5.f;
+    f32 velYBase = 30.f;
+    f32 velYRange = 20.f;
+
+    if ((gPrevFrameObjectCount > (OBJECT_POOL_CAPACITY - 90)) && numParticles > 10) {
+        numParticles = 10;
+    }
+
+    if (gPrevFrameObjectCount > (OBJECT_POOL_CAPACITY - 30)) {
+        numParticles = 0;
+    }
+
+    for (int i = 0; i < numParticles; i++) {
+        f32 scale = random_float() * (sizeRange * 0.1f) + sizeBase * 0.1f;
+        struct Object *particle = spawn_object(obj, MODEL_MIST, bhvWhitePuffExplosion);
+
+        particle->oBehParams2ndByte = 2;
+        particle->oMoveAngleYaw = random_u16();
+        particle->oGravity = 2.52f;
+        particle->oDragStrength = 1.0f;
+        particle->oForwardVel = random_float() * forwardVelRange + forwardVelBase;
+        particle->oPosX = obj->oPosX;
+        particle->oPosY = obj->oPosY - yoff;
+        particle->oPosZ = obj->oPosZ;
+        particle->oVelX = 0.f;
+        particle->oVelY = random_float() * velYRange + velYBase;
+        particle->oVelZ = 0.f;
+
+        obj_scale(particle, scale);
+    }
+}
 
 struct LandingAction {
     s16 numFrames;
@@ -70,11 +117,6 @@ void align_with_floor(struct MarioState *m) {
         //m->pos[1] = m->floorHeight;//sticky
         /*sticky*/
         if (!gGravityMode && (floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {
-        // Use a temp position so m->pos is not passed to the function
-        Vec3f tempPos;
-        vec3f_copy(tempPos,m->pos);
-        tempPos[1] = m->floorHeight;
-        /*sticky*/
 #ifdef FAST_FLOOR_ALIGN
         if (absf(m->forwardVel) > FAST_FLOOR_ALIGN) {
             Vec3f floorNormal;
@@ -341,6 +383,9 @@ s32 apply_landing_accel(struct MarioState *m, f32 frictionFactor) {
 void update_shell_speed(struct MarioState *m) {
     f32 maxTargetSpeed;
     f32 targetSpeed;
+    struct Object *hyperObj = m->usedObj ? m->usedObj : m->riddenObj;
+    int isHyperShell = hyperObj && hyperObj->oBehParams2ndByte == 1; //rulu hypertube
+    int isHyperMode = isHyperShell || m->action == ACT_RIDING_HYPERTUBE; //rulu hypertube
 
     if (m->floorHeight < m->waterLevel) {
         set_mario_floor(m, &gWaterSurfacePseudoFloor, m->waterLevel);
@@ -378,7 +423,10 @@ void update_shell_speed(struct MarioState *m) {
     m->faceAngle[1] =
         m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
 
-    apply_slope_accel(m);
+    // ハイパーシェル（bparam2==1）や ACT_RIDING_HYPERTUBE 時は斜面加速/減速をスキップして減速しないようにする //rulu hypertube
+    if (!isHyperMode) {
+        apply_slope_accel(m);
+    }
 }
 
 s32 apply_slope_decel(struct MarioState *m, f32 decelCoef) {
@@ -1254,10 +1302,20 @@ s32 act_riding_shell_ground(struct MarioState *m) {
 
 //rulu
 s32 act_riding_hypertube(struct MarioState *m) {
-    s16 startYaw = m->faceAngle[1];
-    // ★ 甲羅に乗った瞬間の向き保存
-    static s16 fixedYaw = 0;
-    //s16 fixedYaw = m->area->camera->yaw;//カーブするとき使えるかも
+    // ハイパーチューブ進行方向を -Z 固定（円筒は -Z へ伸びる前提） //rulu hypertube
+    static const s16 fixedYaw = 0x8000;
+
+    // 現在のシェルを保持（レール乗り換え用）
+    if (m->usedObj) {
+        sHyperShell = m->usedObj;
+    } else if (m->riddenObj) {
+        sHyperShell = m->riddenObj;
+    }
+
+    // レールが近くにあれば優先して乗り換え
+    if (zipline_cancel()) {
+        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
+    }
 
     if (m->input & INPUT_A_PRESSED) {
         return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
@@ -1271,27 +1329,33 @@ s32 act_riding_hypertube(struct MarioState *m) {
         return set_mario_action(m, ACT_CROUCH_SLIDE, 0);
     }
 
-    update_shell_speed(m);
+    // 前後入力無効化＆速度固定
+    if (m->controller) {
+        m->controller->stickY = 0;
+    }
+    m->intendedMag = 0;
 
-// スティック入力
-f32 stickX = m->controller->stickX;
+    // シェル速度を一定値に引き上げる
+    const f32 hyperSpeed = 80.f;
 
-// 左右スライド速度（調整可能）
-f32 slide_speed = stickX * 1.5f;
+    // スティック入力
+    f32 stickX = m->controller->stickX;
 
-// 向きを固定（方向転換を禁止）
-m->faceAngle[1] = fixedYaw;
+    // 左右スライド速度（反転修正）
+    f32 slide_speed = -stickX * 1.5f;
 
-// マリオの向きを完全固定
-m->faceAngle[1] = fixedYaw + 0x8000;
+    // 向きを固定（方向転換を禁止）
+    m->faceAngle[1] = fixedYaw;
 
-// forwardVel を反対方向にする
-f32 forward_speed = -m->forwardVel;  // ★ここで反転！★
+    // 進行方向速度を固定、左右入力で少し横スライドだけ許可
+    m->vel[0] = hyperSpeed * sins(m->faceAngle[1]) + slide_speed * sins(m->faceAngle[1] + 0x4000);
+    m->vel[2] = hyperSpeed * coss(m->faceAngle[1]) + slide_speed * coss(m->faceAngle[1] + 0x4000);
+    m->vel[1] = 0.f;
+    m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+    m->slideVelX = m->vel[0];
+    m->slideVelZ = m->vel[2];
 
-m->vel[0] = slide_speed * sins(fixedYaw + 0x4000);
-m->vel[2] = forward_speed * coss(fixedYaw);
-
-struct Surface *floor = m->floor;
+    (void) m->floor;
 
     set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_RIDING_SHELL : MARIO_ANIM_RIDING_SHELL);
 
@@ -1304,13 +1368,34 @@ struct Surface *floor = m->floor;
             break;
     }
 
-    tilt_body_ground_shell(m, startYaw);
-    if (m->floor->type == SURFACE_BURNING) {
+    // ground step後に再度速度を固定して減速を防止
+    m->forwardVel = hyperSpeed;
+    m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
+    m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+    m->vel[0] = m->slideVelX;
+    m->vel[2] = m->slideVelZ;
+
+    // 体傾き：左右入力でロール、速度で前後ピッチ
+    {
+        struct MarioBodyState *bs = m->marioBodyState;
+        s16 nextRoll = CLAMP((s16)(stickX * 50.f), -0x1200, 0x1200);
+        s16 nextPitch = CLAMP((s16)(m->forwardVel * 120.0f), -0x1000, 0x1000);
+        bs->torsoAngle[2] = approach_s32_symmetric(bs->torsoAngle[2], nextRoll, 0x180);
+        bs->torsoAngle[0] = approach_s32_symmetric(bs->torsoAngle[0], nextPitch, 0x180);
+        bs->headAngle[2] = -bs->torsoAngle[2];
+    }
+
+    if (m->floor && m->floor->type == SURFACE_BURNING) {
         play_sound(SOUND_MOVING_RIDING_SHELL_LAVA, m->marioObj->header.gfx.cameraToObject);
     } else {
         play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
                    m->marioObj->header.gfx.cameraToObject);
     }
+
+    // デバッグ: ハイパーチューブ走行時の速度/アクションを表示
+    print_text_fmt_int(20, 40, "HSPD %d", (s32)m->forwardVel);
+    print_text_fmt_int(20, 50, "ACT %d", (s32)m->action);
+    print_text_fmt_int(20, 20, "SPD %d", (s32)m->forwardVel);
 
     adjust_sound_for_speed(m);
 #if ENABLE_RUMBLE
@@ -2016,7 +2101,241 @@ s32 act_hold_quicksand_jump_land(struct MarioState *m) {
                                          ACT_HOLD_FREEFALL);
 }
 
+// ---- Rail grind support ----
+extern struct MarioState gMarioStates[];
+
+static int rail_valid_switch(void *ctx, f32 cx, f32 cy, f32 cz) {
+    struct MarioState *m = gMarioStates;
+    Vec2f dc;
+    const zipline_tilt_t *tilt = (const zipline_tilt_t *) ctx;
+
+    (void) cy;
+    dc[0] = m->pos[0] - cx;
+    dc[1] = m->pos[2] - cz;
+    f32 len = vec2_mag(dc);
+    f32 mult = vec2_dot(dc, tilt->v);
+
+    return mult > len * 0.5f;
+}
+
+s32 act_rail_grind(struct MarioState *m) {
+    int onLoop = zipline_on_loop();
+    int blocked = 0;
+    int holdZ = 0;
+    struct Object *hyperShell = sHyperShell ? sHyperShell : (m->usedObj ? m->usedObj : m->riddenObj);
+    int hasHyperShell = (hyperShell && hyperShell->oBehParams2ndByte == 1);
+
+    if (!onLoop) {
+        holdZ = m->input & INPUT_Z_DOWN;
+        if (holdZ && m->forwardVel > 10.f) {
+            int scale = m->forwardVel;
+            if (scale > 30.f) {
+                scale = 30.f;
+            }
+
+            puffAt(gMarioObject, scale, 1, 0.f);
+        }
+
+        if (!blocked && (m->input & INPUT_A_PRESSED)) {
+            zipline_tilt_t tilt;
+            int hasTilt = zipline_get_tilt(&tilt);
+            if (!hasTilt) {
+                return set_mario_action(m, ACT_JUMP, 0);
+            }
+
+            Vec3f closestNextRailLocation;
+            if (!do_zipline_cancel(500.f * 500.f, rail_valid_switch, &tilt, closestNextRailLocation)) {
+                return set_mario_action(m, ACT_JUMP, 0);
+            }
+
+            puffAt(gMarioObject, 15.f, 2, 0.f);
+            for (int i = 0; i < 4; i++) {
+                struct Object *sparkle = spawn_object(gMarioObject, MODEL_SPARKLES, bhvCoinSparklesSpawner);
+                sparkle->oPosX = (i * m->pos[0] + (3 - i) * closestNextRailLocation[0]) / 3.f;
+                sparkle->oPosY = (i * m->pos[1] + (3 - i) * closestNextRailLocation[1]) / 3.f;
+                sparkle->oPosZ = (i * m->pos[2] + (3 - i) * closestNextRailLocation[2]) / 3.f;
+            }
+
+            m->pos[0] += closestNextRailLocation[0];
+            m->pos[1] += closestNextRailLocation[1];
+            m->pos[2] += closestNextRailLocation[2];
+            m->pos[0] *= 0.5f;
+            m->pos[1] *= 0.5f;
+            m->pos[2] *= 0.5f;
+            m->flags &= ~MARIO_MARIO_SOUND_PLAYED;
+            play_mario_jump_sound(m);
+            return FALSE;
+        }
+
+        if (0 == m->actionTimer) {
+            if (m->input & INPUT_B_PRESSED && absf(m->forwardVel) > 30.0f) {
+                play_sound(SOUND_MARIO_HOOHOO, m->marioObj->header.gfx.cameraToObject);
+                m->actionTimer++;
+            }
+        } else {
+            m->actionTimer++;
+            if (m->actionTimer > 15) {
+                m->actionTimer = 0;
+            }
+        }
+    }
+
+    s16 extraTilt = 0;
+    int clampedTimer = m->actionTimer > 10 ? 10 : m->actionTimer;
+
+    // 自動前進: 入力なしでも前に進むよう、最大入力を与える
+    m->input |= INPUT_NONZERO_ANALOG;
+    m->intendedMag = 64.f;
+    m->intendedYaw = m->faceAngle[1];
+    if (m->controller) {
+        m->controller->stickY = 127;
+        m->controller->stickX = 0;
+    }
+    // ハイパーシェル時は速度を一定に強制 //rulu hypertube
+    if (hasHyperShell) {
+        zipline_force_speed(80.f); // レール上は一定速度
+    }
+
+    if (zipline_step(clampedTimer, &extraTilt, holdZ)) {
+        m->faceAngle[0] = 0;
+        m->faceAngle[2] = 0;
+        int butt = 0;
+        if (gIsGravityFlipped) {
+            m->pos[1] = 9000.f - m->pos[1];
+        }
+
+        if (onLoop) {
+            f32 floorHeight = find_floor_height(m->pos[0], m->pos[1], m->pos[2]);
+            butt = m->pos[1] - floorHeight < 20.f;
+        }
+
+        if (hasHyperShell) {
+            // レール離脱時の速度を保持しつつハイパー乗りに戻す //rulu hypertube
+            f32 exitSpeed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+            if (exitSpeed < 200.f) exitSpeed = 200.f;
+            s16 exitYaw = atan2s(m->vel[2], m->vel[0]);
+            m->forwardVel = exitSpeed;
+            m->slideVelX = exitSpeed * sins(exitYaw);
+            m->slideVelZ = exitSpeed * coss(exitYaw);
+            m->vel[0] = m->slideVelX;
+            m->vel[2] = m->slideVelZ;
+            m->vel[1] = 0.f;
+
+            // ハイパーチューブ用の甲羅は壊さず、元の乗り状態に戻す
+            m->usedObj = hyperShell;
+            m->riddenObj = hyperShell;
+            return set_mario_action(m, ACT_RIDING_HYPERTUBE, 0);
+        }
+
+        // レール離脱時の速度を保持
+        {
+            f32 exitSpeed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+            if (exitSpeed < 40.f) exitSpeed = 40.f;
+            s16 exitYaw = atan2s(m->vel[2], m->vel[0]);
+            m->forwardVel = exitSpeed;
+            m->slideVelX = exitSpeed * sins(exitYaw);
+            m->slideVelZ = exitSpeed * coss(exitYaw);
+            m->vel[0] = m->slideVelX;
+            m->vel[2] = m->slideVelZ;
+            m->vel[1] = 0.f;
+        }
+
+        if (butt) {
+            return set_mario_action(m, ACT_BUTT_SLIDE, 0);
+        } else {
+            return set_mario_action(m, ACT_FREEFALL, 0);
+        }
+    }
+
+    m->marioObj->header.gfx.pos[0] = m->pos[0];
+    if (gIsGravityFlipped) {
+        m->marioObj->header.gfx.pos[1] = 9000.f - m->pos[1] - clampedTimer * (10 - clampedTimer) * 3.f;
+    } else {
+        m->marioObj->header.gfx.pos[1] = m->pos[1] + clampedTimer * (10 - clampedTimer) * 3.f;
+    }
+
+    m->marioObj->header.gfx.pos[2] = m->pos[2];
+    f32 dist = 45.f;
+    int anim = onLoop ? MARIO_ANIM_SLIDE : MARIO_ANIM_RIDING_SHELL;
+    m->marioObj->header.gfx.pos[1] -= dist;
+    set_mario_animation(m, anim);
+
+    {
+        struct MarioBodyState *marioBodyState = m->marioBodyState;
+        struct Object *marioObj = m->marioObj;
+
+        // 円筒中心を向く姿勢（中心: X=28, Y=500, Zは現在位置）
+        Vec3f center = { 28.f, 500.f, m->pos[2] };
+        f32 dx = center[0] - m->pos[0];
+        f32 dy = center[1] - m->pos[1];
+        // 中心方向（X/Y）のみで up を決定、Z は進行方向へ任せる
+        Vec3f up = { dx, dy, 0.f };
+        f32 lenXY = sqrtf(dx * dx + dy * dy);
+        if (lenXY > 1.f) {
+            f32 inv = 1.f / lenXY;
+            f32 nx = dx * inv;
+            f32 ny = dy * inv;
+            // 内壁に合わせて位置補正（Z はそのまま）
+            m->pos[0] = center[0] - nx * 896.f;
+            m->pos[1] = center[1] - ny * 896.f;
+            up[0] = nx;
+            up[1] = ny;
+        }
+        vec3_normalize(up);
+
+        // 進行方向はレール方向を基準に up と直交化（安定化のため速度は使わない）
+        Vec3f fwd = { 896.f, 0.f, -3385.f }; // コイン列方向
+        f32 dot = fwd[0] * up[0] + fwd[1] * up[1] + fwd[2] * up[2];
+        fwd[0] -= dot * up[0];
+        fwd[1] -= dot * up[1];
+        fwd[2] -= dot * up[2];
+        vec3_normalize(fwd);
+
+        Vec3f right;
+        vec3_cross(right, fwd, up);
+        vec3_normalize(right);
+        vec3_cross(fwd, up, right); // 再直交化
+        vec3_normalize(fwd);
+
+        // up/right から roll、fwd から yaw/pitch を安定算出
+        s16 yaw = atan2s(fwd[2], fwd[0]) + 0x8000; // 進行方向へ顔を向ける
+        s16 pitch = atan2s(-fwd[1], sqrtf(sqr(fwd[0]) + sqr(fwd[2])));
+        s16 roll = atan2s(right[1], up[1]); // 中心へ傾ける
+
+        m->faceAngle[0] = pitch;
+        m->faceAngle[1] = yaw;
+        m->faceAngle[2] = roll;
+
+        // 見た目の傾きにも反映
+        marioBodyState->torsoAngle[2] = approach_s32_symmetric(marioBodyState->torsoAngle[2], roll, 0x200);
+        marioBodyState->torsoAngle[0] = approach_s32_symmetric(marioBodyState->torsoAngle[0], pitch, 0x200);
+        marioBodyState->headAngle[2] = -marioBodyState->torsoAngle[2];
+        marioObj->header.gfx.pos[1] += 45.0f;
+    }
+
+    m->marioObj->header.gfx.angle[0] = m->faceAngle[0];
+    m->marioObj->header.gfx.angle[1] = m->faceAngle[1];
+    m->marioObj->header.gfx.angle[2] = m->faceAngle[2];
+    play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
+               m->marioObj->header.gfx.cameraToObject);
+
+    // デバッグ: レール上の速度/アクションを表示
+    print_text_fmt_int(20, 20, "RAIL SPD %d", (s32)m->forwardVel);
+    print_text_fmt_int(20, 30, "ACT %d", (s32)m->action);
+
+    adjust_sound_for_speed(m);
+    return FALSE;
+}
+
 s32 check_common_moving_cancels(struct MarioState *m) {
+    struct Object *hyperObj = m->usedObj ? m->usedObj : m->riddenObj;
+    int hasHyperShell = hyperObj && hyperObj->oBehParams2ndByte == 1;
+
+    // ハイパーシェル所持時だけレールに乗り換え
+    if (hasHyperShell && zipline_cancel()) {
+        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
+    }
+
     if (m->pos[1] < m->waterLevel - 100) {
         return set_water_plunge_action(m);
     }
@@ -2058,6 +2377,7 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_FINISH_TURNING_AROUND:    cancel = act_finish_turning_around(m);    break;
         case ACT_BRAKING:                  cancel = act_braking(m);                  break;
         case ACT_RIDING_SHELL_GROUND:      cancel = act_riding_shell_ground(m);      break;
+        case ACT_RAIL_GRIND:               cancel = act_rail_grind(m);               break;
         case ACT_CRAWLING:                 cancel = act_crawling(m);                 break;
         case ACT_BURNING_GROUND:           cancel = act_burning_ground(m);           break;
         case ACT_DECELERATING:             cancel = act_decelerating(m);             break;

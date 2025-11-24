@@ -1,0 +1,617 @@
+#include "rulu_htube.h"
+
+#include "types.h"
+#include "game/area.h"
+#include "game/level_update.h"
+#include "game/game_init.h"
+#include "game/memory.h"
+#include "htube_desc.h"
+#include "engine/math_util.h"
+
+// Current htube set for the active level; table is [area] -> HtubeDesc list.
+const HtubeDesc **gHtubeDesc;
+
+// Weak override so users can register htube descriptors per-level without touching this file.
+__attribute__((weak)) const HtubeDesc **get_htube_desc_for_level(s32 levelNum) {
+    (void) levelNum;
+    return NULL;
+}
+
+void htube_set_for_level(s32 levelNum) {
+    const HtubeDesc **desc = get_htube_desc_for_level(levelNum);
+    gHtubeDesc = desc;
+}
+
+// ---- Htube runtime state ----
+const Trajectory *sTrajectory;
+static const LDLDesc *sLoopDesc;
+static Vec3f sTrajectoryMiddle;
+static s16 sZiplineCurPoint = 0;
+static s16 sZiplineSegmentCount;
+static s16 sZiplineLoopYaw;
+static s16 sLoopFaceAngle;
+static f32 sZiplineProgress = 0;
+static f32 sForwardVelLimit = 0;
+static f32 sForwardVel = 0;
+static f32 sExtraTilt = 0;
+static u32 sCancelDeadline = 0;
+static u8 sCancelTimeout = 0;
+static u8 sAngleFlipped = 0;
+static u8 sTrajectoryArea = 0;
+static u8 sForwardVelLimitDecelTimer = 0;
+
+static inline float point_to_segment_distance(Vec3f Q, Vec3f P1, Vec3f P2, Vec3f closest_point) {
+    Vec3f P1P2;
+    vec3f_diff(P1P2, P2, P1);
+    Vec3f P1Q;
+    vec3f_diff(P1Q, Q, P1);
+
+    float P1P2_dot_P1P2 = vec3_dot(P1P2, P1P2);
+    float t = vec3_dot(P1Q, P1P2) / P1P2_dot_P1P2;
+
+    if (t < 0) {
+        vec3f_copy(closest_point, P1);
+        return 0.f;
+    } else if (t > 1) {
+        vec3f_copy(closest_point, P2);
+        return 1.f;
+    } else {
+        closest_point[0] = P1[0] + t * P1P2[0];
+        closest_point[1] = P1[1] + t * P1P2[1];
+        closest_point[2] = P1[2] + t * P1P2[2];
+        return t;
+    }
+}
+
+static void calculate_trajectory_middle(void) {
+    Vec3f maxPoint = { sTrajectory[1], sTrajectory[2], sTrajectory[3] };
+    Vec3f minPoint = { sTrajectory[1], sTrajectory[2], sTrajectory[3] };
+    int idx = 0;
+    while (-1 != sTrajectory[idx + 4]) {
+        const Vec3f curPoint = { sTrajectory[idx + 1], sTrajectory[idx + 2], sTrajectory[idx + 3] };
+        for (int i = 0; i < 3; i++) {
+            if (curPoint[i] > maxPoint[i]) {
+                maxPoint[i] = curPoint[i];
+            }
+            if (curPoint[i] < minPoint[i]) {
+                minPoint[i] = curPoint[i];
+            }
+        }
+        idx += 4;
+    }
+
+    sZiplineSegmentCount = idx;
+    sTrajectoryMiddle[0] = (maxPoint[0] + minPoint[0]) / 2;
+    sTrajectoryMiddle[1] = (maxPoint[1] + minPoint[1]) / 2;
+    sTrajectoryMiddle[2] = (maxPoint[2] + minPoint[2]) / 2;
+}
+
+static f32 traj_length(const s16 *traj) {
+    f32 length = 0;
+    while (-1 != traj[4]) {
+        Vec3s diff;
+        vec3_diff(diff, traj + 1, traj + 5);
+        traj += 4;
+        length += vec3_mag(diff);
+    }
+
+    return length;
+}
+
+static int facing_same_way(s32 xDiff, s32 zDiff) {
+    return xDiff * gMarioStates->vel[0] + zDiff * gMarioStates->vel[2] < 0;
+}
+
+struct match {
+    const Trajectory *traj;
+    const LDLDesc *loop;
+    Vec3f closestPoint;
+    f32 minDist;
+    f32 minT;
+    int minPoint;
+    s16 yaw;
+};
+
+extern void print_text_fmt_int(int x, int y, const char *fmt, int value);
+extern u8 gIsGravityFlipped;
+
+static int try_realize_yaw(const Trajectory *traj, const LDLDesc *loop, int point, s16 *pyaw) {
+    // For loop it is necessary to find where trajectory direction is.
+    // The issue is that sometimes the closest point on the trajectory to Mario is
+    // on the exactly vertical line, so for angle estimations it is necessary to
+    // find the next segment on the trajectory.
+    s16 yaw;
+    {
+        int go_back = 0;
+        int xDiff, zDiff;
+        do {
+            s32 xCurr = traj[point + 1];
+            s32 zCurr = traj[point + 3];
+
+            s32 xNext = traj[point + 5];
+            s32 zNext = traj[point + 7];
+
+            xDiff = xNext - xCurr;
+            zDiff = zNext - zCurr;
+            if (xDiff || zDiff) {
+                break;
+            }
+
+            if (!go_back) {
+                // try advance forwards but mind that we can be at the end of the trajectory
+                point += 4;
+                if (traj[point + 4] == -1) {
+                    // try to advance backwards
+                    // I am assume that trajectory is sane not entirely vertical
+                    point -= 8;
+                    go_back = 1;
+                }
+            } else {
+                point -= 4;
+            }
+        } while (1);
+
+        if (loop && !loop->canSnapBackwards && facing_same_way(xDiff, zDiff)) {
+            // Do not allow to use loop in the opposite direction, probably will cause some weird stuff
+            return 1;
+        }
+
+        yaw = atan2s(zDiff, xDiff);
+    }
+
+    *pyaw = yaw;
+    return 0;
+}
+
+static int handle_trajectory_cancel(const Trajectory *traj, const LDLDesc *loop, int it, f32 minRange, int (*valid)(void *ctx, f32 cx, f32 cy, f32 cz), void *ctx, struct match *match) {
+    (void) it;
+    if (sCancelDeadline > gGlobalTimer && traj == sTrajectory && sTrajectoryArea == gCurrAreaIndex) {
+        return 0;
+    }
+
+    Vec3f Q = { gMarioStates->pos[0], gIsGravityFlipped ? 9000.f - (40.f + gMarioStates->pos[1]) : (40.f + gMarioStates->pos[1]), gMarioStates->pos[2] };
+    loop = loop ? segmented_to_virtual(loop) : NULL;
+    int jungleLoop = loop && loop->dontFlip;
+    f32 minDist = jungleLoop ? (500.f * 500.f) : (minRange);
+    f32 DBGminDist = 100000000000.f;
+    Vec3f closestPoint = { 0, 0, 0 };
+    f32 minT = 0;
+    int minPoint = -1;
+    int i = 0;
+
+    while (-1 != traj[i * 4 + 4]) {
+        Vec3f trajCurPoint = { traj[i * 4 + 1], traj[i * 4 + 2], traj[i * 4 + 3] };
+        Vec3f trajNextPoint = { traj[i * 4 + 5], traj[i * 4 + 6], traj[i * 4 + 7] };
+
+        Vec3f tmpClosestPoint;
+        f32 tmpT = point_to_segment_distance(Q, trajCurPoint, trajNextPoint, tmpClosestPoint);
+        Vec3f diff;
+        vec3_diff(diff, Q, tmpClosestPoint);
+        float tmpDist = diff[0] * diff[0] + diff[1] * diff[1] + diff[2] * diff[2];
+        if (tmpDist < minDist) {
+            if (!valid || valid(ctx, tmpClosestPoint[0], tmpClosestPoint[1], tmpClosestPoint[2])) {
+                minDist = tmpDist;
+                minT = tmpT;
+                minPoint = i * 4;
+                vec3f_copy(closestPoint, tmpClosestPoint);
+            }
+        }
+        if (tmpDist < DBGminDist) {
+            DBGminDist = tmpDist;
+        }
+        i++;
+
+        if (jungleLoop) {
+            break;
+        }
+    }
+
+    if (minPoint >= 0) {
+        match->traj = traj;
+        match->loop = loop;
+        vec3_copy(match->closestPoint, closestPoint);
+        match->minT = minT;
+        match->minPoint = minPoint;
+        match->minDist = minDist;
+        return !try_realize_yaw(traj, loop, minPoint, &match->yaw);
+    } else {
+        return 0;
+    }
+}
+
+static void commit_trajectory(const struct match *match, f32 *pclosestPoint) {
+    if (pclosestPoint) {
+        vec3_copy(pclosestPoint, match->closestPoint);
+    }
+    sZiplineProgress = match->minT;
+    sZiplineCurPoint = match->minPoint;
+    const Trajectory *traj = match->traj;
+    const LDLDesc *loop = match->loop;
+
+    s16 yaw = match->yaw;
+
+    {
+        Vec3s trajCurPoint = { traj[sZiplineCurPoint + 1], traj[sZiplineCurPoint + 2], traj[sZiplineCurPoint + 3] };
+        Vec3s trajNextPoint = { traj[sZiplineCurPoint + 4 + 1], traj[sZiplineCurPoint + 4 + 2], traj[sZiplineCurPoint + 4 + 3] };
+        Vec3f trajDirection;
+        vec3f_diff(trajDirection, trajNextPoint, trajCurPoint);
+        f32 dirMag = vec3_mag(trajDirection);
+        trajDirection[0] /= dirMag;
+        trajDirection[1] /= dirMag;
+        trajDirection[2] /= dirMag;
+
+        sForwardVel = trajDirection[0] * gMarioStates->vel[0] + trajDirection[1] * gMarioStates->vel[1] + trajDirection[2] * gMarioStates->vel[2];
+        sExtraTilt = 0; // trajDirection[0] * gMarioStates->vel[2] - trajDirection[2] * gMarioStates->vel[0];
+        sForwardVelLimit = 55.f + CLAMP(traj_length(traj) / 400.f, 30.f, 120.f);
+        sForwardVelLimitDecelTimer = 0;
+    }
+
+    sTrajectory = traj;
+    sLoopDesc = loop;
+    sTrajectoryArea = gCurrAreaIndex;
+    sAngleFlipped = abs_angle_diff(gMarioStates->faceAngle[1], yaw) > 0x4000;
+    sCancelTimeout = sLoopDesc ? 30 : 4;
+    if (sLoopDesc) {
+        sAngleFlipped = 0;
+        sZiplineLoopYaw = gMarioStates->faceAngle[1] = sLoopFaceAngle = yaw;
+        calculate_trajectory_middle();
+    } else {
+        gMarioStates->faceAngle[1] = sAngleFlipped ? (yaw + 0x8000) : (yaw);
+    }
+}
+
+int do_zipline_cancel(f32 range, int (*fn)(void *ctx, f32 cx, f32 cy, f32 cz), void *ctx, f32 *closestPoint) {
+    if (sCancelTimeout) {
+        sCancelDeadline = gGlobalTimer + sCancelTimeout;
+        sCancelTimeout = 0;
+    }
+
+    const HtubeDesc **areaTrajectories = gHtubeDesc;
+    if (!areaTrajectories) {
+        return 0;
+    }
+
+    const HtubeDesc *trajectories = areaTrajectories[gCurrAreaIndex - 1];
+    if (!trajectories) {
+        return 0;
+    }
+
+    trajectories = segmented_to_virtual(trajectories);
+    int it = 0;
+    int hasMatch = 0;
+    struct match match;
+    while (trajectories->htube) {
+        const Trajectory *traj = segmented_to_virtual(trajectories->htube);
+        const LDLDesc *loop = trajectories->loop;
+        struct match newMatch;
+        if (handle_trajectory_cancel(traj, loop, it++, range, fn, ctx, &newMatch)) {
+            if (!hasMatch || newMatch.minDist < match.minDist) {
+                match = newMatch;
+                hasMatch = 1;
+            }
+        }
+
+        trajectories++;
+    }
+
+    if (hasMatch) {
+        commit_trajectory(&match, closestPoint);
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+// Optional spring integration; default to 0 so builds without spring code still work.
+__attribute__((weak)) int on_spring(void) {
+    return 0;
+}
+
+int zipline_cancel(void) {
+    if (on_spring()) {
+        return 0;
+    }
+
+    if (gMarioStates->action == ACT_RAIL_GRIND) {
+        return 0;
+    }
+
+    return do_zipline_cancel(90.f * 90.f, NULL, NULL, NULL);
+}
+
+static void prepare_mario_for_zipline_drop_rail(Vec3f trajDirection) {
+    f32 mag = sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[2] * trajDirection[2]);
+
+    trajDirection[0] /= mag;
+    trajDirection[2] /= mag;
+    trajDirection[0] *= sForwardVel;
+    trajDirection[2] *= sForwardVel;
+
+    gMarioStates->vel[0] = trajDirection[0];
+    gMarioStates->vel[1] = 0;
+    gMarioStates->vel[2] = trajDirection[2];
+    gMarioStates->forwardVel = sqrtf(gMarioStates->vel[0] * gMarioStates->vel[0] + gMarioStates->vel[2] * gMarioStates->vel[2]);
+    gMarioStates->slideVelX = gMarioStates->vel[0];
+    gMarioStates->slideVelZ = gMarioStates->vel[2];
+
+    s16 angle = atan2s(trajDirection[2], trajDirection[0]);
+    if (abs_angle_diff(gMarioStates->faceAngle[1], angle) > 0x4000) {
+        gMarioStates->forwardVel = -gMarioStates->forwardVel;
+    }
+}
+
+static void prepare_mario_for_zipline_drop_loop(Vec3f trajDirection) {
+    f32 mag = sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[1] * trajDirection[1] + trajDirection[2] * trajDirection[2]);
+    trajDirection[0] /= mag;
+    trajDirection[1] /= mag;
+    trajDirection[2] /= mag;
+    trajDirection[0] *= sForwardVel;
+    trajDirection[1] *= sForwardVel;
+    trajDirection[2] *= sForwardVel;
+
+    gMarioStates->vel[0] = trajDirection[0];
+    gMarioStates->vel[1] = trajDirection[1];
+    gMarioStates->vel[2] = trajDirection[2];
+    gMarioStates->forwardVel = sqrtf(gMarioStates->vel[0] * gMarioStates->vel[0] + gMarioStates->vel[2] * gMarioStates->vel[2]);
+    gMarioStates->slideVelX = gMarioStates->vel[0];
+    gMarioStates->slideVelZ = gMarioStates->vel[2];
+
+    s16 angle = atan2s(trajDirection[2], trajDirection[0]);
+    if (abs_angle_diff(gMarioStates->faceAngle[1], angle) > 0x4000) {
+        gMarioStates->forwardVel = -gMarioStates->forwardVel;
+    }
+}
+
+static f32 approach_f32_i(f32 current, f32 target, f32 inc, f32 dec) {
+    f32 dist = (target - current);
+    if (dist >= 0.0f) { // target >= current
+        current = ((dist > inc) ? (current + inc) : target);
+    } else { // target < current
+        current = ((dist < -dec) ? (current - dec) : target);
+    }
+    return current;
+}
+
+int zipline_step(int exSpeed, s16 *extraTilt, int holdZ) {
+    if (sForwardVelLimitDecelTimer) {
+        sForwardVelLimitDecelTimer--;
+        sForwardVelLimit -= 1.f;
+    }
+
+    f32 exSpeedBoost = sForwardVel * (exSpeed ? (100 - exSpeed * exSpeed) / 2000.f : 0);
+    sForwardVel += exSpeedBoost;
+    f32 velLimit = sForwardVelLimit + absf(exSpeedBoost);
+
+    if (sTrajectoryArea != gCurrAreaIndex) {
+        f32 fv = sForwardVel;
+        if (!zipline_cancel()) {
+            return 1;
+        }
+
+        sForwardVel = fv;
+    }
+
+    const Trajectory *traj = sTrajectory;
+    // Advance along the htube
+    {
+        Vec3s trajCurPoint = { traj[sZiplineCurPoint + 1], traj[sZiplineCurPoint + 2], traj[sZiplineCurPoint + 3] };
+        Vec3s trajNextPoint = { traj[sZiplineCurPoint + 4 + 1], traj[sZiplineCurPoint + 4 + 2], traj[sZiplineCurPoint + 4 + 3] };
+        Vec3f trajDirection;
+        vec3f_diff(trajDirection, trajNextPoint, trajCurPoint);
+
+        s16 *pfaceAngle = (sLoopDesc && !sLoopDesc->dontFlip) ? &sLoopFaceAngle : &gMarioStates->faceAngle[1];
+        // adjust face angle to the htube
+        if (absf(trajDirection[0] > 0.1f) || absf(trajDirection[2]) > 0.1f) {
+            *pfaceAngle = atan2s(trajDirection[2], trajDirection[0]);
+            if (sAngleFlipped) {
+                *pfaceAngle += 0x8000;
+            }
+        }
+
+        if (sLoopDesc && !sLoopDesc->dontFlip) {
+            if (sLoopDesc->angleOffset) {
+                gMarioStates->faceAngle[1] = sZiplineLoopYaw + sLoopDesc->angleOffset * (1 + sZiplineCurPoint) / sZiplineSegmentCount;
+            } else {
+                gMarioStates->faceAngle[1] = sZiplineLoopYaw;
+            }
+
+            if (abs_angle_diff(gMarioStates->faceAngle[1], sLoopFaceAngle) < 0x4000) {
+                gMarioStates->faceAngle[0] = atan2s(trajDirection[1], sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[2] * trajDirection[2])) - 0x4000;
+            } else {
+                gMarioStates->faceAngle[0] = atan2s(sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[2] * trajDirection[2]), trajDirection[1]) + 0x8000;
+            }
+        } else {
+            gMarioStates->faceAngle[0] = 0;
+            gMarioStates->faceAngle[2] = 0;
+        }
+
+        f32 dirMag = vec3_mag(trajDirection);
+        // Calculate velocity
+        if (sLoopDesc) {
+            sForwardVel += 5.f;
+            sForwardVel = CLAMP(sForwardVel, 0.f, velLimit);
+        } else {
+            f32 xdir = trajDirection[0];
+            f32 zdir = trajDirection[2];
+            f32 szmag = sqrtf(xdir * xdir + zdir * zdir);
+            xdir /= szmag;
+            zdir /= szmag;
+
+            f32 xrdir = -zdir;
+            f32 zrdir = xdir;
+            if (sAngleFlipped) {
+                xrdir = -xrdir;
+                zrdir = -zrdir;
+            }
+
+            f32 xspd = gMarioState->intendedMag * sins(gMarioState->intendedYaw);
+            f32 zspd = gMarioState->intendedMag * coss(gMarioState->intendedYaw);
+            f32 cross = 0xC0 * (xspd * xrdir + zspd * zrdir);
+
+            int adiff = abs_angle_diff(gMarioState->faceAngle[1], gMarioState->intendedYaw);
+            if (adiff > 0x4000) {
+                xspd /= 5.f;
+                zspd /= 5.f;
+            }
+
+            if (adiff <= 0x3000) {
+                cross /= 5.f;
+            }
+            sExtraTilt = approach_f32_i(sExtraTilt, cross, 0x300, 0x300);
+            f32 dot = xdir * xspd + zdir * zspd;
+
+            if (holdZ) {
+                sForwardVel *= 0.67f;
+            } else {
+                sForwardVel *= 0.97f;
+            }
+
+            sForwardVel += dot / 12.0f;
+            f32 gravMult = 5.f;
+
+            int grav = trajDirection[1] / dirMag * gravMult;
+            if (gIsGravityFlipped) {
+                grav = -grav;
+            }
+
+            sForwardVel -= grav;
+            sForwardVel = CLAMP(sForwardVel, -velLimit, velLimit);
+            sExtraTilt = CLAMP(sExtraTilt, -0x1800, 0x1800);
+            *extraTilt = sExtraTilt;
+        }
+
+        if (sLoopDesc) {
+            prepare_mario_for_zipline_drop_loop(trajDirection);
+        } else {
+            prepare_mario_for_zipline_drop_rail(trajDirection);
+        }
+
+        f32 movAmt = sForwardVel / dirMag;
+
+        f32 preProgress = sZiplineProgress;
+        sZiplineProgress += movAmt;
+
+        if (sZiplineProgress >= 1.f) {
+            if (traj[sZiplineCurPoint + 8] == -1) {
+                vec3_copy(gMarioStates->pos, traj + sZiplineCurPoint + 4 + 1);
+                zipline_cancel();
+                return 1;
+            } else {
+                f32 consumedProgress = 1.f - preProgress;
+                f32 consumedMag = consumedProgress * dirMag;
+                f32 remainingVel = sForwardVel - consumedMag;
+
+                sZiplineCurPoint += 4;
+                {
+                    // now calculate the velocity for the next point using the same principle
+                    // this assume vel isn't too big to skip multiple points
+                    Vec3s trajCurrPoint = { traj[sZiplineCurPoint + 1], traj[sZiplineCurPoint + 2], traj[sZiplineCurPoint + 3] };
+                    Vec3s trajNextPoint = { traj[sZiplineCurPoint + 5], traj[sZiplineCurPoint + 6], traj[sZiplineCurPoint + 7] };
+
+                    Vec3f trajDirection2;
+                    vec3f_diff(trajDirection2, trajNextPoint, trajCurrPoint);
+                    f32 dirMag2 = vec3_mag(trajDirection2);
+
+                    sZiplineProgress = remainingVel / dirMag2;
+                }
+            }
+        }
+        if (sZiplineProgress < 0.f) {
+            if (0 == sZiplineCurPoint) {
+                vec3_copy(gMarioStates->pos, traj + 1);
+                zipline_cancel();
+                return 1;
+            } else {
+                f32 consumedProgress = preProgress;
+                f32 consumedMag = consumedProgress * dirMag;
+                f32 remainingVel = -sForwardVel - consumedMag;
+
+                sZiplineCurPoint -= 4;
+                {
+                    // now calculate the velocity for the next point using the same principle
+                    // this assume vel isn't too big to skip multiple points
+                    Vec3s trajCurrPoint = { traj[sZiplineCurPoint + 1], traj[sZiplineCurPoint + 2], traj[sZiplineCurPoint + 3] };
+                    Vec3s trajNextPoint = { traj[sZiplineCurPoint + 1 + 4], traj[sZiplineCurPoint + 2 + 4], traj[sZiplineCurPoint + 3 + 4] };
+
+                    Vec3f trajDirection2;
+                    vec3f_diff(trajDirection2, trajNextPoint, trajCurrPoint);
+                    f32 dirMag2 = vec3_mag(trajDirection2);
+
+                    sZiplineProgress = 1.f - remainingVel / dirMag2;
+                }
+            }
+        }
+    }
+    {
+        Vec3s trajCurPoint = { traj[sZiplineCurPoint + 1], traj[sZiplineCurPoint + 2], traj[sZiplineCurPoint + 3] };
+        Vec3s trajNextPoint = { traj[sZiplineCurPoint + 4 + 1], traj[sZiplineCurPoint + 4 + 2], traj[sZiplineCurPoint + 4 + 3] };
+        Vec3f trajDirection;
+        vec3f_diff(trajDirection, trajNextPoint, trajCurPoint);
+        f32 sPosX = trajCurPoint[0] + (trajDirection[0] * sZiplineProgress);
+        f32 sPosY = trajCurPoint[1] + (trajDirection[1] * sZiplineProgress);
+        f32 sPosZ = trajCurPoint[2] + (trajDirection[2] * sZiplineProgress);
+        gMarioStates->pos[0] = sPosX;
+        gMarioStates->pos[1] = sPosY;
+        if (gIsGravityFlipped) {
+            gMarioStates->pos[1] = 9000.f - gMarioStates->pos[1];
+        }
+
+        gMarioStates->pos[2] = sPosZ;
+    }
+
+    return 0;
+}
+
+int zipline_on_loop(void) {
+    return sLoopDesc != NULL;
+}
+
+void zipline_boost(void) {
+    int sign = sForwardVel >= 0 ? 1 : -1;
+    sForwardVelLimit += 1.f * 10.f;
+    sForwardVelLimitDecelTimer += 10;
+    sForwardVel = sForwardVelLimit * sign;
+}
+
+void zipline_force_speed(f32 speed) {
+    sForwardVel = speed;
+    sForwardVelLimit = MAX(sForwardVelLimit, absf(speed));
+    sForwardVelLimitDecelTimer = 0;
+}
+
+int zipline_get_tilt(zipline_tilt_t *tilt) {
+    if (sLoopDesc) {
+        return 0;
+    }
+    if (ABS(sExtraTilt) < 0x1000) {
+        return 0;
+    }
+
+    const Trajectory *traj = sTrajectory;
+    Vec3s trajCurPoint = { traj[sZiplineCurPoint + 1], traj[sZiplineCurPoint + 2], traj[sZiplineCurPoint + 3] };
+    Vec3s trajNextPoint = { traj[sZiplineCurPoint + 4 + 1], traj[sZiplineCurPoint + 4 + 2], traj[sZiplineCurPoint + 4 + 3] };
+    Vec3f trajDirection;
+    vec3f_diff(trajDirection, trajNextPoint, trajCurPoint);
+
+    f32 xdir = trajDirection[0];
+    f32 zdir = trajDirection[2];
+    f32 szmag = sqrtf(xdir * xdir + zdir * zdir);
+    xdir /= szmag;
+    zdir /= szmag;
+
+    f32 xrdir = -zdir;
+    f32 zrdir = xdir;
+    if (sAngleFlipped) {
+        xrdir = -xrdir;
+        zrdir = -zrdir;
+    }
+    if (sExtraTilt > 0) {
+        xrdir = -xrdir;
+        zrdir = -zrdir;
+    }
+
+    tilt->v[0] = xrdir;
+    tilt->v[1] = zrdir;
+
+    return (int) traj;
+}
