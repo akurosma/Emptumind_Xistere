@@ -1452,18 +1452,27 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
         if (interaction == INT_HIT_FROM_ABOVE || m->action == ACT_WALKING
             || m->action == ACT_HOLD_WALKING) {
+            u8 bparam2 = obj->oBehParams2ndByte; // hypertube 判定
+            if (bparam2 == 1) {
+                // ハイパー用シェルを保持
+                m->usedObj = obj;
+                m->riddenObj = obj;
+            }
+
             m->interactObj = obj;
             m->usedObj = obj;
             m->riddenObj = obj;
 
-            attack_object(obj, interaction);
+            // Hypertube用のシェルは攻撃扱いにしない＝壊さない
+            if (bparam2 != 1) {
+                attack_object(obj, interaction);
+            }
             update_mario_sound_and_camera(m);
             play_shell_music();
             mario_drop_held_object(m);
 
             //! Puts Mario in ground action even when in air, making it easy to
             // escape air actions into crouch slide (shell cancel)
-            u8 bparam2 = obj->oBehParams2ndByte;//rulu
             if (bparam2 == 1) {//rulu
                 return set_mario_action(m, ACT_RIDING_HYPERTUBE, 0);//rulu
             } else {

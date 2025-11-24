@@ -13,6 +13,7 @@
 #include "engine/math_util.h"
 #include "engine/surface_collision.h"
 #include "game_init.h"
+#include "rulu_htube.h"
 #include "gfx_dimensions.h"
 #include "ingame_menu.h"
 #include "interaction.h"
@@ -1018,6 +1019,10 @@ s32 act_emerge_from_pipe(struct MarioState *m) {
 }
 
 s32 act_spawn_spin_airborne(struct MarioState *m) {
+    if (zipline_cancel()) {
+        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
+    }
+
     // entered water, exit action
     if (m->pos[1] < m->waterLevel - 100) {
         load_level_init_text(0);

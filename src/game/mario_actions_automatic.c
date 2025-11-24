@@ -13,6 +13,7 @@
 #include "save_file.h"
 #include "engine/surface_collision.h"
 #include "interaction.h"
+#include "rulu_htube.h"
 #include "camera.h"
 #include "level_table.h"
 #include "rumble_init.h"
@@ -851,6 +852,10 @@ s32 act_tornado_twirling(struct MarioState *m) {
 }
 
 s32 check_common_automatic_cancels(struct MarioState *m) {
+    if (zipline_cancel()) {
+        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
+    }
+
     if (m->pos[1] < m->waterLevel - 100) {
         return set_water_plunge_action(m);
     }
