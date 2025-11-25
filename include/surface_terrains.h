@@ -31,7 +31,7 @@ enum SurfaceTypes {
     SURFACE_TTM_VINES,                  // 0x0016 // TTM vines, has no action defined
     SURFACE_CCM_DEATH1,                 // 0x0017 // rulu
     SURFACE_CCM_MUSIC,                  // 0x0018 // CCM instrument switch
-    SURFACE_0019,                       // 0x0019 // Unused
+    SURFACE_HYPERTUBE_QTE,              // 0x0019 // Hypertube QTE trigger
     SURFACE_MGR_MUSIC,                  // 0x001A // Plays the Merry go round music, see handle_merry_go_round_music in bbh_merry_go_round.inc.c for more details
     SURFACE_INSTANT_WARP_1B,            // 0x001B // Instant warp to another area, used to warp between areas in WDW and the endless stairs to warp back
     SURFACE_INSTANT_WARP_1C,            // 0x001C // Instant warp to another area, used to warp between areas in WDW

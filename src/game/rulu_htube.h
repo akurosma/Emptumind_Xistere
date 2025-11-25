@@ -11,6 +11,11 @@ int zipline_on_loop(void);
 void zipline_boost(void);
 void zipline_force_speed(f32 speed);
 
+//rulu hypertube speed boost control
+extern f32 gHtubeTargetSpeed;
+extern s32 gHtubeSpeedTimer;
+void htube_boost_speed(f32 speed, s32 timer);
+
 // Tilt data for aligning Mario on the htube.
 typedef struct {
     Vec2f v; // normalized vector perpendicular to the htube direction for lean calculation

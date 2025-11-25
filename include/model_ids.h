@@ -99,6 +99,7 @@
 #define MODEL_CCM_RL_CCMGRILL                  0x41
 #define MODEL_CCM_RL_BURNBRIDGE                0x42
 #define MODEL_CCM_RL_SPIDERNET                 0x43
+#define MODEL_CCM_RL_SHADOWWALL                0x44
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18

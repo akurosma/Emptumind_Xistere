@@ -777,3 +777,4 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
 
 
 #include "behaviors/omm.inc.c"
+#include "behaviors/rulu_htube_speed.inc.c" //rulu hypertube

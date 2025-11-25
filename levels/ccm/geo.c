@@ -26,6 +26,7 @@
 #include "levels/ccm/ccm_flame/geo.inc.c"
 #include "levels/ccm/rl_ccmgrill/geo.inc.c"
 #include "levels/ccm/rl_spidernet/geo.inc.c"
+#include "levels/ccm/rl_shadowwall/geo.inc.c"
 #include "levels/ccm/areas/1/6/geo.inc.c"
 #include "levels/ccm/areas/1/7/geo.inc.c"
 #include "levels/ccm/areas/1/8/geo.inc.c"

@@ -578,6 +578,7 @@ enum SoundBank {
 // Channel 8 loads sounds from the same place as channel 3, making it possible
 // to play two channel 3 sounds at once (since just one sound from each channel
 // can play at a given time).
+#define SOUND_GENERAL2_FLAME_OUT                 /* 0x80038081 */ SOUND_ARG_LOAD(SOUND_BANK_GENERAL2, 0x03, 0x80, SOUND_DISCRETE) // unverified
 #define SOUND_GENERAL2_BOBOMB_EXPLOSION          /* 0x802E2081 */ SOUND_ARG_LOAD(SOUND_BANK_GENERAL2, 0x2E, 0x20, SOUND_DISCRETE)
 #define SOUND_GENERAL2_PURPLE_SWITCH             /* 0x803EC081 */ SOUND_ARG_LOAD(SOUND_BANK_GENERAL2, 0x3E, 0xC0, SOUND_DISCRETE)
 #define SOUND_GENERAL2_ROTATING_BLOCK_CLICK      /* 0x80400081 */ SOUND_ARG_LOAD(SOUND_BANK_GENERAL2, 0x40, 0x00, SOUND_DISCRETE)

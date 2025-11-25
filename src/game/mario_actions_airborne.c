@@ -664,11 +664,49 @@ s32 act_riding_shell_air(struct MarioState *m) {
     play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
     set_mario_animation(m, MARIO_ANIM_JUMP_RIDING_SHELL);
 
+    // ハイパー用シェル判定（bparam2==1） //rulu hypertube
+    struct Object *hyperObj = m->usedObj ? m->usedObj : m->riddenObj;
+    int isHyperShell = hyperObj && hyperObj->oBehParams2ndByte == 1;
+
+    if (isHyperShell) {
+        // 前後入力無効化＆速度固定 //rulu hypertube
+        if (m->controller) {
+            m->controller->stickY = 0;
+        }
+        m->intendedMag = 0;
+        if (gHtubeSpeedTimer > 0) {
+            gHtubeSpeedTimer--;
+        }
+        const f32 hyperSpeed = gHtubeTargetSpeed; // パッドで120に上書き可 //rulu hypertube
+        m->faceAngle[1] = 0x8000; // -Z 固定 //rulu hypertube
+        f32 lateral = -m->controller->stickX * 1.5f;
+        f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
+        f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
+        f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
+        f32 latZ = lateral * coss(m->faceAngle[1] + 0x4000);
+        m->vel[0] = baseX + latX;
+        m->vel[2] = baseZ + latZ;
+        m->vel[1] = 0.f;
+        f32 speed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+        if (speed > 0.f) {
+            f32 scale = hyperSpeed / speed;
+            m->vel[0] *= scale;
+            m->vel[2] *= scale;
+        }
+        m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+        m->slideVelX = m->vel[0];
+        m->slideVelZ = m->vel[2];
+    }
+
     update_air_without_turn(m);
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_LANDED:
-            set_mario_action(m, ACT_RIDING_SHELL_GROUND, 1);
+            if (isHyperShell) {
+                set_mario_action(m, ACT_RIDING_HYPERTUBE, 0); //rulu hypertube
+            } else {
+                set_mario_action(m, ACT_RIDING_SHELL_GROUND, 1);
+            }
             break;
 
         case AIR_STEP_HIT_WALL:

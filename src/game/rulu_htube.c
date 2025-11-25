@@ -11,6 +11,10 @@
 // Current htube set for the active level; table is [area] -> HtubeDesc list.
 const HtubeDesc **gHtubeDesc;
 
+// ハイパーチューブの目標速度（スピードパッド等で上書き） //rulu hypertube
+f32 gHtubeTargetSpeed = 80.f;
+s32 gHtubeSpeedTimer = 0;
+
 // Weak override so users can register htube descriptors per-level without touching this file.
 __attribute__((weak)) const HtubeDesc **get_htube_desc_for_level(s32 levelNum) {
     (void) levelNum;
@@ -20,6 +24,12 @@ __attribute__((weak)) const HtubeDesc **get_htube_desc_for_level(s32 levelNum) {
 void htube_set_for_level(s32 levelNum) {
     const HtubeDesc **desc = get_htube_desc_for_level(levelNum);
     gHtubeDesc = desc;
+}
+
+// スピードパッドなどから呼び出し、目標速度を上げる（timerは減衰用） //rulu hypertube
+void htube_boost_speed(f32 speed, s32 timer) {
+    gHtubeTargetSpeed = speed;
+    gHtubeSpeedTimer = timer;
 }
 
 // ---- Htube runtime state ----
