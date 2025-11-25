@@ -58,7 +58,8 @@ const LevelScript level_ccm_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_CCMGRILL, rl_ccmgrill_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_BURNBRIDGE, rl_burnbridge_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_SPIDERNET, rl_spidernet_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_SHADOWWALL, rl_shadowwall_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_RL_SHADOWWALL, rl_shadowwall_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_CCM_QTE_CIRCLE, qte_circle_geo), 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
