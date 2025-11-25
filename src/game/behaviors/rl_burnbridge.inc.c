@@ -76,7 +76,7 @@ void bhv_rl_burnbridge_loop(void) {
             // Play flame-out at the end of the burn window.
             if (o->oTimer == RLBURNBRIDGE_BLACKEN_FR) {
                 struct Object *soundTarget = (gMarioObject != NULL) ? gMarioObject : o;
-                play_sound(SOUND_GENERAL_FLAME_OUT, soundTarget->header.gfx.cameraToObject);
+                play_sound(SOUND_GENERAL2_FLAME_OUT, soundTarget->header.gfx.cameraToObject);
             }
 
 #if ENABLE_BURNBRIDGE_SFX_DEBUG

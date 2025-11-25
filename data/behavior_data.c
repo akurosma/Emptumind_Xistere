@@ -58,6 +58,10 @@
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
 
+//rulu hypertube
+void bhv_rulu_htube_speed_init(void);
+void bhv_rulu_htube_speed_loop(void);
+
 #define BC_B(a) _SHIFTL(a, 24, 8)
 #define BC_BB(a, b) (_SHIFTL(a, 24, 8) | _SHIFTL(b, 16, 8))
 #define BC_BBBB(a, b, c, d) (_SHIFTL(a, 24, 8) | _SHIFTL(b, 16, 8) | _SHIFTL(c, 8, 8) | _SHIFTL(d, 0, 8))
@@ -6849,6 +6853,16 @@ const BehaviorScript bhvRlShrinkpanel[] = {
     END_LOOP(),
 };
 
+// ハイパーチューブ用スピードパッド //rulu hypertube
+const BehaviorScript bhvRuluHtubeSpeed[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_rulu_htube_speed_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rulu_htube_speed_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvSinkPlatform[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_LONG(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6873,5 +6887,15 @@ const BehaviorScript bhvInfoSwitch[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_info_Switch_loop),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlShadowwall[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 10000),
+    CALL_NATIVE(bhv_rl_shadowwall_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_shadowwall_loop),
     END_LOOP(),
 };

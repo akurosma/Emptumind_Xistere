@@ -652,6 +652,8 @@ void bhv_rl_swimtube_loop(void);
 void bhv_rl_sparkle_loop(void);
 void bhv_rl_train_init(void);
 void bhv_rl_train_loop(void);
+void bhv_rl_shadowwall_init(void);
+void bhv_rl_shadowwall_loop(void);
 void bhv_rl_spidernet_init(void);
 void bhv_rl_spidernet_loop(void);
 void bhv_pushable_switch_box_loop(void);

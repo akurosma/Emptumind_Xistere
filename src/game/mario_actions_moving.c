@@ -26,6 +26,30 @@ extern void print_text_fmt_int(int x, int y, const char *fmt, int value);
 
 // ハイパーチューブ用シェルを保持（レール乗降で壊さないためのキャッシュ） //rulu hypertube
 static struct Object *sHyperShell = NULL;
+static inline int is_hyper_shell(struct MarioState *m) { //rulu hypertube
+    struct Object *obj = m->usedObj ? m->usedObj : m->riddenObj;
+    return obj && obj->oBehParams2ndByte == 1;
+}
+
+// Hypertube QTE state (kept local to this file to limit blast radius).
+static s32 sHyperQteActive = FALSE;
+static s32 sHyperQteTriggeredOnce = FALSE;
+static s32 sHyperQteTimer = 0;
+static u16 sHyperQteTargetButton = Z_TRIG; // default fallback
+
+static u16 hypertube_qte_pick_button(void) {
+    // Pick among L/R/Z; fallback to Z if needed.
+    u16 buttons[3] = { L_TRIG, R_TRIG, Z_TRIG };
+    u16 roll = random_u16() % 3;
+    return buttons[roll];
+}
+
+static void hypertube_qte_begin(void) {
+    sHyperQteActive = TRUE;
+    sHyperQteTriggeredOnce = TRUE;
+    sHyperQteTimer = 0;
+    sHyperQteTargetButton = hypertube_qte_pick_button();
+}
 
 // Simple particle puff helper used by rail grind effects.
 static void puffAt(struct Object *obj, float size, int numParticles, f32 yoff) {
@@ -1317,6 +1341,11 @@ s32 act_riding_hypertube(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
     }
 
+    // QTEトリガ: ハイパーチューブ専用Surfaceに乗ったら一度だけ開始フラグを立てる
+    if (!sHyperQteTriggeredOnce && m->floor && m->floor->type == SURFACE_HYPERTUBE_QTE) {
+        hypertube_qte_begin();
+    }
+
     if (m->input & INPUT_A_PRESSED) {
         return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
     }
@@ -1335,25 +1364,40 @@ s32 act_riding_hypertube(struct MarioState *m) {
     }
     m->intendedMag = 0;
 
-    // シェル速度を一定値に引き上げる
-    const f32 hyperSpeed = 80.f;
+    // シェル速度を常に一定値に引き上げる（レール降車後の減速を即キャンセル） //rulu hypertube
+    // パッドから設定される目標速度を参照（デフォルト80、ブースト中は120） //rulu hypertube
+    if (gHtubeSpeedTimer > 0) {
+        gHtubeSpeedTimer--;
+    }
+    f32 hyperSpeed = gHtubeTargetSpeed;
 
-    // スティック入力
-    f32 stickX = m->controller->stickX;
-
-    // 左右スライド速度（反転修正）
-    f32 slide_speed = -stickX * 1.5f;
-
-    // 向きを固定（方向転換を禁止）
+    // 向きを固定（方向転換を禁止） //rulu hypertube
     m->faceAngle[1] = fixedYaw;
 
-    // 進行方向速度を固定、左右入力で少し横スライドだけ許可
-    m->vel[0] = hyperSpeed * sins(m->faceAngle[1]) + slide_speed * sins(m->faceAngle[1] + 0x4000);
-    m->vel[2] = hyperSpeed * coss(m->faceAngle[1]) + slide_speed * coss(m->faceAngle[1] + 0x4000);
+    // 進行方向速度を固定しつつ、左右入力で横スライドのみ許可 //rulu hypertube
+    f32 lateral = -m->controller->stickX * 1.5f; // 左右反転済み
+    f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
+    f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
+    f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
+    f32 latZ = lateral * coss(m->faceAngle[1] + 0x4000);
+    m->vel[0] = baseX + latX;
+    m->vel[2] = baseZ + latZ;
     m->vel[1] = 0.f;
+    // 速度を一定にクリップ
+    f32 speed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+    if (speed > 0.f) {
+        f32 scale = hyperSpeed / speed;
+        m->vel[0] *= scale;
+        m->vel[2] *= scale;
+    }
     m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
     m->slideVelX = m->vel[0];
     m->slideVelZ = m->vel[2];
+
+    // デバッグ: ハイパーチューブ速度ベクトル表示 //rulu hypertube
+    print_text_fmt_int(20, 60, "HX %d", (s32)m->vel[0]);
+    print_text_fmt_int(20, 70, "HZ %d", (s32)m->vel[2]);
+    print_text_fmt_int(20, 80, "HSPD %d", (s32)m->forwardVel);
 
     (void) m->floor;
 
@@ -1368,6 +1412,26 @@ s32 act_riding_hypertube(struct MarioState *m) {
             break;
     }
 
+    // ground step後に再度速度・ベクトルを強制して斜面減速を無効化 //rulu hypertube
+    // ground step後に再度速度・ベクトルを固定し、横入力のみ許可 //rulu hypertube
+    f32 lateral2 = -m->controller->stickX * 1.5f;
+    f32 baseX2 = hyperSpeed * sins(m->faceAngle[1]);
+    f32 baseZ2 = hyperSpeed * coss(m->faceAngle[1]);
+    f32 latX2 = lateral2 * sins(m->faceAngle[1] + 0x4000);
+    f32 latZ2 = lateral2 * coss(m->faceAngle[1] + 0x4000);
+    m->vel[0] = baseX2 + latX2;
+    m->vel[2] = baseZ2 + latZ2;
+    m->vel[1] = 0.f;
+    f32 speed2 = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+    if (speed2 > 0.f) {
+        f32 scale2 = hyperSpeed / speed2;
+        m->vel[0] *= scale2;
+        m->vel[2] *= scale2;
+    }
+    m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+    m->slideVelX = m->vel[0];
+    m->slideVelZ = m->vel[2];
+
     // ground step後に再度速度を固定して減速を防止
     m->forwardVel = hyperSpeed;
     m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
@@ -1375,10 +1439,10 @@ s32 act_riding_hypertube(struct MarioState *m) {
     m->vel[0] = m->slideVelX;
     m->vel[2] = m->slideVelZ;
 
-    // 体傾き：左右入力でロール、速度で前後ピッチ
+    // 体傾き：固定ロール、速度で前後ピッチ //rulu hypertube
     {
         struct MarioBodyState *bs = m->marioBodyState;
-        s16 nextRoll = CLAMP((s16)(stickX * 50.f), -0x1200, 0x1200);
+        s16 nextRoll = 0;
         s16 nextPitch = CLAMP((s16)(m->forwardVel * 120.0f), -0x1000, 0x1000);
         bs->torsoAngle[2] = approach_s32_symmetric(bs->torsoAngle[2], nextRoll, 0x180);
         bs->torsoAngle[0] = approach_s32_symmetric(bs->torsoAngle[0], nextPitch, 0x180);
@@ -2210,10 +2274,9 @@ s32 act_rail_grind(struct MarioState *m) {
         }
 
         if (hasHyperShell) {
-            // レール離脱時の速度を保持しつつハイパー乗りに戻す //rulu hypertube
-            f32 exitSpeed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
-            if (exitSpeed < 200.f) exitSpeed = 200.f;
-            s16 exitYaw = atan2s(m->vel[2], m->vel[0]);
+            // レール離脱時は必ず一定速度で復帰させ、斜面減速を持ち越さない //rulu hypertube
+            const f32 exitSpeed = 80.f;
+            s16 exitYaw = m->faceAngle[1];
             m->forwardVel = exitSpeed;
             m->slideVelX = exitSpeed * sins(exitYaw);
             m->slideVelZ = exitSpeed * coss(exitYaw);
