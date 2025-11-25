@@ -1,4 +1,5 @@
 #include <PR/ultratypes.h>
+#include <math.h>
 
 #include "sm64.h"
 #include "mario_actions_moving.h"
@@ -23,6 +24,8 @@
 
 // Debug print
 extern void print_text_fmt_int(int x, int y, const char *fmt, int value);
+extern void print_text(int x, int y, const char *str);
+extern const BehaviorScript bhvRlQteCircle[];
 
 // ハイパーチューブ用シェルを保持（レール乗降で壊さないためのキャッシュ） //rulu hypertube
 static struct Object *sHyperShell = NULL;
@@ -36,6 +39,10 @@ static s32 sHyperQteActive = FALSE;
 static s32 sHyperQteTriggeredOnce = FALSE;
 static s32 sHyperQteTimer = 0;
 static u16 sHyperQteTargetButton = Z_TRIG; // default fallback
+static s32 sHyperQteResult = 0; // 0 = none, 1 = success, -1 = fail
+static struct Object *sHyperQteUiObj = NULL;
+
+#define HYPER_QTE_TIME_LIMIT 60
 
 static u16 hypertube_qte_pick_button(void) {
     // Pick among L/R/Z; fallback to Z if needed.
@@ -44,11 +51,62 @@ static u16 hypertube_qte_pick_button(void) {
     return buttons[roll];
 }
 
-static void hypertube_qte_begin(void) {
+static const char *hypertube_qte_button_name(u16 btn) {
+    if (btn == L_TRIG) return "L";
+    if (btn == R_TRIG) return "R";
+    return "Z";
+}
+
+static const Vec3f sHyperQteRespawnPos = { 28.f, 100.f, -1590.f };
+// Simple forward jump vector toward -X (level layout: start ~-2400 -> goal beyond -4800)
+static const Vec3f sHyperQteLaunchVel = { -70.f, 40.f, 0.f };
+
+static s16 sHyperQteLaunchYaw = 0xC000; // default toward -X
+
+static void hypertube_qte_begin(struct MarioState *m) {
     sHyperQteActive = TRUE;
     sHyperQteTriggeredOnce = TRUE;
     sHyperQteTimer = 0;
     sHyperQteTargetButton = hypertube_qte_pick_button();
+    sHyperQteResult = 0;
+    // 進行方向に合わせて射出Yawを覚えておく（速度が小さい場合は -X をデフォルトに）
+    f32 dirX = m->slideVelX;
+    f32 dirZ = m->slideVelZ;
+    if (fabsf(dirX) + fabsf(dirZ) < 1.f) {
+        dirX = -1.f;
+        dirZ = 0.f;
+    }
+    sHyperQteLaunchYaw = atan2s(dirZ, dirX);
+
+    // HUD ring spawn
+    if (sHyperQteUiObj == NULL && gMarioObject != NULL) {
+        sHyperQteUiObj = spawn_object(gMarioObject, MODEL_CCM_QTE_CIRCLE, bhvRlQteCircle);
+        if (sHyperQteUiObj != NULL) {
+            sHyperQteUiObj->oFloatF4 = 0.0f;                 // elapsed
+            sHyperQteUiObj->oFloatF8 = (f32)HYPER_QTE_TIME_LIMIT; // total
+        }
+    }
+}
+
+static void hypertube_qte_tick(struct MarioState *m, u16 pressed) {
+    if (!sHyperQteActive) {
+        return;
+    }
+
+    sHyperQteTimer++;
+
+    // Success if the required button is pressed within the window.
+    if (pressed & sHyperQteTargetButton) {
+        sHyperQteResult = 1;
+        sHyperQteActive = FALSE;
+        return;
+    }
+
+    // Fail if time runs out.
+    if (sHyperQteTimer >= HYPER_QTE_TIME_LIMIT) {
+        sHyperQteResult = -1;
+        sHyperQteActive = FALSE;
+    }
 }
 
 // Simple particle puff helper used by rail grind effects.
@@ -1341,9 +1399,73 @@ s32 act_riding_hypertube(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
     }
 
+    // QTE結果処理（成功/失敗の一回きり）
+    if (sHyperQteResult == 1) {
+        sHyperQteResult = 0;
+        sHyperQteActive = FALSE;
+        if (sHyperQteUiObj != NULL) {
+            obj_mark_for_deletion(sHyperQteUiObj);
+            sHyperQteUiObj = NULL;
+        }
+        // 発射方向を進行ベクトルに合わせ、簡易カットシーンジャンプへ
+        const s16 launchYaw = sHyperQteLaunchYaw;
+        const f32 speed = 140.f;
+        m->faceAngle[1] = launchYaw;
+        m->vel[0] = speed * sins(launchYaw);
+        m->vel[2] = speed * coss(launchYaw);
+        m->vel[1] = sHyperQteLaunchVel[1];
+        m->forwardVel = speed;
+        m->slideVelX = m->vel[0];
+        m->slideVelZ = m->vel[2];
+        return set_mario_action(m, ACT_FREEFALL, 0);
+    } else if (sHyperQteResult == -1) {
+        // 失敗時はリスポーン位置へ戻し、再トリガを許可
+        sHyperQteResult = 0;
+        sHyperQteActive = FALSE;
+        sHyperQteTriggeredOnce = FALSE;
+        if (sHyperQteUiObj != NULL) {
+            obj_mark_for_deletion(sHyperQteUiObj);
+            sHyperQteUiObj = NULL;
+        }
+        vec3f_copy(m->pos, sHyperQteRespawnPos);
+        m->vel[0] = m->vel[1] = m->vel[2] = 0.f;
+        m->forwardVel = 0.f;
+        m->faceAngle[1] = 0xC000;
+        return drop_and_set_mario_action(m, ACT_IDLE, 0);
+    }
+
     // QTEトリガ: ハイパーチューブ専用Surfaceに乗ったら一度だけ開始フラグを立てる
     if (!sHyperQteTriggeredOnce && m->floor && m->floor->type == SURFACE_HYPERTUBE_QTE) {
-        hypertube_qte_begin();
+        hypertube_qte_begin(m);
+    }
+
+    // QTE進行中は移動・入力をロックし、判定のみ進める
+    if (sHyperQteActive) {
+        m->vel[0] = m->vel[1] = m->vel[2] = 0.f;
+        m->forwardVel = 0.f;
+        m->slideVelX = 0.f;
+        m->slideVelZ = 0.f;
+        if (sHyperQteUiObj != NULL) {
+            sHyperQteUiObj->oFloatF4 = (f32)sHyperQteTimer;
+            sHyperQteUiObj->oFloatF8 = (f32)HYPER_QTE_TIME_LIMIT;
+        }
+        u16 pressed = m->controller ? m->controller->buttonPressed : 0;
+        hypertube_qte_tick(m, pressed);
+        // 防止: QTE中はRトリガーでカメラ切替させない
+        if (m->controller) {
+            m->controller->buttonPressed &= ~R_TRIG;
+            m->controller->buttonDown &= ~R_TRIG;
+        }
+        // ボタン文字のみ中央付近に表示
+        const char *btn = hypertube_qte_button_name(sHyperQteTargetButton);
+        print_text(152.5, 104, (btn == NULL) ? "?" : btn);
+        return FALSE;
+    }
+
+    // QTEの進行を処理（現状は成功/失敗フラグのみ設定）
+    {
+        u16 pressed = m->controller ? m->controller->buttonPressed : 0;
+        hypertube_qte_tick(m, pressed);
     }
 
     if (m->input & INPUT_A_PRESSED) {
