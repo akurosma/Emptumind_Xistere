@@ -3,8 +3,8 @@
 #include "game/object_helpers.h"
 
 #define RL_SHADOWWALL_VTX_COUNT 4
-#define RL_SHADOWWALL_FADE_START_DIST 3000.0f // これ以上で完全透明
-#define RL_SHADOWWALL_FADE_END_DIST    200.0f  // これ以下で不透明
+#define RL_SHADOWWALL_FADE_START_DIST 7999.0f // これ以上で完全透明
+#define RL_SHADOWWALL_FADE_END_DIST    500.0f  // これ以下で不透明
 
 static void rl_shadowwall_set_alpha(u8 alpha) {
     // Update vertex alpha directly so the quad fades even without geo transparency hooks.

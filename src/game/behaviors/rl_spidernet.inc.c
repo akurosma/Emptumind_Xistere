@@ -2,6 +2,7 @@
 #include "levels/ccm/rl_spidernet/geo_header.h"
 #include "game/memory.h"
 #include "game/object_helpers.h"
+#include "engine/math_util.h"
 
 #define RL_SPIDERNET_VTX_COUNT 62
 #define RL_SPIDERNET_FADE_FRAMES 90
@@ -13,6 +14,10 @@
 #define RL_SPIDERNET_MIN_Y   -200.0f
 #define RL_SPIDERNET_MAX_Y    200.0f
 #define RL_SPIDERNET_FLAME_SPAWN_RATE 4
+
+// Only one spider net drives the shared vertex alpha at a time to avoid instances
+// resetting each other's fade (vertices are shared).
+static struct Object *sSpidernetActive = NULL;
 
 void bhv_rl_spidernet_flame_loop(void) {
         if (o->oTimer == 0) {
@@ -59,47 +64,70 @@ static void rl_spidernet_apply_fade(f32 progress) {
 void bhv_rl_spidernet_init(void) {
     o->oIntangibleTimer = 0;
     o->oOpacity = 255;
-    rl_spidernet_apply_fade(0.0f);
+    // Expand hitbox to cover the full net plane so contact anywhere triggers burning.
+    o->hitboxRadius = 220.0f;
+    o->hitboxHeight = 400.0f;
+    o->hitboxDownOffset = 200.0f; // covers roughly y = -200..+200
+    o->hurtboxRadius = 220.0f;
+    o->hurtboxHeight = 400.0f;
 }
 
 void bhv_rl_spidernet_loop(void) {
     switch (o->oAction) {
         case RL_SPIDERNET_ACT_IDLE:
-            rl_spidernet_apply_fade(0.0f);
-        if (gMarioState != NULL && gMarioState->amaterasu) {
-            if (gMarioObject != NULL
-                && (obj_check_if_collided_with_object(o, gMarioObject) || cur_obj_is_mario_on_platform())) {
-                o->oAction = RL_SPIDERNET_ACT_FADING;
-                o->oTimer = 0;
+            if (sSpidernetActive == NULL && gMarioState != NULL && gMarioState->amaterasu) {
+                // Require Mario to actually hit the net's collision (wall) instead of just entering a hitbox radius.
+                if (gMarioState->wall != NULL && gMarioState->wall->object == o) {
+                    sSpidernetActive = o;
+                    o->oAction = RL_SPIDERNET_ACT_FADING;
+                    o->oTimer = 0;
+                }
             }
-        }
-        break;
-    case RL_SPIDERNET_ACT_FADING: {
-        f32 progress = (f32)o->oTimer / (f32)RL_SPIDERNET_FADE_FRAMES;
-        f32 cutoff = RL_SPIDERNET_MIN_Y + (RL_SPIDERNET_MAX_Y - RL_SPIDERNET_MIN_Y) * progress;
-        rl_spidernet_apply_fade(progress);
-        o->oOpacity = (s32)((1.0f - progress) * 255.0f);
+            break;
+        case RL_SPIDERNET_ACT_FADING: {
+            // Only the active owner drives the shared alpha.
+            if (sSpidernetActive != o) {
+                break;
+            }
+            f32 progress = (f32)o->oTimer / (f32)RL_SPIDERNET_FADE_FRAMES;
+            f32 cutoff = RL_SPIDERNET_MIN_Y + (RL_SPIDERNET_MAX_Y - RL_SPIDERNET_MIN_Y) * progress;
+            rl_spidernet_apply_fade(progress);
+            o->oOpacity = (s32)((1.0f - progress) * 255.0f);
 
         // Spawn a row of black flames along the fading band, up to ~75% height of the net.
         f32 leadY = cutoff + RL_SPIDERNET_FADE_BAND;
         f32 midY = RL_SPIDERNET_MIN_Y + (RL_SPIDERNET_MAX_Y - RL_SPIDERNET_MIN_Y) * 0.75f;
         if ((o->oTimer % RL_SPIDERNET_FLAME_SPAWN_RATE) == 0
             && leadY < midY) {
-            // 90° rotate the band: spread flames along Z instead of X.
+            // Spread flames along local Z; rotate by object yaw so placement follows orientation.
             static const s16 sFlameOffsets[] = { -120, -40, 40, 120 };
+            // Band should run sideways relative to forward; rotate 90 degrees to align.
+            // BehParam2ndByte is treated as degrees (0-255): add that many degrees to fine-tune orientation.
+            s16 baseOffset = 0x4000; // +90 deg
+            s16 yaw = o->oMoveAngleYaw + baseOffset + (s16)(o->oBehParams2ndByte * 182); // 182 ~= 0x10000/360
             for (u32 i = 0; i < ARRAY_COUNT(sFlameOffsets); i++) {
                 struct Object *flame = spawn_object(o, MODEL_CCM_RL_BLACKFLAME, bhvRlSpidernetFlame);
                 if (flame != NULL) {
-                    flame->oPosX = o->oPosX;
+                    // Local offsets (band along +Z), with small jitter along the band.
+                    f32 lx = 0.0f;
+                    f32 lz = (f32)sFlameOffsets[i] + ((random_float() * 30.0f) - 15.0f);
+                    f32 sx = sins(yaw);
+                    f32 cx = coss(yaw);
+                    // Rotate to world space.
+                    f32 wx = lx * cx - lz * sx;
+                    f32 wz = lx * sx + lz * cx;
+
+                    flame->oPosX = o->oPosX + wx;
                     // Spawn one band above the current cutoff so it leads the fade.
                     flame->oPosY = o->oPosY + (cutoff + RL_SPIDERNET_FADE_BAND);
-                    flame->oPosZ = o->oPosZ + sFlameOffsets[i];
-                    flame->oPosZ += (random_float() * 30.0f) - 15.0f;
+                    flame->oPosZ = o->oPosZ + wz;
                 }
             }
         }
 
         if (o->oTimer >= RL_SPIDERNET_FADE_FRAMES) {
+            rl_spidernet_apply_fade(0.0f); // reset shared alpha for any remaining nets
+            sSpidernetActive = NULL;
             obj_mark_for_deletion(o);
             return;
         }

@@ -1,5 +1,8 @@
 // metal_box.inc.c
 
+#include "sm64.h"
+#include "game/level_update.h"
+
 struct ObjectHitbox sMetalBoxHitbox = {
     /* interactType:      */ INTERACT_NONE,
     /* downOffset:        */ 0,
@@ -78,8 +81,15 @@ void bhv_pushable_switch_box_loop(void) {
 
     // Only move if actually colliding.
     if (obj_check_if_collided_with_object(o, gMarioObject)) {
+        // マリオが押し状態の間はBボタンを外部に伝播させない（音楽セレクタ等のキャンセル防止）
+        if (gMarioStates[0].flags & MARIO_PUSHING) {
+            gPlayer1Controller->buttonPressed &= ~B_BUTTON;
+        }
+
         s32 pulling = FALSE;
-        if (gMarioStates[0].input & (INPUT_B_DOWN | INPUT_B_PRESSED)) {
+        // Only treat B as "pull" when Mario is already in the pushing state,
+        // so simply being near the box won't eat the input for a single frame.
+        if ((gMarioStates[0].flags & MARIO_PUSHING) && (gMarioStates[0].input & (INPUT_B_DOWN | INPUT_B_PRESSED))) {
             // Holding B: pull. Eat B so punch doesn't fire.
             pulling = TRUE;
             gMarioStates[0].input &= ~(INPUT_B_PRESSED | INPUT_B_DOWN);
