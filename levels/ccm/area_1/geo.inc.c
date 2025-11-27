@@ -3,6 +3,8 @@
 const GeoLayout ccm_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 2673, -250, -591, ccm_dl_bunr_area_testplatrom_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 5528, 100, -1137, ccm_dl_burn_area_mesh_layer_1),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -667, 100, 4400),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 28, 500, -27368, 90, 0, 0, ccm_dl_Circle_mesh_layer_1),

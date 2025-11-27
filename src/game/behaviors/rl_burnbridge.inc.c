@@ -24,8 +24,8 @@ static struct ObjectHitbox sRlBurnbridgeHitbox = {
     /* damageOrCoinValue: */ 0,
     /* health:            */ 0,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 320,
-    /* height:            */ 200,
+    /* radius:            */ 230, // tightened to reduce unintended hits
+    /* height:            */ 100,
     /* hurtboxRadius:     */ 0,
     /* hurtboxHeight:     */ 0,
 };
@@ -37,7 +37,8 @@ void bhv_rl_burnbridge_init(void) {
 }
 
 void bhv_rl_burnbridge_loop(void) {
-    obj_set_hitbox(o, &sRlBurnbridgeHitbox);
+    // Update collision so platform/wall contact reflects the bridge shape.
+    load_object_collision_model();
 
     switch (o->oAction) {
         case RL_BURNBRIDGE_ACT_IDLE:
@@ -45,7 +46,8 @@ void bhv_rl_burnbridge_loop(void) {
             // Start burning when touched by Mario while amaterasu is active.
             if (gMarioState != NULL && gMarioState->amaterasu) {
                 if (gMarioObject != NULL
-                    && (obj_check_if_collided_with_object(o, gMarioObject) || cur_obj_is_mario_on_platform())) {
+                    && (gMarioObject->platform == o
+                        || (gMarioState->wall && gMarioState->wall->object == o))) {
                     o->oAction = RL_BURNBRIDGE_ACT_BURNING;
                     o->oTimer = 0;
                 }
@@ -95,8 +97,6 @@ void bhv_rl_burnbridge_loop(void) {
             }
             break;
     }
-
-    load_object_collision_model();
 }
 
 void bhv_rl_burnbridge_flame_loop(void) {

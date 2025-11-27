@@ -9,13 +9,15 @@
 #define MAX_TEMPO     11520
 
 void bhv_rl_temporeset_init(void) {
-   
+    o->oAction = FALSE; // use oAction to track previous platform state
 }
 
 void bhv_rl_temporeset_loop(void) {
-    static s32 wasOnPlatform = FALSE;
-
-    s32 isOnPlatform = (gMarioObject->platform == o);
+    static s32 sHandledAButtonFrame = -1;
+    static s32 sHandledDebugButtonFrame = -1;
+    const s32 allowIncrease = (o->oBehParams2ndByte == 1);
+    const s32 wasOnPlatform = (o->oAction != FALSE);
+    const s32 isOnPlatform = (gMarioObject != NULL && gMarioObject->platform == o);
 
     // --- 乗った瞬間だけデフォルトに戻す ---
     if (isOnPlatform && !wasOnPlatform) {
@@ -25,7 +27,9 @@ void bhv_rl_temporeset_loop(void) {
     }
 
     // --- Aボタンでテンポを+100（上限付き） ---
-    if (gPlayer1Controller->buttonPressed & A_BUTTON) {
+    if (allowIncrease
+        && (gPlayer1Controller->buttonPressed & A_BUTTON)
+        && sHandledAButtonFrame != (s32)gGlobalTimer) {
         s32 currentTempo =
             gSequencePlayers[SEQ_PLAYER_LEVEL].tempo +
             gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
@@ -49,10 +53,13 @@ void bhv_rl_temporeset_loop(void) {
         } else {
             print_text(100, 180, "MAX TEMPO REACHED!");
         }
+        sHandledAButtonFrame = (s32)gGlobalTimer; // 一度の入力で複数オブジェクトから加算されないように
     }
 
     //デバッグ用
-    if (gPlayer1Controller->buttonPressed & D_JPAD) {
+    if (allowIncrease
+        && (gPlayer1Controller->buttonPressed & D_JPAD)
+        && sHandledDebugButtonFrame != (s32)gGlobalTimer) {
         s32 currentTempo =
             gSequencePlayers[SEQ_PLAYER_LEVEL].tempo +
             gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
@@ -76,9 +83,10 @@ void bhv_rl_temporeset_loop(void) {
         } else {
             print_text(100, 180, "MAX TEMPO REACHED!");
         }
+        sHandledDebugButtonFrame = (s32)gGlobalTimer;
     }
 
-    wasOnPlatform = isOnPlatform;
+    o->oAction = isOnPlatform;
 }
 
 extern Vtx rl_temporeset_rl_temporeset_mesh_layer_5_vtx_0[]; // 宣言
