@@ -26,6 +26,7 @@ extern const GeoLayout rl_burnbridge_geo[];
 extern const GeoLayout rl_spidernet_geo[];
 extern const GeoLayout rl_shadowwall_geo[];
 extern const GeoLayout qte_circle_geo[];
+extern const GeoLayout rl_ccmmetaldoor_geo[];
 
 // leveldata
 extern const Gfx ccm_seg7_dl_0700B090[];
@@ -59,6 +60,7 @@ extern const Gfx rl_burnbridge_rl_burnbridge_mesh_layer_1[];
 extern const Gfx rl_spidernet_rl_spidernet_mesh_layer_4[];
 extern const Gfx rl_shadowwall_rl_shadowwall_mesh_layer_5[];
 extern const Gfx qte_circle_qte_circle_mesh_layer_5[];
+extern const Gfx rl_ccmmetaldoor_rl_ccmmetaldoor_mesh_layer_1[];
 extern const Collision ccm_seg7_area_1_collision[];
 extern const MacroObject ccm_seg7_area_1_macro_objs[];
 extern const Collision ccm_seg7_collision_ropeway_lift[];
@@ -73,6 +75,7 @@ extern const Collision rl_burnbridge_collision[];
 extern const Collision rl_spidernet_collision[];
 extern const Collision rl_shadowwall_collision[];
 extern const Collision qte_circle_collision[];
+extern const Collision rl_ccmmetaldoor_collision[];
 extern const Trajectory ccm_seg7_trajectory_snowman[];
 extern const Trajectory ccm_seg7_trajectory_ropeway_lift[];
 extern const struct MovtexQuadCollection ccm_movtex_penguin_puddle_water[];

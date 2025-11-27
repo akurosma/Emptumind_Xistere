@@ -140,6 +140,7 @@ extern const BehaviorScript bhvPushableMetalBoxSwitch[];
 extern const BehaviorScript bhvPushableMetalBox[];
 extern const BehaviorScript bhvMetalBoxSwitch[];
 extern const BehaviorScript bhvMetalBoxSwitchGate[];
+extern const BehaviorScript bhvRlCcmmetaldoor[];
 extern const BehaviorScript bhvHeaveHo[];
 extern const BehaviorScript bhvHeaveHoThrowMario[];
 extern const BehaviorScript bhvCcmTouchedStarSpawn[];

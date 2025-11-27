@@ -69,5 +69,7 @@
 #include "levels/ccm/rl_shadowwall/collision.inc.c"
 #include "levels/ccm/qte_circle/model.inc.c"
 #include "levels/ccm/qte_circle/collision.inc.c"
+#include "levels/ccm/rl_ccmmetaldoor/model.inc.c"
+#include "levels/ccm/rl_ccmmetaldoor/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"
