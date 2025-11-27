@@ -24,13 +24,20 @@ enum MetalBoxGateActions {
     METAL_BOX_GATE_ACT_OPEN,
 };
 
+enum MetalBoxSimpleGateActions {
+    METAL_BOX_SIMPLE_GATE_ACT_IDLE,
+    METAL_BOX_SIMPLE_GATE_ACT_OPENING,
+    METAL_BOX_SIMPLE_GATE_ACT_OPEN,
+};
+
 static void metal_box_switch_trigger_gates(u8 sharedId) {
     uintptr_t *behaviorAddr = segmented_to_virtual(bhvMetalBoxSwitchGate);
+    uintptr_t *metalDoorBehaviorAddr = segmented_to_virtual(bhvRlCcmmetaldoor);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
     struct Object *gate = (struct Object *) listHead->next;
 
     while (gate != (struct Object *) listHead) {
-        if (gate->behavior == behaviorAddr
+        if ((gate->behavior == behaviorAddr || gate->behavior == metalDoorBehaviorAddr)
             && gate->activeFlags != ACTIVE_FLAG_DEACTIVATED
             && gate->oBehParams2ndByte == sharedId) {
             gate->oF4 = TRUE;
@@ -179,6 +186,35 @@ void bhv_metal_box_switch_gate_loop(void) {
                     }
                 }
             }
+            break;
+    }
+}
+
+void bhv_rl_ccmmetaldoor_init(void) {
+    o->oFloatF4 = o->oPosY;
+    o->oFloatF8 = o->oPosY + METAL_BOX_GATE_RISE_DISTANCE;
+    o->oAction = METAL_BOX_SIMPLE_GATE_ACT_IDLE;
+    o->oF4 = FALSE;
+}
+
+void bhv_rl_ccmmetaldoor_loop(void) {
+    switch (o->oAction) {
+        case METAL_BOX_SIMPLE_GATE_ACT_IDLE:
+            if (o->oF4) {
+                //cur_obj_play_sound_2(SOUND_GENERAL_STAR_DOOR_OPEN);
+                o->oAction = METAL_BOX_SIMPLE_GATE_ACT_OPENING;
+            }
+            break;
+
+        case METAL_BOX_SIMPLE_GATE_ACT_OPENING:
+            o->oPosY += METAL_BOX_GATE_RISE_SPEED;
+            if (o->oPosY >= o->oFloatF8) {
+                o->oPosY = o->oFloatF8;
+                o->oAction = METAL_BOX_SIMPLE_GATE_ACT_OPEN;
+            }
+            break;
+
+        case METAL_BOX_SIMPLE_GATE_ACT_OPEN:
             break;
     }
 }

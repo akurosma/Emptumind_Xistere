@@ -28,6 +28,7 @@
 #include "levels/ccm/rl_spidernet/geo.inc.c"
 #include "levels/ccm/rl_shadowwall/geo.inc.c"
 #include "levels/ccm/qte_circle/geo.inc.c"
+#include "levels/ccm/rl_ccmmetaldoor/geo.inc.c"
 #include "levels/ccm/areas/1/6/geo.inc.c"
 #include "levels/ccm/areas/1/7/geo.inc.c"
 #include "levels/ccm/areas/1/8/geo.inc.c"

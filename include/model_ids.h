@@ -101,6 +101,7 @@
 #define MODEL_CCM_RL_SPIDERNET                 0x43
 #define MODEL_CCM_RL_SHADOWWALL                0x44
 #define MODEL_CCM_QTE_CIRCLE                   0x45
+#define MODEL_CCM_RL_METALDOOR                 0x46
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18

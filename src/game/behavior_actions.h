@@ -129,6 +129,8 @@ void bhv_pushable_loop(void);
 void bhv_metal_box_switch_loop(void);
 void bhv_metal_box_switch_gate_init(void);
 void bhv_metal_box_switch_gate_loop(void);
+void bhv_rl_ccmmetaldoor_init(void);
+void bhv_rl_ccmmetaldoor_loop(void);
 void bhv_init_room(void);
 void bhv_small_water_wave_loop(void);
 void bhv_yellow_coin_init(void);
