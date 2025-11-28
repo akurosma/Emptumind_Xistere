@@ -2063,7 +2063,7 @@ their place!"))
 DEFINE_DIALOG(DIALOG_168, 1, 8, 30, 200, _("\
 Thank you for downloading\n\
 this hack!\n\
-There are 182 stars\n\
+There are XX stars\n\
 to collect.\n\
 The difficulty peaks at \n\
 AKURO toward the \n\
@@ -2071,7 +2071,7 @@ end of the game.\n\
 I hope you will enjoy it!\n\
 -- CREDIT --\n\
 CREATOR: Akuro Sill Rulu\n\
-          HibaNYA\n\
+          HibaNYA YK\n\
 ------------"))
 
 DEFINE_DIALOG(DIALOG_169, 1, 4, 30, 200, _("\

@@ -12,10 +12,6 @@
 #include "levels/scripts.h"
 
 #include "actors/common1.h"
-
-/* Fast64 begin persistent block [includes] */
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/jrb/header.h"
 
@@ -60,7 +56,6 @@ const LevelScript level_jrb_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_NEEDLE, needle_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WAVE_PLATFORM_G, wave_platform_green), 
 	LOAD_MODEL_FROM_GEO(MODEL_FADINGWALL, fadingwall_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -230,7 +225,6 @@ const LevelScript level_jrb_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(1, 0, 0, 0, 0),
 	CALL(0, lvl_init_or_update),

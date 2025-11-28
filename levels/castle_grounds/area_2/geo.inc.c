@@ -5,6 +5,9 @@ const GeoLayout castle_grounds_area_2_geo[] = {
 	GEO_OPEN_NODE(),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 1500, 1113, 737, 0, -135, 0, castle_grounds_dl_AkuroFace_mesh_layer_1),
 		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, castle_grounds_dl_TESTOW_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_OPAQUE, final_revert_001),
+		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
