@@ -4,4 +4,5 @@ extern void scroll_jrb_dl__C3_room3_mesh_layer_1_vtx_2();
 extern void scroll_jrb_dl__C3_room3_mesh_layer_4_vtx_0();
 extern void scroll_jrb_dl__C3_room3_2_mesh_layer_4_vtx_0();
 extern void scroll_jrb_dl__C3_room4_mesh_layer_1_vtx_2();
+extern void scroll_gfx_mat_jrb_dl_quicksand1_f3d();
 extern void scroll_jrb();

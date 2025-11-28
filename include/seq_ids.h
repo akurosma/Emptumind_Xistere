@@ -77,6 +77,7 @@ enum SeqId {
     SEQ_C4_AREA1,                     // 0x3B
     SEQ_SONIC_NIGHTSPINBALL,          // 0X3C
     SEQ_CHAOGARDEN,                   // 0X3D
+    SEQ_UNIVERSAL_COLLAPSE,           // 0X3E
     // end
     SEQ_COUNT
 };

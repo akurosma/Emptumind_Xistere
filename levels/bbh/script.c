@@ -12,10 +12,6 @@
 #include "levels/scripts.h"
 
 #include "actors/common1.h"
-
-/* Fast64 begin persistent block [includes] */
-/* Fast64 end persistent block [includes] */
-
 #include "make_const_nonconst.h"
 #include "levels/bbh/header.h"
 
@@ -49,7 +45,6 @@ const LevelScript level_bbh_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_BBH_WOODEN_TOMB, geo_bbh_000658), 
 	LOAD_MODEL_FROM_GEO(MODEL_GREEN_CRYSTAL, crystal_Green_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_BLUE_CRYSTAL, crystal_Blue_geo), 
-
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -82,6 +77,8 @@ const LevelScript level_bbh_entry[] = {
 		OBJECT(MODEL_NONE, -450, 300, -7050, 0, -180, 0, 0x00000000, bhvC5Ctrl),
 		OBJECT(MODEL_NONE, -450, 300, -7050, 0, -180, 0, 0x00000000, bhvUpwardSpace),
 		OBJECT(MODEL_NONE, -450, 300, -7050, 0, -180, 0, 0x00000000, bhvDownwardSpace),
+		OBJECT(MODEL_BLUE_FLAME, -653, 1628, -3444, 0, 0, 0, 0x00000000, bhvFlame),
+		OBJECT(MODEL_BLUE_FLAME, -653, 1628, -2703, 0, 0, 0, 0x00000000, bhvFlame),
 		OBJECT(MODEL_STAR, -1200, 1312, -4050, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, -4446, 3129, 8523, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, -3217, 1275, -3075, 0, 0, 0, 0x00000000, bhvBounceCrystal),
@@ -89,7 +86,7 @@ const LevelScript level_bbh_entry[] = {
 		OBJECT(MODEL_STAR, -3784, 3129, 8523, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, -12348, 4039, 2756, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, 5016, 3970, -3975, 0, 0, 0, 0x00000000, bhvBounceCrystal),
-		OBJECT(MODEL_STAR, 7254, 3925, -2671, 0, 0, 0, 0x00000000, bhvBounceCrystal),
+		OBJECT(MODEL_STAR, 7209, 3908, -3108, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, 7561, 4387, -1797, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, 7054, 4924, -1787, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, -3303, 2979, 7660, 0, 0, 0, 0x00000000, bhvBounceCrystal),
@@ -98,6 +95,7 @@ const LevelScript level_bbh_entry[] = {
 		OBJECT(MODEL_STAR, -3515, 3154, 9827, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, -3632, 2154, 12648, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_STAR, -6989, 2754, 10773, 0, 0, 0, 0x00000000, bhvBounceCrystal),
+		OBJECT(MODEL_STAR, 7764, 3972, -2413, 0, 0, 0, 0x00000000, bhvBounceCrystal),
 		OBJECT(MODEL_NONE, -11524, 5054, 2006, -90, 0, 0, (1 << 24), bhvShiftPlatform),
 		OBJECT(MODEL_NONE, -11524, 5354, 2006, -90, 0, 0, (1 << 24), bhvShiftPlatform),
 		OBJECT(MODEL_NONE, -11224, 5054, 2006, -90, 0, 0, (1 << 24), bhvShiftPlatform),
@@ -141,7 +139,6 @@ const LevelScript level_bbh_entry[] = {
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
-
 	FREE_LEVEL_POOL(),
 	MARIO_POS(1, 0, 0, 0, 0),
 	CALL(0, lvl_init_or_update),
