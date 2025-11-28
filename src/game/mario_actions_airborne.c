@@ -722,6 +722,59 @@ s32 act_riding_shell_air(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_hypertube_jump(struct MarioState *m) {
+    static const s16 fixedYaw = 0x8000;
+
+    play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
+    set_mario_animation(m, MARIO_ANIM_JUMP_RIDING_SHELL);
+
+    if (m->controller) {
+        m->controller->stickY = 0;
+    }
+    m->intendedMag = 0;
+    if (gHtubeSpeedTimer > 0) {
+        gHtubeSpeedTimer--;
+    }
+    const f32 hyperSpeed = gHtubeTargetSpeed;
+
+    m->faceAngle[1] = fixedYaw;
+    f32 lateral = m->controller ? -m->controller->stickX * 1.5f : 0.f;
+    f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
+    f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
+    f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
+    f32 latZ = lateral * coss(m->faceAngle[1] + 0x4000);
+    m->vel[0] = baseX + latX;
+    m->vel[2] = baseZ + latZ;
+    f32 horizSpeed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+    if (horizSpeed > 0.f) {
+        f32 scale = hyperSpeed / horizSpeed;
+        m->vel[0] *= scale;
+        m->vel[2] *= scale;
+    }
+    m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+    m->slideVelX = m->vel[0];
+    m->slideVelZ = m->vel[2];
+
+    update_air_without_turn(m);
+
+    switch (perform_air_step(m, 0)) {
+        case AIR_STEP_LANDED:
+            set_mario_action(m, ACT_RIDING_HYPERTUBE, 0);
+            break;
+
+        case AIR_STEP_HIT_WALL:
+            mario_set_forward_vel(m, 0.0f);
+            break;
+
+        case AIR_STEP_HIT_LAVA_WALL:
+            lava_boost_on_wall(m);
+            break;
+    }
+
+    m->marioObj->header.gfx.pos[1] += 42.0f;
+    return FALSE;
+}
+
 s32 act_twirling(struct MarioState *m) {
     s16 startTwirlYaw = m->twirlYaw;
     s16 yawVelTarget;
@@ -2323,6 +2376,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_LONG_JUMP:            cancel = act_long_jump(m);            break;
         case ACT_RIDING_SHELL_JUMP:
         case ACT_RIDING_SHELL_FALL:    cancel = act_riding_shell_air(m);     break;
+        case ACT_HYPERTUBE_JUMP:       cancel = act_hypertube_jump(m);       break;
         case ACT_DIVE:                 cancel = act_dive(m);                 break;
         case ACT_AIR_THROW:            cancel = act_air_throw(m);            break;
         case ACT_BACKWARD_AIR_KB:      cancel = act_backward_air_kb(m);      break;

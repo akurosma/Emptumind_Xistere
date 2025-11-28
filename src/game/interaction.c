@@ -1897,6 +1897,31 @@ void check_lava_boost(struct MarioState *m) {
     }
 }
 
+/**
+ * Damages Mario without forcing him off his current action.
+ * Used for hypertube-specific hazards that should hurt even while riding.
+ * Damage is frame-throttled so it can be made extremely light.
+ */
+static s16 sHypertubeDamageCooldown = 0;
+static void apply_hypertube_floor_damage(struct MarioState *m) {
+    if (m->pos[1] < m->floorHeight + 10.0f && !(m->flags & MARIO_METAL_CAP)) {
+        if (sHypertubeDamageCooldown > 0) {
+            sHypertubeDamageCooldown--;
+            return;
+        }
+
+        s16 damageTicks = (m->flags & MARIO_CAP_ON_HEAD) ? 1 : 2; // 最小の単位に設定
+        sHypertubeDamageCooldown = 3; // 3フレーム空ける(=4フレームに1回のみ加算)
+
+        if (m->hurtCounter < damageTicks) {
+            m->hurtCounter = damageTicks;
+        }
+    } else {
+        // 離れたらクールダウンをリセット
+        sHypertubeDamageCooldown = 0;
+    }
+}
+
 void pss_begin_slide(UNUSED struct MarioState *m) {
     if (!(gHudDisplay.flags & HUD_DISPLAY_FLAG_TIMER)) {
         level_control_timer(TIMER_CONTROL_SHOW);
@@ -1947,6 +1972,8 @@ void mario_handle_special_floors(struct MarioState *m) {
         if (!(m->action & (ACT_FLAG_AIR | ACT_FLAG_SWIMMING))) {
             if (floorType == SURFACE_BURNING) {
                 check_lava_boost(m);
+            } else if (floorType == SURFACE_HYPERTUBE_DAMAGE) {
+                apply_hypertube_floor_damage(m);
             }
         }
     }

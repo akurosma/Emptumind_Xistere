@@ -76,6 +76,8 @@ void reload_area_skybox(void) {
     if (sSkyboxNode != NULL) {
         s8 background = sSkyboxNode->background & 0xFFFF;
         if (background >= 0) {
+            // The main pool is reset on area changes, so force a reload even if the ID matches.
+            sLoadedSkyboxId = -1;
             set_area_skybox(background);
         }
     }
