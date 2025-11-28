@@ -1339,7 +1339,11 @@ s32 act_riding_shell_ground(struct MarioState *m) {
     s16 startYaw = m->faceAngle[1];
 
     if (m->input & INPUT_A_PRESSED) {
-        return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+        if (sHyperShell) {
+            m->usedObj = sHyperShell;
+            m->riddenObj = sHyperShell;
+        }
+        return set_mario_action(m, ACT_HYPERTUBE_JUMP, 0);
     }
 
     if (m->input & INPUT_Z_PRESSED) {
@@ -1392,11 +1396,6 @@ s32 act_riding_hypertube(struct MarioState *m) {
         sHyperShell = m->usedObj;
     } else if (m->riddenObj) {
         sHyperShell = m->riddenObj;
-    }
-
-    // レールが近くにあれば優先して乗り換え
-    if (zipline_cancel()) {
-        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
     }
 
     // QTE結果処理（成功/失敗の一回きり）
@@ -1468,8 +1467,18 @@ s32 act_riding_hypertube(struct MarioState *m) {
         hypertube_qte_tick(m, pressed);
     }
 
+    // ジャンプ入力はレール乗り換えより優先
     if (m->input & INPUT_A_PRESSED) {
-        return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
+        if (sHyperShell) {
+            m->usedObj = sHyperShell;
+            m->riddenObj = sHyperShell;
+        }
+        return set_mario_action(m, ACT_HYPERTUBE_JUMP, 0);
+    }
+
+    // レールが近くにあれば乗り換え
+    if (zipline_cancel()) {
+        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
     }
 
     /*if (m->input & INPUT_Z_PRESSED) {
@@ -2311,8 +2320,14 @@ s32 act_rail_grind(struct MarioState *m) {
     struct Object *hyperShell = sHyperShell ? sHyperShell : (m->usedObj ? m->usedObj : m->riddenObj);
     int hasHyperShell = (hyperShell && hyperShell->oBehParams2ndByte == 1);
 
+    // Prevent R trigger from toggling camera while grinding
+    if (m->controller) {
+        m->controller->buttonPressed &= ~R_TRIG;
+        m->controller->buttonDown &= ~R_TRIG;
+    }
+
     if (!onLoop) {
-        holdZ = m->input & INPUT_Z_DOWN;
+        /*holdZ = m->input & INPUT_Z_DOWN;
         if (holdZ && m->forwardVel > 10.f) {
             int scale = m->forwardVel;
             if (scale > 30.f) {
@@ -2351,9 +2366,9 @@ s32 act_rail_grind(struct MarioState *m) {
             m->flags &= ~MARIO_MARIO_SOUND_PLAYED;
             play_mario_jump_sound(m);
             return FALSE;
-        }
+        }*/
 
-        if (0 == m->actionTimer) {
+        /*if (0 == m->actionTimer) {
             if (m->input & INPUT_B_PRESSED && absf(m->forwardVel) > 30.0f) {
                 play_sound(SOUND_MARIO_HOOHOO, m->marioObj->header.gfx.cameraToObject);
                 m->actionTimer++;
@@ -2363,7 +2378,7 @@ s32 act_rail_grind(struct MarioState *m) {
             if (m->actionTimer > 15) {
                 m->actionTimer = 0;
             }
-        }
+        }*/
     }
 
     s16 extraTilt = 0;

@@ -22,7 +22,7 @@ enum SurfaceTypes {
     SURFACE_WATER,                      // 0x000D // Water, has no action, used on some waterboxes below
     SURFACE_FLOWING_WATER,              // 0x000E // Water (flowing), has parameters
     SURFACE_NO_WALLKICKS,               // 0x000F // Unused
-    SURFACE_STICKY,                       // 0x0010 // sticky
+    SURFACE_STICKY,                     // 0x0010 // sticky
     SURFACE_FLOWER,                     // 0x0011 // Flower envfx spawn surface
     SURFACE_INTANGIBLE,                 // 0x0012 // Intangible (Separates BBH mansion from merry-go-round, for room usage)
     SURFACE_VERY_SLIPPERY,              // 0x0013 // Very slippery, mostly used for slides
@@ -49,7 +49,7 @@ enum SurfaceTypes {
     SURFACE_WALL_MISC,                  // 0x0028 // Used for some walls, Cannon to adjust the camera, and some objects like Warp Pipe
     SURFACE_NOISE_DEFAULT,              // 0x0029 // Default floor with noise
     SURFACE_NOISE_SLIPPERY,             // 0x002A // Slippery floor with noise
-    SURFACE_002B,                       // 0x002B // Unused
+    SURFACE_HYPERTUBE_DAMAGE,           // 0x002B // rulu
     SURFACE_HORIZONTAL_WIND,            // 0x002C // Horizontal wind, has parameters
     SURFACE_INSTANT_MOVING_QUICKSAND,   // 0x002D // Quicksand (lethal, flowing)
     SURFACE_ICE,                        // 0x002E // Slippery Ice, in snow levels and THI's water floor
@@ -244,7 +244,7 @@ enum SurfaceTypes {
 #define SURFACE_IS_PAINTING_WARP_RIGHT(cmd)     ((((cmd) - SURFACE_PAINTING_WARP_D5  ) % 3) == 0)
 #define SURFACE_IS_INSTANT_WARP(cmd)            (((cmd) >= SURFACE_INSTANT_WARP_1B) && ((cmd) < SURFACE_INSTANT_WARP_1B + INSTANT_WARP_INDEX_STOP))
 #define SURFACE_IS_WARP(cmd)                    (((cmd) == SURFACE_LOOK_UP_WARP) || ((cmd) == SURFACE_WOBBLING_WARP) || SURFACE_IS_PAINTING_WARP(cmd) || SURFACE_IS_INSTANT_WARP(cmd))
-#define SURFACE_IS_UNSAFE(cmd)                  (((cmd) == SURFACE_BURNING) || SURFACE_IS_QUICKSAND(cmd) || SURFACE_IS_WARP(cmd))
+#define SURFACE_IS_UNSAFE(cmd)                  (((cmd) == SURFACE_BURNING) || ((cmd) == SURFACE_HYPERTUBE_DAMAGE) || SURFACE_IS_QUICKSAND(cmd) || SURFACE_IS_WARP(cmd))
 
 enum SurfaceClass {
     SURFACE_CLASS_DEFAULT,
