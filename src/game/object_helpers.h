@@ -282,6 +282,7 @@ void cur_obj_spawn_loot_blue_coin(void);
 
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);
 Gfx *geo_set_envcolor(s32 callContext, struct GraphNode *node, Mat4 *mtx);
+Gfx *geo_rl_bfspno_brightness(s32 callContext, struct GraphNode *node, Mat4 *mtx);
 Gfx *geo_rl_burnbridge_blacken(s32 callContext, struct GraphNode *node, Mat4 *mtx);
 
 #endif // OBJECT_HELPERS_H
