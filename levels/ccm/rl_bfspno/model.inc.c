@@ -311,10 +311,9 @@ Gfx rl_bfspno_rl_bfspno_mesh_layer_5_tri_0[] = {
 
 Gfx mat_rl_bfspno_f3dlite_material[] = {
 	gsSPGeometryMode(G_CULL_BACK, 0),
-	gsSPLightColor(LIGHT_1, 0xFFFFFFFF),
-	gsSPLightColor(LIGHT_2, 0x7F7F7FFF),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0),
+	// テクスチャをライティングで暗くする（PRIMITIVEには乗算しない）
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetPrimColor(0, 0, 255, 255, 255, 242),
@@ -336,7 +335,8 @@ Gfx mat_revert_rl_bfspno_f3dlite_material[] = {
 Gfx rl_bfspno_rl_bfspno_mesh_layer_5[] = {
 	gsSPClearGeometryMode(G_LIGHTING),
 	gsSPVertex(rl_bfspno_rl_bfspno_mesh_layer_5_vtx_cull + 0, 8, 0),
-	gsSPSetGeometryMode(G_LIGHTING),
+	// ライティングは使わず頂点カラーをそのまま使う
+	gsSPClearGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
 	gsSPDisplayList(mat_rl_bfspno_f3dlite_material),
 	gsSPDisplayList(rl_bfspno_rl_bfspno_mesh_layer_5_tri_0),
@@ -350,4 +350,3 @@ Gfx rl_bfspno_rl_bfspno_mesh_layer_5[] = {
 	gsDPSetAlphaCompare(G_AC_NONE),
 	gsSPEndDisplayList(),
 };
-

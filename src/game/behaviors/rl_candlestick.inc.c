@@ -6,6 +6,9 @@
 #include "audio/external.h"
 #include "levels/ccm/rl_bfsp/collision_header.h"
 #include "levels/ccm/rl_bfspno/collision_header.h"
+#include "levels/ccm/rl_bfspno/geo_header.h"
+#include "engine/math_util.h"
+#include "src/game/color.h"
 // BPARAM1: チャンネルID（燭台とプラットフォームの紐付け用、デフォルト0）
 // BPARAM2: タイマー秒数（0でデフォルト30秒、0x01=1秒, 0x1E=30秒）
 
@@ -20,6 +23,9 @@
 #define RL_CANDLE_FAST_TICK_REMAIN_FRAMES (3 * RL_CANDLE_FRAMES_PER_SECOND)
 #define RL_CANDLE_FLAME_HEIGHT 390.0f
 #define RL_CANDLE_FLAME_SCALE  5.0f
+#define RL_CANDLE_HITBOX_RADIUS 70
+#define RL_CANDLE_HITBOX_HEIGHT 60
+#define RL_CANDLE_HITBOX_BASE_Y 390.0f
 
 #define oRlCandlestickDurationFrames oF4
 #define oRlCandlestickChannel       oFC
@@ -34,11 +40,16 @@ static struct ObjectHitbox sRlCandlestickHitbox = {
     /* damageOrCoinValue: */ 0,
     /* health:            */ 0,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 80,
-    /* height:            */ 120,
+    /* radius:            */ RL_CANDLE_HITBOX_RADIUS,
+    /* height:            */ RL_CANDLE_HITBOX_HEIGHT,
     /* hurtboxRadius:     */ 0,
     /* hurtboxHeight:     */ 0,
 };
+
+static void rl_candle_apply_hitbox_offset(void) {
+    // Move the hitbox up so Mario collides near the flame at y=390-450.
+    o->hitboxDownOffset = -(RL_CANDLE_HITBOX_BASE_Y * o->header.gfx.scale[1]);
+}
 
 static s32 rl_candle_get_duration_frames(void) {
     s32 seconds = GET_BPARAM2(o->oBehParams);
@@ -106,12 +117,14 @@ void bhv_rl_candlestick_init(void) {
     o->oRlCandlestickChannel = rl_candle_get_channel(o);
     o->oRlCandlestickFlameObj = NULL;
     obj_set_hitbox(o, &sRlCandlestickHitbox);
+    rl_candle_apply_hitbox_offset();
 }
 
 void bhv_rl_candlestick_loop(void) {
     // 常に判定を有効にしておく
     o->oIntangibleTimer = 0;
     obj_set_hitbox(o, &sRlCandlestickHitbox);
+    rl_candle_apply_hitbox_offset();
 
     switch (o->oAction) {
         case RL_CANDLE_ACTION_IDLE:
@@ -230,4 +243,39 @@ void bhv_rl_bfsp_platform_loop(void) {
     }
 
     load_object_collision_model();
+}
+
+#define RL_BFSPNO_BRIGHTNESS_PHASE_FRAMES (3 * RL_CANDLE_FRAMES_PER_SECOND)
+
+// Render-time brightness cycle for the inactive BFSP platform (MODEL_CCM_RL_BFSPNO).
+Gfx *geo_rl_bfspno_brightness(s32 callContext, struct GraphNode *node, UNUSED Mat4 *mtx) {
+    if (callContext != GEO_CONTEXT_RENDER) {
+        return NULL;
+    }
+
+    const s32 phaseFrames = RL_BFSPNO_BRIGHTNESS_PHASE_FRAMES;
+    const s32 cycleFrames = phaseFrames * 2;
+    const s32 frameInCycle = gGlobalTimer % cycleFrames;
+
+    // コサインで 0→1→0 のイージイン/アウト。cycleの端でも値が0で連続する。
+    u16 angle = (u16)((frameInCycle * 0x10000u) / cycleFrames); // 0-0xFFFFで一周（符号なしで折り返しを防止）
+    f32 t = 0.5f - 0.5f * coss(angle); // 0.0 - 1.0
+    if (t < 0.0f) t = 0.0f;
+    if (t > 1.0f) t = 1.0f;
+
+    Vtx *vtx = segmented_to_virtual(rl_bfspno_rl_bfspno_mesh_layer_5_vtx_0);
+    if (vtx == NULL) {
+        return NULL;
+    }
+
+    // シンプルに頂点カラーを明度グレースケールで更新する（ライティング非使用）
+    const u8 brightness = (u8)(t * 255.0f + 0.5f);
+    for (s32 i = 0; i < 24; i++) {
+        vtx[i].v.cn[0] = brightness;
+        vtx[i].v.cn[1] = brightness;
+        vtx[i].v.cn[2] = brightness;
+        vtx[i].v.cn[3] = 255;
+    }
+
+    return NULL;
 }
