@@ -1,0 +1,15 @@
+extern const GeoLayout rl_candlestick_geo[];
+extern u8 rl_candlestick_jiku_ci4[];
+extern u8 rl_candlestick_jiku_pal_rgba16[];
+extern u8 rl_candlestick_ami_ci4[];
+extern u8 rl_candlestick_ami_pal_rgba16[];
+extern Vtx rl_candlestick_rl_candlestick_mesh_layer_1_vtx_cull[8];
+extern Vtx rl_candlestick_rl_candlestick_mesh_layer_1_vtx_0[257];
+extern Gfx rl_candlestick_rl_candlestick_mesh_layer_1_tri_0[];
+extern Vtx rl_candlestick_rl_candlestick_mesh_layer_1_vtx_1[362];
+extern Gfx rl_candlestick_rl_candlestick_mesh_layer_1_tri_1[];
+extern Gfx mat_rl_candlestick_f3dlite_material_001[];
+extern Gfx mat_revert_rl_candlestick_f3dlite_material_001[];
+extern Gfx mat_rl_candlestick_f3dlite_material[];
+extern Gfx mat_revert_rl_candlestick_f3dlite_material[];
+extern Gfx rl_candlestick_rl_candlestick_mesh_layer_1[];

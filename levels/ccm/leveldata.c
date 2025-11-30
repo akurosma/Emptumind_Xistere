@@ -71,5 +71,11 @@
 #include "levels/ccm/qte_circle/collision.inc.c"
 #include "levels/ccm/rl_ccmmetaldoor/model.inc.c"
 #include "levels/ccm/rl_ccmmetaldoor/collision.inc.c"
+#include "levels/ccm/rl_candlestick/model.inc.c"
+#include "levels/ccm/rl_candlestick/collision.inc.c"
+#include "levels/ccm/rl_bfsp/model.inc.c"
+#include "levels/ccm/rl_bfsp/collision.inc.c"
+#include "levels/ccm/rl_bfspno/model.inc.c"
+#include "levels/ccm/rl_bfspno/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"

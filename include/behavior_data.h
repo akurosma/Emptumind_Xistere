@@ -609,6 +609,8 @@ extern const BehaviorScript bhvFileselectbg[];
 extern const BehaviorScript bhvRlOnda[];
 extern const BehaviorScript bhvRlWave[];
 extern const BehaviorScript bhvRlShrinkpanel[];
+extern const BehaviorScript bhvRlCandlestick[];
+extern const BehaviorScript bhvRlBfspPlatform[];
 extern const BehaviorScript bhvRuluHtubeSpeed[]; //rulu hypertube
 extern const BehaviorScript bhvRlShadowwall[];
 extern const BehaviorScript bhvSinkPlatform[];

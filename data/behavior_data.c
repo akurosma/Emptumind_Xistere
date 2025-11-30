@@ -6459,6 +6459,28 @@ const BehaviorScript bhvRlSpidernet[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+const BehaviorScript bhvRlCandlestick[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_rl_candlestick_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_candlestick_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvRlBfspPlatform[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_bfspno_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_rl_bfsp_platform_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_bfsp_platform_loop),
+    END_LOOP(),
+};
 extern void bhv_rl_qte_circle_init(void);
 extern void bhv_rl_qte_circle_loop(void);
 const BehaviorScript bhvRlQteCircle[] = {
