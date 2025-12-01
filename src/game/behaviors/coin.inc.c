@@ -84,6 +84,65 @@ void bhv_temp_coin_loop(void) {
     bhv_coin_sparkles_init();
 }
 
+enum RespawningCoinActions {
+    RESP_COIN_ACT_ACTIVE,
+    RESP_COIN_ACT_WAITING,
+};
+
+#define RESPAWNING_COIN_DEFAULT_SECONDS 10
+
+static void respawning_coin_hide(void) {
+    cur_obj_hide();
+    cur_obj_disable_rendering_and_become_intangible(o);
+    o->oInteractStatus = INT_STATUS_NONE;
+}
+
+static void respawning_coin_show(void) {
+    cur_obj_unhide();
+    cur_obj_enable_rendering_and_become_tangible(o);
+    o->oInteractStatus = INT_STATUS_NONE;
+}
+
+void bhv_respawning_yellow_coin_init(void) {
+    bhv_yellow_coin_init();
+    u8 respawnSeconds = GET_BPARAM1(o->oBehParams);
+    // BP1 = respawn delay in seconds (0 falls back to default)
+
+    if (respawnSeconds == 0) {
+        respawnSeconds = RESPAWNING_COIN_DEFAULT_SECONDS;
+    }
+
+    o->oRespawningCoinCooldown = respawnSeconds * 30;
+    o->oHomeX = o->oPosX;
+    o->oHomeY = o->oPosY;
+    o->oHomeZ = o->oPosZ;
+}
+
+void bhv_respawning_yellow_coin_loop(void) {
+    switch (o->oAction) {
+        case RESP_COIN_ACT_ACTIVE:
+            if ((o->oInteractStatus & INT_STATUS_INTERACTED)
+                && !(o->oInteractStatus & INT_STATUS_TOUCHED_BOB_OMB)) {
+                spawn_object(o, MODEL_SPARKLES, bhvCoinSparklesSpawner);
+                respawning_coin_hide();
+                cur_obj_change_action(RESP_COIN_ACT_WAITING);
+                break;
+            }
+
+            o->oInteractStatus = INT_STATUS_NONE;
+            o->oAnimState++;
+            break;
+
+        case RESP_COIN_ACT_WAITING:
+            if (o->oTimer >= o->oRespawningCoinCooldown) {
+                vec3f_copy(&o->oPosVec, &o->oHomeVec);
+                respawning_coin_show();
+                cur_obj_change_action(RESP_COIN_ACT_ACTIVE);
+            }
+            break;
+    }
+}
+
 void bhv_coin_init(void) {
     o->oVelY = random_float() * 10.0f + 30 + o->oCoinBaseYVel;
     o->oForwardVel = random_float() * 10.0f;
