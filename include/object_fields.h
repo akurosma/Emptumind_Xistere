@@ -448,6 +448,7 @@
 /* Coin */
 #define /*0x0F4*/ oCoinRespawnBits  OBJECT_FIELD_S32(0x1B)
 #define /*0x0F8*/ oCoinSnapToGround OBJECT_FIELD_S32(0x1C)
+#define /*0x0FC*/ oRespawningCoinCooldown OBJECT_FIELD_S32(0x1D)
 #define /*0x110*/ oCoinBaseYVel     OBJECT_FIELD_F32(0x22)
 #define /*0x1B0*/ oCoinBounceTimer  OBJECT_FIELD_S32(0x4A)
 

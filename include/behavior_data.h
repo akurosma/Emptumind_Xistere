@@ -58,6 +58,7 @@ extern const BehaviorScript bhvCoinFormationSpawnedCoin[];
 extern const BehaviorScript bhvCoinFormation[];
 extern const BehaviorScript bhvOneCoin[];
 extern const BehaviorScript bhvYellowCoin[];
+extern const BehaviorScript bhvRespawningYellowCoin[];
 extern const BehaviorScript bhvTemporaryYellowCoin[];
 extern const BehaviorScript bhvThreeCoinsSpawn[];
 extern const BehaviorScript bhvTenCoinsSpawn[];

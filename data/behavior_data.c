@@ -61,6 +61,9 @@
 //rulu hypertube
 void bhv_rulu_htube_speed_init(void);
 void bhv_rulu_htube_speed_loop(void);
+// respawning coin
+void bhv_respawning_yellow_coin_init(void);
+void bhv_respawning_yellow_coin_loop(void);
 
 #define BC_B(a) _SHIFTL(a, 24, 8)
 #define BC_BB(a, b) (_SHIFTL(a, 24, 8) | _SHIFTL(b, 16, 8))
@@ -992,6 +995,17 @@ const BehaviorScript bhvYellowCoin[] = {
     CALL_NATIVE(bhv_yellow_coin_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_yellow_coin_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRespawningYellowCoin[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    BILLBOARD(),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_init_room),
+    CALL_NATIVE(bhv_respawning_yellow_coin_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_respawning_yellow_coin_loop),
     END_LOOP(),
 };
 
