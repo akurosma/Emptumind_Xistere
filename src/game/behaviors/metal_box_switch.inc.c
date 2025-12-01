@@ -191,8 +191,14 @@ void bhv_metal_box_switch_gate_loop(void) {
 }
 
 void bhv_rl_ccmmetaldoor_init(void) {
+    f32 riseDistance = 360.0f; // default rise distance for this gate type
+    u8 customRiseDistance = BPARAM3;
+    if (customRiseDistance != 0) {
+        riseDistance = (f32) customRiseDistance * 5.0f; // BPARAM3 is scaled by 5 units
+    }
+
     o->oFloatF4 = o->oPosY;
-    o->oFloatF8 = o->oPosY + METAL_BOX_GATE_RISE_DISTANCE;
+    o->oFloatF8 = o->oPosY + riseDistance;
     o->oAction = METAL_BOX_SIMPLE_GATE_ACT_IDLE;
     o->oF4 = FALSE;
 }
