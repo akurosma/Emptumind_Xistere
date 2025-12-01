@@ -25,7 +25,7 @@ struct CcmRespawnPoint {
 static void ccm_get_respawn_point(const struct Surface *floor, Vec3f outPos, s16 *outYaw, s16 *outCamOffset) {
     static const struct CcmRespawnPoint sRespawnPoints[] = {
         {    0.0f,         400.0f,           0.0f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // force 0
-        {  200.0f,         400.0f,         200.0f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 1
+        {  8127.7f,         -2000.0f,         2409.9f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 1
         { -200.0f,         400.0f,        -200.0f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // force 2
     };
 

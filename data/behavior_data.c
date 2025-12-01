@@ -6951,8 +6951,10 @@ const BehaviorScript bhvInfoSwitch[] = {
 };
 
 const BehaviorScript bhvRlShadowwall[] = {
-    BEGIN(OBJ_LIST_LEVEL),
+    BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_spidernet_collision),
     SET_FLOAT(oDrawingDistance, 10000),
     CALL_NATIVE(bhv_rl_shadowwall_init),
     BEGIN_LOOP(),
