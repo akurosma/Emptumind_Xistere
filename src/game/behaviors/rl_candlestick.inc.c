@@ -164,15 +164,38 @@ static struct Object *rl_bfsp_find_candlestick(u8 channel) {
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
     struct Object *obj = (struct Object *) listHead->next;
 
+    struct Object *firstMatch = NULL;
+    struct Object *bestLit = NULL;
+    s32 bestRemain = -1;
+
     while (obj != (struct Object *) listHead) {
         if (obj->behavior == behaviorAddr
             && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
             && rl_candle_get_channel(obj) == channel) {
-            return obj;
+            if (firstMatch == NULL) {
+                firstMatch = obj;
+            }
+
+            s32 duration = (obj->oRlCandlestickDurationFrames > 0)
+                ? obj->oRlCandlestickDurationFrames
+                : RL_CANDLE_DEFAULT_SECONDS * RL_CANDLE_FRAMES_PER_SECOND;
+
+            if (obj->oAction == RL_CANDLE_ACTION_LIT && obj->oTimer < duration) {
+                s32 remain = duration - obj->oTimer;
+                if (remain > bestRemain) {
+                    bestRemain = remain;
+                    bestLit = obj;
+                }
+            }
         }
         obj = (struct Object *) obj->header.next;
     }
-    return NULL;
+
+    // 優先順位: 点灯中のもの（残り時間が最大）> まだ点灯していない/消えている先頭のもの
+    if (bestLit != NULL) {
+        return bestLit;
+    }
+    return firstMatch;
 }
 
 void bhv_rl_bfsp_platform_init(void) {
@@ -185,12 +208,8 @@ void bhv_rl_bfsp_platform_init(void) {
 }
 
 void bhv_rl_bfsp_platform_loop(void) {
-    // 紐付けを確認（燭台が消えた場合も探索し直す）
-    if (o->oRlBfspTargetCandlestick == NULL
-        || o->oRlBfspTargetCandlestick->activeFlags == ACTIVE_FLAG_DEACTIVATED
-        || rl_candle_get_channel(o->oRlBfspTargetCandlestick) != o->oRlBfspChannel) {
-        o->oRlBfspTargetCandlestick = rl_bfsp_find_candlestick((u8)o->oRlBfspChannel);
-    }
+    // 毎フレーム探索し、複数あれば「点灯中で残り時間が最大」の燭台を優先する。
+    o->oRlBfspTargetCandlestick = rl_bfsp_find_candlestick((u8)o->oRlBfspChannel);
 
     s32 candleLit = FALSE;
     s32 showWarning = FALSE;
@@ -215,9 +234,14 @@ void bhv_rl_bfsp_platform_loop(void) {
         if (nextState == RL_BFSP_STATE_ACTIVE) {
             cur_obj_set_model(MODEL_CCM_RL_BFSP);
             o->collisionData = segmented_to_virtual(rl_bfsp_collision);
+            // Keep collision loaded even if Mario is far away; boxes may be near even when Mario離脱
+            o->oCollisionDistance = 10000.0f;//gpt 20000
+            o->oDrawingDistance   = 10000.0f;//gpt 20000
         } else {
             cur_obj_set_model(MODEL_CCM_RL_BFSPNO);
             o->collisionData = segmented_to_virtual(rl_bfspno_collision);
+            o->oCollisionDistance = 8000.0f;
+            o->oDrawingDistance   = 8000.0f;
         }
     }
 

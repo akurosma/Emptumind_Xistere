@@ -13,6 +13,9 @@ static struct Object *sShadowwallGroupWinner[RL_SHADOWWALL_GROUP_MAX];
 static u16 sShadowwallGroupCount[RL_SHADOWWALL_GROUP_MAX];
 static s16 sShadowwallLevelId = -1;
 
+// ランダム仕様:
+// - BPARAM3ごとにグループ化し、リザーバーサンプリングで1体だけ「当たり」を選ぶ。
+// - gCurrLevelNumが変わると毎回リセットされ、コース再入場で再抽選。エリア移動では保持。
 static void rl_shadowwall_reset_groups_if_needed(void) {
     if (sShadowwallLevelId != gCurrLevelNum) {
         for (s32 i = 0; i < RL_SHADOWWALL_GROUP_MAX; i++) {

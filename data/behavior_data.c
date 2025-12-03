@@ -6488,6 +6488,7 @@ const BehaviorScript bhvRlBfspPlatform[] = {
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_HOME(),
     LOAD_COLLISION_DATA(rl_bfspno_collision),
+    //SET_FLOAT(oCollisionDistance, 8000),
     SET_FLOAT(oDrawingDistance, 8000),
     CALL_NATIVE(bhv_init_room),
     CALL_NATIVE(bhv_rl_bfsp_platform_init),
