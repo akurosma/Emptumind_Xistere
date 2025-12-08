@@ -28,6 +28,7 @@
 #include "actors/group15.h"
 #include "actors/group16.h"
 #include "actors/group17.h"
+#include "actors/group18.h"
 
 #include "levels/menu/header.h"
 #include "levels/intro/header.h"
@@ -384,6 +385,16 @@ const LevelScript script_func_global_18[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MR_I_BODY,               mr_i_geo),
     LOAD_MODEL_FROM_GEO(MODEL_DORRIE,                  dorrie_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SNUFIT,                  snufit_geo),
+    RETURN(),
+};
+
+// CCM-specific combined bank (Boo + Heave Ho + Scuttlebug)
+const LevelScript script_func_global_19[] = {
+    LOAD_MODEL_FROM_GEO(MODEL_BOO,                     g18_boo_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_HEAVE_HO,                g18_heave_ho_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SCUTTLEBUG,              g18_scuttlebug_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MR_I_IRIS,               g18_mr_i_iris_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MR_I_BODY,               g18_mr_i_geo),
     RETURN(),
 };
 

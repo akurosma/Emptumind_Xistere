@@ -1337,13 +1337,16 @@ s32 act_hold_decelerating(struct MarioState *m) {
 
 s32 act_riding_shell_ground(struct MarioState *m) {
     s16 startYaw = m->faceAngle[1];
+    struct Object *currentShell = m->usedObj ? m->usedObj : m->riddenObj;
+    const int hasHyperShell = currentShell && currentShell->oBehParams2ndByte == 1;
 
     if (m->input & INPUT_A_PRESSED) {
-        if (sHyperShell) {
-            m->usedObj = sHyperShell;
-            m->riddenObj = sHyperShell;
+        if (hasHyperShell) {
+            // Keep track of the hyper shell so rail transfers keep working.
+            sHyperShell = currentShell;
+            return set_mario_action(m, ACT_HYPERTUBE_JUMP, 0);
         }
-        return set_mario_action(m, ACT_HYPERTUBE_JUMP, 0);
+        return set_mario_action(m, ACT_RIDING_SHELL_JUMP, 0);
     }
 
     if (m->input & INPUT_Z_PRESSED) {
