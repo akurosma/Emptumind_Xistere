@@ -4,6 +4,7 @@
 #include "game/memory.h"
 #include "game/object_helpers.h"
 #include "game/level_update.h"
+#include "game/area.h"
 #include "engine/math_util.h"
 
 #define RL_SHADOWWALL_VTX_COUNT 4
@@ -12,26 +13,54 @@
 static struct Object *sShadowwallGroupWinner[RL_SHADOWWALL_GROUP_MAX];
 static u16 sShadowwallGroupCount[RL_SHADOWWALL_GROUP_MAX];
 static s16 sShadowwallLevelId = -1;
+static s16 sShadowwallAreaIndex = -1;
+static Vec3s sShadowwallWinnerPos[RL_SHADOWWALL_GROUP_MAX];
+static u8 sShadowwallHasWinner[RL_SHADOWWALL_GROUP_MAX];
 
 // ランダム仕様:
 // - BPARAM3ごとにグループ化し、リザーバーサンプリングで1体だけ「当たり」を選ぶ。
-// - gCurrLevelNumが変わると毎回リセットされ、コース再入場で再抽選。エリア移動では保持。
+// - コース再入場時にのみ再抽選（gCurrLevelNumの変化）。エリア移動では抽選結果を保持し、当たりの位置を記憶して紐付けし直す。
 static void rl_shadowwall_reset_groups_if_needed(void) {
     if (sShadowwallLevelId != gCurrLevelNum) {
         for (s32 i = 0; i < RL_SHADOWWALL_GROUP_MAX; i++) {
             sShadowwallGroupWinner[i] = NULL;
             sShadowwallGroupCount[i] = 0;
+            sShadowwallHasWinner[i] = FALSE;
+            sShadowwallWinnerPos[i][0] = 0;
+            sShadowwallWinnerPos[i][1] = 0;
+            sShadowwallWinnerPos[i][2] = 0;
         }
         sShadowwallLevelId = gCurrLevelNum;
+        sShadowwallAreaIndex = gCurrAreaIndex;
+    } else if (sShadowwallAreaIndex != gCurrAreaIndex) {
+        // エリア遷移では抽選結果を残したまま、紐付けだけ解き直す。
+        for (s32 i = 0; i < RL_SHADOWWALL_GROUP_MAX; i++) {
+            sShadowwallGroupWinner[i] = NULL;
+        }
+        sShadowwallAreaIndex = gCurrAreaIndex;
     }
 }
 
 static void rl_shadowwall_register_candidate(u8 groupId) {
     rl_shadowwall_reset_groups_if_needed();
 
+    // 既に当たりが決まっている場合は、位置一致でポインタを再紐付けするだけ。
+    if (sShadowwallHasWinner[groupId]) {
+        if (o->oHomeX == sShadowwallWinnerPos[groupId][0]
+            && o->oHomeY == sShadowwallWinnerPos[groupId][1]
+            && o->oHomeZ == sShadowwallWinnerPos[groupId][2]) {
+            sShadowwallGroupWinner[groupId] = o;
+        }
+        return;
+    }
+
     u16 count = ++sShadowwallGroupCount[groupId];
     if (count == 1 || (random_u16() % count) == 0) {
         sShadowwallGroupWinner[groupId] = o;
+        sShadowwallHasWinner[groupId] = TRUE;
+        sShadowwallWinnerPos[groupId][0] = o->oHomeX;
+        sShadowwallWinnerPos[groupId][1] = o->oHomeY;
+        sShadowwallWinnerPos[groupId][2] = o->oHomeZ;
     }
 }
 

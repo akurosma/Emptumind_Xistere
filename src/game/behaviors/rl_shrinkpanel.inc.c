@@ -6,10 +6,20 @@
 
 extern const Collision rl_flippanel_collision[];
 
+// BPARAM2: 初期スケールを 1.00 + (値 * 0.01) 倍で設定する
+static f32 rl_shrinkpanel_get_base_scale(void) {
+    return 1.0f + ((f32)BPARAM2 * 0.01f);
+}
+
+static void rl_shrinkpanel_reset_scale(void) {
+    f32 scale = rl_shrinkpanel_get_base_scale();
+    o->header.gfx.scale[0] = scale;
+    o->header.gfx.scale[1] = scale;
+    o->header.gfx.scale[2] = scale;
+}
+
 void bhv_rl_shrinkpanel_init(void) {
-    o->header.gfx.scale[0] = 1.0f;
-    o->header.gfx.scale[1] = 1.0f;
-    o->header.gfx.scale[2] = 1.0f;
+    rl_shrinkpanel_reset_scale();
     o->oAction = 0;
     o->oShrinkStarted = FALSE;
     o->oMarioWasOn = FALSE;
@@ -30,9 +40,7 @@ void bhv_rl_shrinkpanel_loop(void) {
         o->oFlippanelTargetAngle = o->oFaceAngleRoll - 0x8000;
         o->oAngleVelRoll = -FLIP_SPEED;
 
-        o->header.gfx.scale[0] = 1.0f;
-        o->header.gfx.scale[1] = 1.0f;
-        o->header.gfx.scale[2] = 1.0f;
+        rl_shrinkpanel_reset_scale();
 
         /* マリオが直前に乗っていたフラグが残っていたらリセットして安全に */
         o->oMarioWasOn = FALSE;
@@ -85,9 +93,7 @@ void bhv_rl_shrinkpanel_loop(void) {
             o->oFlippanelTargetAngle = o->oFaceAngleRoll - 0x8000;
             o->oAngleVelRoll = -FLIP_SPEED;
 
-            o->header.gfx.scale[0] = 1.0f;
-            o->header.gfx.scale[1] = 1.0f;
-            o->header.gfx.scale[2] = 1.0f;
+            rl_shrinkpanel_reset_scale();
 
             o->oMarioWasOn = FALSE;
             o->oLeaveTimer = 0;
@@ -98,9 +104,7 @@ void bhv_rl_shrinkpanel_loop(void) {
             o->oFlippanelTargetAngle = o->oFaceAngleRoll - 0x8000;
             o->oAngleVelRoll = -FLIP_SPEED;
 
-            o->header.gfx.scale[0] = 1.0f;
-            o->header.gfx.scale[1] = 1.0f;
-            o->header.gfx.scale[2] = 1.0f;
+            rl_shrinkpanel_reset_scale();
 
             o->oMarioWasOn = FALSE;
             o->oLeaveTimer = 0;

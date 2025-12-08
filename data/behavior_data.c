@@ -6835,8 +6835,8 @@ const BehaviorScript bhvRlBeepblock[] = {
     SET_FLOAT(oDrawingDistance, 8000),
     CALL_NATIVE(bhv_rl_beepblock_init),
     BEGIN_LOOP(),
-        CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_beepblock_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
 

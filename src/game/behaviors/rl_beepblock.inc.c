@@ -9,13 +9,44 @@
 
 extern const Collision rl_beepblock_collision[];   // texture1
 extern const Collision rl_top_collision[];  // texture2
+static f32 rl_beepblock_scale_from_bparam(s32 bparam) {
+    return (bparam > 0) ? ((f32)bparam / 100.0f) : 1.0f;
+}
+
+// Collisions swap at runtime, so reset the auto-calculated collision distance when the pointer changes.
+static void rl_beepblock_set_collision(const Collision *collision) {
+    const Collision *segCollision = segmented_to_virtual(collision);
+    if (o->collisionData != segCollision) {
+        o->collisionData = segCollision;
+        o->oFlags &= ~OBJ_FLAG_DONT_CALC_COLL_DIST;
+    }
+}
+
+static void rl_beepblock_apply_scale_from_params(void) {
+    f32 scaleX = rl_beepblock_scale_from_bparam(BPARAM2);
+    f32 scaleY = rl_beepblock_scale_from_bparam(BPARAM1);
+    f32 scaleZ = rl_beepblock_scale_from_bparam(BPARAM3);
+
+    obj_scale_xyz(o, scaleX, scaleY, scaleZ);
+}
 
 void bhv_rl_beepblock_init(void) {
     o->oOpacity = 255;    // 初期状態はtexture1
     o->oAction = 0;        // 点滅制御
     o->oF4 = 0;            // カスタムタイマー
     o->oF8 = 1;             // texture1が初期ベース
-    obj_set_collision_data(o, rl_beepblock_collision);
+    rl_beepblock_apply_scale_from_params();
+
+    // BPARAM4 == 1 の場合、初期状態を反転（texture2側から開始）
+    if (BPARAM4 == 1) {
+        o->oF8 = 0;
+        o->oOpacity = 0;
+        rl_beepblock_set_collision(rl_top_collision);
+        cur_obj_become_intangible();
+    } else {
+        rl_beepblock_set_collision(rl_beepblock_collision);
+        cur_obj_become_tangible();
+    }
 }
 
 void bhv_rl_beepblock_loop(void) {
@@ -95,9 +126,10 @@ void bhv_rl_beepblock_loop(void) {
     // === 判定切り替え（opacityが完全に0 or 255のときのみ） ===
     //
     if (o->oOpacity == 255) {
-        obj_set_collision_data(o, rl_beepblock_collision);
+        rl_beepblock_set_collision(rl_beepblock_collision);
+        cur_obj_become_tangible();
     } else if (o->oOpacity == 0) {
-        obj_set_collision_data(o, rl_top_collision);
+        rl_beepblock_set_collision(rl_top_collision);
         cur_obj_become_intangible();
     }
 
