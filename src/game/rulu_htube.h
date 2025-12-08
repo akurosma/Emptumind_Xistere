@@ -32,3 +32,7 @@ void htube_set_for_level(s32 levelNum);
 // Optional user override: return the htube descriptor table for a given level.
 // Weak default returns NULL; define your own elsewhere to register htubes.
 const HtubeDesc **get_htube_desc_for_level(s32 levelNum);
+
+// Expose current htube frame data (center of trajectory bounds and forward dir).
+// Returns 0 if not on a htube/rail.
+int zipline_get_frame(Vec3f center, Vec3f dir);

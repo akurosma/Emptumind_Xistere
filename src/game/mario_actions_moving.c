@@ -2464,41 +2464,62 @@ s32 act_rail_grind(struct MarioState *m) {
         struct MarioBodyState *marioBodyState = m->marioBodyState;
         struct Object *marioObj = m->marioObj;
 
-        // 円筒中心を向く姿勢（中心: X=28, Y=500, Zは現在位置）
-        Vec3f center = { 28.f, 500.f, m->pos[2] };
-        f32 dx = center[0] - m->pos[0];
-        f32 dy = center[1] - m->pos[1];
-        // 中心方向（X/Y）のみで up を決定、Z は進行方向へ任せる
-        Vec3f up = { dx, dy, 0.f };
-        f32 lenXY = sqrtf(dx * dx + dy * dy);
-        if (lenXY > 1.f) {
-            f32 inv = 1.f / lenXY;
-            f32 nx = dx * inv;
-            f32 ny = dy * inv;
-            // 内壁に合わせて位置補正（Z はそのまま）
-            m->pos[0] = center[0] - nx * 896.f;
-            m->pos[1] = center[1] - ny * 896.f;
-            up[0] = nx;
-            up[1] = ny;
+        Vec3f center;
+        Vec3f fwd;
+        int hasFrame = zipline_get_frame(center, fwd);
+
+        // デフォルトの中心/進行方向をフォールバックで用意
+        if (!hasFrame) {
+            center[0] = m->pos[0];
+            center[1] = m->pos[1] + 300.f;
+            center[2] = m->pos[2];
+            fwd[0] = m->vel[0];
+            fwd[1] = m->vel[1];
+            fwd[2] = m->vel[2];
+        } else {
+            // 円筒軸はZ方向に伸びる想定なのでZは現在値に合わせる
+            center[2] = m->pos[2];
         }
-        vec3_normalize(up);
 
-        // 進行方向はレール方向を基準に up と直交化（安定化のため速度は使わない）
-        Vec3f fwd = { 896.f, 0.f, -3385.f }; // コイン列方向
-        f32 dot = fwd[0] * up[0] + fwd[1] * up[1] + fwd[2] * up[2];
-        fwd[0] -= dot * up[0];
-        fwd[1] -= dot * up[1];
-        fwd[2] -= dot * up[2];
-        vec3_normalize(fwd);
+        // 上方向: 中心へ向けたベクトル（Zは無視してXY平面で壁方向を取る）
+        Vec3f up = { center[0] - m->pos[0], center[1] - m->pos[1], 0.f };
+        f32 upLen = sqrtf(up[0] * up[0] + up[1] * up[1] + up[2] * up[2]);
+        if (upLen < 1.f) {
+            up[0] = 0.f; up[1] = 1.f; up[2] = 0.f;
+            upLen = 1.f;
+        } else {
+            f32 inv = 1.f / upLen;
+            up[0] *= inv; up[1] *= inv; up[2] *= inv;
+        }
 
+        f32 fwdLen = sqrtf(fwd[0] * fwd[0] + fwd[1] * fwd[1] + fwd[2] * fwd[2]);
+        if (fwdLen < 0.001f) {
+            fwd[0] = 0.f; fwd[1] = 0.f; fwd[2] = 1.f;
+        } else {
+            f32 inv = 1.f / fwdLen;
+            fwd[0] *= inv; fwd[1] *= inv; fwd[2] *= inv;
+        }
+
+        // 直交基底を構築
         Vec3f right;
         vec3_cross(right, fwd, up);
-        vec3_normalize(right);
-        vec3_cross(fwd, up, right); // 再直交化
+        f32 rightLen = sqrtf(right[0] * right[0] + right[1] * right[1] + right[2] * right[2]);
+        if (rightLen < 0.001f) {
+            Vec3f fallbackUp = { 0.f, 1.f, 0.f };
+            vec3_cross(right, fwd, fallbackUp);
+            rightLen = sqrtf(right[0] * right[0] + right[1] * right[1] + right[2] * right[2]);
+        }
+        if (rightLen < 0.001f) {
+            right[0] = 1.f; right[1] = 0.f; right[2] = 0.f;
+            rightLen = 1.f;
+        }
+        f32 invRight = 1.f / rightLen;
+        right[0] *= invRight; right[1] *= invRight; right[2] *= invRight;
+        vec3_cross(fwd, up, right);
         vec3_normalize(fwd);
 
-        // up/right から roll、fwd から yaw/pitch を安定算出
-        s16 yaw = atan2s(fwd[2], fwd[0]) + 0x8000; // 進行方向へ顔を向ける
+        // up/right から roll、fwd から yaw/pitch を算出
+        s16 yaw = atan2s(fwd[0], fwd[2]); // 進行方向へ顔を向ける（SM64のyawはx,z順）
         s16 pitch = atan2s(-fwd[1], sqrtf(sqr(fwd[0]) + sqr(fwd[2])));
         s16 roll = atan2s(right[1], up[1]); // 中心へ傾ける
 
