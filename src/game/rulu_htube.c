@@ -39,6 +39,7 @@ const Trajectory *sTrajectory;
 static const LDLDesc *sLoopDesc;
 static Vec3f sTrajectoryMiddle;
 static s16 sZiplineCurPoint = 0;
+static Vec3f sZiplineDir = { 0.f, 0.f, 1.f };
 static s16 sZiplineSegmentCount;
 static s16 sZiplineLoopYaw;
 static s16 sLoopFaceAngle;
@@ -261,12 +262,12 @@ static void commit_trajectory(const struct match *match, f32 *pclosestPoint) {
     sTrajectory = traj;
     sLoopDesc = loop;
     sTrajectoryArea = gCurrAreaIndex;
+    calculate_trajectory_middle();
     sAngleFlipped = abs_angle_diff(gMarioStates->faceAngle[1], yaw) > 0x4000;
     sCancelTimeout = sLoopDesc ? 30 : 4;
     if (sLoopDesc) {
         sAngleFlipped = 0;
         sZiplineLoopYaw = gMarioStates->faceAngle[1] = sLoopFaceAngle = yaw;
-        calculate_trajectory_middle();
     } else {
         gMarioStates->faceAngle[1] = sAngleFlipped ? (yaw + 0x8000) : (yaw);
     }
@@ -438,6 +439,16 @@ int zipline_step(int exSpeed, s16 *extraTilt, int holdZ) {
         }
 
         f32 dirMag = vec3_mag(trajDirection);
+        if (dirMag > 0.0001f) {
+            sZiplineDir[0] = trajDirection[0] / dirMag;
+            sZiplineDir[1] = trajDirection[1] / dirMag;
+            sZiplineDir[2] = trajDirection[2] / dirMag;
+        } else {
+            sZiplineDir[0] = 0.f;
+            sZiplineDir[1] = 0.f;
+            sZiplineDir[2] = 1.f;
+            dirMag = 1.f;
+        }
         // Calculate velocity
         if (sLoopDesc) {
             sForwardVel += 5.f;
@@ -446,8 +457,13 @@ int zipline_step(int exSpeed, s16 *extraTilt, int holdZ) {
             f32 xdir = trajDirection[0];
             f32 zdir = trajDirection[2];
             f32 szmag = sqrtf(xdir * xdir + zdir * zdir);
-            xdir /= szmag;
-            zdir /= szmag;
+            if (szmag > 0.0001f) {
+                xdir /= szmag;
+                zdir /= szmag;
+            } else {
+                xdir = 1.f;
+                zdir = 0.f;
+            }
 
             f32 xrdir = -zdir;
             f32 zrdir = xdir;
@@ -626,4 +642,20 @@ int zipline_get_tilt(zipline_tilt_t *tilt) {
     tilt->v[1] = zrdir;
 
     return (int) traj;
+}
+
+int zipline_get_frame(Vec3f center, Vec3f dir) {
+    if (!sTrajectory) {
+        return 0;
+    }
+
+    if (center) {
+        vec3_copy(center, sTrajectoryMiddle);
+    }
+
+    if (dir) {
+        vec3_copy(dir, sZiplineDir);
+    }
+
+    return 1;
 }
