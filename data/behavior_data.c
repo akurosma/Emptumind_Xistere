@@ -33,6 +33,7 @@
 #include "actors/group15.h"
 #include "actors/group16.h"
 #include "actors/group17.h"
+#include "actors/group18.h"
 #include "levels/ccm/header.h"
 #include "levels/bbh/header.h"
 #include "levels/castle_inside/header.h"
@@ -1912,6 +1913,24 @@ const BehaviorScript bhvHeaveHo[] = {
     END_LOOP(),
 };
 
+// Heave Ho variant for group18 bank (g18_* symbols)
+const BehaviorScript bhvHeaveHoCCM[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, g18_heave_ho_seg5_anims_0501534C),
+    ANIMATE(HEAVE_HO_ANIM_MOVING),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 200, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 600, /*Unused*/ 0, 0),
+    SPAWN_OBJ(/*Model*/ MODEL_NONE, /*Behavior*/ bhvHeaveHoThrowMario),
+    SET_INT(oInteractType, INTERACT_GRABBABLE),
+    SET_INT(oInteractionSubtype, (INT_SUBTYPE_NOT_GRABBABLE | INT_SUBTYPE_GRABS_MARIO)),
+    SET_HITBOX(/*Radius*/ 120, /*Height*/ 100),
+    SET_HOME(),
+    SET_INT(oIntangibleTimer, 0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_heave_ho_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvHeaveHoThrowMario[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -3323,6 +3342,20 @@ const BehaviorScript bhvScuttlebug[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_ANIMATIONS(oAnimations, scuttlebug_seg6_anims_06015064),
+    ANIMATE(SCUTTLEBUG_ANIM_JUMP),
+    SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 80, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
+    SET_HOME(),
+    CALL_NATIVE(bhv_init_room),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_scuttlebug_loop),
+    END_LOOP(),
+};
+
+// Scuttlebug variant for group18 bank (g18_* symbols)
+const BehaviorScript bhvScuttlebugCCM[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, g18_scuttlebug_seg6_anims_06015064),
     ANIMATE(SCUTTLEBUG_ANIM_JUMP),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 80, /*Gravity*/ -400, /*Bounciness*/ -50, /*Drag strength*/ 0, /*Friction*/ 0, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     SET_HOME(),
