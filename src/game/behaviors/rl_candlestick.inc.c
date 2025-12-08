@@ -95,15 +95,36 @@ static s32 rl_candle_should_light(void) {
 }
 
 static void rl_candle_play_tick_sound(void) {
+    // フレーム単位で「遅い音を優先」させるための集約状態
+    static s32 sTickSoundFrame = -1;
+    static u8 sTickPlayedSlow = FALSE;
+    static u8 sTickPendingFast = FALSE;
+
+    // フレームが進んだら前フレームの集約を反映し、状態をリセット
+    if (sTickSoundFrame != gGlobalTimer) {
+        if (sTickPendingFast && !sTickPlayedSlow) {
+            play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+        }
+        sTickSoundFrame = gGlobalTimer;
+        sTickPlayedSlow = FALSE;
+        sTickPendingFast = FALSE;
+    }
+
     s32 remain = o->oRlCandlestickDurationFrames - o->oTimer;
     if (remain <= 0) {
         return;
     }
 
     if (remain <= RL_CANDLE_FAST_TICK_REMAIN_FRAMES) {
-        play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+        if (!sTickPlayedSlow) {
+            play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+            sTickPlayedSlow = TRUE;
+            sTickPendingFast = FALSE; // このフレームのfast要求は破棄
+        }
     } else {
-        play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);
+        if (!sTickPlayedSlow) {
+            sTickPendingFast = TRUE; // slowが来なければ次フレーム頭で再生
+        }
     }
 }
 

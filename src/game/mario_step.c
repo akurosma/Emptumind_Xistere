@@ -24,14 +24,14 @@ struct CcmRespawnPoint {
 
 static void ccm_get_respawn_point(const struct Surface *floor, Vec3f outPos, s16 *outYaw, s16 *outCamOffset) {
     static const struct CcmRespawnPoint sRespawnPoints[] = {
-        {    0.0f,         400.0f,           0.0f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // force 0
+        {    0.0f,         400.0f,           0.0f,        0x8000, (s16)(0x8000 - 0x7FFF) }, // force 0
         {  8127.7f,         -2000.0f,         2409.9f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 1
         { -200.0f,         400.0f,        -200.0f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // force 2
     };
 
     u16 idx = 0;
     if (floor != NULL) {
-        u16 candidate = floor->force;
+        u16 candidate = floor->force & 0xFF; // 下位1バイトのみでリスポーンIDを選択
         if (candidate < ARRAY_COUNT(sRespawnPoints)) {
             idx = candidate;
         }
@@ -56,7 +56,10 @@ static s32 ccm_handle_death_floor(struct MarioState *m, struct Surface *floor, f
         return FALSE;
     }
 
-    if (enforceHeightBuffer) {
+    u8 mode = (floor->force >> 8) & 0xFF;
+    s32 ignoreHeight = (mode == 0x01); // 上位1バイト0x01なら高さ無視で発動
+
+    if (enforceHeightBuffer && !ignoreHeight) {
         f32 triggerHeight = floorHeight + DEATH_TRIGGER_OFFSET;
         if (posY >= triggerHeight) {
             return FALSE;

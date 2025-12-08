@@ -3,6 +3,11 @@
 const GeoLayout ccm_area_2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -28, -100, 5400, ccm_dl_area2_pipe_platform_mesh_layer_5),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4250, -300, 2100, 0, 90, 0, ccm_dl_area2_wallkick_bfsp_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4250, -600, 1300, 0, 90, 0, ccm_dl_area2_wallkick_bfsp_001_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4250, -600, 2900, 0, 90, 0, ccm_dl_area2_wallkick_bfsp_002_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4250, -300, 3700, 0, 90, 0, ccm_dl_area2_wallkick_bfsp_003_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, -100, 0, ccm_dl_test_area2_room_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
