@@ -6,7 +6,15 @@
 #include "sm64.h"
 
 #define DEFAULT_TEMPO 5760
-#define MAX_TEMPO     11520
+#define MAX_TEMPO     13520
+
+// HUD連携用の状態（hud.cから参照）
+s32 gRlTemporesetHudEnabled = FALSE;
+s32 gRlTemporesetHudTempo = 0;
+s32 gRlTemporesetHudCycle = 5;
+s32 gRlTemporesetHudLastUpdate = -1;
+const s32 gRlTemporesetDefaultTempo = DEFAULT_TEMPO;
+const s32 gRlTemporesetMaxTempo = MAX_TEMPO;
 
 void bhv_rl_temporeset_init(void) {
     o->oAction = FALSE; // use oAction to track previous platform state
@@ -18,6 +26,9 @@ void bhv_rl_temporeset_loop(void) {
     const s32 allowIncrease = (o->oBehParams2ndByte == 1);
     const s32 wasOnPlatform = (o->oAction != FALSE);
     const s32 isOnPlatform = (gMarioObject != NULL && gMarioObject->platform == o);
+    const s32 currentTempo =
+        gSequencePlayers[SEQ_PLAYER_LEVEL].tempo +
+        gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
 
     // --- 乗った瞬間だけデフォルトに戻す ---
     if (isOnPlatform && !wasOnPlatform) {
@@ -30,10 +41,6 @@ void bhv_rl_temporeset_loop(void) {
     if (allowIncrease
         && (gPlayer1Controller->buttonPressed & A_BUTTON)
         && sHandledAButtonFrame != (s32)gGlobalTimer) {
-        s32 currentTempo =
-            gSequencePlayers[SEQ_PLAYER_LEVEL].tempo +
-            gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
-
         if (currentTempo < MAX_TEMPO) {
             gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd += 100;
 
@@ -60,10 +67,6 @@ void bhv_rl_temporeset_loop(void) {
     if (allowIncrease
         && (gPlayer1Controller->buttonPressed & D_JPAD)
         && sHandledDebugButtonFrame != (s32)gGlobalTimer) {
-        s32 currentTempo =
-            gSequencePlayers[SEQ_PLAYER_LEVEL].tempo +
-            gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd;
-
         if (currentTempo < MAX_TEMPO) {
             gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd += 1000;
 
@@ -87,6 +90,21 @@ void bhv_rl_temporeset_loop(void) {
     }
 
     o->oAction = isOnPlatform;
+
+    // HUD用状態更新（BPARAM2 == 1 の個体のみ）
+    if (allowIncrease) {
+        s32 cycle;
+        if (currentTempo >= 13520) cycle = 5;
+        else if (currentTempo >= 11000) cycle = 4;
+        else if (currentTempo >= 9000) cycle = 3;
+        else if (currentTempo >= 7000) cycle = 2;
+        else cycle = 1;
+
+        gRlTemporesetHudEnabled = TRUE;
+        gRlTemporesetHudTempo = currentTempo;
+        gRlTemporesetHudCycle = cycle;
+        gRlTemporesetHudLastUpdate = (s32)gGlobalTimer;
+    }
 }
 
 extern Vtx rl_temporeset_rl_temporeset_mesh_layer_5_vtx_0[]; // 宣言

@@ -19,13 +19,14 @@ struct ObjectHitbox sMetalBoxHitbox = {
 
 #define oPushableSwitchAirborne o->oF4
 #define METAL_BOX_INTERACT_RANGE 260.0f
-#define METAL_BOX_MAX_DROP 1000.0f
+#define METAL_BOX_MAX_DROP 2000.0f
 #define METAL_BOX_CHECK_AHEAD 180.0f
 #define METAL_BOX_BFSP_EXTRA_AHEAD 240.0f
 #define METAL_BOX_BFSP_SCAN_AHEAD 400.0f
 #define METAL_BOX_BFSP_SCAN_SIDE  220.0f
 #define METAL_BOX_BFSP_MAX_DROP   4000.0f
 #define METAL_BOX_RESPAWN_FALL    8000.0f
+#define METAL_BOX_TERM_VEL        -60.0f  // clamp fall speed to avoid tunneling through floors
 
 s32 check_if_moving_over_floor(f32 maxDist, f32 offset) {
     struct Surface *floor;
@@ -183,6 +184,10 @@ void bhv_pushable_switch_box_loop(void) {
 
     cur_obj_compute_vel_xz();
     o->oVelY += o->oGravity;
+    // 終端速度のクランプは BPARAM2 == 1 のときのみ有効（任意で貫通を許可できるようにする）。
+    if (GET_BPARAM2(o->oBehParams) == 1 && o->oVelY < METAL_BOX_TERM_VEL) {
+        o->oVelY = METAL_BOX_TERM_VEL;
+    }
     o->oPosX += o->oVelX;
     o->oPosZ += o->oVelZ;
     o->oPosY += o->oVelY;

@@ -100,6 +100,7 @@ struct WarpDest {
 };
 
 extern struct WarpDest sWarpDest;
+extern u32 gLevelEntryCounter;
 
 extern s16 sSpecialWarpDest;
 extern s16 sDelayedWarpOp;

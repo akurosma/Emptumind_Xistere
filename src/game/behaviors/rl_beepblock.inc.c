@@ -12,6 +12,8 @@ extern const Collision rl_top_collision[];  // texture2
 static f32 rl_beepblock_scale_from_bparam(s32 bparam) {
     return (bparam > 0) ? ((f32)bparam / 100.0f) : 1.0f;
 }
+//元のオブジェクトはbelnderで10mの立方体
+//blender上の1mはBparam10
 
 // Collisions swap at runtime, so reset the auto-calculated collision distance when the pointer changes.
 static void rl_beepblock_set_collision(const Collision *collision) {
@@ -55,20 +57,27 @@ void bhv_rl_beepblock_loop(void) {
 
         // テンポに応じた点滅速度
     s32 fadeSpeed;
-    if (tempo >= 11000) fadeSpeed = 40;
+    if (tempo >= 13520) fadeSpeed = 50;
+    else if (tempo >= 11000) fadeSpeed = 40;
     else if (tempo >= 9000) fadeSpeed = 30;
     else if (tempo >= 7000) fadeSpeed = 20;
     else fadeSpeed = 10;
     
-    // テンポに応じてLOUD_POUND間隔を調整
-    s32 interval;
-    if (tempo >= 11000) interval = 12;
-    else if (tempo >= 9000) interval = 18;
-    else if (tempo >= 7000) interval = 24;
-    else interval = 30;
+    // テンポに応じてLOUD_POUND間隔を調整（サイクル開始時にスナップショット）
+    s32 intervalCandidate;
+    if (tempo >= 13520) intervalCandidate = 12;
+    else if (tempo >= 11000) intervalCandidate = 18;
+    else if (tempo >= 9000) intervalCandidate = 24;
+    else if (tempo >= 7000) intervalCandidate = 30;
+    else intervalCandidate = 36;
 
-    s32 totalCycle = BASE_DELAY_BEFORE_START + (interval * NUM_POUNDS) + GUN_DELAY_AFTER_LAST;
-    s32 t = (s32)o->oF4;
+    if (o->oF4 == 0 || (s32)o->oFC == 0) {
+        o->oFC = intervalCandidate; // 固定化
+    }
+
+    const s32 interval = (s32)o->oFC;
+    const s32 totalCycle = BASE_DELAY_BEFORE_START + (interval * NUM_POUNDS) + GUN_DELAY_AFTER_LAST;
+    const s32 t = (s32)o->oF4;
 
     //
     // === LOUD_POUND: 点滅だけ ===
