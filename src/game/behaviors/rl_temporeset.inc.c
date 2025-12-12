@@ -2,7 +2,6 @@
 #include "audio/external.h"
 #include "game/mario.h"
 #include "game/level_update.h"
-#include "game/print.h"
 #include "sm64.h"
 
 #define DEFAULT_TEMPO 5760
@@ -34,7 +33,6 @@ void bhv_rl_temporeset_loop(void) {
     if (isOnPlatform && !wasOnPlatform) {
         gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd = 0;
         gSequencePlayers[SEQ_PLAYER_LEVEL].tempo = DEFAULT_TEMPO;
-        print_text(100, 200, "Tempo Reset -> 5760");
     }
 
     // --- Aボタンでテンポを+100（上限付き） ---
@@ -53,12 +51,6 @@ void bhv_rl_temporeset_loop(void) {
                 gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd =
                     MAX_TEMPO - gSequencePlayers[SEQ_PLAYER_LEVEL].tempo;
             }
-
-            char buf[64];
-            sprintf(buf, "Tempo:%d", newTempo);
-            print_text(100, 180, buf);
-        } else {
-            print_text(100, 180, "MAX TEMPO REACHED!");
         }
         sHandledAButtonFrame = (s32)gGlobalTimer; // 一度の入力で複数オブジェクトから加算されないように
     }
@@ -79,12 +71,6 @@ void bhv_rl_temporeset_loop(void) {
                 gSequencePlayers[SEQ_PLAYER_LEVEL].tempoAdd =
                     MAX_TEMPO - gSequencePlayers[SEQ_PLAYER_LEVEL].tempo;
             }
-
-            char buf[64];
-            sprintf(buf, "Tempo:%d", newTempo);
-            print_text(100, 180, buf);
-        } else {
-            print_text(100, 180, "MAX TEMPO REACHED!");
         }
         sHandledDebugButtonFrame = (s32)gGlobalTimer;
     }
