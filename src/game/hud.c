@@ -22,11 +22,20 @@
 #include "audio/external.h"
 #include "audio/seqplayer.h"
 
+#include "behavior_data.h"
+
 #include "object_constants.h"
 #include "object_fields.h"
 
 #include "config.h"
-#include "behavior_data.h"
+
+// rl_temporeset HUD連携
+extern s32 gRlTemporesetHudEnabled;
+extern s32 gRlTemporesetHudTempo;
+extern s32 gRlTemporesetHudCycle;
+extern s32 gRlTemporesetHudLastUpdate;
+extern const s32 gRlTemporesetDefaultTempo;
+extern const s32 gRlTemporesetMaxTempo;
 
 /* @file hud.c
  * This file implements HUD rendering and power meter animations.
@@ -567,6 +576,38 @@ void render_hud_camera_status(void) {
     gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
 }
 
+static void render_rl_temporeset_hud(void) {
+    if (!gRlTemporesetHudEnabled) return;
+    if (gRlTemporesetHudLastUpdate != (s32)gGlobalTimer) return;
+
+    char buf[32];
+    const s32 x = 0;   // 文字位置　左右
+    const s32 y = 214;  // 文字位置　上下
+    const s32 lineGap = 12;
+
+    print_set_envcolour(255, 255, 255, 255);
+
+    sprintf(buf, "BeatCycle: %d", gRlTemporesetHudCycle);
+#ifdef PUPPYPRINT
+    print_small_text(x, y, buf, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+#else
+    print_text(x, y, buf);
+#endif
+
+    if (gRlTemporesetHudTempo >= gRlTemporesetMaxTempo) {
+        sprintf(buf, "Tempo: Max");
+    } else if (gRlTemporesetHudTempo == gRlTemporesetDefaultTempo) {
+        sprintf(buf, "Tempo: Default");
+    } else {
+        sprintf(buf, "Tempo: %d", gRlTemporesetHudTempo);
+    }
+#ifdef PUPPYPRINT
+    print_small_text(x, y + lineGap, buf, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, 1);
+#else
+    print_text(x, y + lineGap, buf);
+#endif
+}
+
 /**
  * Render HUD strings using hudDisplayFlags with it's render functions,
  * excluding the cannon reticle which detects a camera preset for it.
@@ -695,6 +736,8 @@ void render_hud(void) {
             print_set_envcolour(255, 255, 255, 255);
         }
         //end 2024/12/18 sill
+
+        render_rl_temporeset_hud();
     }
 }
 
