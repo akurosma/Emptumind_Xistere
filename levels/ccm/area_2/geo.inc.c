@@ -9,6 +9,8 @@ const GeoLayout ccm_area_2_geo[] = {
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -2300, -1600, 4900, ccm_dl_area2_wallkick_beepblock_001_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 5000, -2200, 4900, ccm_dl_area2_wallkick_beepblock_002_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 200, -1000, -100, ccm_dl_area2_wallkick_beepblock_003_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 4000, -1500, -100, ccm_dl_area2_wallkick_beepblock_004_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, 400, -1650, 0, 45, 0, ccm_dl_area2_wallkick_beepblock_005_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4250, -300, 2100, 0, 90, 0, ccm_dl_area2_wallkick_bfsp_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4250, -600, 1300, 0, 90, 0, ccm_dl_area2_wallkick_bfsp_001_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -4250, -600, 2900, 0, 90, 0, ccm_dl_area2_wallkick_bfsp_002_mesh_layer_1),

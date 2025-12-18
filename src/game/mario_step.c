@@ -56,6 +56,11 @@ static s32 ccm_handle_death_floor(struct MarioState *m, struct Surface *floor, f
         return FALSE;
     }
 
+    // Ignore during invulnerable/intangible cutscenes (e.g. post-star)
+    if (m->action & (ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE)) {
+        return FALSE;
+    }
+
     u8 mode = (floor->force >> 8) & 0xFF;
     s32 ignoreHeight = (mode == 0x01); // 上位1バイト0x01なら高さ無視で発動
 
