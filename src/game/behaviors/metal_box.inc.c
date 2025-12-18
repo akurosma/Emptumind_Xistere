@@ -20,7 +20,7 @@ struct ObjectHitbox sMetalBoxHitbox = {
 #define oPushableSwitchAirborne o->oF4
 #define METAL_BOX_INTERACT_RANGE 260.0f
 #define METAL_BOX_MAX_DROP 2000.0f
-#define METAL_BOX_CHECK_AHEAD 180.0f
+#define METAL_BOX_CHECK_AHEAD 150.0f
 #define METAL_BOX_BFSP_EXTRA_AHEAD 240.0f
 #define METAL_BOX_BFSP_SCAN_AHEAD 400.0f
 #define METAL_BOX_BFSP_SCAN_SIDE  220.0f
