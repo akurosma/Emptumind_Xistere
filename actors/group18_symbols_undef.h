@@ -129,6 +129,30 @@
 #undef mr_i_iris_mostly_closed
 #undef mr_i_iris_closed
 #undef mr_i_eyeball
+
+// Bullet Bill
+#undef bullet_bill_geo
+#undef bullet_bill_seg5_dl_0500E5E8
+#undef bullet_bill_seg5_dl_0500E678
+#undef bullet_bill_seg5_dl_0500E730
+#undef bullet_bill_seg5_dl_0500E8A8
+#undef bullet_bill_seg5_texture_0500BAA8
+#undef bullet_bill_seg5_texture_0500CAA8
+#undef bullet_bill_seg5_vertex_0500DAA8
+#undef bullet_bill_seg5_vertex_0500DB98
+#undef bullet_bill_seg5_vertex_0500DC28
+#undef bullet_bill_seg5_vertex_0500DD18
+#undef bullet_bill_seg5_vertex_0500DE08
+#undef bullet_bill_seg5_vertex_0500DEC8
+#undef bullet_bill_seg5_vertex_0500DFB8
+#undef bullet_bill_seg5_vertex_0500E0A8
+#undef bullet_bill_seg5_vertex_0500E198
+#undef bullet_bill_seg5_vertex_0500E288
+#undef bullet_bill_seg5_vertex_0500E378
+#undef bullet_bill_seg5_vertex_0500E468
+#undef bullet_bill_seg5_vertex_0500E558
+#undef bullet_bill_eye
+#undef bullet_bill_mouth
 // Scuttlebug
 #undef scuttlebug_geo
 #undef scuttlebug_eye

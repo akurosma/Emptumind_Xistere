@@ -37,7 +37,7 @@ enum SurfaceTypes {
     SURFACE_INSTANT_WARP_1C,            // 0x001C // Instant warp to another area, used to warp between areas in WDW
     SURFACE_INSTANT_WARP_1D,            // 0x001D // Instant warp to another area, used to warp between areas in DDD, SSL and TTM
     SURFACE_INSTANT_WARP_1E,            // 0x001E // Instant warp to another area, used to warp between areas in DDD, SSL and TTM
-    SURFACE_001F,                       // 0x001F // Unused
+    SURFACE_DISABLE_JUMP,               // 0x001F // Disable A-button jumps
     SURFACE_0020,                       // 0x0020 // Unused
     SURFACE_SHALLOW_QUICKSAND,          // 0x0021 // Shallow Quicksand (depth of 10 units)
     SURFACE_DEEP_QUICKSAND,             // 0x0022 // Quicksand (lethal, slow, depth of 160 units)

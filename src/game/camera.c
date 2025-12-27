@@ -297,6 +297,8 @@ s16 sCUpCameraPitch;
  * The current mode's yaw, which gets added to the camera's yaw.
  */
 s16 sModeOffsetYaw;
+static s16 sWarpCamYawOffset;
+static s8 sWarpCamUseYawOffset;
 
 /**
  * Stores Mario's yaw around the stairs, relative to the camera's position.
@@ -3191,6 +3193,15 @@ void reset_camera(struct Camera *c) {
     gRecentCutscene = CUTSCENE_NONE;
 }
 
+void set_warp_camera_yaw_offset(s16 yawOffset) {
+    sWarpCamYawOffset = yawOffset;
+    sWarpCamUseYawOffset = (yawOffset != 0);
+}
+
+void set_8dir_camera_yaw_offset(s16 yawOffset) {
+    s8DirModeYawOffset = yawOffset;
+}
+
 void init_camera(struct Camera *c) {
     struct Surface *floor = NULL;
     Vec3f marioOffset;
@@ -3350,6 +3361,25 @@ void init_camera(struct Camera *c) {
 #ifdef PUPPYCAM
     puppycam_init();
 #endif
+
+    if (sWarpCamUseYawOffset) {
+        f32 dist;
+        s16 pitch;
+        s16 yaw;
+        vec3f_get_dist_and_angle(c->focus, c->pos, &dist, &pitch, &yaw);
+        yaw += sWarpCamYawOffset;
+        vec3f_set_dist_and_angle(c->focus, c->pos, dist, pitch, yaw);
+
+        vec3f_copy(gLakituState.curPos, c->pos);
+        vec3f_copy(gLakituState.goalPos, c->pos);
+        vec3f_copy(gLakituState.pos, c->pos);
+        gLakituState.yaw = calculate_yaw(c->focus, c->pos);
+        gLakituState.nextYaw = gLakituState.yaw;
+        c->yaw = gLakituState.yaw;
+        c->nextYaw = gLakituState.yaw;
+
+        sWarpCamUseYawOffset = 0;
+    }
 }
 
 /**
@@ -10390,7 +10420,7 @@ u8 sDanceCutsceneIndexTable[][4] = {
 u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 0), // BBH            | CCM
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 0, 0, 0, 1), // BBH            | CCM
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // CASTLE_INSIDE  | HMC
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SSL            | BOB
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SL             | WDW

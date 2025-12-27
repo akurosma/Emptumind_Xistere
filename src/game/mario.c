@@ -1398,6 +1398,11 @@ void update_mario_inputs(struct MarioState *m) {
 #ifdef VANILLA_DEBUG
     debug_print_speed_action_normal(m);
 #endif
+    if (m->floor != NULL && m->floor->type == SURFACE_DISABLE_JUMP) {
+        // Block A-button jump inputs on this surface, including while airborne.
+        m->input &= ~(INPUT_A_PRESSED | INPUT_A_DOWN);
+        m->framesSinceA = 0xFF;
+    }
     if (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) {
         if (m->action & ACT_FLAG_ALLOW_FIRST_PERSON) {
             m->input |= INPUT_FIRST_PERSON;
