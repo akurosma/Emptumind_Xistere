@@ -5,27 +5,29 @@
 
 // ---- CCM 用 レールデータ（コイン列に合わせた座標） ----
 static const Trajectory ccm_temp_rail[] = {
-    TRAJECTORY_POS(0, /*pos*/  -360,   276,  -2954),
-    TRAJECTORY_POS(1, /*pos*/  -420,   500,  -3291),
-    TRAJECTORY_POS(2, /*pos*/  -360,   724,  -3793),
-    TRAJECTORY_POS(3, /*pos*/  -196,   888,  -4303),
-    TRAJECTORY_POS(4, /*pos*/    28,   948,  -4985),
-    TRAJECTORY_POS(5, /*pos*/   252,   888,  -5715),
-    TRAJECTORY_POS(6, /*pos*/   416,   724,  -6250),
-    TRAJECTORY_POS(7, /*pos*/   476,   500,  -6676),
-    TRAJECTORY_POS(8, /*pos*/   416,   276,  -6992),
-    TRAJECTORY_POS(9, /*pos*/   252,   112,  -7423),
+    TRAJECTORY_POS(0, /*pos*/ -2656, -1324, -4939),
+    TRAJECTORY_POS(1, /*pos*/ -2716, -1100, -5276),
+    TRAJECTORY_POS(2, /*pos*/ -2656,  -876, -5779),
+    TRAJECTORY_POS(3, /*pos*/ -2492,  -712, -6288),
+    TRAJECTORY_POS(4, /*pos*/ -2268,  -652, -6971),
+    TRAJECTORY_POS(5, /*pos*/ -2044,  -712, -7700),
+    TRAJECTORY_POS(6, /*pos*/ -1880,  -876, -8236),
+    TRAJECTORY_POS(7, /*pos*/ -1820, -1100, -8661),
+    TRAJECTORY_POS(8, /*pos*/ -1880, -1324, -8978),
+    TRAJECTORY_POS(9, /*pos*/ -2044, -1488, -9409),
     TRAJECTORY_END(),
 };
 
-static const HtubeDesc htube_area1[] = {
+static const HtubeDesc htube_area4[] = {
     HTUBE_TRAJ(ccm_temp_rail),
     HTUBE_END
 };
 
 static const HtubeDesc *htube_descs_ccm[] = {
-    htube_area1, // area 1
+    NULL,        // area 1
     NULL,        // area 2
+    NULL,        // area 3
+    htube_area4, // area 4
 };
 
 // レベル番号に応じてレール定義を返す

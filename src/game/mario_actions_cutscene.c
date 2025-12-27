@@ -1019,7 +1019,7 @@ s32 act_emerge_from_pipe(struct MarioState *m) {
 }
 
 s32 act_spawn_spin_airborne(struct MarioState *m) {
-    if (zipline_cancel()) {
+    if (gCurrAreaIndex == 4 && zipline_cancel()) {
         return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
     }
 

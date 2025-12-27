@@ -18,6 +18,7 @@
 #include "mario.h"
 #include "camera.h"
 #include "object_list_processor.h"
+#include "object_constants.h"
 #include "ingame_menu.h"
 #include "obj_behaviors.h"
 #include "save_file.h"
@@ -398,6 +399,15 @@ void init_mario_after_warp(void) {
     }
 
     reset_camera(gCurrentArea->camera);
+    if (gCurrLevelNum == LEVEL_CCM && marioSpawnType == MARIO_SPAWN_SPIN_AIRBORNE) {
+        // Use BPARAM3 as a yaw offset (0-255 maps to 0-360 degrees).
+        u8 camYawOffset = GET_BPARAM3(object->oBehParams);
+        if (camYawOffset != 0) {
+            s16 yawOffset = (s16) camYawOffset << 8;
+            set_warp_camera_yaw_offset(yawOffset);
+            set_8dir_camera_yaw_offset(yawOffset);
+        }
+    }
     sWarpDest.type = WARP_TYPE_NOT_WARPING;
     sDelayedWarpOp = WARP_OP_NONE;
 

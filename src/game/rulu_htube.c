@@ -321,6 +321,10 @@ __attribute__((weak)) int on_spring(void) {
 }
 
 int zipline_cancel(void) {
+    if (gCurrAreaIndex != 4) {
+        return 0;
+    }
+
     if (on_spring()) {
         return 0;
     }

@@ -25,8 +25,8 @@ struct CcmRespawnPoint {
 static void ccm_get_respawn_point(const struct Surface *floor, Vec3f outPos, s16 *outYaw, s16 *outCamOffset) {
     static const struct CcmRespawnPoint sRespawnPoints[] = {
         {    0.0f,         400.0f,           0.0f,        0x8000, (s16)(0x8000 - 0x7FFF) }, // force 0
-        {  8127.7f,         -2000.0f,         2409.9f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 1
-        { -200.0f,         400.0f,        -200.0f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // force 2
+        {  8127.3f,      -2000.0f,        2409.9f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 1
+        {   900.0f,       1750.0f,       -2345.5f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 2
     };
 
     u16 idx = 0;
@@ -56,8 +56,8 @@ static s32 ccm_handle_death_floor(struct MarioState *m, struct Surface *floor, f
         return FALSE;
     }
 
-    // Ignore during invulnerable/intangible cutscenes (e.g. post-star)
-    if (m->action & (ACT_FLAG_INTANGIBLE | ACT_FLAG_INVULNERABLE)) {
+    // Ignore during intangible cutscenes (e.g. post-star)
+    if (m->action & ACT_FLAG_INTANGIBLE) {
         return FALSE;
     }
 

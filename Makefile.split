@@ -102,7 +102,7 @@ PEACH_TOADSTOOL_TEXTURES        := $(foreach dir,$(PEACH_DIRS),      $(wildcard 
 SEA_CREATURES_TEXTURES          := $(foreach dir,$(SEA_DIRS),        $(wildcard actors/$(dir)/*.png))
 SKEETER_FISH_TEXTURES           := $(foreach dir,$(SKEETER_DIRS),    $(wildcard actors/$(dir)/*.png))
 SPINDRIFT_PENGUIN_TEXTURES      := $(foreach dir,$(SPINDRIFT_DIRS),  $(wildcard actors/$(dir)/*.png))
-CCM_COMBINED_TEXTURES           := $(wildcard actors/boo/*.png) $(wildcard actors/heave_ho/*.png) $(wildcard actors/scuttlebug/*.png) $(wildcard actors/mr_i_eyeball/*.png) $(wildcard actors/mr_i_iris/*.png)
+CCM_COMBINED_TEXTURES           := $(wildcard actors/boo/*.png) $(wildcard actors/heave_ho/*.png) $(wildcard actors/scuttlebug/*.png) $(wildcard actors/mr_i_eyeball/*.png) $(wildcard actors/mr_i_iris/*.png) $(wildcard actors/bullet_bill/*.png)
 
 # Actor dependencies
 $(BUILD_DIR)/actors/group0.o:  $(MARIO_WATER_TEXTURES:%.png=$(BUILD_DIR)/%.inc.c)

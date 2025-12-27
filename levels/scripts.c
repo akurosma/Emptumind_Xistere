@@ -395,6 +395,7 @@ const LevelScript script_func_global_19[] = {
     LOAD_MODEL_FROM_GEO(MODEL_SCUTTLEBUG,              g18_scuttlebug_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MR_I_IRIS,               g18_mr_i_iris_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MR_I_BODY,               g18_mr_i_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CCM_BULLET_BILL,         g18_bullet_bill_geo),
     RETURN(),
 };
 

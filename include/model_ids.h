@@ -595,6 +595,7 @@
 #define MODEL_RL_METALBLOCK               0xE7
 #define MODEL_RL_LIFT                     0xE8
 #define MODEL_RL_PILLAR                   0xE9
+#define MODEL_CCM_BULLET_BILL             0xEA        // bullet_bill_geo
 
 #define MODEL_RL_TOP                      0xEB
 #define MODEL_RL_BOUNCE                   0xEC

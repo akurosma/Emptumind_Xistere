@@ -726,6 +726,8 @@ void set_camera_mode(struct Camera *c, s16 mode, s16 frames);
 void update_camera(struct Camera *c);
 void reset_camera(struct Camera *c);
 void init_camera(struct Camera *c);
+void set_warp_camera_yaw_offset(s16 yawOffset);
+void set_8dir_camera_yaw_offset(s16 yawOffset);
 void select_mario_cam_mode(void);
 Gfx *geo_camera_main(s32 callContext, struct GraphNode *g, void *context);
 void object_pos_to_vec3f(Vec3f dst, struct Object *obj);

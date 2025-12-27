@@ -30,4 +30,7 @@ UNUSED static const u64 binid_3 = 3;
 #include "mr_i_iris/model.inc.c"
 UNUSED static const u64 binid_4 = 4;
 
+#include "bullet_bill/model.inc.c"
+UNUSED static const u64 binid_5 = 5;
+
 #include "group18_symbols_undef.h"

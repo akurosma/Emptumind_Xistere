@@ -3,7 +3,7 @@
 #include "sm64.h"
 #include "game/level_update.h"
 #include "behavior_data.h"
-//#include "game/object_helpers.h"//壁判定
+#include "game/object_helpers.h"//壁判定
 
 struct ObjectHitbox sMetalBoxHitbox = {
     /* interactType:      */ INTERACT_NONE,
@@ -119,7 +119,7 @@ void bhv_pushable_loop(void) {
 
 void bhv_pushable_switch_box_loop(void) {
     obj_set_hitbox(o, &sMetalBoxHitbox);
-    //o->oWallHitboxRadius = sMetalBoxHitbox.radius;//壁判定
+    o->oWallHitboxRadius = sMetalBoxHitbox.radius;//壁判定
     s32 wasAirborne = oPushableSwitchAirborne;
     if (!wasAirborne) {
         o->oForwardVel = 0.0f;
@@ -191,7 +191,7 @@ void bhv_pushable_switch_box_loop(void) {
     o->oPosX += o->oVelX;
     o->oPosZ += o->oVelZ;
     o->oPosY += o->oVelY;
-    //cur_obj_resolve_wall_collisions();//壁判定
+    cur_obj_resolve_wall_collisions();//壁判定
 
     struct Surface *floor;
     f32 floorY = find_floor(o->oPosX, o->oPosY, o->oPosZ, &floor);
