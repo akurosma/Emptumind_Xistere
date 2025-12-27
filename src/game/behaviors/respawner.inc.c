@@ -5,7 +5,7 @@ void bhv_respawner_loop(void) {
     if (!is_point_within_radius_of_mario(o->oPosX, o->oPosY, o->oPosZ, o->oRespawnerMinSpawnDist)) {
         spawnedObject = spawn_object(o, o->oRespawnerModelToRespawn, o->oRespawnerBehaviorToRespawn);
         spawnedObject->oBehParams = o->oBehParams;
-        //rulu start 初期フレームで原点にチラつかないように、描画座標もスポーン地点へ同期
+        //rulu start 初期フレームで原点0,0,0,にチラつかないように、描画座標もスポーン地点へ同期
         vec3f_copy(spawnedObject->header.gfx.pos, &spawnedObject->oPosVec);
         vec3i_to_vec3s(spawnedObject->header.gfx.angle, &spawnedObject->oFaceAngleVec);
         //rulu end
