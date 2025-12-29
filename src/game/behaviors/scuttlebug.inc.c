@@ -137,12 +137,22 @@ void bhv_scuttlebug_spawn_loop(void) {
         if (o->oTimer > 30 && 500.0f < o->oDistanceToMario && o->oDistanceToMario < 1500.0f) {
             struct Object *scuttlebug;
             cur_obj_play_sound_2(SOUND_OBJ2_SCUTTLEBUG_ALERT);
-            scuttlebug = spawn_object(o, MODEL_SCUTTLEBUG, bhvScuttlebug);
-            scuttlebug->oScuttlebugHasNoLootCoins = o->oScuttlebugSpawnerSpawnWithNoLootCoins;
+            if (gCurrLevelNum == LEVEL_CCM) {
+                scuttlebug = spawn_object(o, MODEL_SCUTTLEBUG, bhvScuttlebugCCM);
+            } else {
+                scuttlebug = spawn_object(o, MODEL_SCUTTLEBUG, bhvScuttlebug);
+            }
+            if (gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 1) {
+                scuttlebug->oScuttlebugHasNoLootCoins = 0;
+            } else {
+                scuttlebug->oScuttlebugHasNoLootCoins = o->oScuttlebugSpawnerSpawnWithNoLootCoins;
+            }
             scuttlebug->oForwardVel = 30.0f;
             scuttlebug->oVelY = 80.0f;
             o->oAction++;
-            o->oScuttlebugHasNoLootCoins = 1;
+            if (!(gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 1)) {
+                o->oScuttlebugHasNoLootCoins = 1;
+            }
         }
     } else if (o->oScuttlebugSpawnerIsDeactivated != 0) {
         o->oScuttlebugSpawnerIsDeactivated = 0;

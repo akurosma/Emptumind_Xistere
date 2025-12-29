@@ -21,6 +21,30 @@ static s16 sCourtyardBooTripletPositions[][3] = {
     { -210, 70, -210 },
 };
 
+static void boo_set_respawn_info_yellow_coin(void) {
+    if (o->respawnInfo == NULL) {
+        return;
+    }
+
+    if (o->respawnInfoType == RESPAWN_INFO_TYPE_NORMAL) {
+        u32 *info32 = (u32 *) o->respawnInfo;
+        SET_BPARAM1(*info32, COIN_INSIDE_BOO_BP_YELLOW_COIN);
+    }
+}
+
+static void boo_create_respawner_with_yellow_coin(void) {
+    struct Object *respawner = spawn_object_abs_with_rot(
+        o, 0, MODEL_NONE, bhvRespawner, o->oHomeX, o->oHomeY, o->oHomeZ,
+        0, (s16) o->oBooInitialMoveYaw, 0);
+
+    respawner->oBehParams = o->oBehParams;
+    SET_BPARAM1(respawner->oBehParams, COIN_INSIDE_BOO_BP_YELLOW_COIN);
+    respawner->oRespawnerModelToRespawn = MODEL_BOO;
+    respawner->oRespawnerMinSpawnDist = 1000;
+    respawner->oRespawnerBehaviorToRespawn = bhvBoo;
+    vec3f_copy(respawner->header.gfx.scale, o->header.gfx.scale);
+}
+
 static void boo_stop(void) {
     o->oForwardVel = 0.0f;
     o->oVelY = 0.0f;
@@ -29,6 +53,9 @@ static void boo_stop(void) {
 
 void bhv_boo_init(void) {
     o->oBooInitialMoveYaw = o->oMoveAngleYaw;
+    if (cur_obj_has_behavior(bhvBoo) && (GET_BPARAM3(o->oBehParams) & 1)) {
+        o->oFlags |= OBJ_FLAG_PERSISTENT_RESPAWN;
+    }
 }
 
 static s32 boo_should_be_stopped(void) {
@@ -438,6 +465,10 @@ static void boo_act_2(void) {
 
 static void boo_act_3(void) {
     if (boo_update_during_death()) {
+        if (cur_obj_has_behavior(bhvBoo) && (GET_BPARAM3(o->oBehParams) & 1)) {
+            boo_set_respawn_info_yellow_coin();
+            boo_create_respawner_with_yellow_coin();
+        }
         if (o->oBehParams2ndByte != 0) {
             obj_mark_for_deletion(o);
         } else {

@@ -86,7 +86,11 @@ void bhv_rl_beepblock_loop(void) {
     t == BASE_DELAY_BEFORE_START + interval ||
     t == BASE_DELAY_BEFORE_START + interval * 2) {
 
-    play_sound(SOUND_GENERAL_LOUD_POUND2, gGlobalSoundSource);
+    if (gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 3) {
+        cur_obj_play_sound_2(SOUND_GENERAL_LOUD_POUND2);
+    } else {
+        play_sound(SOUND_GENERAL_LOUD_POUND2, gGlobalSoundSource);
+    }
     o->oAction = 1;
 
     // ベースに応じて点滅方向を決定
@@ -118,7 +122,11 @@ void bhv_rl_beepblock_loop(void) {
     // === GUN_SHOT: 判定＆テクスチャ切り替え ===
     //
     if (t == BASE_DELAY_BEFORE_START + interval * NUM_POUNDS + GUN_DELAY_AFTER_LAST) {
-        play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gGlobalSoundSource);
+        if (gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 3) {
+            cur_obj_play_sound_2(SOUND_GENERAL_RACE_GUN_SHOT);
+        } else {
+            play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gGlobalSoundSource);
+        }
 
         // ベース状態を反転
         if (o->oF8 == 1) {
