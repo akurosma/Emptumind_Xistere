@@ -119,7 +119,12 @@ void bhv_pushable_loop(void) {
 
 void bhv_pushable_switch_box_loop(void) {
     obj_set_hitbox(o, &sMetalBoxHitbox);
-    o->oWallHitboxRadius = sMetalBoxHitbox.radius;//壁判定
+    // 壁判定は BPARAM1 == 1 のときのみ有効。
+    if (GET_BPARAM1(o->oBehParams) == 1) {
+        o->oWallHitboxRadius = sMetalBoxHitbox.radius;//壁判定
+    } else {
+        o->oWallHitboxRadius = 0;
+    }
     s32 wasAirborne = oPushableSwitchAirborne;
     if (!wasAirborne) {
         o->oForwardVel = 0.0f;
@@ -191,7 +196,9 @@ void bhv_pushable_switch_box_loop(void) {
     o->oPosX += o->oVelX;
     o->oPosZ += o->oVelZ;
     o->oPosY += o->oVelY;
-    cur_obj_resolve_wall_collisions();//壁判定
+    if (GET_BPARAM1(o->oBehParams) == 1) {
+        cur_obj_resolve_wall_collisions();//壁判定
+    }
 
     struct Surface *floor;
     f32 floorY = find_floor(o->oPosX, o->oPosY, o->oPosZ, &floor);

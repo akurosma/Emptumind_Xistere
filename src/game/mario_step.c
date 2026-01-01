@@ -27,7 +27,8 @@ static void ccm_get_respawn_point(const struct Surface *floor, Vec3f outPos, s16
         {    0.0f,         400.0f,           0.0f,        0x8000, (s16)(0x8000 - 0x7FFF) }, // force 0
         {  8127.3f,      -2000.0f,        2409.9f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 1
         {   900.0f,       1750.0f,       -2545.5f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 2
-        {   850.0f,       1750.0f,        3112.6f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // 0x0003
+        {   975.0f,       1750.0f,        3112.6f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // 0x0003
+        {   2400.0f,       100.0f,        1454.5f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // 0x0004
     };
 
     u16 idx = 0;

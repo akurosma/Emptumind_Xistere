@@ -1410,6 +1410,23 @@ u32 interact_spiny_walking(struct MarioState *m, UNUSED u32 interactType, struct
 }
 
 u32 interact_damage(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+/*    if (obj->behavior == segmented_to_virtual(bhvRlBulletbill)) {
+        u32 interaction = determine_interaction(m, obj);
+        u32 action = m->action;
+        if ((action == ACT_PUNCHING || action == ACT_MOVE_PUNCHING || action == ACT_JUMP_KICK
+             || action == ACT_SLIDE_KICK || action == ACT_SLIDE_KICK_SLIDE
+             || action == ACT_DIVE || action == ACT_DIVE_SLIDE)
+            && (interaction & (INT_PUNCH | INT_KICK | INT_TRIP | INT_SLIDE_KICK | INT_FAST_ATTACK_OR_SHELL))) {
+            attack_object(obj, interaction);
+            if (interaction == INT_PUNCH) {
+                bounce_back_from_attack(m, interaction);
+            }
+            m->interactObj = obj;
+            update_mario_sound_and_camera(m);
+            return TRUE;
+        }
+    }
+*/ //rulu bhvRlBulletbill 弾く設定
     if (take_damage_and_knock_back(m, obj)) {
         return TRUE;
     }

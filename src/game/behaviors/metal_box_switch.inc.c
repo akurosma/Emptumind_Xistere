@@ -199,7 +199,12 @@ void bhv_rl_ccmmetaldoor_init(void) {
 
     o->oFloatF4 = o->oPosY;
     o->oFloatF8 = o->oPosY + riseDistance;
-    o->oAction = METAL_BOX_SIMPLE_GATE_ACT_IDLE;
+    if (BPARAM1 == 1 && (save_file_get_flags() & SAVE_FLAG_CCM_METAL_DOOR_OPEN)) {
+        o->oPosY = o->oFloatF8;
+        o->oAction = METAL_BOX_SIMPLE_GATE_ACT_OPEN;
+    } else {
+        o->oAction = METAL_BOX_SIMPLE_GATE_ACT_IDLE;
+    }
     o->oF4 = FALSE;
 }
 
@@ -207,6 +212,9 @@ void bhv_rl_ccmmetaldoor_loop(void) {
     switch (o->oAction) {
         case METAL_BOX_SIMPLE_GATE_ACT_IDLE:
             if (o->oF4) {
+                if (BPARAM1 == 1) {
+                    save_file_set_flags(SAVE_FLAG_CCM_METAL_DOOR_OPEN);
+                }
                 //cur_obj_play_sound_2(SOUND_GENERAL_STAR_DOOR_OPEN);
                 o->oAction = METAL_BOX_SIMPLE_GATE_ACT_OPENING;
             }
