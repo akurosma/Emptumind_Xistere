@@ -86,7 +86,7 @@ void bhv_rl_beepblock_loop(void) {
     t == BASE_DELAY_BEFORE_START + interval ||
     t == BASE_DELAY_BEFORE_START + interval * 2) {
 
-    if (gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 3) {
+    if (gCurrLevelNum == LEVEL_CCM && (gCurrAreaIndex == 1 || gCurrAreaIndex == 3)) {
         cur_obj_play_sound_2(SOUND_GENERAL_LOUD_POUND2);
     } else {
         play_sound(SOUND_GENERAL_LOUD_POUND2, gGlobalSoundSource);
@@ -122,7 +122,7 @@ void bhv_rl_beepblock_loop(void) {
     // === GUN_SHOT: 判定＆テクスチャ切り替え ===
     //
     if (t == BASE_DELAY_BEFORE_START + interval * NUM_POUNDS + GUN_DELAY_AFTER_LAST) {
-        if (gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 3) {
+        if (gCurrLevelNum == LEVEL_CCM && (gCurrAreaIndex == 1 || gCurrAreaIndex == 3)) {
             cur_obj_play_sound_2(SOUND_GENERAL_RACE_GUN_SHOT);
         } else {
             play_sound(SOUND_GENERAL_RACE_GUN_SHOT, gGlobalSoundSource);

@@ -18,6 +18,7 @@ const GeoLayout ccm_area_3_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4309, 250, -686, 0, 90, 0, ccm_dl_burn_area_platform_003_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4309, -50, -1586, 0, 90, 0, ccm_dl_burn_area_platform_004_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 4309, -350, -2486, 0, 90, 0, ccm_dl_burn_area_platform_005_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 8250, 1100, -3493, 35, 0, 0, ccm_dl_burn_area_platform_006_mesh_layer_1),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, -667, 100, 4400),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
