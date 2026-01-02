@@ -6357,6 +6357,32 @@ const BehaviorScript bhvRl180rotate[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRlCcm90degree[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_ccm90degree_collision),
+    SET_FLOAT(oDrawingDistance, 15000),
+    CALL_NATIVE(bhv_rl_ccm90degree_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_ccm90degree_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlCcmhangroll[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_ccmhangroll_collision),
+    SET_FLOAT(oDrawingDistance, 15000),
+    CALL_NATIVE(bhv_rl_ccmhangroll_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_ccmhangroll_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvMovingWall[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),

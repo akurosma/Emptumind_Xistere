@@ -32,6 +32,8 @@
 #include "levels/ccm/rl_candlestick/geo.inc.c"
 #include "levels/ccm/rl_bfsp/geo.inc.c"
 #include "levels/ccm/rl_bfspno/geo.inc.c"
+#include "levels/ccm/rl_ccm90degree/geo.inc.c"
+#include "levels/ccm/rl_ccmhangroll/geo.inc.c"
 #include "levels/ccm/areas/1/6/geo.inc.c"
 #include "levels/ccm/areas/1/7/geo.inc.c"
 #include "levels/ccm/areas/1/8/geo.inc.c"

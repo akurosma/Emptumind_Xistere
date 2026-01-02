@@ -616,6 +616,10 @@ void bhv_rl_180rotate_init(void);
 void bhv_rl_180rotate_loop(void);
 void bhv_rl_180rotate2_init(void);
 void bhv_rl_180rotate2_loop(void);
+void bhv_rl_ccm90degree_init(void);
+void bhv_rl_ccm90degree_loop(void);
+void bhv_rl_ccmhangroll_init(void);
+void bhv_rl_ccmhangroll_loop(void);
 void bhv_moving_wall_init(void);
 void bhv_moving_wall_loop(void);
 
