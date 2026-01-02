@@ -77,5 +77,9 @@
 #include "levels/ccm/rl_bfsp/collision.inc.c"
 #include "levels/ccm/rl_bfspno/model.inc.c"
 #include "levels/ccm/rl_bfspno/collision.inc.c"
+#include "levels/ccm/rl_ccm90degree/model.inc.c"
+#include "levels/ccm/rl_ccm90degree/collision.inc.c"
+#include "levels/ccm/rl_ccmhangroll/model.inc.c"
+#include "levels/ccm/rl_ccmhangroll/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"
