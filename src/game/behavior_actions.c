@@ -283,3 +283,5 @@ void set_obj_anim_with_accel_and_sound(s16 frame1, s16 frame2, s32 sound) {
 #include "behaviors/rl_wave.inc.c"
 #include "behaviors/rl_shrinkpanel.inc.c"
 #include "behaviors/rl_candlestick.inc.c"
+#include "behaviors/rl_warppad.inc.c"
+#include "behaviors/behavior_kill.inc.c"

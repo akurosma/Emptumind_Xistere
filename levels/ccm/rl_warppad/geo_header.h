@@ -1,0 +1,15 @@
+extern const GeoLayout rl_warppad_geo[];
+extern u8 rl_warppad_floor_rgba16[];
+extern u8 rl_warppad_Untitled_001_ci4[];
+extern u8 rl_warppad_Untitled_001_x_floor_pal_rgba16[];
+extern u8 rl_warppad_floor_ci8[];
+extern Vtx rl_warppad_rl_warppad_mesh_layer_1_vtx_cull[8];
+extern Vtx rl_warppad_rl_warppad_mesh_layer_1_vtx_0[172];
+extern Gfx rl_warppad_rl_warppad_mesh_layer_1_tri_0[];
+extern Vtx rl_warppad_rl_warppad_mesh_layer_1_vtx_1[12];
+extern Gfx rl_warppad_rl_warppad_mesh_layer_1_tri_1[];
+extern Gfx mat_rl_warppad_f3dlite_material_001[];
+extern Gfx mat_revert_rl_warppad_f3dlite_material_001[];
+extern Gfx mat_rl_warppad_multi_layer1[];
+extern Gfx mat_revert_rl_warppad_multi_layer1[];
+extern Gfx rl_warppad_rl_warppad_mesh_layer_1[];

@@ -878,6 +878,17 @@ const BehaviorScript bhvFadingWarp[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRlWarppad[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rl_warppad_collision),
+    SET_FLOAT(oDrawingDistance, 15000),
+    CALL_NATIVE(bhv_rl_warppad_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_warppad_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvWarp[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -4737,6 +4748,15 @@ const BehaviorScript bhvHiddenStar[] = {
     CALL_NATIVE(bhv_hidden_star_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_hidden_star_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvBehaviorkill[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_behaviorkill_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_behaviorkill_loop),
     END_LOOP(),
 };
 

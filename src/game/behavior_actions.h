@@ -620,8 +620,12 @@ void bhv_rl_ccm90degree_init(void);
 void bhv_rl_ccm90degree_loop(void);
 void bhv_rl_ccmhangroll_init(void);
 void bhv_rl_ccmhangroll_loop(void);
+void bhv_rl_warppad_init(void);
+void bhv_rl_warppad_loop(void);
 void bhv_moving_wall_init(void);
 void bhv_moving_wall_loop(void);
+void bhv_behaviorkill_init(void);
+void bhv_behaviorkill_loop(void);
 
 void bhv_key_Block_init(void);
 void bhv_key_Block_loop(void);
