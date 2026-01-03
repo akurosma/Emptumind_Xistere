@@ -107,6 +107,7 @@
 #define MODEL_CCM_RL_BFSPNO                    0x49
 #define MODEL_CCM_RL_CCM90DEGREE               0x4A
 #define MODEL_CCM_RL_CCMHANGROLL               0x4B
+#define MODEL_CCM_RL_WARPPAD                   0x4C
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18

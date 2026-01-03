@@ -81,5 +81,7 @@
 #include "levels/ccm/rl_ccm90degree/collision.inc.c"
 #include "levels/ccm/rl_ccmhangroll/model.inc.c"
 #include "levels/ccm/rl_ccmhangroll/collision.inc.c"
+#include "levels/ccm/rl_warppad/model.inc.c"
+#include "levels/ccm/rl_warppad/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"
