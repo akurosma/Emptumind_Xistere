@@ -7,8 +7,76 @@
 #define RL_WARPPAD_OPACITY_STEP 9
 #define RL_WARPPAD_HITBOX_RADIUS 85.0f
 #define RL_WARPPAD_HITBOX_HEIGHT 50.0f
+#define RL_WARPPAD_POST_WARP_DELAY 20
+#define RL_WARPPAD_INVALID_NODE 0xFF
 
 static u8 sRlWarppadGroupPadMask[LEVEL_COUNT][AREA_COUNT][2];
+static u8 sRlWarppadGroupPadMaskLevel[LEVEL_COUNT][2];
+static s16 sRlWarppadBlockSourceLevel = -1;
+static s16 sRlWarppadBlockSourceArea = -1;
+static u8 sRlWarppadBlockSourceNode = RL_WARPPAD_INVALID_NODE;
+static s16 sRlWarppadBlockDestLevel = -1;
+static s16 sRlWarppadBlockDestArea = -1;
+static u8 sRlWarppadBlockDestNode = RL_WARPPAD_INVALID_NODE;
+static u32 sRlWarppadBlockUntil = 0;
+
+static void rl_warppad_clear_block(void) {
+    sRlWarppadBlockSourceLevel = -1;
+    sRlWarppadBlockSourceArea = -1;
+    sRlWarppadBlockSourceNode = RL_WARPPAD_INVALID_NODE;
+    sRlWarppadBlockDestLevel = -1;
+    sRlWarppadBlockDestArea = -1;
+    sRlWarppadBlockDestNode = RL_WARPPAD_INVALID_NODE;
+    sRlWarppadBlockUntil = 0;
+}
+
+void rl_warppad_set_recent_warp(u8 sourceNodeId, u8 destNodeId, s16 sourceLevel, s16 sourceArea, s16 destLevel, s16 destArea) {
+    sRlWarppadBlockSourceLevel = sourceLevel;
+    sRlWarppadBlockSourceArea = sourceArea;
+    sRlWarppadBlockSourceNode = sourceNodeId;
+    sRlWarppadBlockDestLevel = destLevel;
+    sRlWarppadBlockDestArea = destArea;
+    sRlWarppadBlockDestNode = destNodeId;
+    sRlWarppadBlockUntil = gGlobalTimer + RL_WARPPAD_POST_WARP_DELAY;
+}
+
+static s32 rl_warppad_is_reverse_link(struct ObjectWarpNode *warpNode) {
+    if (warpNode == NULL) {
+        return FALSE;
+    }
+
+    return (((warpNode->node.destLevel & 0x7F) == sRlWarppadBlockSourceLevel)
+        && (warpNode->node.destArea == sRlWarppadBlockSourceArea)
+        && (warpNode->node.destNode == sRlWarppadBlockSourceNode));
+}
+
+static s32 rl_warppad_should_block_warp(struct ObjectWarpNode *warpNode) {
+    if (sRlWarppadBlockDestNode == RL_WARPPAD_INVALID_NODE) {
+        return FALSE;
+    }
+    if (gCurrLevelNum != sRlWarppadBlockDestLevel || gCurrAreaIndex != sRlWarppadBlockDestArea) {
+        return FALSE;
+    }
+    if (GET_BPARAM2(o->oBehParams) != sRlWarppadBlockDestNode) {
+        return FALSE;
+    }
+
+    if (gGlobalTimer < sRlWarppadBlockUntil) {
+        return TRUE;
+    }
+
+    if (!rl_warppad_is_reverse_link(warpNode)) {
+        rl_warppad_clear_block();
+        return FALSE;
+    }
+
+    if (cur_obj_is_mario_on_platform()) {
+        return TRUE;
+    }
+
+    rl_warppad_clear_block();
+    return FALSE;
+}
 
 static u32 rl_warppad_get_group_flag(s32 group) {
     if (group == 0) {
@@ -28,10 +96,15 @@ static u8 *rl_warppad_get_group_mask_ptr(s32 group) {
     if (level < 0 || level >= LEVEL_COUNT) {
         return NULL;
     }
-    if (area < 0 || area >= AREA_COUNT) {
+    if (group < 0 || group >= 2) {
         return NULL;
     }
-    if (group < 0 || group >= 2) {
+
+    if (group == 1) {
+        return &sRlWarppadGroupPadMaskLevel[level][group];
+    }
+
+    if (area < 0 || area >= AREA_COUNT) {
         return NULL;
     }
 
@@ -88,8 +161,13 @@ void bhv_rl_warppad_loop(void) {
     }
 
     if (saveFlags & groupFlag) {
+        struct ObjectWarpNode *warpNode = area_get_warp_node(GET_BPARAM2(o->oBehParams));
         o->oInteractType = INTERACT_WARP;
         o->oInteractionSubtype = INT_SUBTYPE_FADING_WARP;
+        if (rl_warppad_should_block_warp(warpNode)) {
+            o->oInteractType = 0;
+            o->oInteractionSubtype = 0;
+        }
     } else {
         o->oInteractType = 0;
         o->oInteractionSubtype = 0;
@@ -100,7 +178,10 @@ void bhv_rl_warppad_loop(void) {
 }
 
 void rl_warppad_reset_state(void) {
+    rl_warppad_clear_block();
     for (s32 level = 0; level < LEVEL_COUNT; level++) {
+        sRlWarppadGroupPadMaskLevel[level][0] = 0;
+        sRlWarppadGroupPadMaskLevel[level][1] = 0;
         for (s32 area = 0; area < AREA_COUNT; area++) {
             sRlWarppadGroupPadMask[level][area][0] = 0;
             sRlWarppadGroupPadMask[level][area][1] = 0;

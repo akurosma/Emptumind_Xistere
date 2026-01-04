@@ -440,7 +440,7 @@ const LevelScript level_ccm_entry[] = {
 		OBJECT(MODEL_KOOPA_SHELL, -2268, -1500, -3776, 0, 0, 0, (1 << 16), bhvKoopaShell),
 		OBJECT(MODEL_KOOPA_SHELL, -3668, -1500, -3776, 0, 0, 0, (1 << 16), bhvKoopaShell),
 		OBJECT(MODEL_NONE, -2044, -1488, -9884, 0, 0, 0, 0x00000000, bhvRuluHtubeSpeed),
-		OBJECT(MODEL_THI_WARP_PIPE, -4296, -1500, -1986, 0, 0, 0, 0x00040000, bhvWarpPipe),
+		OBJECT(MODEL_NONE, -4296, -1000, -1986, 0, 0, 0, 0x00040000, bhvSpinAirborneWarp),
 		OBJECT(MODEL_YELLOW_COIN, -2656, -1324, -4939, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, -2716, -1100, -5276, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, -2656, -876, -5779, 0, 0, 0, 0x00000000, bhvYellowCoin),
