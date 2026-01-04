@@ -730,6 +730,40 @@ void save_file_set_cannon_unlocked(void) {
     gSaveFileModified = TRUE;
 }
 
+s32 save_file_is_cannon_unlocked_for_course(s32 courseNum) {
+#ifdef UNLOCK_ALL
+    return TRUE;
+#else
+    s32 courseIndex = COURSE_NUM_TO_INDEX(courseNum);
+    return (gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[courseIndex]
+            & COURSE_FLAG_CANNON_UNLOCKED) != 0;
+#endif
+}
+
+void save_file_set_cannon_unlocked_for_course(s32 courseNum) {
+    s32 courseIndex = COURSE_NUM_TO_INDEX(courseNum);
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[courseIndex] |= COURSE_FLAG_CANNON_UNLOCKED;
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    gSaveFileModified = TRUE;
+}
+
+s32 save_file_is_cannon_unlocked_for_course_raw(s32 courseNum) {
+    s32 courseIndex = COURSE_NUM_TO_INDEX(courseNum);
+    return (gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[courseIndex]
+            & COURSE_FLAG_CANNON_UNLOCKED) != 0;
+}
+
+// rulu start
+// TEMP DEBUG: remove after verifying pipeswitch flags.
+//difine unlock_allが有効になっているから大砲のフラグが解放されてしまっている
+void save_file_clear_cannon_unlocked_for_course(s32 courseNum) {
+    s32 courseIndex = COURSE_NUM_TO_INDEX(courseNum);
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[courseIndex] &= ~COURSE_FLAG_CANNON_UNLOCKED;
+    gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    gSaveFileModified = TRUE;
+}
+//rulu end
+
 void save_file_set_cap_pos(s16 x, s16 y, s16 z) {
     struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
 

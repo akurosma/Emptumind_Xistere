@@ -33,6 +33,8 @@ extern const GeoLayout rl_bfspno_geo[];
 extern const GeoLayout rl_ccm90degree_geo[];
 extern const GeoLayout rl_ccmhangroll_geo[];
 extern const GeoLayout rl_warppad_geo[];
+extern const GeoLayout rl_pipelamp_geo[];
+extern const GeoLayout rl_pipeswitch_geo[];
 
 // leveldata
 extern const Gfx ccm_seg7_dl_0700B090[];
@@ -73,6 +75,8 @@ extern const Gfx rl_bfspno_rl_bfspno_mesh_layer_5[];
 extern const Gfx rl_ccm90degree_rl_ccm90degree_mesh_layer_1[];
 extern const Gfx rl_ccmhangroll_rl_ccmhangroll_mesh_layer_1[];
 extern const Gfx rl_warppad_rl_warppad_mesh_layer_1[];
+extern const Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1[];
+extern const Gfx rl_pipeswitch_rl_pipeswitch_mesh_layer_1[];
 extern const Collision ccm_seg7_area_1_collision[];
 extern const MacroObject ccm_seg7_area_1_macro_objs[];
 extern const Collision ccm_seg7_collision_ropeway_lift[];
@@ -94,6 +98,8 @@ extern const Collision rl_bfspno_collision[];
 extern const Collision rl_ccm90degree_collision[];
 extern const Collision rl_ccmhangroll_collision[];
 extern const Collision rl_warppad_collision[];
+extern const Collision rl_pipelamp_collision[];
+extern const Collision rl_pipeswitch_collision[];
 extern const Trajectory ccm_seg7_trajectory_snowman[];
 extern const Trajectory ccm_seg7_trajectory_ropeway_lift[];
 extern const struct MovtexQuadCollection ccm_movtex_penguin_puddle_water[];

@@ -30,6 +30,12 @@ enum MetalBoxSimpleGateActions {
     METAL_BOX_SIMPLE_GATE_ACT_OPEN,
 };
 
+static s32 ccm_any_star_collected(void) {
+    u32 starFlags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_CCM));
+    return (starFlags & (STAR_FLAG_ACT_1 | STAR_FLAG_ACT_2 | STAR_FLAG_ACT_3
+                         | STAR_FLAG_ACT_4 | STAR_FLAG_ACT_5 | STAR_FLAG_ACT_6)) != 0;
+}
+
 static void metal_box_switch_trigger_gates(u8 sharedId) {
     uintptr_t *behaviorAddr = segmented_to_virtual(bhvMetalBoxSwitchGate);
     uintptr_t *metalDoorBehaviorAddr = segmented_to_virtual(bhvRlCcmmetaldoor);
@@ -199,7 +205,7 @@ void bhv_rl_ccmmetaldoor_init(void) {
 
     o->oFloatF4 = o->oPosY;
     o->oFloatF8 = o->oPosY + riseDistance;
-    if (BPARAM1 == 1 && (save_file_get_flags() & SAVE_FLAG_CCM_METAL_DOOR_OPEN)) {
+    if (BPARAM1 == 1 && ccm_any_star_collected()) {
         o->oPosY = o->oFloatF8;
         o->oAction = METAL_BOX_SIMPLE_GATE_ACT_OPEN;
     } else {
@@ -212,9 +218,6 @@ void bhv_rl_ccmmetaldoor_loop(void) {
     switch (o->oAction) {
         case METAL_BOX_SIMPLE_GATE_ACT_IDLE:
             if (o->oF4) {
-                if (BPARAM1 == 1) {
-                    save_file_set_flags(SAVE_FLAG_CCM_METAL_DOOR_OPEN);
-                }
                 //cur_obj_play_sound_2(SOUND_GENERAL_STAR_DOOR_OPEN);
                 o->oAction = METAL_BOX_SIMPLE_GATE_ACT_OPENING;
             }

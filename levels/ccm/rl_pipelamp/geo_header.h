@@ -1,0 +1,16 @@
+extern const GeoLayout rl_pipelamp_geo[];
+extern u8 rl_pipelamp_lamp_side_ci8[];
+extern u8 rl_pipelamp_lamp_side_x_green_pal_rgba16[];
+extern u8 rl_pipelamp_green_ci4[];
+extern u8 rl_pipelamp_green_x_red_pal_rgba16[];
+extern u8 rl_pipelamp_red_ci4[];
+extern Vtx rl_pipelamp_rl_pipelamp_mesh_layer_1_vtx_cull[8];
+extern Vtx rl_pipelamp_rl_pipelamp_mesh_layer_1_vtx_0[86];
+extern Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1_tri_0[];
+extern Vtx rl_pipelamp_rl_pipelamp_mesh_layer_1_vtx_1[95];
+extern Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1_tri_1[];
+extern Gfx mat_rl_pipelamp_side_layer1[];
+extern Gfx mat_revert_rl_pipelamp_side_layer1[];
+extern Gfx mat_rl_pipelamp_lamp_layer1[];
+extern Gfx mat_revert_rl_pipelamp_lamp_layer1[];
+extern Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1[];

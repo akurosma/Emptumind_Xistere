@@ -1,0 +1,15 @@
+extern const GeoLayout rl_pipeswitch_geo[];
+extern u8 rl_pipeswitch_switch_side_ci8[];
+extern u8 rl_pipeswitch_switch_side_pal_rgba16[];
+extern u8 rl_pipeswitch_pipe_switch_surface_32_ci8[];
+extern u8 rl_pipeswitch_pipe_switch_surface_32_pal_rgba16[];
+extern Vtx rl_pipeswitch_rl_pipeswitch_mesh_layer_1_vtx_cull[8];
+extern Vtx rl_pipeswitch_rl_pipeswitch_mesh_layer_1_vtx_0[20];
+extern Gfx rl_pipeswitch_rl_pipeswitch_mesh_layer_1_tri_0[];
+extern Vtx rl_pipeswitch_rl_pipeswitch_mesh_layer_1_vtx_1[4];
+extern Gfx rl_pipeswitch_rl_pipeswitch_mesh_layer_1_tri_1[];
+extern Gfx mat_rl_pipeswitch_f3dlite_material_001[];
+extern Gfx mat_revert_rl_pipeswitch_f3dlite_material_001[];
+extern Gfx mat_rl_pipeswitch_f3dlite_material[];
+extern Gfx mat_revert_rl_pipeswitch_f3dlite_material[];
+extern Gfx rl_pipeswitch_rl_pipeswitch_mesh_layer_1[];

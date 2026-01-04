@@ -490,6 +490,7 @@ void warp_area(void) {
 
 // used for warps between levels
 void warp_level(void) {
+    rl_warppad_reset_state();
     gCurrLevelNum = sWarpDest.levelNum;
 
     level_control_timer(TIMER_CONTROL_HIDE);
@@ -777,6 +778,7 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 break;
 
             case WARP_OP_DEATH:
+                rl_warppad_reset_state();
 #ifdef ENABLE_LIVES
                 if (m->numLives == 0) {
                     sDelayedWarpOp = WARP_OP_GAME_OVER;

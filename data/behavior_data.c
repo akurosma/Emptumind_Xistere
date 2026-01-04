@@ -1907,6 +1907,44 @@ const BehaviorScript bhvRlCcmmetaldoor[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRlPipelamp[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_rl_pipelamp_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_pipelamp_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlPipeswitch[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(rl_pipeswitch_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    SET_HOME(),
+    CALL_NATIVE(bhv_rl_pipeswitch_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_rl_pipeswitch_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlCcmpipe[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oInteractType, INTERACT_WARP),
+    LOAD_COLLISION_DATA(warp_pipe_seg3_collision_03009AC8),
+    SET_FLOAT(oDrawingDistance, 16000),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HITBOX(/*Radius*/ 70, /*Height*/ 50),
+    CALL_NATIVE(load_object_static_model),
+    CALL_NATIVE(bhv_rl_ccmpipe_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_ccmpipe_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvHeaveHo[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_HOLDABLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
