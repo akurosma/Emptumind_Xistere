@@ -128,16 +128,13 @@ enum SaveProgressFlags {
     SAVE_FLAG_CAP_ON_MR_BLIZZARD     = (1 << 19), /* 0x00080000 */
     SAVE_FLAG_UNLOCKED_50_STAR_DOOR  = (1 << 20), /* 0x00100000 */
     SAVE_FLAG_METAL_BOX_GATE_OPEN    = (1 << 21), /* 0x00200000 */
-    SAVE_FLAG_CCM_METAL_DOOR_OPEN    = (1 << 22), /* 0x00400000 */
-    SAVE_FLAG_RL_WARPPAD_G0_P0       = (1 << 23), /* 0x00800000 */
     SAVE_FLAG_COLLECTED_TOAD_STAR_1  = (1 << 24), /* 0x01000000 */
     SAVE_FLAG_COLLECTED_TOAD_STAR_2  = (1 << 25), /* 0x02000000 */
     SAVE_FLAG_COLLECTED_TOAD_STAR_3  = (1 << 26), /* 0x04000000 */
     SAVE_FLAG_COLLECTED_MIPS_STAR_1  = (1 << 27), /* 0x08000000 */
     SAVE_FLAG_COLLECTED_MIPS_STAR_2  = (1 << 28), /* 0x10000000 */
-    SAVE_FLAG_RL_WARPPAD_G0_P1       = (1 << 29), /* 0x20000000 */
-    SAVE_FLAG_RL_WARPPAD_G1_P0       = (1 << 30), /* 0x40000000 */
-    SAVE_FLAG_RL_WARPPAD_G1_P1       = (1 << 31), /* 0x80000000 */
+    SAVE_FLAG_RL_WARPPAD_G0          = (1 << 29), /* 0x20000000 */
+    SAVE_FLAG_RL_WARPPAD_G1          = (1 << 30), /* 0x40000000 */
 };
 
 enum StarFlags {
@@ -192,6 +189,14 @@ void save_file_set_star_flags(s32 fileIndex, s32 courseIndex, u32 starFlags);
 s32 save_file_get_course_coin_score(s32 fileIndex, s32 courseIndex);
 s32 save_file_is_cannon_unlocked(void);
 void save_file_set_cannon_unlocked(void);
+s32 save_file_is_cannon_unlocked_for_course(s32 courseNum);
+void save_file_set_cannon_unlocked_for_course(s32 courseNum);
+s32 save_file_is_cannon_unlocked_for_course_raw(s32 courseNum);
+// rulu start
+// TEMP DEBUG: remove after verifying pipeswitch flags.
+//difine unlock_allが有効になっているから大砲のフラグが解放されてしまっている
+void save_file_clear_cannon_unlocked_for_course(s32 courseNum);
+//rulu end
 void save_file_set_cap_pos(s16 x, s16 y, s16 z);
 s32 save_file_get_cap_pos(Vec3s capPos);
 void save_file_set_sound_mode(u16 mode);

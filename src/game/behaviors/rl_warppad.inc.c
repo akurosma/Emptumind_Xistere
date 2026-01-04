@@ -7,62 +7,78 @@
 #define RL_WARPPAD_OPACITY_STEP 9
 #define RL_WARPPAD_HITBOX_RADIUS 85.0f
 #define RL_WARPPAD_HITBOX_HEIGHT 50.0f
-static u32 rl_warppad_get_flag(s32 group, s32 padIndex) {
+
+static u8 sRlWarppadGroupPadMask[LEVEL_COUNT][AREA_COUNT][2];
+
+static u32 rl_warppad_get_group_flag(s32 group) {
     if (group == 0) {
-        if (padIndex == 0) {
-            return SAVE_FLAG_RL_WARPPAD_G0_P0;
-        }
-        if (padIndex == 1) {
-            return SAVE_FLAG_RL_WARPPAD_G0_P1;
-        }
-    } else if (group == 1) {
-        if (padIndex == 0) {
-            return SAVE_FLAG_RL_WARPPAD_G1_P0;
-        }
-        if (padIndex == 1) {
-            return SAVE_FLAG_RL_WARPPAD_G1_P1;
-        }
+        return SAVE_FLAG_RL_WARPPAD_G0;
+    }
+    if (group == 1) {
+        return SAVE_FLAG_RL_WARPPAD_G1;
     }
 
     return 0;
 }
 
-static u32 rl_warppad_get_group_mask(s32 group) {
-    if (group == 0) {
-        return SAVE_FLAG_RL_WARPPAD_G0_P0 | SAVE_FLAG_RL_WARPPAD_G0_P1;
+static u8 *rl_warppad_get_group_mask_ptr(s32 group) {
+    s32 level = gCurrLevelNum;
+    s32 area = gCurrAreaIndex - 1;
+
+    if (level < 0 || level >= LEVEL_COUNT) {
+        return NULL;
     }
-    if (group == 1) {
-        return SAVE_FLAG_RL_WARPPAD_G1_P0 | SAVE_FLAG_RL_WARPPAD_G1_P1;
+    if (area < 0 || area >= AREA_COUNT) {
+        return NULL;
+    }
+    if (group < 0 || group >= 2) {
+        return NULL;
     }
 
-    return 0;
+    return &sRlWarppadGroupPadMask[level][area][group];
 }
 
 void bhv_rl_warppad_init(void) {
     u32 saveFlags = save_file_get_flags();
-    u32 padFlag = rl_warppad_get_flag(BPARAM1, BPARAM3);
+    s32 group = BPARAM1;
+    s32 padIndex = BPARAM3;
+    u32 groupFlag = rl_warppad_get_group_flag(group);
+    u8 *groupMask = rl_warppad_get_group_mask_ptr(group);
+    s32 padActive = 0;
 
     o->hitboxRadius = RL_WARPPAD_HITBOX_RADIUS;
     o->hitboxHeight = RL_WARPPAD_HITBOX_HEIGHT;
     o->oIntangibleTimer = 0;
-    o->oOpacity = (padFlag != 0 && (saveFlags & padFlag)) ? RL_WARPPAD_OPACITY_TARGET : 255;
+
+    if (groupFlag != 0 && (saveFlags & groupFlag)) {
+        padActive = 1;
+    } else if (groupMask != NULL && padIndex <= 1 && (*groupMask & (1 << padIndex))) {
+        padActive = 1;
+    }
+
+    o->oOpacity = padActive ? RL_WARPPAD_OPACITY_TARGET : 255;
     o->oF4 = (o->oOpacity == RL_WARPPAD_OPACITY_TARGET);
 }
 
 void bhv_rl_warppad_loop(void) {
-    u32 padFlag = rl_warppad_get_flag(BPARAM1, BPARAM3);
-    u32 groupMask = rl_warppad_get_group_mask(BPARAM1);
+    s32 group = BPARAM1;
+    s32 padIndex = BPARAM3;
+    u32 groupFlag = rl_warppad_get_group_flag(group);
+    u8 *groupMask = rl_warppad_get_group_mask_ptr(group);
     u32 saveFlags = save_file_get_flags();
 
-    if (padFlag == 0 || groupMask == 0) {
+    if (groupFlag == 0 || padIndex > 1 || groupMask == NULL) {
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
         return;
     }
 
     if (!o->oF4 && cur_obj_is_mario_on_platform()) {
-        save_file_set_flags(padFlag);
+        *groupMask |= (1 << padIndex);
         o->oF4 = 1;
-        saveFlags = save_file_get_flags();
+        if (*groupMask == 0x3) {
+            save_file_set_flags(groupFlag);
+            saveFlags = save_file_get_flags();
+        }
     }
 
     if (o->oF4) {
@@ -71,7 +87,7 @@ void bhv_rl_warppad_loop(void) {
         o->oOpacity = 255;
     }
 
-    if ((saveFlags & groupMask) == groupMask) {
+    if (saveFlags & groupFlag) {
         o->oInteractType = INTERACT_WARP;
         o->oInteractionSubtype = INT_SUBTYPE_FADING_WARP;
     } else {
@@ -81,4 +97,13 @@ void bhv_rl_warppad_loop(void) {
 
     load_object_collision_model();
     o->oInteractStatus = INT_STATUS_NONE;
+}
+
+void rl_warppad_reset_state(void) {
+    for (s32 level = 0; level < LEVEL_COUNT; level++) {
+        for (s32 area = 0; area < AREA_COUNT; area++) {
+            sRlWarppadGroupPadMask[level][area][0] = 0;
+            sRlWarppadGroupPadMask[level][area][1] = 0;
+        }
+    }
 }
