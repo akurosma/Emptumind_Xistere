@@ -19,8 +19,10 @@
 #include "camera.h"
 #include "object_list_processor.h"
 #include "object_constants.h"
+#include "behavior_data.h"
 #include "ingame_menu.h"
 #include "obj_behaviors.h"
+#include "object_helpers.h"
 #include "save_file.h"
 #include "rulu_htube.h"
 #if MULTILANG
@@ -142,6 +144,8 @@ s16 sSpecialWarpDest;
 s16 sDelayedWarpOp;
 s16 sDelayedWarpTimer;
 s16 sSourceWarpNodeId;
+s16 sSourceWarpLevelNum;
+s16 sSourceWarpAreaIndex;
 s32 sDelayedWarpArg;
 s8 sTimerRunning;
 u32 gLevelEntryCounter = 0;
@@ -393,6 +397,11 @@ void init_mario_after_warp(void) {
 
         init_mario();
         set_mario_initial_action(gMarioState, marioSpawnType, sWarpDest.arg);
+
+        if (obj_has_behavior(object, bhvRlWarppad)) {
+            rl_warppad_set_recent_warp((u8) sSourceWarpNodeId, sWarpDest.nodeId, sSourceWarpLevelNum,
+                sSourceWarpAreaIndex, sWarpDest.levelNum, sWarpDest.areaIdx);
+        }
 
         gMarioState->interactObj = object;
         gMarioState->usedObj = object;
@@ -751,6 +760,8 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
         m->invincTimer = -1;
         sDelayedWarpArg = WARP_FLAGS_NONE;
         sDelayedWarpOp = warpOp;
+        sSourceWarpLevelNum = gCurrLevelNum;
+        sSourceWarpAreaIndex = gCurrAreaIndex;
 
         switch (warpOp) {
             case WARP_OP_DEMO_NEXT:

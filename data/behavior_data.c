@@ -1938,7 +1938,6 @@ const BehaviorScript bhvRlCcmpipe[] = {
     SET_FLOAT(oDrawingDistance, 16000),
     SET_INT(oIntangibleTimer, 0),
     SET_HITBOX(/*Radius*/ 70, /*Height*/ 50),
-    CALL_NATIVE(load_object_static_model),
     CALL_NATIVE(bhv_rl_ccmpipe_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rl_ccmpipe_loop),

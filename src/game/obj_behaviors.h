@@ -39,6 +39,7 @@ void bobomb_act_explode(void);
 void bobomb_check_interactions(void);
 void bobomb_act_patrol(void);
 void rl_warppad_reset_state(void);
+void rl_warppad_set_recent_warp(u8 sourceNodeId, u8 destNodeId, s16 sourceLevel, s16 sourceArea, s16 destLevel, s16 destArea);
 void bobomb_act_chase_mario(void);
 void bobomb_act_launched(void);
 void generic_bobomb_free_loop(void);

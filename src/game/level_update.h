@@ -106,6 +106,8 @@ extern s16 sSpecialWarpDest;
 extern s16 sDelayedWarpOp;
 extern s16 sDelayedWarpTimer;
 extern s16 sSourceWarpNodeId;
+extern s16 sSourceWarpLevelNum;
+extern s16 sSourceWarpAreaIndex;
 extern s32 sDelayedWarpArg;
 extern s8 sTimerRunning;
 

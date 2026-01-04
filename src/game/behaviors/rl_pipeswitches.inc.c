@@ -1,4 +1,3 @@
-extern const Collision rl_top_collision[];
 static void rl_pipeswitch_set_collision(const Collision *collision);
 
 static s32 rl_pipeswitch_group_to_course(s32 group) {
@@ -128,10 +127,8 @@ void bhv_rl_ccmpipe_init(void) {
         rl_pipeswitch_set_collision(warp_pipe_seg3_collision_03009AC8);
     } else {
         cur_obj_hide();
+        o->oInteractType = 0;
         o->oInteractStatus = INT_STATUS_NONE;
-        o->hitboxRadius = 0.0f;
-        o->hitboxHeight = 0.0f;
-        rl_pipeswitch_set_collision(rl_top_collision);
         cur_obj_become_intangible();
     }
 }
@@ -148,13 +145,9 @@ void bhv_rl_ccmpipe_loop(void) {
         bhv_warp_loop();
     } else {
         cur_obj_hide();
+        o->oInteractType = 0;
         o->oInteractStatus = INT_STATUS_NONE;
-        o->hitboxRadius = 0.0f;
-        o->hitboxHeight = 0.0f;
-        rl_pipeswitch_set_collision(rl_top_collision);
         cur_obj_become_intangible();
-        load_object_collision_model();
     }
 }
-
 
