@@ -1,3 +1,5 @@
-extern void scroll_hmc_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24();
-extern void scroll_gfx_mat_hmc_dl__09_f3d_layer1();
+extern void scroll_hmc_dl__C6_cloud1_mesh_layer_5_vtx_0();
+extern void scroll_hmc_dl__C6_cloud2_mesh_layer_1_vtx_0();
+extern void scroll_hmc_dl__C6_main_mesh_layer_5_vtx_1();
+extern void scroll_hmc_dl__C6_main_mesh_layer_5_vtx_2();
 extern void scroll_hmc();

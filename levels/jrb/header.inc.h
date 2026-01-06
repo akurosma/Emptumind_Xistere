@@ -17,7 +17,7 @@ extern u8 jrb_dl__1_rgba16[];
 extern u8 jrb_dl__2_rgba16[];
 extern u8 jrb_dl__4_ci8[];
 extern u8 jrb_dl__4_pal_rgba16[];
-extern u8 jrb_dl_grid_white_64x64_ia4[];
+extern u8 jrb_dl_grid_white_64x64_ia8[];
 extern u8 jrb_dl__3_rgba16[];
 extern u8 jrb_dl__6_rgba16[];
 extern Vtx jrb_dl__C3_mesh_layer_1_vtx_cull[8];

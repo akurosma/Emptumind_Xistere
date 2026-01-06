@@ -3,142 +3,19 @@
 const GeoLayout hmc_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_SWITCH_CASE(17, geo_switch_area),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 9022, -4742, -18743, 90, 0, 0, hmc_dl__C6_cloud1_mesh_layer_5),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 9022, -4592, -18743, 90, 0, 0, hmc_dl__C6_cloud2_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 9022, -4292, -18743, 90, 0, 0, hmc_dl__C6_main_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_BRANCH(1, hmc_dl_blue_coins_geo),
-			GEO_BRANCH(1, hmc_dl_bounce_geo),
-			GEO_BRANCH(1, hmc_dl_Enemy_pillar_area_geo),
-			GEO_BRANCH(1, hmc_dl_Enemy_reds_area_geo),
-			GEO_BRANCH(1, hmc_dl_fish_and_skeeter_geo),
-			GEO_BRANCH(1, hmc_dl_fragments_geo),
-			GEO_BRANCH(1, hmc_dl_Lift_geo),
-			GEO_BRANCH(1, hmc_dl_Pillar_geo),
-			GEO_BRANCH(1, hmc_dl_Plane_geo),
-			GEO_BRANCH(1, hmc_dl_red_blue_block_geo),
-			GEO_BRANCH(1, hmc_dl_red_coins_geo),
-			GEO_BRANCH(1, hmc_dl_school_geo),
-			GEO_BRANCH(1, hmc_dl_TIE_Area1_v1_8_1_geo),
-			GEO_BRANCH(1, hmc_dl_TIE_Area1_v3_6_geo),
-			GEO_BRANCH(1, hmc_dl_train_area_obj_geo),
-			GEO_BRANCH(1, hmc_dl_warp_obj_geo),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hmc_dl__C6_main_mesh_layer_5),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hmc_dl_final_revert_mesh_layer_5),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, hmc_dl__C6_main_mesh_layer_4),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, hmc_dl_final_revert_mesh_layer_4),
 		GEO_CLOSE_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_blue_coins_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_bounce_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_Enemy_pillar_area_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_Enemy_reds_area_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_fish_and_skeeter_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_fragments_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_Lift_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_Pillar_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_Plane_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, -8000, 2194, 16412, hmc_dl_Plane_mesh_layer_5),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_red_blue_block_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_red_coins_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_school_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_TIE_Area1_v1_8_1_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, hmc_dl_TIE_Area1_v1_8_1_mesh_layer_1),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_TIE_Area1_v3_6_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_ROTATION_NODE_WITH_DL(LAYER_OPAQUE, 90, 0, 0, hmc_dl_TIE_Area1_v3_6_mesh_layer_1),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 9022, -5792, -18743, 90, 0, 0, hmc_dl__C6_moon_mesh_layer_1),
 		GEO_OPEN_NODE(),
-			GEO_DISPLAY_LIST(LAYER_ALPHA, hmc_dl_TIE_Area1_v3_6_mesh_layer_4),
-			GEO_DISPLAY_LIST(LAYER_TRANSPARENT, hmc_dl_TIE_Area1_v3_6_mesh_layer_5),
+			GEO_DISPLAY_LIST(LAYER_OPAQUE, hmc_dl_final_revert_mesh_layer_1),
 		GEO_CLOSE_NODE(),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_train_area_obj_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
-	GEO_CLOSE_NODE(),
-	GEO_RETURN(),
-};
-const GeoLayout hmc_dl_warp_obj_geo[] = {
-	GEO_NODE_START(),
-	GEO_OPEN_NODE(),
-		GEO_TRANSLATE_NODE(LAYER_OPAQUE, 28, 100, -37),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -149,19 +26,17 @@ const GeoLayout hmc_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND(BACKGROUND_OCEAN_SKY, geo_skybox_main),
+				GEO_BACKGROUND(BACKGROUND_DISWORLD, geo_skybox_main),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),
 		GEO_OPEN_NODE(),
-			GEO_CAMERA_FRUSTUM_WITH_FUNC(45.0000, 100, 30000, geo_camera_fov),
+			GEO_CAMERA_FRUSTUM_WITH_FUNC(45.0000, 100, 45000, geo_camera_fov),
 			GEO_OPEN_NODE(),
-				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 0, 0, 0, 0, -100, 0, geo_camera_main),
+				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 0, 0, 0, 0, -150, 0, geo_camera_main),
 				GEO_OPEN_NODE(),
 					GEO_BRANCH(1, hmc_area_1_geo),
 					GEO_RENDER_OBJ(),
-					GEO_ASM(   0, geo_movtex_pause_control),
-      				GEO_ASM(HMC_MOVTEX_DORRIE_POOL_WATER, geo_movtex_draw_water_regions),
 					GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
