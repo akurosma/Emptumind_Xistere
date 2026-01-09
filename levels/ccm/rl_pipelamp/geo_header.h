@@ -5,7 +5,7 @@ extern u8 rl_pipelamp_green_ci4[];
 extern u8 rl_pipelamp_green_x_red_pal_rgba16[];
 extern u8 rl_pipelamp_red_ci4[];
 extern Vtx rl_pipelamp_rl_pipelamp_mesh_layer_1_vtx_cull[8];
-extern Vtx rl_pipelamp_rl_pipelamp_mesh_layer_1_vtx_0[86];
+extern Vtx rl_pipelamp_rl_pipelamp_mesh_layer_1_vtx_0[54];
 extern Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1_tri_0[];
 extern Vtx rl_pipelamp_rl_pipelamp_mesh_layer_1_vtx_1[95];
 extern Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1_tri_1[];

@@ -661,6 +661,8 @@ void bhv_rl_bounce_loop(void);
 void rlbounce_spawn(void);
 void bhv_rl_swimtube_init(void);
 void bhv_rl_swimtube_loop(void);
+void bhv_rl_hthazard_init(void);
+void bhv_rl_hthazard_loop(void);
 void bhv_rl_sparkle_loop(void);
 void bhv_rl_train_init(void);
 void bhv_rl_train_loop(void);

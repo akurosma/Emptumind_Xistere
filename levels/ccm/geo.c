@@ -37,6 +37,7 @@
 #include "levels/ccm/rl_warppad/geo.inc.c"
 #include "levels/ccm/rl_pipelamp/geo.inc.c"
 #include "levels/ccm/rl_pipeswitch/geo.inc.c"
+#include "levels/ccm/rl_hthazard/geo.inc.c"
 #include "levels/ccm/areas/1/6/geo.inc.c"
 #include "levels/ccm/areas/1/7/geo.inc.c"
 #include "levels/ccm/areas/1/8/geo.inc.c"

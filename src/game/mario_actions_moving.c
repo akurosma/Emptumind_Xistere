@@ -1509,7 +1509,7 @@ s32 act_riding_hypertube(struct MarioState *m) {
     m->faceAngle[1] = fixedYaw;
 
     // 進行方向速度を固定しつつ、左右入力で横スライドのみ許可 //rulu hypertube
-    f32 lateral = -m->controller->stickX * 1.5f; // 左右反転済み
+    f32 lateral = -m->controller->stickX * 0.5f; // 左右反転済み　左右の移動速度
     f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
     f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
     f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
@@ -1594,6 +1594,9 @@ s32 act_riding_hypertube(struct MarioState *m) {
     print_text_fmt_int(20, 40, "HSPD %d", (s32)m->forwardVel);
     print_text_fmt_int(20, 50, "ACT %d", (s32)m->action);
     print_text_fmt_int(20, 20, "SPD %d", (s32)m->forwardVel);
+
+    // Visual offset so Mario sits cleanly on the shell during hypertube ride.
+    m->marioObj->header.gfx.pos[1] += 45.0f;
 
     adjust_sound_for_speed(m);
 #if ENABLE_RUMBLE

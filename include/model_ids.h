@@ -110,6 +110,7 @@
 #define MODEL_CCM_RL_WARPPAD                   0x4C
 #define MODEL_CCM_RL_PIPELAMP                  0x4D
 #define MODEL_CCM_RL_PIPESWITCH                0x4E
+#define MODEL_CCM_RL_HTHAZARD                  0x4F
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18

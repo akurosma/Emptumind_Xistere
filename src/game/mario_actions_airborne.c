@@ -738,7 +738,7 @@ s32 act_hypertube_jump(struct MarioState *m) {
     const f32 hyperSpeed = gHtubeTargetSpeed;
 
     m->faceAngle[1] = fixedYaw;
-    f32 lateral = m->controller ? -m->controller->stickX * 1.5f : 0.f;
+    f32 lateral = m->controller ? -m->controller->stickX * 0.35f : 0.f;
     f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
     f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
     f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
@@ -756,6 +756,25 @@ s32 act_hypertube_jump(struct MarioState *m) {
     m->slideVelZ = m->vel[2];
 
     update_air_without_turn(m);
+
+    {
+        f32 lateral = m->controller ? -m->controller->stickX * 0.35f : 0.f;
+        f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
+        f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
+        f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
+        f32 latZ = lateral * coss(m->faceAngle[1] + 0x4000);
+        m->vel[0] = baseX + latX;
+        m->vel[2] = baseZ + latZ;
+        f32 horizSpeed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+        if (horizSpeed > 0.f) {
+            f32 scale = hyperSpeed / horizSpeed;
+            m->vel[0] *= scale;
+            m->vel[2] *= scale;
+        }
+        m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+        m->slideVelX = m->vel[0];
+        m->slideVelZ = m->vel[2];
+    }
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_LANDED:
