@@ -802,7 +802,7 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
 
         case ACT_HYPERTUBE_JUMP:
-            set_mario_y_vel_based_on_fspeed(m, 30.0f, 0.15f); // lower jump arc for hypertube
+            set_mario_y_vel_based_on_fspeed(m, 20.0f, 0.1f); // lower jump arc for hypertube
             break;
 
         case ACT_JUMP:

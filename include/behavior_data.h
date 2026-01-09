@@ -596,6 +596,7 @@ extern const BehaviorScript bhvRlTop[];
 extern const BehaviorScript bhvRlTop2[];
 extern const BehaviorScript bhvRlBounce[];
 extern const BehaviorScript bhvRlSwimtube[];
+extern const BehaviorScript bhvRlHthazard[];
 extern const BehaviorScript bhvRlSparkle[];
 extern const BehaviorScript bhvRlTrain[];
 extern const BehaviorScript bhvRlGate[];

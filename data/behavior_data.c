@@ -6742,6 +6742,16 @@ const BehaviorScript bhvRlSwimtube[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvRlHthazard[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 4000),
+    CALL_NATIVE(bhv_rl_hthazard_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_hthazard_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvRlSparkle[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),

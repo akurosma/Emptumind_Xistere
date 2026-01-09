@@ -1483,6 +1483,8 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
             // Hypertube用のシェルは攻撃扱いにしない＝壊さない
             if (bparam2 != 1) {
                 attack_object(obj, interaction);
+            } else {
+                obj->oInteractStatus = INT_STATUS_INTERACTED;
             }
             update_mario_sound_and_camera(m);
             play_shell_music();

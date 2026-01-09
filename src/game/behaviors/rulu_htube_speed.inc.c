@@ -20,7 +20,7 @@ void bhv_rulu_htube_speed_loop(void) {
     if (dist_between_objects(o, gMarioObject) < 200.f) {
         struct Object *hyperObj = gMarioState->usedObj ? gMarioState->usedObj : gMarioState->riddenObj;
         if (hyperObj && hyperObj->oBehParams2ndByte == 1) {
-            const f32 speed = 120.f; //rulu hypertube
+            const f32 speed = 220.f; //rulu hypertube
             htube_boost_speed(speed, 60); // 約1秒持続 //rulu hypertube
             s16 yaw = 0x8000; // -Z 固定
             gMarioState->forwardVel = speed;

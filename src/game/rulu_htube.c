@@ -14,7 +14,7 @@
 const HtubeDesc **gHtubeDesc;
 
 // ハイパーチューブの目標速度（スピードパッド等で上書き） //rulu hypertube
-f32 gHtubeTargetSpeed = 80.f;
+f32 gHtubeTargetSpeed =220.f;
 s32 gHtubeSpeedTimer = 0;
 
 // Weak override so users can register htube descriptors per-level without touching this file.
