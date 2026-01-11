@@ -5,16 +5,23 @@
 
 // ---- CCM 用 レールデータ（コイン列に合わせた座標） ----
 static const Trajectory ccm_temp_rail[] = {
-    TRAJECTORY_POS(0, /*pos*/ -2656, -1324, -4939),
-    TRAJECTORY_POS(1, /*pos*/ -2716, -1100, -5276),
-    TRAJECTORY_POS(2, /*pos*/ -2656,  -876, -5779),
-    TRAJECTORY_POS(3, /*pos*/ -2492,  -712, -6288),
-    TRAJECTORY_POS(4, /*pos*/ -2268,  -652, -6971),
-    TRAJECTORY_POS(5, /*pos*/ -2044,  -712, -7700),
-    TRAJECTORY_POS(6, /*pos*/ -1880,  -876, -8236),
-    TRAJECTORY_POS(7, /*pos*/ -1820, -1100, -8661),
-    TRAJECTORY_POS(8, /*pos*/ -1880, -1324, -8978),
-    TRAJECTORY_POS(9, /*pos*/ -2044, -1488, -9409),
+    TRAJECTORY_POS(0, /*pos*/ -2809, -8165, 17474),
+    TRAJECTORY_POS(1, /*pos*/ -2963, -8010, 16849),
+    TRAJECTORY_POS(2, /*pos*/ -3063, -7815, 16224),
+    TRAJECTORY_POS(3, /*pos*/ -3097, -7599, 15599),
+    TRAJECTORY_POS(4, /*pos*/ -3063, -7383, 14974),
+    TRAJECTORY_POS(5, /*pos*/ -2963, -7189, 14349),
+    TRAJECTORY_POS(6, /*pos*/ -2809, -7034, 13724),
+    TRAJECTORY_POS(7, /*pos*/ -2614, -6935, 13099),
+    TRAJECTORY_POS(8, /*pos*/ -2398, -6901, 12474),
+    TRAJECTORY_POS(9, /*pos*/ -2182, -6935, 11849),
+    TRAJECTORY_POS(10, /*pos*/ -1987, -7034, 11224),
+    TRAJECTORY_POS(11, /*pos*/ -1833, -7189, 10599),
+    TRAJECTORY_POS(12, /*pos*/ -1733, -7383, 9974),
+    TRAJECTORY_POS(13, /*pos*/ -1699, -7599, 9349),
+    TRAJECTORY_POS(14, /*pos*/ -1733, -7815, 8724),
+    TRAJECTORY_POS(15, /*pos*/ -1833, -8010, 8099),
+    TRAJECTORY_POS(16, /*pos*/ -1987, -8165, 7474),
     TRAJECTORY_END(),
 };
 

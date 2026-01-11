@@ -19,6 +19,7 @@
 #include "rumble_init.h"
 #include "rulu_htube.h"
 #include "course_table.h"
+#include "camera.h"
 
 #include "config.h"
 
@@ -59,7 +60,7 @@ static const char *hypertube_qte_button_name(u16 btn) {
 
 static const Vec3f sHyperQteRespawnPos = { 28.f, 100.f, -1590.f };
 // Simple forward jump vector toward -X (level layout: start ~-2400 -> goal beyond -4800)
-static const Vec3f sHyperQteLaunchVel = { -70.f, 40.f, 0.f };
+static const Vec3f sHyperQteLaunchVel = { -70.f, 120.f, 0.f };
 
 static s16 sHyperQteLaunchYaw = 0xC000; // default toward -X
 
@@ -1411,7 +1412,7 @@ s32 act_riding_hypertube(struct MarioState *m) {
         }
         // 発射方向を進行ベクトルに合わせ、簡易カットシーンジャンプへ
         const s16 launchYaw = sHyperQteLaunchYaw;
-        const f32 speed = 140.f;
+        const f32 speed = 231.f;
         m->faceAngle[1] = launchYaw;
         m->vel[0] = speed * sins(launchYaw);
         m->vel[2] = speed * coss(launchYaw);
@@ -1419,7 +1420,9 @@ s32 act_riding_hypertube(struct MarioState *m) {
         m->forwardVel = speed;
         m->slideVelX = m->vel[0];
         m->slideVelZ = m->vel[2];
-        return set_mario_action(m, ACT_FREEFALL, 0);
+        set_cam_angle(CAM_ANGLE_LAKITU);
+        sHyperShell = NULL;
+        return drop_and_set_mario_action(m, ACT_TRIPLE_JUMP, 1);
     } else if (sHyperQteResult == -1) {
         // 失敗時はリスポーン位置へ戻し、再トリガを許可
         sHyperQteResult = 0;
@@ -1479,9 +1482,9 @@ s32 act_riding_hypertube(struct MarioState *m) {
         return set_mario_action(m, ACT_HYPERTUBE_JUMP, 0);
     }
 
-    // レールが近くにあれば乗り換え
+    // レールが近くにあれば乗り換え（ハイパーシェルは保持）
     if (zipline_cancel()) {
-        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
+        return set_mario_action(m, ACT_RAIL_GRIND, 0);
     }
 
     /*if (m->input & INPUT_Z_PRESSED) {
@@ -2400,7 +2403,7 @@ s32 act_rail_grind(struct MarioState *m) {
     }
     // ハイパーシェル時は速度を一定に強制 //rulu hypertube
     if (hasHyperShell) {
-        zipline_force_speed(80.f); // レール上は一定速度
+        zipline_force_speed(220.f); // レール上は一定速度
     }
 
     if (zipline_step(clampedTimer, &extraTilt, holdZ)) {
@@ -2418,7 +2421,7 @@ s32 act_rail_grind(struct MarioState *m) {
 
         if (hasHyperShell) {
             // レール離脱時は必ず一定速度で復帰させ、斜面減速を持ち越さない //rulu hypertube
-            const f32 exitSpeed = 80.f;
+            const f32 exitSpeed = 220.f;
             s16 exitYaw = m->faceAngle[1];
             m->forwardVel = exitSpeed;
             m->slideVelX = exitSpeed * sins(exitYaw);
@@ -2558,9 +2561,9 @@ s32 check_common_moving_cancels(struct MarioState *m) {
     struct Object *hyperObj = m->usedObj ? m->usedObj : m->riddenObj;
     int hasHyperShell = hyperObj && hyperObj->oBehParams2ndByte == 1;
 
-    // ハイパーシェル所持時だけレールに乗り換え
+    // ハイパーシェル所持時だけレールに乗り換え（シェルは保持）
     if (hasHyperShell && zipline_cancel()) {
-        return drop_and_set_mario_action(m, ACT_RAIL_GRIND, 0);
+        return set_mario_action(m, ACT_RAIL_GRIND, 0);
     }
 
     if (m->pos[1] < m->waterLevel - 100) {

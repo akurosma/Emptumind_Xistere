@@ -766,8 +766,28 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
 
     switch (action) {
         case ACT_DOUBLE_JUMP:
-            set_mario_y_vel_based_on_fspeed(m, 52.0f, 0.25f);
-            m->forwardVel *= 0.8f;
+        /*rulu start SURFACE_DOUBLE_JUMP
+            if (actionArg != 0) {
+                // SURFACE_DOUBLE_JUMP uses surface force params for custom height/forward velocity.
+                u16 rawParam = (u16) actionArg;
+                u8 heightParam = rawParam & 0xFF;
+                u8 forwardParam = (rawParam >> 8) & 0xFF;
+                f32 initialVelY = (heightParam == 0) ? 52.0f : (heightParam * 10.0f);
+
+                if (forwardParam != 0) {
+                    m->forwardVel = (f32) forwardParam;
+                }
+
+                set_mario_y_vel_based_on_fspeed(m, initialVelY, 0.25f);
+
+                if (forwardParam == 0) {
+                    m->forwardVel *= 0.8f;
+                }
+            } else {
+             rulu end*/
+                set_mario_y_vel_based_on_fspeed(m, 52.0f, 0.25f);
+                m->forwardVel *= 0.8f;
+            //SURFACE_DOUBLE_JUMP }
             break;
 
         case ACT_BACKFLIP:
@@ -777,7 +797,7 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
 
         case ACT_TRIPLE_JUMP:
-            set_mario_y_vel_based_on_fspeed(m, 69.0f, 0.0f);
+            set_mario_y_vel_based_on_fspeed(m, (actionArg == 1) ? 138.0f : 69.0f, 0.0f);
             m->forwardVel *= 0.8f;
             break;
 
@@ -802,7 +822,7 @@ u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actionArg) {
             break;
 
         case ACT_HYPERTUBE_JUMP:
-            set_mario_y_vel_based_on_fspeed(m, 20.0f, 0.1f); // lower jump arc for hypertube
+            set_mario_y_vel_based_on_fspeed(m, 25.0f, 0.12f); // lower jump arc for hypertube
             break;
 
         case ACT_JUMP:
@@ -1008,6 +1028,13 @@ s32 set_jump_from_landing(struct MarioState *m) {
     if (mario_floor_is_steep(m)) {
         set_steep_jump_action(m);
     } else {
+        if ((m->floor != NULL)
+            && (m->floor->type == SURFACE_DOUBLE_JUMP)
+            && !(m->input & (INPUT_Z_DOWN | INPUT_Z_PRESSED))) {
+            // Force a double jump on SURFACE_DOUBLE_JUMP when A is pressed (Z+A is excluded).
+            return set_mario_action(m, ACT_DOUBLE_JUMP, (u16) m->floor->force);
+        }
+
         if ((m->doubleJumpTimer == 0) || (m->squishTimer != 0)) {
             set_mario_action(m, ACT_JUMP, 0);
         } else {

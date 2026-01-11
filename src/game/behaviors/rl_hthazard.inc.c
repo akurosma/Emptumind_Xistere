@@ -4,18 +4,6 @@
 #include "game/object_helpers.h"
 #include "game/interaction.h"
 
-static struct ObjectHitbox sRlHthazardHitbox = {
-    /* interactType:      */ INTERACT_NONE,
-    /* downOffset:        */ 0,
-    /* damageOrCoinValue: */ 2,
-    /* health:            */ 0,
-    /* numLootCoins:      */ 0,
-    /* radius:            */ 480,
-    /* height:            */ 250,
-    /* hurtboxRadius:     */ 0,
-    /* hurtboxHeight:     */ 0,
-};
-
 static void rl_hthazard_apply_damage(struct MarioState *m) {
     s16 damageTicks = (m->flags & MARIO_CAP_ON_HEAD) ? 8 : 12;
 
@@ -29,7 +17,6 @@ static void rl_hthazard_apply_damage(struct MarioState *m) {
 }
 
 void bhv_rl_hthazard_init(void) {
-    obj_set_hitbox(o, &sRlHthazardHitbox);
     o->oF4 = 0;
     o->oHomeZ = o->oPosZ;
 }
@@ -56,12 +43,20 @@ void bhv_rl_hthazard_loop(void) {
         return;
     }
 
-    if (dist_between_objects(o, gMarioObject) > o->hitboxRadius) {
-        return;
-    }
-
-    if (absf(o->oPosY - m->pos[1]) > o->hitboxHeight) {
-        return;
+    {
+        int hit = 0;
+        if (m->floor && m->floor->object == o) {
+            hit = (m->pos[1] <= m->floorHeight + 20.0f);
+        }
+        if (!hit && m->wall && m->wall->object == o) {
+            hit = 1;
+        }
+        if (!hit && m->ceil && m->ceil->object == o) {
+            hit = (m->ceilHeight - m->pos[1] <= 20.0f);
+        }
+        if (!hit) {
+            return;
+        }
     }
 
     if (o->oF4 > 0) {
@@ -69,5 +64,9 @@ void bhv_rl_hthazard_loop(void) {
     }
 
     rl_hthazard_apply_damage(m);
+    spawn_mist_particles();
+    spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, 4);
+    cur_obj_play_sound_2(SOUND_GENERAL_BREAK_BOX);
+    obj_mark_for_deletion(o);
     o->oF4 = 10;
 }
