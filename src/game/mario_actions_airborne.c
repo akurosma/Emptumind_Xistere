@@ -474,17 +474,27 @@ s32 act_double_jump(struct MarioState *m) {
     return FALSE;
 }
 
+#define HYPER_QTE_NO_GROUND_POUND_FRAMES 60
+
 s32 act_triple_jump(struct MarioState *m) {
     if (gSpecialTripleJump) {
         return set_mario_action(m, ACT_SPECIAL_TRIPLE_JUMP, 0);
     }
 
-    if (m->input & INPUT_B_PRESSED) {
-        return set_mario_action(m, ACT_DIVE, 0);
-    }
-
-    if (m->input & INPUT_Z_PRESSED) {
-        return set_mario_action(m, ACT_GROUND_POUND, 0);
+    if (m->actionArg == 1 && m->actionTimer < HYPER_QTE_NO_GROUND_POUND_FRAMES) {
+        m->actionTimer++;
+        if (m->controller) {
+            m->controller->stickX = 0;
+            m->controller->stickY = 0;
+        }
+        m->intendedMag = 0;
+    } else {
+        if (m->input & INPUT_B_PRESSED) {
+            return set_mario_action(m, ACT_DIVE, 0);
+        }
+        if (m->input & INPUT_Z_PRESSED) {
+            return set_mario_action(m, ACT_GROUND_POUND, 0);
+        }
     }
 
     play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);

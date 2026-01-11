@@ -55,7 +55,7 @@ enum SurfaceTypes {
     SURFACE_ICE,                        // 0x002E // Slippery Ice, in snow levels and THI's water floor
     SURFACE_LOOK_UP_WARP,               // 0x002F // Look up and warp (Wing cap entrance)
     SURFACE_HARD,                       // 0x0030 // Hard floor (Always has fall damage)
-    SURFACE_0031,                       // 0x0031 // Unused
+    SURFACE_DAMAGE,                     // 0x0031 // Damages Mario while standing on it
     SURFACE_WARP,                       // 0x0032 // Surface warp. Warps to ID of force parameter's second byte if set, otherwise defaults to ID 0xF3.
     SURFACE_TIMER_START,                // 0x0033 // Timer start (Peach's secret slide)
     SURFACE_TIMER_END,                  // 0x0034 // Timer stop (Peach's secret slide)
@@ -63,7 +63,7 @@ enum SurfaceTypes {
     SURFACE_HARD_VERY_SLIPPERY,         // 0x0036 // Hard and very slippery (Always has fall damage)
     SURFACE_HARD_NOT_SLIPPERY,          // 0x0037 // Hard and Non-slippery (Always has fall damage)
     SURFACE_VERTICAL_WIND,              // 0x0038 // Death at bottom with vertical wind. Warps to ID of force parameter's second byte if set, otherwise warps to 0xF3 if it exists, otherwise defaults to ID 0xF1.
-    SURFACE_0039,                       // 0x0039 // Unused
+    SURFACE_DOUBLE_JUMP,                // 0x0039 // Double jump trigger surface
     SURFACE_003A,                       // 0x003A // Unused
     SURFACE_003B,                       // 0x003B // Unused
     SURFACE_003C,                       // 0x003C // Unused
@@ -244,7 +244,7 @@ enum SurfaceTypes {
 #define SURFACE_IS_PAINTING_WARP_RIGHT(cmd)     ((((cmd) - SURFACE_PAINTING_WARP_D5  ) % 3) == 0)
 #define SURFACE_IS_INSTANT_WARP(cmd)            (((cmd) >= SURFACE_INSTANT_WARP_1B) && ((cmd) < SURFACE_INSTANT_WARP_1B + INSTANT_WARP_INDEX_STOP))
 #define SURFACE_IS_WARP(cmd)                    (((cmd) == SURFACE_LOOK_UP_WARP) || ((cmd) == SURFACE_WOBBLING_WARP) || SURFACE_IS_PAINTING_WARP(cmd) || SURFACE_IS_INSTANT_WARP(cmd))
-#define SURFACE_IS_UNSAFE(cmd)                  (((cmd) == SURFACE_BURNING) || ((cmd) == SURFACE_HYPERTUBE_DAMAGE) || SURFACE_IS_QUICKSAND(cmd) || SURFACE_IS_WARP(cmd))
+#define SURFACE_IS_UNSAFE(cmd)                  (((cmd) == SURFACE_BURNING) || ((cmd) == SURFACE_HYPERTUBE_DAMAGE) || ((cmd) == SURFACE_DAMAGE) || SURFACE_IS_QUICKSAND(cmd) || SURFACE_IS_WARP(cmd))
 
 enum SurfaceClass {
     SURFACE_CLASS_DEFAULT,

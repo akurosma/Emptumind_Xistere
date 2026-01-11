@@ -89,5 +89,7 @@
 #include "levels/ccm/rl_pipeswitch/collision.inc.c"
 #include "levels/ccm/rl_hthazard/model.inc.c"
 #include "levels/ccm/rl_hthazard/collision.inc.c"
+#include "levels/ccm/rl_spiderjump/model.inc.c"
+#include "levels/ccm/rl_spiderjump/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"

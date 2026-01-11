@@ -153,6 +153,15 @@
 #undef bullet_bill_seg5_vertex_0500E558
 #undef bullet_bill_eye
 #undef bullet_bill_mouth
+// Impact Ring (Bowser shockwave)
+#undef invisible_bowser_accessory_geo
+#undef impact_ring_seg6_dl_0601EA50
+#undef impact_ring_seg6_dl_0601EA88
+#undef impact_ring_seg6_dl_0601EAC0
+#undef impact_ring_seg6_texture_0601CA50
+#undef impact_ring_seg6_texture_0601DA50
+#undef impact_ring_seg6_vertex_0601C9D0
+#undef impact_ring_seg6_vertex_0601CA10
 // Scuttlebug
 #undef scuttlebug_geo
 #undef scuttlebug_eye

@@ -1923,7 +1923,7 @@ void check_lava_boost(struct MarioState *m) {
  */
 static s16 sHypertubeDamageCooldown = 0;
 static void apply_hypertube_floor_damage(struct MarioState *m) {
-    if (m->pos[1] < m->floorHeight + 10.0f && !(m->flags & MARIO_METAL_CAP)) {
+    if (m->pos[1] < m->floorHeight + 1000.0f && !(m->flags & MARIO_METAL_CAP)) {
         if (sHypertubeDamageCooldown > 0) {
             sHypertubeDamageCooldown--;
             return;
@@ -1938,6 +1938,40 @@ static void apply_hypertube_floor_damage(struct MarioState *m) {
     } else {
         // 離れたらクールダウンをリセット
         sHypertubeDamageCooldown = 0;
+    }
+}
+
+/**
+ * Damages Mario without forcing him off his current action.
+ * Uses surface params for height limit (upper byte) and cooldown frames (lower byte).
+ */
+static s16 sSurfaceDamageCooldown = 0;
+static void apply_surface_floor_damage(struct MarioState *m) {
+    u16 rawParam = (u16) m->floor->force;
+    u8 heightParam = (rawParam >> 8) & 0xFF;
+    u8 cooldownParam = rawParam & 0xFF;
+    f32 heightLimit = (heightParam == 0) ? 0.0f : (heightParam * 100.0f);
+
+    if (m->flags & MARIO_METAL_CAP) {
+        sSurfaceDamageCooldown = 0;
+        return;
+    }
+
+    if (heightParam != 0 && m->pos[1] >= m->floorHeight + heightLimit) {
+        sSurfaceDamageCooldown = 0;
+        return;
+    }
+
+    if (sSurfaceDamageCooldown > 0) {
+        sSurfaceDamageCooldown--;
+        return;
+    }
+
+    s16 damageTicks = (m->flags & MARIO_CAP_ON_HEAD) ? 1 : 2; // 最小の単位に設定
+    sSurfaceDamageCooldown = cooldownParam; // 0なら毎フレーム, 3なら4フレームに1回のみ加算
+
+    if (m->hurtCounter < damageTicks) {
+        m->hurtCounter = damageTicks;
     }
 }
 
@@ -1991,9 +2025,23 @@ void mario_handle_special_floors(struct MarioState *m) {
         if (!(m->action & (ACT_FLAG_AIR | ACT_FLAG_SWIMMING))) {
             if (floorType == SURFACE_BURNING) {
                 check_lava_boost(m);
-            } else if (floorType == SURFACE_HYPERTUBE_DAMAGE) {
-                apply_hypertube_floor_damage(m);
             }
         }
+
+        if (floorType == SURFACE_HYPERTUBE_DAMAGE && m->action != ACT_RAIL_GRIND) {
+            apply_hypertube_floor_damage(m);
+        }
+
+        if (floorType == SURFACE_DAMAGE) {
+            if (m->action != ACT_RIDING_HYPERTUBE && m->action != ACT_HYPERTUBE_JUMP) {
+                apply_surface_floor_damage(m);
+            } else {
+                sSurfaceDamageCooldown = 0;
+            }
+        } else {
+            sSurfaceDamageCooldown = 0;
+        }
+    } else {
+        sSurfaceDamageCooldown = 0;
     }
 }

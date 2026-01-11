@@ -29,6 +29,14 @@ s32 check_common_idle_cancels(struct MarioState *m) {
     }
 
     if (m->input & INPUT_A_PRESSED) {
+        /*rulu start SURFACE_DOUBLE_JUMP
+        if ((m->floor != NULL)
+            && (m->floor->type == SURFACE_DOUBLE_JUMP)
+            && !(m->input & (INPUT_Z_DOWN | INPUT_Z_PRESSED))) {
+            // SURFACE_DOUBLE_JUMP triggers a double jump from idle/standing.
+            return set_jumping_action(m, ACT_DOUBLE_JUMP, (u16) m->floor->force);
+        }
+        rulu end*/
         return set_jumping_action(m, ACT_JUMP, 0);
     }
 

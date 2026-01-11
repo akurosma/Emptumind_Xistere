@@ -111,6 +111,7 @@
 #define MODEL_CCM_RL_PIPELAMP                  0x4D
 #define MODEL_CCM_RL_PIPESWITCH                0x4E
 #define MODEL_CCM_RL_HTHAZARD                  0x4F
+#define MODEL_CCM_RL_SPIDERJUMP                0x50
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18
@@ -602,11 +603,10 @@
 #define MODEL_RL_LIFT                     0xE8
 #define MODEL_RL_PILLAR                   0xE9
 #define MODEL_CCM_BULLET_BILL             0xEA        // bullet_bill_geo
-
 #define MODEL_RL_TOP                      0xEB
 #define MODEL_RL_BOUNCE                   0xEC
 #define MODEL_RL_SWIMTUBE                 0xED
-
+#define MODEL_SHOCKWAVE2                  0xEE
 #define MODEL_YELLOW_FLAME                0xEF
 #define MODEL_GREEN_FLAME                 0xF0
 #define MODEL_PINK_FLAME                  0xF1

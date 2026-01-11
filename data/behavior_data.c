@@ -6743,11 +6743,13 @@ const BehaviorScript bhvRlSwimtube[] = {
 };
 
 const BehaviorScript bhvRlHthazard[] = {
-    BEGIN(OBJ_LIST_LEVEL),
+    BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    SET_FLOAT(oDrawingDistance, 4000),
+    LOAD_COLLISION_DATA(rl_hthazard_collision),
+    SET_FLOAT(oDrawingDistance, 15000),
     CALL_NATIVE(bhv_rl_hthazard_init),
     BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
         CALL_NATIVE(bhv_rl_hthazard_loop),
     END_LOOP(),
 };
@@ -6827,6 +6829,18 @@ const BehaviorScript bhvRlCcmflame[] = {
         CALL_NATIVE(bhv_ccmflame_loop),
         SET_INT(oInteractStatus, INT_STATUS_NONE),
         ANIMATE_TEXTURE(oAnimState, 2),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvRlSpiderjump[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    LOAD_COLLISION_DATA(rl_spiderjump_collision),
+    SET_FLOAT(oDrawingDistance, 8000),
+    CALL_NATIVE(bhv_rl_spiderjump_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rl_spiderjump_loop),
     END_LOOP(),
 };
 

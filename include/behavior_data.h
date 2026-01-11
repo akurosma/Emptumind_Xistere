@@ -603,6 +603,7 @@ extern const BehaviorScript bhvRlGate[];
 extern const BehaviorScript bhvRlFirespitter[];
 extern const BehaviorScript bhvRlBulletbill[];
 extern const BehaviorScript bhvRlCcmflame[];
+extern const BehaviorScript bhvRlSpiderjump[];
 extern const BehaviorScript bhvRlMovingflame[];
 extern const BehaviorScript bhvRlGrowflame[];
 extern const BehaviorScript bhvRlSpawnerbounce[];
