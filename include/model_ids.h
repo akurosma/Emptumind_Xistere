@@ -314,6 +314,11 @@
 #define MODEL_WF_RL_TRAIN                         0x3D
 #define MODEL_WF_RL_SWING                         0x3E
 #define MODEL_WF_RL_TOP2                          0x3F
+#define MODEL_WF_RL_PILLAR                        0x40
+#define MODEL_RL_LIFT                             0x41
+#define MODEL_RL_SWIMTUBE                         0x42
+#define MODEL_RL_BOUNCE                           0x43
+#define MODEL_RL_TOP                              0x44
 
 // ending
 
@@ -323,6 +328,9 @@
 #define MODEL_CASTLE_GROUNDS_CANNON_GRILL         0x38        // castle_grounds_geo_000724
 
 // pss
+#define MODEL_RL_BRIDGE                   0x36
+#define MODEL_RL_EXELEVATOR               0x37
+#define MODEL_RL_METALBLOCK               0x38
 
 // cotmc
 
@@ -596,16 +604,16 @@
 #define MODEL_SILVER_COIN_NO_SHADOW       0xE3        // silver_coin_no_shadow_geo
 #endif
 
-#define MODEL_RL_BRIDGE                   0xE4
+
 #define MODEL_RL_SQUAREFLOATING           0xE5
-#define MODEL_RL_EXELEVATOR               0xE6
-#define MODEL_RL_METALBLOCK               0xE7
-#define MODEL_RL_LIFT                     0xE8
-#define MODEL_RL_PILLAR                   0xE9
+
+
+
+
 #define MODEL_CCM_BULLET_BILL             0xEA        // bullet_bill_geo
-#define MODEL_RL_TOP                      0xEB
-#define MODEL_RL_BOUNCE                   0xEC
-#define MODEL_RL_SWIMTUBE                 0xED
+
+
+
 #define MODEL_SHOCKWAVE2                  0xEE
 #define MODEL_YELLOW_FLAME                0xEF
 #define MODEL_GREEN_FLAME                 0xF0

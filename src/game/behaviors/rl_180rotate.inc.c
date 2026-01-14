@@ -3,6 +3,9 @@ void bhv_rl_180rotate_init(void) {
 }
 
 void bhv_rl_180rotate_loop(void) {
+    if (BPARAM2 == 1) {
+        cur_obj_scale(1.5f);
+    }
   if (o->oAction == 0) {
             if (BPARAM1 == 1) {
             o->oAngleVelPitch = 0;

@@ -46,5 +46,10 @@
 #include "levels/wf/rl_train/geo.inc.c"
 #include "levels/wf/rl_swing/geo.inc.c"
 #include "levels/wf/rl_top2/geo.inc.c"
+#include "levels/wf/rl_pillar/geo.inc.c"
+#include "levels/wf/rl_lift/geo.inc.c"
+#include "levels/wf/rl_swimtube/geo.inc.c"
+#include "levels/wf/rl_bounce/geo.inc.c"
+#include "levels/wf/rl_top/geo.inc.c"
 
 #include "levels/wf/geo.inc.c"

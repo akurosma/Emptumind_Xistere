@@ -21,4 +21,11 @@
 #include "levels/pss/areas/1/macro.inc.c"
 #include "levels/pss/areas/1/movtext.inc.c"
 
+#include "levels/pss/rlbridge/model.inc.c"
+#include "levels/pss/rlbridge/collision.inc.c"
+#include "levels/pss/rlexelevator/model.inc.c"
+#include "levels/pss/rlexelevator/collision.inc.c"
+#include "levels/pss/rlmetalblock/model.inc.c"
+#include "levels/pss/rlmetalblock/collision.inc.c"
+
 #include "levels/pss/leveldata.inc.c"

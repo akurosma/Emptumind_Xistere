@@ -1,11 +1,14 @@
-void scroll_wf_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24() {
+#include "levels/wf/rl_top/geo_header.h"
+#include "levels/wf/rl_top/texscroll.inc.c"
+
+void scroll_wf_dl_TIE_Area1_v3_6_mesh_layer_5_vtx_1() {
 	int i = 0;
 	int count = 56;
-	int width = 32 * 0x20;
+	int width = 64 * 0x20;
 
 	static int currentX = 0;
 	int deltaX;
-	Vtx *vertices = segmented_to_virtual(wf_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24);
+	Vtx *vertices = segmented_to_virtual(wf_dl_TIE_Area1_v3_6_mesh_layer_5_vtx_1);
 
 	deltaX = (int)(0.009999999776482582 * 0x20) % width;
 
@@ -19,16 +22,15 @@ void scroll_wf_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24() {
 	currentX += deltaX;
 }
 
-void scroll_gfx_mat_wf_dl__09_f3d_layer1() {
-	Gfx *mat = segmented_to_virtual(mat_wf_dl__09_f3d_layer1);
+void scroll_gfx_mat_wf_dl__09_f3d() {
+	Gfx *mat = segmented_to_virtual(mat_wf_dl__09_f3d);
 
-
-	shift_s(mat, 12, PACK_TILESIZE(0, 1));
-	shift_t(mat, 17, PACK_TILESIZE(0, 1));
+	shift_s(mat, 18, PACK_TILESIZE(0, 1));
 
 };
 
 void scroll_wf() {
-	scroll_wf_dl_TIE_Area1_v3_6_mesh_layer_1_vtx_24();
-	scroll_gfx_mat_wf_dl__09_f3d_layer1();
+	scroll_wf_dl_TIE_Area1_v3_6_mesh_layer_5_vtx_1();
+	scroll_gfx_mat_wf_dl__09_f3d();
+	scroll_geo_rl_top();
 };

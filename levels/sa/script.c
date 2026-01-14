@@ -46,8 +46,6 @@ const LevelScript level_sa_entry[] = {
 		OBJECT(MODEL_NONE, -1464, 0, -1800, 0, 0, 0, (6 << 24) | (3 << 8) | (20), bhvFlashingBlock),
 		OBJECT(MODEL_RL_LIFT, -2374, 100, -1000, 0, 0, 0, 0x00000000, bhvRlLift),
 		OBJECT(MODEL_RL_LIFT, 1626, 100, -1000, 0, 0, 0, 0x00000000, bhvRlLift),
-		OBJECT(MODEL_RL_PILLAR, 3136, 0, -1000, 0, 0, 0, 0x00000000, bhvRlPillar),
-		OBJECT(MODEL_RL_PILLAR, -3164, 0, -1000, 0, 0, 0, 0x00000000, bhvRlPillar),
 		OBJECT(MODEL_GOOMBA, -1964, 0, -500, 0, 0, 0, (0 << 24) | (0 << 8) | (0), bhvThiTinyIslandTop),
 		OBJECT(MODEL_YELLOW_COIN, -1464, 0, -500, 0, 90, 0, (0 << 24) | (0 << 8) | (0), bhvWaterLevelDiamond),
 		OBJECT(MODEL_YELLOW_COIN, -3162, 600, -800, 0, 90, 0, (0 << 24) | (0 << 8) | (0), bhvWaterLevelDiamond),

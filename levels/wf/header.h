@@ -41,6 +41,11 @@ extern const GeoLayout rl_marker_geo[];
 extern const GeoLayout rl_train_geo[];
 extern const GeoLayout rl_swing_geo[];
 extern const GeoLayout rl_top2_geo[];
+extern const GeoLayout rl_pillar_geo[];
+extern const GeoLayout rl_lift_geo[];
+extern const GeoLayout rl_swimtube_geo[];
+extern const GeoLayout rl_bounce_geo[];
+extern const GeoLayout rl_top_geo[];
 
 // leveldata
 extern const Gfx wf_seg7_dl_070050C8[];
@@ -90,6 +95,13 @@ extern const Gfx rl_train_rl_train_mesh_layer_5[];
 extern const Gfx rl_swing_rl_swing_mesh_layer_4[];
 extern const Gfx rl_swing_rl_swing_mesh_layer_1[];
 extern const Gfx rl_top2_rl_top2_mesh_layer_6[];
+extern const Gfx rl_pillar_rl_pillar_mesh_layer_1[];
+extern const Gfx rl_lift_rl_lift_mesh_layer_1[];
+extern const Gfx rl_lift_rl_lift_mesh_layer_6[];
+extern const Gfx rl_swimtube_rl_swimtube_mesh_layer_1[];
+extern const Gfx rl_swimtube_rl_swimtube_mesh_layer_5[];
+extern const Gfx rl_bounce_rl_bounce_mesh_layer_5[];
+extern const Gfx rl_top_rl_top_mesh_layer_1[];
 extern const Collision wf_seg7_collision_small_bomp[];
 extern const Collision wf_seg7_collision_large_bomp[];
 extern const Collision wf_seg7_collision_clocklike_rotation[];
@@ -110,6 +122,11 @@ extern const Collision rl_marker_collision[];
 extern const Collision rl_train_collision[];
 extern const Collision rl_swing_collision[];
 extern const Collision rl_top2_collision[];
+extern const Collision rl_pillar_collision[];
+extern const Collision rl_lift_collision[];
+extern const Collision rl_swimtube_collision[];
+extern const Collision rl_bounce_collision[];
+extern const Collision rl_top_collision[];
 extern const MacroObject wf_seg7_macro_objs[];
 extern const struct MovtexQuadCollection wf_movtex_water[];
 

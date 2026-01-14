@@ -25,7 +25,7 @@ const Collision rl_top_collision[] = {
 	COL_VERTEX(193, -123, 25),
 	COL_VERTEX(107, -123, -25),
 	COL_VERTEX(107, -123, 25),
-	COL_TRI_INIT(SURFACE_WATER, 36),
+	COL_TRI_INIT(SURFACE_DEFAULT, 36),
 	COL_TRI(0, 1, 2),
 	COL_TRI(0, 2, 3),
 	COL_TRI(4, 5, 6),

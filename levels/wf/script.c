@@ -70,7 +70,12 @@ const LevelScript level_wf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_MARKER, rl_marker_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_TRAIN, rl_train_geo), 
 	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_SWING, rl_swing_geo),
-	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_TOP2, rl_top2_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_TOP2, rl_top2_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WF_RL_PILLAR, rl_pillar_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_RL_LIFT, rl_lift_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_RL_SWIMTUBE, rl_swimtube_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_RL_BOUNCE, rl_bounce_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_RL_TOP, rl_top_geo), 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -173,10 +178,10 @@ const LevelScript level_wf_entry[] = {
 		OBJECT(MODEL_RL_LIFT, 10592, 1100, -1373, 0, 0, 0, 0x00000000, bhvRlLift),
 		OBJECT(MODEL_RL_LIFT, 12042, 500, -9029, 0, 0, 0, 0x00000000, bhvRlLift),
 		OBJECT(MODEL_NONE, -10783, 1650, -10112, 0, 0, 0, (0 << 24), bhvRlMarker),
-		OBJECT(MODEL_RL_PILLAR, -10500, -500, 3946, 0, 0, 0, 0x00000000, bhvRlPillar),
-		OBJECT(MODEL_RL_PILLAR, -12000, -300, 3946, 0, 0, 0, 0x00000000, bhvRlPillar),
-		OBJECT(MODEL_RL_PILLAR, -13000, -500, 1492, 0, 0, 0, 0x00000000, bhvRlPillar),
-		OBJECT(MODEL_RL_PILLAR, -12050, 21, -2481, 0, 23, 0, (1 << 8), bhvRlPillar),
+		OBJECT(MODEL_WF_RL_PILLAR, -10500, -500, 3946, 0, 0, 0, 0x00000000, bhvRlPillar),
+		OBJECT(MODEL_WF_RL_PILLAR, -12000, -300, 3946, 0, 0, 0, 0x00000000, bhvRlPillar),
+		OBJECT(MODEL_WF_RL_PILLAR, -13000, -500, 1492, 0, 0, 0, 0x00000000, bhvRlPillar),
+		OBJECT(MODEL_WF_RL_PILLAR, -12050, 21, -2481, 0, 23, 0, (1 << 8), bhvRlPillar),
 		OBJECT(MODEL_RL_SWIMTUBE, -8005, 500, -8812, 0, 0, 0, (1 << 8), bhvRlSwimtube),
 		OBJECT(MODEL_WF_RL_SWING, -1500, 1280, -10452, 0, 0, 0, 0x00000000, bhvRlSwing),
 		OBJECT(MODEL_WF_RL_SWING, -1500, 1280, -9652, 0, 180, 0, 0x00000000, bhvRlSwing),
@@ -230,7 +235,7 @@ const LevelScript level_wf_entry[] = {
 		TERRAIN(wf_area_1_collision),
 		ROOMS(wf_area_1_collision_rooms),
 		MACRO_OBJECTS(wf_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_HMC_RULU),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_AQUARIUM_PARK),
 		TERRAIN_TYPE(TERRAIN_STONE),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
