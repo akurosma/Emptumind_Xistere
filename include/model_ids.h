@@ -319,6 +319,9 @@
 #define MODEL_RL_SWIMTUBE                         0x42
 #define MODEL_RL_BOUNCE                           0x43
 #define MODEL_RL_TOP                              0x44
+#define MODEL_YELLOW_FLAME                        0x45
+#define MODEL_GREEN_FLAME                         0x46
+#define MODEL_PINK_FLAME                          0x47
 
 // ending
 
@@ -615,9 +618,7 @@
 
 
 #define MODEL_SHOCKWAVE2                  0xEE
-#define MODEL_YELLOW_FLAME                0xEF
-#define MODEL_GREEN_FLAME                 0xF0
-#define MODEL_PINK_FLAME                  0xF1
+
 
 
 
