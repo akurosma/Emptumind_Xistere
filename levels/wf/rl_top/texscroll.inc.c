@@ -28,7 +28,7 @@ void scroll_gfx_mat_rl_top_f3dlite_material_layer1() {
 
 };
 
-void scroll_actor_geo_rl_top() {
+void scroll_geo_rl_top() {
 	scroll_rl_top_rl_top_mesh_layer_1_vtx_0();
 	scroll_gfx_mat_rl_top_f3dlite_material_layer1();
 };

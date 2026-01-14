@@ -13,6 +13,10 @@
 
 #include "levels/pss/header.h"
 
+#include "levels/pss/rlbridge/geo.inc.c"
+#include "levels/pss/rlexelevator/geo.inc.c"
+#include "levels/pss/rlmetalblock/geo.inc.c"
+
 #include "levels/pss/areas/1/geo.inc.c"
 
 #include "levels/pss/geo.inc.c"

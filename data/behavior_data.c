@@ -55,6 +55,7 @@
 #include "levels/wf/header.h"
 #include "levels/bowser_2/header.h"
 #include "levels/ttm/header.h"
+#include "levels/pss/header.h"
 
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
@@ -6511,19 +6512,6 @@ const BehaviorScript bhvBarrelSpeedUp[] = {
     END_LOOP(),
 };
 
-const BehaviorScript bhvRl180rotate2[] = {
-    BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    SET_HOME(),
-    LOAD_COLLISION_DATA(rl180rotate_collision),
-    SET_FLOAT(oDrawingDistance, 15000),
-    CALL_NATIVE(bhv_rl_180rotate2_init),
-    BEGIN_LOOP(),
-        CALL_NATIVE(load_object_collision_model),
-        CALL_NATIVE(bhv_rl_180rotate2_loop),
-    END_LOOP(),
-};
-
 const BehaviorScript bhvSnufitBalls2[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6640,7 +6628,7 @@ const BehaviorScript bhvRlMetalblock[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
     SET_HOME(),
-    LOAD_COLLISION_DATA(rlmetalbox_collision),
+    LOAD_COLLISION_DATA(rlmetalblock_collision),
     SET_FLOAT(oDrawingDistance, 8000),
     CALL_NATIVE(bhv_rl_metalblock_init),
     BEGIN_LOOP(),

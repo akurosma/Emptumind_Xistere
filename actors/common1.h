@@ -377,45 +377,10 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "barrelSpeedDown/geo_header.h"
 
-#include "rlbridge/collision_header.h"
-
-#include "rlbridge/geo_header.h"
 
 #include "rlsquarefloating/collision_header.h"
 
 #include "rlsquarefloating/geo_header.h"
-
-#include "rlexelevator/collision_header.h"
-
-#include "rlexelevator/geo_header.h"
-
-#include "rlmetalbox/collision_header.h"
-
-#include "rlmetalbox/geo_header.h"
-
-#include "rlmetalblock/collision_header.h"
-
-#include "rlmetalblock/geo_header.h"
-
-#include "rl_lift/collision_header.h"
-
-#include "rl_lift/geo_header.h"
-
-#include "rl_pillar/collision_header.h"
-
-#include "rl_pillar/geo_header.h"
-
-#include "rl_top/collision_header.h"
-
-#include "rl_top/geo_header.h"
-
-#include "rl_swimtube/collision_header.h"
-
-#include "rl_swimtube/geo_header.h"
-
-#include "rl_bounce/collision_header.h"
-
-#include "rl_bounce/geo_header.h"
 
 #include "ow_floatingplatform/geo_header.h"
 

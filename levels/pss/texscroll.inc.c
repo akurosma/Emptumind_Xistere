@@ -88,7 +88,7 @@ void scroll_pss_dl_PSS_rain02_v1_3_mesh_layer_5_vtx_0() {
 
 void scroll_pss_dl_PSS_rain02_v1_3_mesh_layer_5_vtx_6() {
 	int i = 0;
-	int count = 90;
+	int count = 118;
 	int width = 32 * 0x20;
 
 	static int currentX = 0;

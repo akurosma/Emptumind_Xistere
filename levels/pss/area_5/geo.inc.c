@@ -31,6 +31,7 @@ const GeoLayout pss_area_5[] = {
 					GEO_BRANCH(1, pss_area_5_geo),
 					GEO_RENDER_OBJ(),
 					GEO_ASM(ENVFX_MODE_NONE, geo_envfx_main),
+					GEO_ASM(  0, geo_render_mirror_mario),
 				GEO_CLOSE_NODE(),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),

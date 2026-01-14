@@ -6,6 +6,9 @@
 
 // geo
 extern const GeoLayout pss_geo_000100[];
+extern const GeoLayout rlbridge_geo[];
+extern const GeoLayout rlexelevator_geo[];
+extern const GeoLayout rlmetalblock_geo[];
 
 // leveldata
 extern const Gfx pss_seg7_dl_0700A7C0[];
@@ -15,7 +18,14 @@ extern const Gfx pss_seg7_dl_0700D338[];
 extern const Gfx pss_seg7_dl_0700DAD8[];
 extern const Gfx pss_seg7_dl_0700E2B0[];
 extern const Gfx pss_seg7_dl_0700E3E8[];
+extern const Gfx rlbridge_rlbridge_mesh_layer_1[];
+extern const Gfx rlexelevator_rlexelevator_mesh_layer_1[];
+extern const Gfx rlmetalblock_rlmetalblock_mesh_layer_1[];
+extern const Gfx rlmetalblock_rlmetalblock_mesh_layer_5[];
 extern const Collision pss_seg7_collision[];
+extern const Collision rlbridge_collision[];
+extern const Collision rlexelevator_collision[];
+extern const Collision rlmetalblock_collision[];
 extern const MacroObject pss_seg7_macro_objs[];
 extern const struct MovtexQuadCollection pss_movtex_water[];
 
