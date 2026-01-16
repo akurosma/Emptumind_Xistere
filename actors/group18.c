@@ -24,16 +24,24 @@ UNUSED static const u64 binid_2 = 2;
 #include "impact_ring/model.inc.c"
 UNUSED static const u64 binid_3 = 3;
 
+#include "snufit/model.inc.c"
+UNUSED static const u64 binid_4 = 4;
+
+#include "yoshi/model.inc.c"
+#include "yoshi/anims/data.inc.c"
+#include "yoshi/anims/table.inc.c"
+UNUSED static const u64 binid_5 = 5;
+
 #include "group18_symbols_undef.h"
 #include "group18_symbols.h"
 
 #include "mr_i_eyeball/model.inc.c"
-UNUSED static const u64 binid_4 = 4;
+UNUSED static const u64 binid_6 = 6;
 
 #include "mr_i_iris/model.inc.c"
-UNUSED static const u64 binid_5 = 5;
+UNUSED static const u64 binid_7 = 7;
 
 #include "bullet_bill/model.inc.c"
-UNUSED static const u64 binid_6 = 6;
+UNUSED static const u64 binid_8 = 8;
 
 #include "group18_symbols_undef.h"

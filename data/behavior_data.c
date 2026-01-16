@@ -5215,6 +5215,23 @@ const BehaviorScript bhvYoshi[] = {
     END_LOOP(),
 };
 
+// Yoshi variant for CCM testing (group18 bank)
+const BehaviorScript bhvRlYoshi[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, g18_yoshi_seg5_anims_05024100),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    DROP_TO_FLOOR(),
+    SET_HITBOX(/*Radius*/ 160, /*Height*/ 150),
+    ANIMATE(YOSHI_ANIM_IDLE),
+    SET_HOME(),
+    CALL_NATIVE(bhv_rl_yoshi_init),
+    BEGIN_LOOP(),
+        SET_INT(oIntangibleTimer, 0),
+        CALL_NATIVE(bhv_rl_yoshi_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvKoopa[] = {
     BEGIN(OBJ_LIST_PUSHABLE),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
