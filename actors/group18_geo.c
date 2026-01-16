@@ -16,6 +16,8 @@
 #include "heave_ho/geo.inc.c"
 #include "scuttlebug/geo.inc.c"
 #include "impact_ring/geo.inc.c"
+#include "snufit/geo.inc.c"
+#include "yoshi/geo.inc.c"
 #include "mr_i_eyeball/geo.inc.c"
 #include "mr_i_iris/geo.inc.c"
 #include "bullet_bill/geo.inc.c"

@@ -613,11 +613,13 @@
 
 
 
-#define MODEL_CCM_BULLET_BILL             0xEA        // bullet_bill_geo
+#define MODEL_CCM_BULLET_BILL             0xEA        // g18_bullet_bill_geo
 
 
 
-#define MODEL_SHOCKWAVE2                  0xEE
+#define MODEL_SHOCKWAVE2                  0xEE        // g19_shock_wave_geo
+#define MODEL_CCM_SNUFIT                  0xF2        // g18_snufit_geo
+#define MODEL_CCM_YOSHI                   0xF3        // g18_yoshi_geo
 
 
 

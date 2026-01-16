@@ -502,6 +502,7 @@ const LevelScript level_ccm_entry[] = {
 	AREA(5, ccm_area_5),
 		MARIO_POS(0x01, -180, 0, 501, 0),
 		OBJECT(MODEL_NONE, 0, 501, 0, 0, -180, 0, 0x000A0000, bhvSpinAirborneWarp),
+		OBJECT(MODEL_CCM_YOSHI, 0, 0, 0, 0, 0, 0, 0x00000000, bhvRlYoshi),
 		TERRAIN(ccm_area_5_collision),
 		MACRO_OBJECTS(ccm_area_5_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_SOUND_PLAYER),

@@ -60,6 +60,7 @@ s16 sPrevCheckMarioRoom = 0;
  * Tracks whether or not Yoshi has walked/jumped off the roof.
  */
 s8 sYoshiDead = FALSE;
+s8 sRlYoshiDead = FALSE;
 
 extern void *ccm_seg7_trajectory_snowman;
 extern void *inside_castle_seg7_trajectory_mips;
@@ -70,6 +71,7 @@ extern void *inside_castle_seg7_trajectory_mips;
  */
 void set_yoshi_as_not_dead(void) {
     sYoshiDead = FALSE;
+    sRlYoshiDead = FALSE;
 }
 
 /**
@@ -774,6 +776,7 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
 #include "behaviors/treasure_chest.inc.c"
 #include "behaviors/mips.inc.c"
 #include "behaviors/yoshi.inc.c"
+#include "behaviors/rl_yoshi.inc.c"
 
 
 #include "behaviors/omm.inc.c"
