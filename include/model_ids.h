@@ -112,6 +112,7 @@
 #define MODEL_CCM_RL_PIPESWITCH                0x4E
 #define MODEL_CCM_RL_HTHAZARD                  0x4F
 #define MODEL_CCM_RL_SPIDERJUMP                0x50
+#define MODEL_CCM_BOSS                         0x51
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18
@@ -607,7 +608,7 @@
 #define MODEL_SILVER_COIN_NO_SHADOW       0xE3        // silver_coin_no_shadow_geo
 #endif
 
-
+#define MODEL_TEST 0xE4
 #define MODEL_RL_SQUAREFLOATING           0xE5
 
 

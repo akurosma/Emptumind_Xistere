@@ -147,4 +147,10 @@ extern const Gfx white_flame_seg3_dl_0301B590[];
 extern const Gfx white_flame_seg3_dl_0301B5A8[];
 
 #include "levels/ccm/header.inc.h"
+#include "levels/ccm/ccmboss/collision_header.h"
+
+#include "levels/ccm/ccmboss/geo_header.h"
+
+#include "levels/ccm/ccmboss/anim_header.h"
+
 #endif

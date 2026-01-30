@@ -1,0 +1,15 @@
+extern const GeoLayout ccmboss_geo[];
+extern u8 ccmboss__1_ci4[];
+extern u8 ccmboss__1_pal_rgba16[];
+extern u8 ccmboss__0_ci4[];
+extern u8 ccmboss__0_pal_rgba16[];
+extern Vtx ccmboss_ccmboss_mesh_layer_1_vtx_cull[8];
+extern Vtx ccmboss_ccmboss_mesh_layer_1_vtx_0[837];
+extern Gfx ccmboss_ccmboss_mesh_layer_1_tri_0[];
+extern Vtx ccmboss_ccmboss_mesh_layer_1_vtx_1[630];
+extern Gfx ccmboss_ccmboss_mesh_layer_1_tri_1[];
+extern Gfx mat_ccmboss_mtl21_002_f3d[];
+extern Gfx mat_revert_ccmboss_mtl21_002_f3d[];
+extern Gfx mat_ccmboss_mtl15_002_f3d[];
+extern Gfx mat_revert_ccmboss_mtl15_002_f3d[];
+extern Gfx ccmboss_ccmboss_mesh_layer_1[];
