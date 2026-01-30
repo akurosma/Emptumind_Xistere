@@ -6938,6 +6938,18 @@ const BehaviorScript bhvFadingwall[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvccmboss[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_HOME(),
+    SET_FLOAT(oDrawingDistance, 6000),
+    LOAD_ANIMATIONS(oAnimations, ccmboss_anims),
+    CALL_NATIVE(bhv_ccmboss_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccmboss_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvTestCube[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),

@@ -93,3 +93,7 @@
 #include "levels/ccm/rl_spiderjump/collision.inc.c"
 
 #include "levels/ccm/leveldata.inc.c"
+#include "levels/ccm/ccmboss/collision.inc.c"
+#include "levels/ccm/ccmboss/model.inc.c"
+#include "levels/ccm/ccmboss/anims/data.inc.c"
+#include "levels/ccm/ccmboss/anims/table.inc.c"

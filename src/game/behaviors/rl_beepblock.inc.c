@@ -8,7 +8,7 @@
 #define NUM_POUNDS             3
 
 extern const Collision rl_beepblock_collision[];   // texture1
-extern const Collision rl_top_collision[];  // texture2
+extern const Collision rl_beepblock_no_collision[]; // texture2 (no collision)
 static f32 rl_beepblock_scale_from_bparam(s32 bparam) {
     return (bparam > 0) ? ((f32)bparam / 100.0f) : 1.0f;
 }
@@ -43,7 +43,7 @@ void bhv_rl_beepblock_init(void) {
     if (BPARAM4 == 1) {
         o->oF8 = 0;
         o->oOpacity = 0;
-        rl_beepblock_set_collision(rl_top_collision);
+        rl_beepblock_set_collision(rl_beepblock_no_collision);
         cur_obj_become_intangible();
     } else {
         rl_beepblock_set_collision(rl_beepblock_collision);
@@ -146,7 +146,7 @@ void bhv_rl_beepblock_loop(void) {
         rl_beepblock_set_collision(rl_beepblock_collision);
         cur_obj_become_tangible();
     } else if (o->oOpacity == 0) {
-        rl_beepblock_set_collision(rl_top_collision);
+        rl_beepblock_set_collision(rl_beepblock_no_collision);
         cur_obj_become_intangible();
     }
 

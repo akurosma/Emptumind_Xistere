@@ -25,3 +25,11 @@ const Collision rl_beepblock_collision[] = {
 	COL_TRI_STOP(),
 	COL_END()
 };
+
+const Collision rl_beepblock_no_collision[] = {
+	COL_INIT(),
+	COL_VERTEX_INIT(0),
+	COL_TRI_INIT(SURFACE_DEFAULT, 0),
+	COL_TRI_STOP(),
+	COL_END()
+};
