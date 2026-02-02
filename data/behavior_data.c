@@ -6950,6 +6950,16 @@ const BehaviorScript bhvccmboss[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvCcmBossWeakSpot[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_INT(oIntangibleTimer, 0),
+    CALL_NATIVE(bhv_ccmboss_weakspot_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccmboss_weakspot_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvTestCube[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6966,7 +6976,7 @@ const BehaviorScript bhvTestCube[] = {
 const BehaviorScript bhvMusicSelector[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
-    LOAD_COLLISION_DATA(rl_swimtube_collision),
+    LOAD_COLLISION_DATA(ow_infoswitch_collision),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDrawingDistance, 5000),
     CALL_NATIVE(bhv_Music_Selector_init),
@@ -6979,7 +6989,7 @@ const BehaviorScript bhvMusicSelector[] = {
 const BehaviorScript bhvDebugSound[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
-    LOAD_COLLISION_DATA(rl_swimtube_collision),
+    LOAD_COLLISION_DATA(ow_infoswitch_collision),
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oDrawingDistance, 10000),
     CALL_NATIVE(bhv_Debug_Sound_init),

@@ -704,6 +704,8 @@ void bhv_rl_ccmpipe_init(void);
 void bhv_rl_ccmpipe_loop(void);
 void bhv_ccmboss_init(void);
 void bhv_ccmboss_loop(void);
+void bhv_ccmboss_weakspot_init(void);
+void bhv_ccmboss_weakspot_loop(void);
 void bhv_test_cube_init(void);
 void bhv_test_cube_loop(void);
 void bhv_Music_Selector_init(void);

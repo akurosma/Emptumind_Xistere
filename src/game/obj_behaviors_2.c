@@ -802,6 +802,10 @@ void obj_spit_fire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 sca
     }
 }
 
+// Forward declarations for behaviors included below that call these helpers.
+void obj_rl_movefire(s16 relativePosX, s16 relativePosY, s16 relativePosZ, f32 scale, ModelID32 model,
+                     f32 startSpeed, f32 endSpeed, s16 movePitch, s16 moveYaw);
+
 #include "behaviors/fire_piranha_plant.inc.c"
 #include "behaviors/fire_spitter.inc.c"
 #include "behaviors/flame.inc.c"

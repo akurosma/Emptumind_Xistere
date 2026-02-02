@@ -1,2 +1,6 @@
 #include "anim_idle.inc.c"
 #include "anim_ArmatureAction.inc.c"
+#include "anim_walk.inc.c"
+#include "anim_jump.inc.c"
+#include "anim_dash.inc.c"
+#include "anim_down.inc.c"
