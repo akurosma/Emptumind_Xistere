@@ -37,6 +37,7 @@ extern const GeoLayout rl_pipelamp_geo[];
 extern const GeoLayout rl_pipeswitch_geo[];
 extern const GeoLayout rl_hthazard_geo[];
 extern const GeoLayout rl_spiderjump_geo[];
+extern const GeoLayout ccmboss_finalattack_ring_geo[];
 
 // leveldata
 extern const Gfx ccm_seg7_dl_0700B090[];
@@ -81,6 +82,7 @@ extern const Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1[];
 extern const Gfx rl_pipeswitch_rl_pipeswitch_mesh_layer_1[];
 extern const Gfx rl_hthazard_rl_hthazard_mesh_layer_1[];
 extern const Gfx rl_spiderjump_rl_spiderjump_mesh_layer_4[];
+extern const Gfx finalattack_ring_seg6_dl_0601EAC0[];
 extern const Collision ccm_seg7_area_1_collision[];
 extern const MacroObject ccm_seg7_area_1_macro_objs[];
 extern const Collision ccm_seg7_collision_ropeway_lift[];
@@ -152,5 +154,17 @@ extern const Gfx white_flame_seg3_dl_0301B5A8[];
 #include "levels/ccm/ccmboss/geo_header.h"
 
 #include "levels/ccm/ccmboss/anim_header.h"
+
+#include "levels/ccm/FACircle/collision_header.h"
+
+#include "levels/ccm/FACircle/geo_header.h"
+
+#include "levels/ccm/FALaser/collision_header.h"
+
+#include "levels/ccm/FALaser/geo_header.h"
+
+#include "levels/ccm/FALaserDamage/collision_header.h"
+
+#include "levels/ccm/FALaserDamage/geo_header.h"
 
 #endif

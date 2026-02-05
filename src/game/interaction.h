@@ -139,5 +139,6 @@ u32  mario_check_object_grab(struct MarioState *m);
 u32  get_door_save_file_flag(struct Object *door);
 void mario_process_interactions(struct MarioState *m);
 void mario_handle_special_floors(struct MarioState *m);
+void ccmboss_try_falaser_damage(struct MarioState *m);
 
 #endif // INTERACTION_H

@@ -4,3 +4,4 @@
 #include "anim_jump.inc.c"
 #include "anim_dash.inc.c"
 #include "anim_down.inc.c"
+#include "anim_FinalAttack1.inc.c"

@@ -97,3 +97,11 @@
 #include "levels/ccm/ccmboss/model.inc.c"
 #include "levels/ccm/ccmboss/anims/data.inc.c"
 #include "levels/ccm/ccmboss/anims/table.inc.c"
+#include "levels/ccm/finalattack_ring/model.inc.c"
+
+#include "levels/ccm/FACircle/collision.inc.c"
+#include "levels/ccm/FACircle/model.inc.c"
+#include "levels/ccm/FALaser/collision.inc.c"
+#include "levels/ccm/FALaser/model.inc.c"
+#include "levels/ccm/FALaserDamage/collision.inc.c"
+#include "levels/ccm/FALaserDamage/model.inc.c"

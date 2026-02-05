@@ -49,3 +49,8 @@
 
 #include "levels/ccm/geo.inc.c"
 #include "levels/ccm/ccmboss/geo.inc.c"
+#include "levels/ccm/finalattack_ring/geo.inc.c"
+
+#include "levels/ccm/FACircle/geo.inc.c"
+#include "levels/ccm/FALaser/geo.inc.c"
+#include "levels/ccm/FALaserDamage/geo.inc.c"
