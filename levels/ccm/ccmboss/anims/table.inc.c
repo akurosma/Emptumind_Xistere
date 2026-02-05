@@ -5,5 +5,6 @@ const struct Animation *const ccmboss_anims[] = {
 	&ccmboss_anim_jump,
 	&ccmboss_anim_dash,
 	&ccmboss_anim_down,
+	&ccmboss_anim_FinalAttack1,
 	NULL,
 };

@@ -7,7 +7,9 @@ extern Vtx rl_bfspno_rl_bfspno_mesh_layer_5_vtx_0[];
 
 #include "levels/ccm/texscroll.inc.c"
 
+#include "levels/ccm/FALaser/texscroll.inc.c"
 void scroll_textures_ccm() {
 		scroll_geo_rl_bfspno();
 		scroll_ccm();
+		scroll_ccm_level_geo_FALaser();
 }

@@ -1975,6 +1975,40 @@ static void apply_surface_floor_damage(struct MarioState *m) {
     }
 }
 
+static s16 sCcmFALaserDamageCooldown = 0;
+static s32 sCcmFALaserLastFrame = -1;
+void ccmboss_try_falaser_damage(struct MarioState *m) {
+    if (m == NULL) {
+        return;
+    }
+
+    if (sCcmFALaserLastFrame != gGlobalTimer) {
+        if (sCcmFALaserDamageCooldown > 0) {
+            sCcmFALaserDamageCooldown--;
+        }
+        sCcmFALaserLastFrame = gGlobalTimer;
+    }
+
+    if (m->action & (ACT_FLAG_INVULNERABLE | ACT_FLAG_INTANGIBLE)) {
+        return;
+    }
+    if (m->invincTimer > 0) {
+        return;
+    }
+    if (m->floor == NULL || m->floor->type != SURFACE_CCM_FALASER) {
+        return;
+    }
+    if (m->pos[1] > m->floorHeight + 200.0f) {
+        return;
+    }
+    if (sCcmFALaserDamageCooldown > 0) {
+        return;
+    }
+
+    sCcmFALaserDamageCooldown = 20;
+    hurt_and_set_mario_action(m, ACT_SHOCKED, 0, 8);
+}
+
 void pss_begin_slide(UNUSED struct MarioState *m) {
     if (!(gHudDisplay.flags & HUD_DISPLAY_FLAG_TIMER)) {
         level_control_timer(TIMER_CONTROL_SHOW);
@@ -2030,6 +2064,10 @@ void mario_handle_special_floors(struct MarioState *m) {
 
         if (floorType == SURFACE_HYPERTUBE_DAMAGE && m->action != ACT_RAIL_GRIND) {
             apply_hypertube_floor_damage(m);
+        }
+
+        if (floorType == SURFACE_CCM_FALASER) {
+            ccmboss_try_falaser_damage(m);
         }
 
         if (floorType == SURFACE_DAMAGE) {

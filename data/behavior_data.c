@@ -1600,6 +1600,15 @@ const BehaviorScript bhvBowserShockWave[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvCcmBossFinalShockWave[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oOpacity, 255),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccmboss_final_shock_wave_loop),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvFireParticleSpawner[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
@@ -6619,6 +6628,10 @@ const BehaviorScript bhvRlBfspPlatform[] = {
 };
 extern void bhv_rl_qte_circle_init(void);
 extern void bhv_rl_qte_circle_loop(void);
+extern void bhv_ccm_facircle_init(void);
+extern void bhv_ccm_facircle_loop(void);
+extern void bhv_ccm_falaser_init(void);
+extern void bhv_ccm_falaser_loop(void);
 const BehaviorScript bhvRlQteCircle[] = {
     BEGIN(OBJ_LIST_UNIMPORTANT),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
@@ -6626,6 +6639,32 @@ const BehaviorScript bhvRlQteCircle[] = {
     CALL_NATIVE(bhv_rl_qte_circle_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_rl_qte_circle_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvCcmFacircle[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_ccm_facircle_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccm_facircle_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvCcmFALaser[] = {
+    BEGIN(OBJ_LIST_UNIMPORTANT),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_ccm_falaser_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccm_falaser_loop),
+    END_LOOP(),
+};
+const BehaviorScript bhvCcmFALaserDamage[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_DONT_CALC_COLL_DIST)),
+    LOAD_COLLISION_DATA(FALaserDamage_collision),
+    CALL_NATIVE(bhv_ccm_falaser_damage_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+        CALL_NATIVE(bhv_ccm_falaser_damage_loop),
     END_LOOP(),
 };
 const BehaviorScript bhvRlBridge[] = {

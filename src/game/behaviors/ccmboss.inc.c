@@ -16,14 +16,15 @@ static struct ObjectHitbox sCcmBossWeakSpotHitbox = {
     /* damageOrCoinValue: */ 0,
     /* health:            */ 1,
     /* numLootCoins:      */ 0,
-    /* radius:            */ 200,
-    /* height:            */ 300,
-    /* hurtboxRadius:     */ 110,
-    /* hurtboxHeight:     */ 120,
+    /* radius:            */ 230,
+    /* height:            */ 350,
+    /* hurtboxRadius:     */ 230,
+    /* hurtboxHeight:     */ 350,
 };
 
 enum {
     CCMBOSS_ACT_IDLE = 0,
+    CCMBOSS_ACT_INTRO,
     CCMBOSS_ACT_DASH,
     CCMBOSS_ACT_SPIT_FIRE,
     CCMBOSS_ACT_JUMP,
@@ -31,6 +32,10 @@ enum {
     CCMBOSS_ACT_ESCAPE,
     CCMBOSS_ACT_STUN,
     CCMBOSS_ACT_DAMAGE_RETURN,
+    CCMBOSS_ACT_FINAL_ATTACK1,
+    CCMBOSS_ACT_FINAL_ATTACK2,
+    CCMBOSS_ACT_DEATH,
+    CCMBOSS_ACT_PUNISH,
 };
 
 enum {
@@ -40,13 +45,14 @@ enum {
     CCMBOSS_ANIM_JUMP,
     CCMBOSS_ANIM_DASH,
     CCMBOSS_ANIM_DOWN,
+    CCMBOSS_ANIM_FINAL_ATTACK1,
 };
 
-#define CCMBOSS_WEAKSPOT_OFFSET_Y 35.0f
-#define CCMBOSS_WEAKSPOT_OFFSET_BACK 250.0f
+#define CCMBOSS_WEAKSPOT_OFFSET_Y 0.0f
+#define CCMBOSS_WEAKSPOT_OFFSET_BACK 0.0f
 #define CCMBOSS_WEAKSPOT_FLINCH_FRAMES 30
-#define CCMBOSS_DASH_SPEED 75.0f
-#define CCMBOSS_DASH_TURN_RATE 0x100
+#define CCMBOSS_DASH_SPEED 85.0f
+#define CCMBOSS_DASH_TURN_RATE 0x200
 #define CCMBOSS_DASH_WALL_BUFFER 115.0f
 #define CCMBOSS_DASH_WALL_PROBE_RADIUS 1.0f
 #define CCMBOSS_ESCAPE_SPEED 28.0f
@@ -59,28 +65,175 @@ enum {
 #define CCMBOSS_RETURN_SPEED 20.0f
 #define CCMBOSS_RETURN_REACH_DIST_SQ (50.0f * 50.0f)
 #define CCMBOSS_JUMP_TAKEOFF_FRAME 20
+#define CCMBOSS_JUMP_SOUND_FRAME 16
 #define CCMBOSS_JUMP_VEL_Y 80.0f
 #define CCMBOSS_DOWN_FRAMES 53
 
+// Final attack 2: FACircle spawn parameters.
+#define CCMBOSS_FA2_DURATION_FRAMES 600
+#define CCMBOSS_FA2_SPAWN_INTERVAL 30
+#define CCMBOSS_FA2_MIN_Y -49.0f
+#define CCMBOSS_FA2_MAX_Y -49.0f
+
 static Vec3f sCcmBossEscapePoints[CCMBOSS_ESCAPE_POINT_COUNT] = {
-    { -1414.0f, -199.0f, -1414.0f },
-    {  1414.0f, -199.0f, -1414.0f },
-    {  1414.0f, -199.0f,  1414.0f },
-    { -1414.0f, -199.0f,  1414.0f },
-    {     0.0f, -199.0f, -2000.0f },
-    {  2000.0f, -199.0f,     0.0f },
-    {     0.0f, -199.0f,  2000.0f },
-    { -2000.0f, -199.0f,     0.0f },
+    { -1344.0f, -199.0f, -1273.0f },
+    {  1344.0f, -199.0f, -1273.0f },
+    {  1344.0f, -199.0f,  1273.0f },
+    { -1344.0f, -199.0f,  1273.0f },
+    {     0.0f, -199.0f, -1800.0f },
+    {  1900.0f, -199.0f,     0.0f },
+    {     0.0f, -199.0f,  1800.0f },
+    { -1900.0f, -199.0f,     0.0f },
 };
 
 static s32 sCcmBossEscapeTargetIndex = -1;
+static s32 sCcmBossFinalAttackState = 0;
+static s32 sCcmBossIntroDone = 0;
+static s16 sCcmBossDamageCooldown = 0;
+static s16 sCcmBossAbuseTimer = 0;
+static s32 sCcmBossAbuseTriggered = 0;
+
+typedef struct {
+    f32 x;
+    f32 z;
+} CcmBossVec2;
+
+// Area 5 octagon vertices (clockwise).
+// Outer ring (bhvYellowCoin).
+static const CcmBossVec2 sCcmBossArea5OctagonOuter[8] = {
+    {    0.0f, -1800.0f },
+    { 1344.0f, -1273.0f },
+    { 1900.0f,     0.0f },
+    { 1344.0f,  1273.0f },
+    {    0.0f,  1800.0f },
+    { -1344.0f,  1273.0f },
+    { -1900.0f,    0.0f },
+    { -1344.0f, -1273.0f },
+};
+
+// Inner ring (bhvRespawningYellowCoin).
+static const CcmBossVec2 sCcmBossArea5OctagonInner[8] = {
+    {    0.0f, -1440.0f },
+    { 1075.0f, -1018.0f },
+    { 1520.0f,     0.0f },
+    { 1075.0f,  1018.0f },
+    {    0.0f,  1440.0f },
+    { -1075.0f,  1018.0f },
+    { -1520.0f,    0.0f },
+    { -1075.0f, -1018.0f },
+};
+
+static s32 ccmboss_point_in_octagon(const CcmBossVec2 *poly, f32 x, f32 z) {
+    s32 sign = 0;
+    for (s32 i = 0; i < 8; i++) {
+        const CcmBossVec2 *a = &poly[i];
+        const CcmBossVec2 *b = &poly[(i + 1) % 8];
+        const f32 cross = (x - a->x) * (b->z - a->z) - (z - a->z) * (b->x - a->x);
+        if (cross == 0.0f) {
+            continue;
+        }
+        if (sign == 0) {
+            sign = (cross > 0.0f) ? 1 : -1;
+            continue;
+        }
+        if ((sign > 0 && cross < 0.0f) || (sign < 0 && cross > 0.0f)) {
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+static void ccmboss_random_point_in_area5(f32 *outX, f32 *outZ) {
+    f32 minX = sCcmBossArea5OctagonOuter[0].x;
+    f32 maxX = sCcmBossArea5OctagonOuter[0].x;
+    f32 minZ = sCcmBossArea5OctagonOuter[0].z;
+    f32 maxZ = sCcmBossArea5OctagonOuter[0].z;
+    for (s32 i = 1; i < 8; i++) {
+        const f32 x = sCcmBossArea5OctagonOuter[i].x;
+        const f32 z = sCcmBossArea5OctagonOuter[i].z;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (z < minZ) minZ = z;
+        if (z > maxZ) maxZ = z;
+    }
+
+    for (s32 i = 0; i < 32; i++) {
+        const f32 x = minX + random_float() * (maxX - minX);
+        const f32 z = minZ + random_float() * (maxZ - minZ);
+        if (ccmboss_point_in_octagon(sCcmBossArea5OctagonOuter, x, z)
+            && !ccmboss_point_in_octagon(sCcmBossArea5OctagonInner, x, z)) {
+            *outX = x;
+            *outZ = z;
+            return;
+        }
+    }
+
+    *outX = 0.0f;
+    *outZ = 0.0f;
+}
+
+static void ccmboss_spawn_facircle(void) {
+    f32 x;
+    f32 z;
+    ccmboss_random_point_in_area5(&x, &z);
+    const f32 y = CCMBOSS_FA2_MIN_Y + random_float() * (CCMBOSS_FA2_MAX_Y - CCMBOSS_FA2_MIN_Y);
+
+    struct Object *circle = spawn_object(o, MODEL_CCM_FACIRCLE, bhvCcmFacircle);
+    if (circle == NULL) {
+        return;
+    }
+    circle->oPosX = x;
+    circle->oPosY = y;
+    circle->oPosZ = z;
+    if (gMarioObject != NULL) {
+        const f32 dx = gMarioObject->oPosX - x;
+        const f32 dz = gMarioObject->oPosZ - z;
+        circle->oFaceAngleYaw = atan2s(dz, dx);
+        circle->oMoveAngleYaw = circle->oFaceAngleYaw;
+    }
+}
 
 static s32 ccmboss_is_mario_amaterasu(void) {
     return (gMarioState != NULL && gMarioState->amaterasu);
 }
 
+static void ccmboss_delete_objects_with_behavior(const BehaviorScript *behavior) {
+    const BehaviorScript *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    while ((struct Object *) listHead != obj) {
+        struct Object *next = (struct Object *) obj->header.next;
+        if (obj->behavior == behaviorAddr && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED) {
+            obj_mark_for_deletion(obj);
+        }
+        obj = next;
+    }
+}
+
+static void ccmboss_abort_final_attack_objects(void) {
+    ccmboss_delete_objects_with_behavior(bhvCcmFALaser);
+    ccmboss_delete_objects_with_behavior(bhvCcmFALaserDamage);
+    ccmboss_delete_objects_with_behavior(bhvCcmFacircle);
+    ccmboss_delete_objects_with_behavior(bhvCcmBossFinalShockWave);
+}
+
+static s32 ccmboss_is_mario_in_abuse_hitbox(void) {
+    if (gMarioObject == NULL) {
+        return FALSE;
+    }
+    const f32 dx = gMarioObject->oPosX - o->oPosX;
+    const f32 dz = gMarioObject->oPosZ - o->oPosZ;
+    const f32 dy = gMarioObject->oPosY - o->oPosY;
+    const f32 radius = 210.0f;
+    const f32 height = 350.0f;
+    if (dy < 0.0f || dy > height) {
+        return FALSE;
+    }
+    return (dx * dx + dz * dz) <= (radius * radius);
+}
+
 static void ccmboss_update_damage_interaction(s32 marioAmaterasu) {
-    if (marioAmaterasu) {
+    if (marioAmaterasu || sCcmBossDamageCooldown > 0) {
         o->oInteractType = INTERACT_NONE;
         o->oDamageOrCoinValue = 0;
     } else {
@@ -225,7 +378,7 @@ void bhv_ccmboss_weakspot_loop(void) {
             }
             boss->oForwardVel = 0.0f;
             boss->oVelY = 0.0f;
-            boss->oAction = (boss->oHealth <= 0) ? CCMBOSS_ACT_IDLE : CCMBOSS_ACT_DAMAGE_RETURN;
+            boss->oAction = CCMBOSS_ACT_DAMAGE_RETURN;
             boss->oSubAction = 0;
             boss->oTimer = 0;
         } else if (gMarioObject != NULL) {
@@ -239,12 +392,23 @@ void bhv_ccmboss_weakspot_loop(void) {
 }
 
 static void ccmboss_act_idle(void) {
-    s32 animIndex = (o->oDistanceToMario < 500.0f) ? CCMBOSS_ANIM_WALK : CCMBOSS_ANIM_IDLE;
+    s32 animIndex = CCMBOSS_ANIM_IDLE;
 
     if (ccmboss_is_mario_amaterasu()) {
         sCcmBossEscapeTargetIndex = -1;
         o->oAction = CCMBOSS_ACT_ESCAPE;
         o->oSubAction = 0;
+        return;
+    }
+
+    if (o->oHealth <= 0) {
+        cur_obj_init_animation(CCMBOSS_ANIM_IDLE);
+        o->oForwardVel = 0.0f;
+        if (sCcmBossFinalAttackState == 1 && o->oTimer >= 30) {
+            sCcmBossFinalAttackState = 2;
+            o->oAction = CCMBOSS_ACT_FINAL_ATTACK1;
+            o->oSubAction = 0;
+        }
         return;
     }
 
@@ -265,6 +429,34 @@ static void ccmboss_act_idle(void) {
             o->oAction = CCMBOSS_ACT_JUMP;
         }
         o->oSubAction = 0;
+    }
+}
+
+static void ccmboss_act_intro(void) {
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+    cur_obj_init_animation(CCMBOSS_ANIM_IDLE);
+    o->oInteractType = INTERACT_NONE;
+    o->oDamageOrCoinValue = 0;
+    cur_obj_become_intangible();
+
+    if (gMarioObject != NULL) {
+        obj_turn_toward_object(o, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x400);
+        o->oMoveAngleYaw = o->oFaceAngleYaw;
+    }
+    obj_face_pitch_approach(0, 0x400);
+
+    if (cur_obj_update_dialog_with_cutscene(
+            MARIO_DIALOG_LOOK_FRONT,
+            DIALOG_FLAG_TEXT_DEFAULT,
+            CUTSCENE_DIALOG, DIALOG_001)) {
+        set_mario_npc_dialog(MARIO_DIALOG_STOP);
+        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS), 0);
+        sCcmBossIntroDone = 1;
+        cur_obj_become_tangible();
+        o->oAction = CCMBOSS_ACT_IDLE;
+        o->oSubAction = 0;
+        o->oTimer = 0;
     }
 }
 
@@ -349,8 +541,10 @@ static void ccmboss_act_jump(void) {
         o->oForwardVel = 0.0f;
         o->oVelY = 0.0f;
 
-        if (cur_obj_check_anim_frame(CCMBOSS_JUMP_TAKEOFF_FRAME)) {
+        if (cur_obj_check_anim_frame(CCMBOSS_JUMP_SOUND_FRAME)) {
             cur_obj_play_sound_2(SOUND_OBJ_RELEASE_MARIO);
+        }
+        if (cur_obj_check_anim_frame(CCMBOSS_JUMP_TAKEOFF_FRAME)) {
             o->oVelY = CCMBOSS_JUMP_VEL_Y;
             o->oSubAction = 1;
         }
@@ -374,6 +568,13 @@ static void ccmboss_act_jump(void) {
 }
 
 static void ccmboss_act_return_home(void) {
+    if (ccmboss_is_mario_amaterasu()) {
+        sCcmBossEscapeTargetIndex = -1;
+        o->oAction = CCMBOSS_ACT_ESCAPE;
+        o->oSubAction = 0;
+        return;
+    }
+
     f32 distSq = sqr(o->oPosX) + sqr(o->oPosZ);
     s16 targetYaw = atan2s(0.0f - o->oPosZ, 0.0f - o->oPosX);
 
@@ -402,7 +603,7 @@ static void ccmboss_act_escape(void) {
 
     if (!ccmboss_is_mario_amaterasu()) {
         o->oForwardVel = 0.0f;
-        o->oAction = CCMBOSS_ACT_IDLE;
+        o->oAction = CCMBOSS_ACT_RETURN_HOME;
         o->oSubAction = 0;
         return;
     }
@@ -464,6 +665,138 @@ static void ccmboss_act_stun(void) {
     }
 }
 
+static void ccmboss_act_final_attack1(void) {
+    cur_obj_init_animation(CCMBOSS_ANIM_FINAL_ATTACK1);
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+
+    if (cur_obj_check_anim_frame(14) || cur_obj_check_anim_frame(28) || cur_obj_check_anim_frame(49)) {
+        cur_obj_play_sound_2(SOUND_OBJ_POUNDING_LOUD);
+    }
+
+    if (cur_obj_check_anim_frame(15)) {
+        struct Object *wave = spawn_object(o, MODEL_CCMBOSS_RING, bhvCcmBossFinalShockWave);
+        if (wave != NULL) {
+            wave->oBehParams2ndByte = 1;
+        }
+    }
+
+    if (cur_obj_check_anim_frame(29)) {
+        struct Object *wave = spawn_object(o, MODEL_CCMBOSS_RING, bhvCcmBossFinalShockWave);
+        if (wave != NULL) {
+            wave->oBehParams2ndByte = 2;
+        }
+    }
+
+    if (cur_obj_check_anim_frame(50)) {
+        struct Object *wave = spawn_object(o, MODEL_CCMBOSS_RING, bhvCcmBossFinalShockWave);
+        if (wave != NULL) {
+            wave->oBehParams2ndByte = 3;
+        }
+    }
+
+    if (cur_obj_check_if_near_animation_end()) {
+        o->oAction = CCMBOSS_ACT_FINAL_ATTACK2;
+        o->oSubAction = 0;
+    }
+}
+
+static void ccmboss_act_final_attack2(void) {
+    cur_obj_init_animation(CCMBOSS_ANIM_IDLE);
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+    if (gMarioObject != NULL) {
+        obj_turn_toward_object(o, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x400);
+        o->oMoveAngleYaw = o->oFaceAngleYaw;
+    }
+
+    if (o->oTimer == 0) {
+        ccmboss_spawn_facircle();
+        ccmboss_spawn_facircle();
+        ccmboss_spawn_facircle();
+        ccmboss_spawn_facircle();
+    } else if (o->oTimer < CCMBOSS_FA2_DURATION_FRAMES && (o->oTimer % CCMBOSS_FA2_SPAWN_INTERVAL == 0)) {
+        ccmboss_spawn_facircle();
+        ccmboss_spawn_facircle();
+    }
+
+    if (o->oTimer >= CCMBOSS_FA2_DURATION_FRAMES) {
+        o->oAction = CCMBOSS_ACT_DEATH;
+        o->oSubAction = 0;
+        o->oTimer = 0;
+    }
+}
+
+static void ccmboss_act_death(void) {
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+    cur_obj_init_animation(CCMBOSS_ANIM_IDLE);
+    o->oInteractType = INTERACT_NONE;
+    o->oDamageOrCoinValue = 0;
+    cur_obj_become_intangible();
+
+    if (o->oSubAction == 0) {
+        if (gMarioObject != NULL) {
+            obj_turn_toward_object(o, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x400);
+            o->oMoveAngleYaw = o->oFaceAngleYaw;
+        }
+        obj_face_pitch_approach(0, 0x400);
+        if (o->oTimer >= 60) {
+            o->oSubAction = 1;
+            o->oTimer = 0;
+        }
+        return;
+    }
+
+    if (cur_obj_update_dialog_with_cutscene(
+            MARIO_DIALOG_LOOK_FRONT,
+            DIALOG_FLAG_TEXT_DEFAULT,
+            CUTSCENE_DIALOG, DIALOG_003)) {
+        create_sound_spawner(SOUND_OBJ_KING_WHOMP_DEATH);
+        cur_obj_hide();
+        cur_obj_become_intangible();
+        spawn_mist_particles_variable(0, 0, 200.0f);
+        spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, 4);
+        cur_obj_shake_screen(SHAKE_POS_SMALL);
+        spawn_default_star(0.0f, 200.0f, 0.0f);
+        stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
+        obj_mark_for_deletion(o);
+    }
+}
+
+static void ccmboss_act_punish(void) {
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+    cur_obj_init_animation(CCMBOSS_ANIM_IDLE);
+    o->oInteractType = INTERACT_NONE;
+    o->oDamageOrCoinValue = 0;
+    cur_obj_become_intangible();
+
+    if (o->oSubAction == 0) {
+        if (cur_obj_update_dialog_with_cutscene(
+                MARIO_DIALOG_LOOK_UP,
+                DIALOG_FLAG_TEXT_DEFAULT,
+                CUTSCENE_DIALOG, DIALOG_004)) {
+            spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
+            cur_obj_hide();
+            o->oSubAction = 1;
+            o->oTimer = 0;
+        }
+        return;
+    }
+
+    if (o->oSubAction == 1) {
+        if (o->oTimer >= 10) {
+            if (gMarioState != NULL) {
+                gMarioState->hurtCounter = 8;
+                gMarioState->health = 0x100;
+                drop_and_set_mario_action(gMarioState, ACT_STANDING_DEATH, 0);
+            }
+            obj_mark_for_deletion(o);
+        }
+    }
+}
+
 static void ccmboss_act_damage_return(void) {
     if (o->oSubAction == 0) {
         o->oForwardVel = 0.0f;
@@ -480,29 +813,59 @@ static void ccmboss_act_damage_return(void) {
         return;
     }
 
-    obj_set_hitbox(o, &sCcmBossHitbox);
-    ccmboss_update_damage_interaction(ccmboss_is_mario_amaterasu());
-    cur_obj_become_tangible();
+    if (o->oSubAction == 1) {
+        obj_set_hitbox(o, &sCcmBossHitbox);
+        ccmboss_update_damage_interaction(ccmboss_is_mario_amaterasu());
+        cur_obj_become_tangible();
 
-    {
-        f32 distSq = sqr(o->oPosX) + sqr(o->oPosZ);
-        s16 targetYaw = atan2s(0.0f - o->oPosZ, 0.0f - o->oPosX);
+        {
+            f32 distSq = sqr(o->oPosX) + sqr(o->oPosZ);
+            s16 targetYaw = atan2s(0.0f - o->oPosZ, 0.0f - o->oPosX);
 
-        cur_obj_init_animation(CCMBOSS_ANIM_WALK);
-        cur_obj_rotate_yaw_toward(targetYaw, 0x400);
-        o->oFaceAngleYaw = o->oMoveAngleYaw;
-        o->oForwardVel = CCMBOSS_RETURN_SPEED;
-        if (o->oTimer % 20 == 0) {
-            cur_obj_play_sound_2(SOUND_CCMBOSS_WALK);
+            cur_obj_init_animation(CCMBOSS_ANIM_WALK);
+            cur_obj_rotate_yaw_toward(targetYaw, 0x400);
+            o->oFaceAngleYaw = o->oMoveAngleYaw;
+            o->oForwardVel = CCMBOSS_RETURN_SPEED;
+            if (o->oTimer % 20 == 0) {
+                cur_obj_play_sound_2(SOUND_CCMBOSS_WALK);
+            }
+
+            if (distSq < CCMBOSS_RETURN_REACH_DIST_SQ) {
+                o->oPosX = 0.0f;
+                o->oPosZ = 0.0f;
+                o->oForwardVel = 0.0f;
+                if (o->oHealth <= 0) {
+                    o->oSubAction = 2;
+                    o->oTimer = 0;
+                } else {
+                    o->oAction = CCMBOSS_ACT_IDLE;
+                    o->oSubAction = 0;
+                }
+            }
         }
+        return;
+    }
 
-        if (distSq < CCMBOSS_RETURN_REACH_DIST_SQ) {
-            o->oPosX = 0.0f;
-            o->oPosZ = 0.0f;
-            o->oForwardVel = 0.0f;
-            o->oAction = CCMBOSS_ACT_IDLE;
-            o->oSubAction = 0;
-        }
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+    cur_obj_init_animation(CCMBOSS_ANIM_IDLE);
+    o->oInteractType = INTERACT_NONE;
+    o->oDamageOrCoinValue = 0;
+    cur_obj_become_intangible();
+    if (gMarioObject != NULL) {
+        obj_turn_toward_object(o, gMarioObject, O_FACE_ANGLE_YAW_INDEX, 0x400);
+        o->oMoveAngleYaw = o->oFaceAngleYaw;
+    }
+
+    if (cur_obj_update_dialog_with_cutscene(
+            MARIO_DIALOG_LOOK_FRONT,
+            (DIALOG_FLAG_TEXT_DEFAULT | DIALOG_FLAG_TIME_STOP_ENABLED),
+            CUTSCENE_DIALOG, DIALOG_002)) {
+        set_mario_npc_dialog(MARIO_DIALOG_STOP);
+        sCcmBossFinalAttackState = 1;
+        cur_obj_become_tangible();
+        o->oAction = CCMBOSS_ACT_IDLE;
+        o->oSubAction = 0;
     }
 }
 
@@ -512,10 +875,14 @@ void bhv_ccmboss_init(void) {
     o->oGravity = -4.0f;
     o->oFriction = 0.91f;
     o->oBuoyancy = 0.0f;
-    o->oAction = CCMBOSS_ACT_IDLE;
+    o->oAction = sCcmBossIntroDone ? CCMBOSS_ACT_IDLE : CCMBOSS_ACT_INTRO;
     o->oForwardVel = 0.0f;
     o->oVelY = 0.0f;
     sCcmBossEscapeTargetIndex = -1;
+    sCcmBossFinalAttackState = 0;
+    sCcmBossDamageCooldown = 0;
+    sCcmBossAbuseTimer = 0;
+    sCcmBossAbuseTriggered = 0;
     obj_set_hitbox(o, &sCcmBossHitbox);
     o->oHealth = 3;
     spawn_object(o, MODEL_NONE, bhvCcmBossWeakSpot);
@@ -524,11 +891,40 @@ void bhv_ccmboss_init(void) {
 void bhv_ccmboss_loop(void) {
     s32 marioAmaterasu = ccmboss_is_mario_amaterasu();
 
+    // Debug: force transition to final-attack dialog state with D-pad Down.
+    if (gPlayer1Controller != NULL && (gPlayer1Controller->buttonPressed & D_JPAD)) {
+        o->oHealth = 0;
+        o->oAction = CCMBOSS_ACT_DAMAGE_RETURN;
+        o->oSubAction = 2;
+        o->oTimer = 0;
+    }
+
     obj_set_hitbox(o, &sCcmBossHitbox);
     ccmboss_update_damage_interaction(marioAmaterasu);
     cur_obj_update_floor_and_walls();
 
+    if (!sCcmBossAbuseTriggered
+        && (o->oAction == CCMBOSS_ACT_FINAL_ATTACK1 || o->oAction == CCMBOSS_ACT_FINAL_ATTACK2)) {
+        if (ccmboss_is_mario_in_abuse_hitbox()) {
+            sCcmBossAbuseTimer++;
+            if (sCcmBossAbuseTimer >= 90) {
+                sCcmBossAbuseTriggered = 1;
+                ccmboss_abort_final_attack_objects();
+                o->oAction = CCMBOSS_ACT_PUNISH;
+                o->oSubAction = 0;
+                o->oTimer = 0;
+            }
+        } else {
+            sCcmBossAbuseTimer = 0;
+        }
+    } else if (o->oAction != CCMBOSS_ACT_PUNISH) {
+        sCcmBossAbuseTimer = 0;
+    }
+
     switch (o->oAction) {
+        case CCMBOSS_ACT_INTRO:
+            ccmboss_act_intro();
+            break;
         case CCMBOSS_ACT_IDLE:
             ccmboss_act_idle();
             break;
@@ -553,8 +949,26 @@ void bhv_ccmboss_loop(void) {
         case CCMBOSS_ACT_DAMAGE_RETURN:
             ccmboss_act_damage_return();
             break;
+        case CCMBOSS_ACT_FINAL_ATTACK1:
+            ccmboss_act_final_attack1();
+            break;
+        case CCMBOSS_ACT_FINAL_ATTACK2:
+            ccmboss_act_final_attack2();
+            break;
+        case CCMBOSS_ACT_DEATH:
+            ccmboss_act_death();
+            break;
+        case CCMBOSS_ACT_PUNISH:
+            ccmboss_act_punish();
+            break;
     }
 
     cur_obj_move_standard(-60);
+    if (sCcmBossDamageCooldown > 0) {
+        sCcmBossDamageCooldown--;
+    }
+    if (o->oInteractStatus & INT_STATUS_ATTACKED_MARIO) {
+        sCcmBossDamageCooldown = 60;
+    }
     o->oInteractStatus = INT_STATUS_NONE;
 }

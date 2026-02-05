@@ -113,6 +113,11 @@
 #define MODEL_CCM_RL_HTHAZARD                  0x4F
 #define MODEL_CCM_RL_SPIDERJUMP                0x50
 #define MODEL_CCM_BOSS                         0x51
+#define MODEL_CCMBOSS_RING                     0x52        // ccmboss_finalattack_ring_geo
+#define MODEL_CCM_FACIRCLE                     0x53
+#define MODEL_CCM_FALASER                      0x54
+#define MODEL_CCM_FALASER_DAMAGE               0x55
+#define MODEL_CCM_FALASER_DAMAG                MODEL_CCM_FALASER_DAMAGE
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18

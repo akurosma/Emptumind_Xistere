@@ -10,6 +10,7 @@
 #include "types.h"
 #include "sm64.h"
 #include "behavior_data.h"
+#include "surface_terrains.h"
 
 #include "config.h"
 
@@ -70,7 +71,10 @@ void update_mario_platform(void) {
         gMarioPlatform = NULL;
         gMarioObject->platform = NULL;
     } else {
-        if (floor != NULL && floor->object != NULL) {
+        if (floor != NULL && floor->type == SURFACE_CCM_FALASER) {
+            gMarioPlatform = NULL;
+            gMarioObject->platform = NULL;
+        } else if (floor != NULL && floor->object != NULL) {
             gMarioPlatform = floor->object;
             gMarioObject->platform = floor->object;
         } else {

@@ -32,27 +32,21 @@ can talk to some other\n\
 characters by facing them\n\
 and pressing [B]."))
 
+//rulu
 DEFINE_DIALOG(DIALOG_001, 1, 4, 95, 200, _("\
-Watch out! If you wander\n\
-around here, you're liable\n\
-to be " PLASTERED " by a\n\
+Watch out!\n\
+\n\
+attention\n\
 water bomb!\n\
 Those enemy Bob-ombs love\n\
 to fight, and they're\n\
 always finding ways to\n\
 attack.\n\
 This meadow has become\n\
-a battlefield ever since\n\
-the Big Bob-omb got his\n\
-paws on the Power Star.\n\
-Can you recover the Star\n\
-for us? Cross the bridge\n\
-and go left up the path\n\
-to find the Big Bob-omb.\n\
-Please come back to see\n\
 me after you've retrieved\n\
 the Power Star!"))
 
+//rulu
 DEFINE_DIALOG(DIALOG_002, 1, 4, 95, 200, _("\
 Hey, you! It's dangerous\n\
 ahead, so listen up! Take\n\
@@ -71,6 +65,7 @@ and we're on your side.\n\
 You can talk to us\n\
 whenever you'd like to!"))
 
+//rulu
 DEFINE_DIALOG(DIALOG_003, 1, 5, 95, 200, _("\
 Thank you, Mario! The Big\n\
 Bob-omb is nothing but a\n\
@@ -87,6 +82,7 @@ waiting for you. Be sure\n\
 to talk to them--they'll\n\
 set up cannons for you."))
 
+//rulu
 DEFINE_DIALOG(DIALOG_004, 1, 3, 95, 200, _("\
 We're peace-loving\n\
 Bob-ombs, so we don't use\n\
