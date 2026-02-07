@@ -34,65 +34,43 @@ and pressing [B]."))
 
 //rulu
 DEFINE_DIALOG(DIALOG_001, 1, 4, 95, 200, _("\
-Watch out!\n\
+Mario! \n\
+So you finally made it.\n\
+I've been waiting far too \n\
+long for this.\n\
+And you came here without \n\
+any preparation?\n\
+I expected you to arrive \n\
+cloaked in @FF0000FFBLACK FLAMES@--------.\n\
+Well… if you have a death \n\
+wish, that's fine by me."))
+
+//rulu
+DEFINE_DIALOG(DIALOG_002, 1, 3, 95, 200, _("\
+Not bad at all.\n\
+This will be \n\
+my final attack!\n\
+If you survive this,\n\
+the victory is yours!"))
+
+//rulu
+DEFINE_DIALOG(DIALOG_003, 1, 3, 95, 200, _("\
+I am defeated...\n\
+Very well - take the Star.\n\
+And don't ever come back."))
+
+//rulu
+DEFINE_DIALOG(DIALOG_004, 1, 5, 95, 200, _("\
+Ahahahaha!\n\
+Why, Mario? Why?\n\
+What made you \n\
+think standing \n\
+near me was safe?\n\
+Pathetic fool...\n\
 \n\
-attention\n\
-water bomb!\n\
-Those enemy Bob-ombs love\n\
-to fight, and they're\n\
-always finding ways to\n\
-attack.\n\
-This meadow has become\n\
-me after you've retrieved\n\
-the Power Star!"))
-
-//rulu
-DEFINE_DIALOG(DIALOG_002, 1, 4, 95, 200, _("\
-Hey, you! It's dangerous\n\
-ahead, so listen up! Take\n\
-my advice.\n\
-\n\
-Cross the two\n\
-bridges ahead, then\n\
-watch for falling\n\
-water bombs.\n\
-The Big Bob-omb at the\n\
-top of the mountain is\n\
-very powerful--don't let\n\
-him grab you!\n\
-We're Bob-omb Buddies,\n\
-and we're on your side.\n\
-You can talk to us\n\
-whenever you'd like to!"))
-
-//rulu
-DEFINE_DIALOG(DIALOG_003, 1, 5, 95, 200, _("\
-Thank you, Mario! The Big\n\
-Bob-omb is nothing but a\n\
-big dud now! But the\n\
-battle for the castle has\n\
-just begun.\n\
-Other enemies are holding\n\
-the other Power Stars. If\n\
-you recover more Stars,\n\
-you can open new doors\n\
-that lead to new worlds!\n\
-My Bob-omb Buddies are\n\
-waiting for you. Be sure\n\
-to talk to them--they'll\n\
-set up cannons for you."))
-
-//rulu
-DEFINE_DIALOG(DIALOG_004, 1, 3, 95, 200, _("\
-We're peace-loving\n\
-Bob-ombs, so we don't use\n\
-cannons.\n\
-But if you'd like\n\
-to blast off, we don't\n\
-mind. Help yourself.\n\
-We'll prepare all of the\n\
-cannons in this course for\n\
-you to use. Bon Voyage!"))
+If you want to die \n\
+that badly,\n\
+I'll take you with me!"))
 
 DEFINE_DIALOG(DIALOG_005, 1, 3, 30, 200, _("\
 Hey, Mario! Is it true\n\

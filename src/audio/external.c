@@ -79,14 +79,15 @@ enum DialogSpeakers {
     BOWS2, // Bowser Battle Laugh
     GRUNT,
     WIGLR,
-    YOSHI
+    YOSHI,
+    CCMBOSS
 };
 
 #define _ 0xFF
 
 u8 sDialogSpeaker[] = {
     //       0      1      2      3      4      5      6      7      8      9
-    /* 0*/ _,     BOMB,  BOMB,  BOMB,  BOMB,  KOOPA, KOOPA, KOOPA, _,     KOOPA,
+    /* 0*/ _,     CCMBOSS, CCMBOSS, CCMBOSS, CCMBOSS, KOOPA, KOOPA, KOOPA, _,     KOOPA,
     /* 1*/ _,     _,     _,     _,     _,     _,     _,     KBOMB, _,     _,
     /* 2*/ _,     BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1,
     /* 3*/ _,     _,     _,     _,     _,     _,     _,     TUXIE, _,     _,
@@ -120,6 +121,7 @@ s32 sDialogSpeakerVoice[] = {
     SOUND_OBJ2_BOSS_DIALOG_GRUNT,
     SOUND_OBJ_WIGGLER_TALK,
     SOUND_GENERAL_YOSHI_TALK,
+    SOUND_OBJ2_CCMBOSS_DIALOG,
 #if defined(VERSION_JP) || defined(VERSION_US)
     NO_SOUND,
     NO_SOUND,
@@ -2151,7 +2153,13 @@ void play_dialog_sound(u8 dialogID) {
 
     speaker = sDialogSpeaker[dialogID];
     if (speaker != 0xff) {
-        play_sound(sDialogSpeakerVoice[speaker], gGlobalSoundSource);
+        s32 sound = sDialogSpeakerVoice[speaker];
+        if (dialogID == DIALOG_004) {
+            sound = SOUND_OBJ2_CCMBOSS_DIALOG2;
+        } else if (dialogID == DIALOG_002 || dialogID == DIALOG_003) {
+            sound = SOUND_OBJ2_CCMBOSS_DIALOG3;
+        }
+        play_sound(sound, gGlobalSoundSource);
 
         // Play music during bowser message that appears when first entering the
         // castle or when trying to enter a door without enough stars

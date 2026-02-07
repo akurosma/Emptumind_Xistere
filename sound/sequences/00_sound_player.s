@@ -5111,6 +5111,11 @@ sound_ref .sound_obj_bowser_roar
 sound_ref .sound_obj_bowser_tail_pickup
 sound_ref .sound_obj_bowser_defeated
 sound_ref .sound_obj_bowser_spinning
+sound_ref .sound_obj_ccmboss_damage
+sound_ref .sound_obj_ccmboss_dialog
+sound_ref .sound_obj_ccmboss_dialog2
+sound_ref .sound_obj_ccmboss_dialog3
+sound_ref .sound_obj_ccmboss_death
 
 .sound_general_swish_water:
 chan_setbank 6
@@ -6506,6 +6511,56 @@ chan_end
 layer_note1 29, 0x7, 127
 layer_note0 31, 0x18, 127, 127
 layer_note1 27, 0x26, 127
+layer_end
+
+.sound_obj_ccmboss_damage:
+chan_setbank 9
+chan_setinstr 7
+chan_setlayer 0, .layer_ccmboss_damage
+chan_end
+
+.layer_ccmboss_damage:
+layer_note1 38, 0xB0, 127
+layer_end
+
+.sound_obj_ccmboss_dialog:
+chan_setbank 9
+chan_setinstr 8
+chan_setlayer 0, .layer_ccmboss_dialog
+chan_end
+
+.layer_ccmboss_dialog:
+layer_note1 39, 0xA0, 127
+layer_end
+
+.sound_obj_ccmboss_dialog2:
+chan_setbank 9
+chan_setinstr 9
+chan_setlayer 0, .layer_ccmboss_dialog2
+chan_end
+
+.layer_ccmboss_dialog2:
+layer_note1 40, 0xF0, 127
+layer_end
+
+.sound_obj_ccmboss_dialog3:
+chan_setbank 9
+chan_setinstr 10
+chan_setlayer 0, .layer_ccmboss_dialog3
+chan_end
+
+.layer_ccmboss_dialog3:
+layer_note1 42, 0xF0, 127
+layer_end
+
+.sound_obj_ccmboss_death:
+chan_setbank 9
+chan_setinstr 11
+chan_setlayer 0, .layer_ccmboss_death
+chan_end
+
+.layer_ccmboss_death:
+layer_note1 37, 0xA0, 127
 layer_end
 
 .sound_obj_mips_rabbit:

@@ -61,6 +61,31 @@
             "release_rate": 208,
             "envelope": "envelope0",
             "sound": "06"
+        },
+        "inst7": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "07_custom_ccmboss_damage"
+        },
+        "inst8": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "08_custom_ccmboss_dialog"
+        },
+        "inst9": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "09_custom_ccmboss_dialog2"
+        },
+        "inst10": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "10_custom_ccmboss_dialog3"
+        },
+        "inst11": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "11_custom_ccmboss_death"
         }
     },
     "instrument_list": [
@@ -70,6 +95,11 @@
         "inst3",
         "inst4",
         "inst5",
-        "inst6"
+        "inst6",
+        "inst7",
+        "inst8",
+        "inst9",
+        "inst10",
+        "inst11"
     ]
 }
