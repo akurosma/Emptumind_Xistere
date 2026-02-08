@@ -138,7 +138,7 @@ const LevelScript level_castle_grounds_entry[] = {
 		OBJECT(MODEL_CASTLE_GROUNDS_WARP_PIPE, -1353, 0, 1046, 0, 0, 0, (171 << 16), bhvWarpPipe),
 		TERRAIN(castle_grounds_area_2_collision),
 		MACRO_OBJECTS(castle_grounds_area_2_macro_objs),
-		SET_BACKGROUND_MUSIC(0x3E, SEQ_UNIVERSAL_COLLAPSE),
+		SET_BACKGROUND_MUSIC(0x3F, SEQ_MECHANICAL_RHYTHM),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

@@ -1,66 +1,213 @@
 {
     "comment": "This file lists all sequences together with the sound banks they use. If a sequence uses multiple banks, the first bank will be used by default, and it can switch between them using the chan_setbank command; e.g. chan_setbank 0 will switch to the first bank in the given list.",
-    "00_sound_player": ["00", "01_terrain", "02_water", "03", "04", "05", "06", "07", "08_mario", "09", "0A_mario_peach"],
-    "01_cutscene_collect_star": ["0C_extended_bank"],
-    "02_menu_title_screen": ["11"],
-    "03_level_grass": ["22"],
-    "04_level_inside_castle": ["0E"],
-    "05_level_water": ["13"],
-    "06_level_hot": ["0F"],
-    "07_level_boss_koopa": ["12"],
-    "08_level_snow": ["0B"],
-    "09_level_slide": ["0C_extended_bank"],
-    "0A_level_spooky": ["10", "21"],
-    "0B_event_piranha_plant": ["14_piranha_music_box"],
-    "0C_level_underground": ["15"],
-    "0D_menu_star_select": ["0C_extended_bank"],
-    "0E_event_powerup": ["17"],
-    "0F_event_metal_cap": ["18"],
-    "10_event_koopa_message": ["12"],
-    "11_level_koopa_road": ["19"],
-    "12_event_high_score": ["1F"],
-    "13_event_merry_go_round": ["21"],
-    "14_event_race": ["1A"],
-    "15_cutscene_star_spawn": ["0E"],
-    "16_event_boss": ["0C_extended_bank"],
-    "17_cutscene_collect_key": ["1A"],
-    "18_event_endless_stairs": ["1C_endless_stairs"],
-    "19_level_boss_koopa_final": ["1D_bowser_organ"],
-    "1A_cutscene_credits": ["25"],
-    "1B_event_solve_puzzle": ["14_piranha_music_box"],
-    "1C_event_toad_message": ["20"],
-    "1D_event_peach_message": ["1E"],
-    "1E_cutscene_intro": ["1B"],
-    "1F_cutscene_victory": ["1A"],
-    "20_cutscene_ending": ["23"],
-    "21_menu_file_select": ["0C_extended_bank"],
-    "22_cutscene_lakitu": {"ifdef": ["VERSION_US", "VERSION_EU", "VERSION_SH"], "banks": ["1B"]},
-    "23_Endless_Possibility":["0C_extended_bank"],
-    "24_Solar_System_Disco":["0C_extended_bank"],
-    "25_Petit_Bonheur":["0C_extended_bank"],
-    "26_Rocket_Ride":["0C_extended_bank"],
-    "27_black_tower":["0C_extended_bank"],
-    "28_Great_Mighty_Poo":["0C_extended_bank"],
-    "29_cutscene_got_star":["0C_extended_bank"],
-    "2A_SSBMelee_MasterHand":["0C_extended_bank"],
-    "2B_Southern_Cross":["0C_extended_bank"],
-    "2C_SonicColors_Aquarium_Park":["0C_extended_bank"],
-    "2D_His_World":["0C_extended_bank"],
-    "2E_Promise_of_the_19":["0C_extended_bank"],
-    "2F_Vilily":["0C_extended_bank"],
-    "30_K_Rool_Duel":["0C_extended_bank"],
-    "31_PSS_main":["0C_extended_bank"],
-    "32_PSS_mirror":["0C_extended_bank"],
-    "33_Science":["0C_extended_bank"],
-    "34_hmc":["0C_extended_bank"],
-    "35_Time_Trial":["0C_extended_bank"],
-    "36_SD_Battle2":["0C_extended_bank"],
-    "37_Head_Honcho_Carpaccio":["0C_extended_bank"],
-    "38_SonicForce_Fist_Bump":["0C_extended_bank"],
-    "39_CaveStory_Wind_Fortress":["0C_extended_bank"],
-    "3A_SonicAndTheBlackKnight_With_Me":["0C_extended_bank"],
-    "3B_C4_Area1":["0C_extended_bank"],
-    "3C_Sonic_NightsPinball":["0C_extended_bank"],
-    "3D_SonicAdventure_chaoGarden":["0C_extended_bank"],
-    "3E_Universal_Collapse":["0C_extended_bank"]
+    "00_sound_player": [
+        "00",
+        "01_terrain",
+        "02_water",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08_mario",
+        "09",
+        "0A_mario_peach"
+    ],
+    "01_cutscene_collect_star": [
+        "0C_extended_bank"
+    ],
+    "02_menu_title_screen": [
+        "11"
+    ],
+    "03_level_grass": [
+        "22"
+    ],
+    "04_level_inside_castle": [
+        "0E"
+    ],
+    "05_level_water": [
+        "13"
+    ],
+    "06_level_hot": [
+        "0F"
+    ],
+    "07_level_boss_koopa": [
+        "12"
+    ],
+    "08_level_snow": [
+        "0B"
+    ],
+    "09_level_slide": [
+        "0C_extended_bank"
+    ],
+    "0A_level_spooky": [
+        "10",
+        "21"
+    ],
+    "0B_event_piranha_plant": [
+        "14_piranha_music_box"
+    ],
+    "0C_level_underground": [
+        "15"
+    ],
+    "0D_menu_star_select": [
+        "0C_extended_bank"
+    ],
+    "0E_event_powerup": [
+        "17"
+    ],
+    "0F_event_metal_cap": [
+        "18"
+    ],
+    "10_event_koopa_message": [
+        "12"
+    ],
+    "11_level_koopa_road": [
+        "19"
+    ],
+    "12_event_high_score": [
+        "1F"
+    ],
+    "13_event_merry_go_round": [
+        "21"
+    ],
+    "14_event_race": [
+        "1A"
+    ],
+    "15_cutscene_star_spawn": [
+        "0E"
+    ],
+    "16_event_boss": [
+        "0C_extended_bank"
+    ],
+    "17_cutscene_collect_key": [
+        "1A"
+    ],
+    "18_event_endless_stairs": [
+        "1C_endless_stairs"
+    ],
+    "19_level_boss_koopa_final": [
+        "1D_bowser_organ"
+    ],
+    "1A_cutscene_credits": [
+        "25"
+    ],
+    "1B_event_solve_puzzle": [
+        "14_piranha_music_box"
+    ],
+    "1C_event_toad_message": [
+        "20"
+    ],
+    "1D_event_peach_message": [
+        "1E"
+    ],
+    "1E_cutscene_intro": [
+        "1B"
+    ],
+    "1F_cutscene_victory": [
+        "1A"
+    ],
+    "20_cutscene_ending": [
+        "23"
+    ],
+    "21_menu_file_select": [
+        "0C_extended_bank"
+    ],
+    "22_cutscene_lakitu": {
+        "ifdef": [
+            "VERSION_US",
+            "VERSION_EU",
+            "VERSION_SH"
+        ],
+        "banks": [
+            "1B"
+        ]
+    },
+    "23_Endless_Possibility": [
+        "0C_extended_bank"
+    ],
+    "24_Solar_System_Disco": [
+        "0C_extended_bank"
+    ],
+    "25_Petit_Bonheur": [
+        "0C_extended_bank"
+    ],
+    "26_Rocket_Ride": [
+        "0C_extended_bank"
+    ],
+    "27_black_tower": [
+        "0C_extended_bank"
+    ],
+    "28_Great_Mighty_Poo": [
+        "0C_extended_bank"
+    ],
+    "29_cutscene_got_star": [
+        "0C_extended_bank"
+    ],
+    "2A_SSBMelee_MasterHand": [
+        "0C_extended_bank"
+    ],
+    "2B_Southern_Cross": [
+        "0C_extended_bank"
+    ],
+    "2C_SonicColors_Aquarium_Park": [
+        "0C_extended_bank"
+    ],
+    "2D_His_World": [
+        "0C_extended_bank"
+    ],
+    "2E_Promise_of_the_19": [
+        "0C_extended_bank"
+    ],
+    "2F_Vilily": [
+        "0C_extended_bank"
+    ],
+    "30_K_Rool_Duel": [
+        "0C_extended_bank"
+    ],
+    "31_PSS_main": [
+        "0C_extended_bank"
+    ],
+    "32_PSS_mirror": [
+        "0C_extended_bank"
+    ],
+    "33_Science": [
+        "0C_extended_bank"
+    ],
+    "34_hmc": [
+        "0C_extended_bank"
+    ],
+    "35_Time_Trial": [
+        "0C_extended_bank"
+    ],
+    "36_SD_Battle2": [
+        "0C_extended_bank"
+    ],
+    "37_Head_Honcho_Carpaccio": [
+        "0C_extended_bank"
+    ],
+    "38_SonicForce_Fist_Bump": [
+        "0C_extended_bank"
+    ],
+    "39_CaveStory_Wind_Fortress": [
+        "0C_extended_bank"
+    ],
+    "3A_SonicAndTheBlackKnight_With_Me": [
+        "0C_extended_bank"
+    ],
+    "3B_C4_Area1": [
+        "0C_extended_bank"
+    ],
+    "3C_Sonic_NightsPinball": [
+        "0C_extended_bank"
+    ],
+    "3D_SonicAdventure_chaoGarden": [
+        "0C_extended_bank"
+    ],
+    "3E_Universal_Collapse": [
+        "0C_extended_bank"
+    ],
+    "3F_Mechanical_Rhythm": [
+        "0C_extended_bank"
+    ]
 }
