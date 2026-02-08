@@ -17,7 +17,7 @@ const Collision ccm_area_5_collision[] = {
 	COL_VERTEX(-2000, 1801, 0),
 	COL_VERTEX(-1414, -199, -1414),
 	COL_VERTEX(-1414, 1801, -1414),
-	COL_TRI_INIT(SURFACE_DEFAULT, 22),
+	COL_TRI_INIT(SURFACE_DEFAULT, 28),
 	COL_TRI(0, 1, 2),
 	COL_TRI(0, 2, 3),
 	COL_TRI(1, 4, 5),
@@ -40,6 +40,12 @@ const Collision ccm_area_5_collision[] = {
 	COL_TRI(6, 4, 1),
 	COL_TRI(1, 14, 10),
 	COL_TRI(10, 6, 1),
+	COL_TRI(3, 2, 5),
+	COL_TRI(5, 7, 9),
+	COL_TRI(9, 11, 13),
+	COL_TRI(13, 15, 3),
+	COL_TRI(3, 5, 9),
+	COL_TRI(9, 13, 3),
 	COL_TRI_STOP(),
 	COL_END()
 };

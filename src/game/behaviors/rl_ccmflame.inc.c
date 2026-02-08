@@ -13,7 +13,7 @@ void bhv_ccmflame_loop(void) {
     if (gMarioObject && obj_check_if_collided_with_object(o, gMarioObject)) {
 
         // BPARAM2 で分岐：0 = 黒火 / 1 = 白火
-        if (o->oBehParams2ndByte == 0) {
+        if (o->oBehParams2ndByte == 0 || o->oBehParams2ndByte == 2) {
             // 黒火（永続燃焼）
             gMarioState->amaterasu = TRUE;
             gMarioState->kagutsuchi = FALSE; // 安全のためオフ
@@ -29,9 +29,7 @@ void bhv_ccmflame_loop(void) {
         }
     }
 
-    // 寿命または自動削除
-    //o->oTimer++;
-    //if (o->oTimer > 300) {
-        //obj_mark_for_deletion(o);
-    //}
+    if (o->oBehParams2ndByte == 2 && o->oTimer >= 300) {
+        obj_mark_for_deletion(o);
+    }
 }

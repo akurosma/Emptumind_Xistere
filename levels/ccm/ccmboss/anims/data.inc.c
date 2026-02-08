@@ -5,3 +5,4 @@
 #include "anim_dash.inc.c"
 #include "anim_down.inc.c"
 #include "anim_FinalAttack1.inc.c"
+#include "anim_summon.inc.c"

@@ -10,7 +10,7 @@ void bhv_ccm_falaser_init(void) {
 }
 
 void bhv_ccm_falaser_loop(void) {
-    o->oFaceAngleRoll += 0x400;
+    o->oFaceAngleRoll += 0x200;
 
     if (o->oTimer >= 40) {
         const f32 t = (f32)(o->oTimer - 40);

@@ -1,6 +1,8 @@
 #ifndef BEHAVIOR_ACTIONS_H
 #define BEHAVIOR_ACTIONS_H
 
+struct Object;
+
 void spawn_mist_particles_variable(s32 count, s32 offsetY, f32 size);
 void bhv_spawn_star_no_level_exit(u32 params);
 void bhv_door_rendering_loop(void);
@@ -108,6 +110,7 @@ void bhv_bouncing_fireball_spawner_loop(void);
 void bhv_bouncing_fireball_flame_loop(void);
 void bhv_bowser_shock_wave_loop(void);
 void bhv_ccmboss_final_shock_wave_loop(void);
+void bhv_ccmboss_final_shock_wave2_loop(void);
 void bhv_flame_mario_loop(void);
 void bhv_ccmflame_mario_loop(void);
 void bhv_black_smoke_mario_loop(void);
@@ -707,6 +710,9 @@ void bhv_ccmboss_init(void);
 void bhv_ccmboss_loop(void);
 void bhv_ccmboss_weakspot_init(void);
 void bhv_ccmboss_weakspot_loop(void);
+void ccmboss_notify_scuttlebug_spawned(struct Object *scuttlebug);
+void ccmboss_notify_scuttlebug_killed(struct Object *scuttlebug);
+#define CCMBOSS_SCUTTLEBUG_TAG 1
 void bhv_test_cube_init(void);
 void bhv_test_cube_loop(void);
 void bhv_Music_Selector_init(void);

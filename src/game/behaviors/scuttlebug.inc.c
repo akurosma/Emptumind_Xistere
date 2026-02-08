@@ -26,9 +26,21 @@ s32 update_angle_from_move_flags(s32 *angle) {
 void bhv_scuttlebug_loop(void) {
     cur_obj_update_floor_and_walls();
 
-    if (o->oSubAction != 0
-        && cur_obj_set_hitbox_and_die_if_attacked(&sScuttlebugHitbox, SOUND_OBJ_DYING_ENEMY1, o->oScuttlebugHasNoLootCoins)) {
-        o->oSubAction = 3;
+    const s32 isBossSummon = (o->oBehParams2ndByte == CCMBOSS_SCUTTLEBUG_TAG);
+
+    if (isBossSummon || o->oSubAction != 0) {
+        const s32 wasAttacked = (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) != 0;
+        const s32 wasInteracted = (o->oInteractStatus & INT_STATUS_INTERACTED) != 0;
+        if (cur_obj_set_hitbox_and_die_if_attacked(&sScuttlebugHitbox, SOUND_OBJ_DYING_ENEMY1,
+                o->oScuttlebugHasNoLootCoins)) {
+            o->oSubAction = 3;
+        }
+        if (isBossSummon && wasInteracted && wasAttacked) {
+            o->oBehParams2ndByte = CCMBOSS_SCUTTLEBUG_TAG;
+            ccmboss_notify_scuttlebug_killed(o);
+            o->oBehParams2ndByte = 0;
+            o->oSubAction = 3;
+        }
     }
 
     if (o->oSubAction != 1) {
@@ -134,7 +146,13 @@ void bhv_scuttlebug_loop(void) {
 
 void bhv_scuttlebug_spawn_loop(void) {
     if (o->oAction == 0) {
-        if (o->oTimer > 30 && 500.0f < o->oDistanceToMario && o->oDistanceToMario < 1500.0f) {
+        s32 shouldSpawn = 0;
+        if (o->oBehParams2ndByte == CCMBOSS_SCUTTLEBUG_TAG) {
+            shouldSpawn = (o->oTimer == 0);
+        } else if (o->oTimer > 30 && 500.0f < o->oDistanceToMario && o->oDistanceToMario < 1500.0f) {
+            shouldSpawn = 1;
+        }
+        if (shouldSpawn) {
             struct Object *scuttlebug;
             cur_obj_play_sound_2(SOUND_OBJ2_SCUTTLEBUG_ALERT);
             if (gCurrLevelNum == LEVEL_CCM) {
@@ -147,15 +165,29 @@ void bhv_scuttlebug_spawn_loop(void) {
             } else {
                 scuttlebug->oScuttlebugHasNoLootCoins = o->oScuttlebugSpawnerSpawnWithNoLootCoins;
             }
-            scuttlebug->oForwardVel = 30.0f;
-            scuttlebug->oVelY = 80.0f;
+            if (o->oBehParams2ndByte == CCMBOSS_SCUTTLEBUG_TAG) {
+                scuttlebug->oBehParams2ndByte = CCMBOSS_SCUTTLEBUG_TAG;
+                scuttlebug->oScuttlebugHasNoLootCoins = 1;
+                scuttlebug->oMoveAngleYaw = o->oMoveAngleYaw;
+                scuttlebug->oFaceAngleYaw = o->oMoveAngleYaw;
+                scuttlebug->oForwardVel = 20.0f;
+                scuttlebug->oVelY = 50.0f;
+                ccmboss_notify_scuttlebug_spawned(scuttlebug);
+            } else {
+                scuttlebug->oForwardVel = 30.0f;
+                scuttlebug->oVelY = 80.0f;
+            }
             o->oAction++;
             if (!(gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 1)) {
                 o->oScuttlebugHasNoLootCoins = 1;
             }
         }
     } else if (o->oScuttlebugSpawnerIsDeactivated != 0) {
-        o->oScuttlebugSpawnerIsDeactivated = 0;
-        o->oAction = 0;
+        if (o->oBehParams2ndByte == CCMBOSS_SCUTTLEBUG_TAG) {
+            obj_mark_for_deletion(o);
+        } else {
+            o->oScuttlebugSpawnerIsDeactivated = 0;
+            o->oAction = 0;
+        }
     }
 }
