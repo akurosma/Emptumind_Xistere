@@ -6560,7 +6560,7 @@ chan_setlayer 0, .layer_ccmboss_death
 chan_end
 
 .layer_ccmboss_death:
-layer_note1 37, 0xA0, 127
+layer_note1 37, 0x50, 127
 layer_end
 
 .sound_obj_mips_rabbit:

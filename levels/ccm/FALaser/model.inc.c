@@ -630,7 +630,7 @@ Gfx FALaser_FALaser_mesh_layer_5_tri_0[] = {
 
 
 Gfx mat_FALaser_f3dlite_material[] = {
-	gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPClearGeometryMode(G_LIGHTING | G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, SHADE, COMBINED, PRIMITIVE, COMBINED, TEXEL0, 0, SHADE, 0, SHADE, COMBINED, PRIMITIVE, COMBINED),
 	gsDPSetAlphaDither(G_AD_NOISE),
@@ -649,7 +649,7 @@ Gfx mat_FALaser_f3dlite_material[] = {
 };
 
 Gfx mat_revert_FALaser_f3dlite_material[] = {
-	gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPSetGeometryMode(G_LIGHTING | G_CULL_BACK),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPSetTextureLUT(G_TT_NONE),

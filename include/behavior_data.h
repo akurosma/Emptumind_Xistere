@@ -115,6 +115,7 @@ extern const BehaviorScript bhvBouncingFireball[];
 extern const BehaviorScript bhvBouncingFireballFlame[];
 extern const BehaviorScript bhvBowserShockWave[];
 extern const BehaviorScript bhvCcmBossFinalShockWave[];
+extern const BehaviorScript bhvCcmBossFinalShockWave2[];
 extern const BehaviorScript bhvCcmFacircle[];
 extern const BehaviorScript bhvCcmFALaser[];
 extern const BehaviorScript bhvCcmFALaserDamage[];

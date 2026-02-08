@@ -27,6 +27,7 @@ enum {
     CCMBOSS_ACT_INTRO,
     CCMBOSS_ACT_DASH,
     CCMBOSS_ACT_SPIT_FIRE,
+    CCMBOSS_ACT_SUMMON,
     CCMBOSS_ACT_JUMP,
     CCMBOSS_ACT_RETURN_HOME,
     CCMBOSS_ACT_ESCAPE,
@@ -47,6 +48,7 @@ enum {
     CCMBOSS_ANIM_DASH,
     CCMBOSS_ANIM_DOWN,
     CCMBOSS_ANIM_FINAL_ATTACK1,
+    CCMBOSS_ANIM_SUMMON,
 };
 
 #define CCMBOSS_WEAKSPOT_OFFSET_Y 0.0f
@@ -71,9 +73,14 @@ enum {
 #define CCMBOSS_JUMP_VEL_Y 80.0f
 #define CCMBOSS_DOWN_FRAMES 53
 #define CCMBOSS_JUMP_RETURN_PULL_SPEED 80.0f
+#define CCMBOSS_SUMMON_SPAWN_FRAME 43
+#define CCMBOSS_SUMMON_SCUTTLEBUG_COUNT 3
+#define CCMBOSS_BLACKFLAME_LIFETIME 300
+#define CCMBOSS_BLACKFLAME_Y -149.0f
+#define CCMBOSS_BLACKFLAME_BEHPARAM 2
 
 // Final attack 2: FACircle spawn parameters.
-#define CCMBOSS_FA2_DURATION_FRAMES 360
+#define CCMBOSS_FA2_DURATION_FRAMES 361
 #define CCMBOSS_FA2_SPAWN_INTERVAL 30
 #define CCMBOSS_FA2_MIN_Y -49.0f
 #define CCMBOSS_FA2_MAX_Y -49.0f
@@ -96,6 +103,10 @@ static s16 sCcmBossDamageCooldown = 0;
 static s16 sCcmBossAbuseTimer = 0;
 static s32 sCcmBossAbuseTriggered = 0;
 static s32 sCcmBossReturnHomeTimeoutEnabled = 0;
+static s32 sCcmBossSummonTotal = 0;
+static s32 sCcmBossSummonAlive = 0;
+static Vec3f sCcmBossLastSummonKillPos = { 0.0f, 0.0f, 0.0f };
+static struct Object *sCcmBossObject = NULL;
 
 typedef struct {
     f32 x;
@@ -219,6 +230,107 @@ static void ccmboss_abort_final_attack_objects(void) {
     ccmboss_delete_objects_with_behavior(bhvCcmFALaserDamage);
     ccmboss_delete_objects_with_behavior(bhvCcmFacircle);
     ccmboss_delete_objects_with_behavior(bhvCcmBossFinalShockWave);
+}
+
+static s32 ccmboss_area5_has_scuttlebug(void) {
+    const BehaviorScript *behaviorAddr = segmented_to_virtual(bhvScuttlebugCCM);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    while ((struct Object *) listHead != obj) {
+        struct Object *next = (struct Object *) obj->header.next;
+        if (obj->behavior == behaviorAddr && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED) {
+            return TRUE;
+        }
+        obj = next;
+    }
+    return FALSE;
+}
+
+static void ccmboss_delete_boss_blackflames(void) {
+    const BehaviorScript *behaviorAddr = segmented_to_virtual(bhvRlCcmflame);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    while ((struct Object *) listHead != obj) {
+        struct Object *next = (struct Object *) obj->header.next;
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj->oBehParams2ndByte == CCMBOSS_BLACKFLAME_BEHPARAM) {
+            obj_mark_for_deletion(obj);
+        }
+        obj = next;
+    }
+}
+
+static void ccmboss_delete_summoned_scuttlebugs(void) {
+    const BehaviorScript *scuttleAddr = segmented_to_virtual(bhvScuttlebugCCM);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(scuttleAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    while ((struct Object *) listHead != obj) {
+        struct Object *next = (struct Object *) obj->header.next;
+        if (obj->behavior == scuttleAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj->oBehParams2ndByte == CCMBOSS_SCUTTLEBUG_TAG) {
+            obj_mark_for_deletion(obj);
+        }
+        obj = next;
+    }
+
+    const BehaviorScript *spawnerAddr = segmented_to_virtual(bhvScuttlebugSpawn);
+    listHead = &gObjectLists[get_object_list_from_behavior(spawnerAddr)];
+    obj = (struct Object *) listHead->next;
+    while ((struct Object *) listHead != obj) {
+        struct Object *next = (struct Object *) obj->header.next;
+        if (obj->behavior == spawnerAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj->oBehParams2ndByte == CCMBOSS_SCUTTLEBUG_TAG) {
+            obj_mark_for_deletion(obj);
+        }
+        obj = next;
+    }
+
+    // Reset summon counters so no blackflame spawns from forced cleanup.
+    sCcmBossSummonTotal = 0;
+    sCcmBossSummonAlive = 0;
+}
+
+static void ccmboss_spawn_boss_blackflame(void) {
+    if (sCcmBossObject == NULL) {
+        return;
+    }
+    struct Object *flame = spawn_object(sCcmBossObject, MODEL_CCM_RL_BLACKFLAME, bhvRlCcmflame);
+    if (flame == NULL) {
+        return;
+    }
+    flame->oPosX = sCcmBossLastSummonKillPos[0];
+    flame->oPosY = CCMBOSS_BLACKFLAME_Y;
+    flame->oPosZ = sCcmBossLastSummonKillPos[2];
+    flame->oBehParams2ndByte = CCMBOSS_BLACKFLAME_BEHPARAM;
+    flame->oTimer = 0;
+}
+
+static void ccmboss_spawn_summon_spawners(void) {
+    static const Vec3f spawnPoints[CCMBOSS_SUMMON_SCUTTLEBUG_COUNT] = {
+        { 0.0f, 100.0f, -1200.0f },
+        { 1414.0f, 100.0f, 1414.0f },
+        { -1414.0f, 100.0f, 1414.0f },
+    };
+
+    for (s32 i = 0; i < CCMBOSS_SUMMON_SCUTTLEBUG_COUNT; i++) {
+        struct Object *spawner = spawn_object(o, MODEL_NONE, bhvScuttlebugSpawn);
+        if (spawner == NULL) {
+            continue;
+        }
+        spawner->oPosX = spawnPoints[i][0];
+        spawner->oPosY = spawnPoints[i][1];
+        spawner->oPosZ = spawnPoints[i][2];
+        spawner->oBehParams2ndByte = CCMBOSS_SCUTTLEBUG_TAG;
+        spawner->oScuttlebugSpawnerSpawnWithNoLootCoins = 1;
+        {
+            s16 yaw = atan2s(0.0f - spawner->oPosZ, 0.0f - spawner->oPosX);
+            spawner->oFaceAngleYaw = yaw;
+            spawner->oMoveAngleYaw = yaw;
+        }
+    }
 }
 
 static s32 ccmboss_is_mario_in_abuse_hitbox(void) {
@@ -381,6 +493,8 @@ void bhv_ccmboss_weakspot_loop(void) {
             if (boss->oHealth < 0) {
                 boss->oHealth = 0;
             }
+            ccmboss_delete_summoned_scuttlebugs();
+            ccmboss_delete_boss_blackflames();
             boss->oForwardVel = 0.0f;
             boss->oVelY = 0.0f;
             boss->oAction = CCMBOSS_ACT_DAMAGE_RETURN;
@@ -451,6 +565,12 @@ static void ccmboss_act_idle(void) {
     }
 
     if (o->oTimer >= 90) {
+    if (o->oHealth > 0 && !ccmboss_area5_has_scuttlebug()) {
+        o->oAction = CCMBOSS_ACT_SUMMON;
+        o->oSubAction = 0;
+        o->oTimer = 0;
+        return;
+    }
         s32 choice = random_u16() % 3;
         if (choice == 0) {
             o->oAction = CCMBOSS_ACT_DASH;
@@ -565,6 +685,35 @@ static void ccmboss_act_spit_fire(void) {
     if (o->oTimer >= 150) {
         o->oAction = CCMBOSS_ACT_IDLE;
         o->oSubAction = 0;
+    }
+}
+
+static void ccmboss_act_summon(void) {
+    o->oForwardVel = 0.0f;
+    o->oVelY = 0.0f;
+    cur_obj_init_animation(CCMBOSS_ANIM_SUMMON);
+
+    if (o->oTimer == 40) {
+        cur_obj_play_sound_2(SOUND_OBJ_POUNDING_LOUD);
+        cur_obj_shake_screen(SHAKE_POS_MEDIUM);
+        {
+            struct Object *wave = spawn_object(o, MODEL_CCMBOSS_RING, bhvCcmBossFinalShockWave2);
+            if (wave != NULL) {
+                wave->oPosX = 0.0f;
+                wave->oPosZ = 0.0f;
+                wave->oPosY = o->oFloorHeight;
+            }
+        }
+    }
+
+    if (o->oTimer == CCMBOSS_SUMMON_SPAWN_FRAME) {
+        ccmboss_spawn_summon_spawners();
+    }
+
+    if (cur_obj_check_if_near_animation_end()) {
+        o->oAction = CCMBOSS_ACT_IDLE;
+        o->oSubAction = 0;
+        o->oTimer = 0;
     }
 }
 
@@ -796,7 +945,7 @@ static void ccmboss_act_death(void) {
             o->oMoveAngleYaw = o->oFaceAngleYaw;
         }
         obj_face_pitch_approach(0, 0x400);
-        if (o->oTimer >= 60) {
+        if (o->oTimer >= 95) {
             o->oSubAction = 1;
             o->oTimer = 0;
         }
@@ -991,6 +1140,31 @@ static void ccmboss_act_jump_return_home(void) {
     o->oTimer = 0;
 }
 
+void ccmboss_notify_scuttlebug_spawned(struct Object *scuttlebug) {
+    if (scuttlebug == NULL || scuttlebug->oBehParams2ndByte != CCMBOSS_SCUTTLEBUG_TAG) {
+        return;
+    }
+    sCcmBossSummonTotal++;
+    sCcmBossSummonAlive++;
+}
+
+void ccmboss_notify_scuttlebug_killed(struct Object *scuttlebug) {
+    if (scuttlebug == NULL || scuttlebug->oBehParams2ndByte != CCMBOSS_SCUTTLEBUG_TAG) {
+        return;
+    }
+    sCcmBossLastSummonKillPos[0] = scuttlebug->oPosX;
+    sCcmBossLastSummonKillPos[1] = scuttlebug->oPosY;
+    sCcmBossLastSummonKillPos[2] = scuttlebug->oPosZ;
+    if (sCcmBossSummonAlive > 0) {
+        sCcmBossSummonAlive--;
+    }
+    if (sCcmBossSummonTotal >= CCMBOSS_SUMMON_SCUTTLEBUG_COUNT && sCcmBossSummonAlive == 0) {
+        ccmboss_spawn_boss_blackflame();
+        sCcmBossSummonTotal = 0;
+        sCcmBossSummonAlive = 0;
+    }
+}
+
 void bhv_ccmboss_init(void) {
     cur_obj_init_animation(CCMBOSS_ANIM_ARMATURE_ACTION);
     vec3f_copy(&o->oHomeVec, &o->oPosVec);
@@ -1006,6 +1180,12 @@ void bhv_ccmboss_init(void) {
     sCcmBossAbuseTimer = 0;
     sCcmBossAbuseTriggered = 0;
     sCcmBossReturnHomeTimeoutEnabled = 0;
+    sCcmBossSummonTotal = 0;
+    sCcmBossSummonAlive = 0;
+    sCcmBossLastSummonKillPos[0] = 0.0f;
+    sCcmBossLastSummonKillPos[1] = 0.0f;
+    sCcmBossLastSummonKillPos[2] = 0.0f;
+    sCcmBossObject = o;
     obj_set_hitbox(o, &sCcmBossHitbox);
     o->oHealth = 3;
     spawn_object(o, MODEL_NONE, bhvCcmBossWeakSpot);
@@ -1056,6 +1236,9 @@ void bhv_ccmboss_loop(void) {
             break;
         case CCMBOSS_ACT_SPIT_FIRE:
             ccmboss_act_spit_fire();
+            break;
+        case CCMBOSS_ACT_SUMMON:
+            ccmboss_act_summon();
             break;
         case CCMBOSS_ACT_JUMP:
             ccmboss_act_jump();

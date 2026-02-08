@@ -51,7 +51,7 @@ Not bad at all.\n\
 This will be \n\
 my final attack!\n\
 If you survive this,\n\
-the victory is yours!"))
+you win!"))
 
 //rulu
 DEFINE_DIALOG(DIALOG_003, 1, 3, 95, 200, _("\
@@ -66,7 +66,7 @@ Why, Mario? Why?\n\
 What made you \n\
 think standing \n\
 near me was safe?\n\
-Pathetic fool...\n\
+You fool...\n\
 \n\
 If you want to die \n\
 that badly,\n\

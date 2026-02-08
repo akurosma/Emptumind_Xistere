@@ -778,9 +778,13 @@ s32 act_shockwave_bounce(struct MarioState *m) {
         queue_rumble_data(70, 40);
 #endif
         extern s32 gCcmBossFinalShockwaveDamage;
+        extern s32 gCcmBossFinalShockwave2Damage;
         extern void ccmboss_final_shockwave_mark_hit(void);
         s32 damage = 4;
-        if (gCcmBossFinalShockwaveDamage > 0) {
+        if (gCcmBossFinalShockwave2Damage > 0) {
+            damage = gCcmBossFinalShockwave2Damage;
+            gCcmBossFinalShockwave2Damage = 0;
+        } else if (gCcmBossFinalShockwaveDamage > 0) {
             damage = gCcmBossFinalShockwaveDamage;
             gCcmBossFinalShockwaveDamage = 0;
             ccmboss_final_shockwave_mark_hit();
@@ -789,7 +793,16 @@ s32 act_shockwave_bounce(struct MarioState *m) {
     }
     if (m->actionTimer == 0) {
         extern s32 gCcmBossFinalShockwaveDamage;
+        extern s32 gCcmBossFinalShockwave2Damage;
         extern void ccmboss_final_shockwave_mark_hit(void);
+        if (gCcmBossFinalShockwave2Damage > 0) {
+#if ENABLE_RUMBLE
+            queue_rumble_data(70, 40);
+#endif
+            s32 damage = gCcmBossFinalShockwave2Damage;
+            gCcmBossFinalShockwave2Damage = 0;
+            return hurt_and_set_mario_action(m, ACT_SHOCKED, 0, damage);
+        }
         if (gCcmBossFinalShockwaveDamage > 0) {
 #if ENABLE_RUMBLE
             queue_rumble_data(70, 40);

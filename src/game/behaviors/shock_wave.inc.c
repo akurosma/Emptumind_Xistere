@@ -30,6 +30,7 @@ static f32 ccmboss_final_shockwave_get_radius(u8 index) {
 
 static s32 sCcmBossFinalShockwaveLastHitFrame = -9999;
 s32 gCcmBossFinalShockwaveDamage = 0;
+s32 gCcmBossFinalShockwave2Damage = 0;
 
 void ccmboss_final_shockwave_mark_hit(void) {
     sCcmBossFinalShockwaveLastHitFrame = gGlobalTimer;
@@ -149,6 +150,36 @@ void bhv_ccmboss_final_shock_wave_loop(void) {
         if (canDamage && distMin < o->oDistanceToMario && o->oDistanceToMario < distMax) {
             gMarioObject->oInteractStatus |= INT_STATUS_MARIO_SHOCKWAVE;
             gCcmBossFinalShockwaveDamage = 8;
+        }
+    }
+}
+
+/**
+ * CCM boss shockwave2 (expanding + fading, fixed at origin).
+ */
+void bhv_ccmboss_final_shock_wave2_loop(void) {
+    s16 fadeFrames = 90;
+
+    o->oBowserShockWaveScale = o->oTimer * 30.0f;
+    cur_obj_scale(o->oBowserShockWaveScale);
+
+    if (gGlobalTimer % 3 != 0) {
+        o->oOpacity--;
+    }
+    if (o->oTimer > fadeFrames) {
+        o->oOpacity -= 5;
+    }
+    if (o->oOpacity <= 0) {
+        obj_mark_for_deletion(o);
+        return;
+    }
+
+    if (o->oTimer < fadeFrames && !mario_is_in_air_action()) {
+        f32 distMin = o->oBowserShockWaveScale * sBowserShockwaveHitPoints[0];
+        f32 distMax = o->oBowserShockWaveScale * 2.7f;
+        if (distMin < o->oDistanceToMario && o->oDistanceToMario < distMax) {
+            gMarioObject->oInteractStatus |= INT_STATUS_MARIO_SHOCKWAVE;
+            gCcmBossFinalShockwave2Damage = 8;
         }
     }
 }
