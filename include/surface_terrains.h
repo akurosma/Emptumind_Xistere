@@ -64,7 +64,7 @@ enum SurfaceTypes {
     SURFACE_HARD_NOT_SLIPPERY,          // 0x0037 // Hard and Non-slippery (Always has fall damage)
     SURFACE_VERTICAL_WIND,              // 0x0038 // Death at bottom with vertical wind. Warps to ID of force parameter's second byte if set, otherwise warps to 0xF3 if it exists, otherwise defaults to ID 0xF1.
     SURFACE_DOUBLE_JUMP,                // 0x0039 // Double jump trigger surface
-    SURFACE_003A,                       // 0x003A // Unused
+    SURFACE_INSTANT_WARP_1F,            // 0x003A // Instant warp to another area (extra slot)
     SURFACE_003B,                       // 0x003B // Unused
     SURFACE_003C,                       // 0x003C // Unused
     SURFACE_003D,                       // 0x003D // Unused
@@ -227,9 +227,10 @@ enum SurfaceTypes {
     SURFACE_TRAPDOOR,                   // 0x00FF // Bowser Left trapdoor, has no action defined
 };
 
-// From Surface 0x1B to 0x1E
+// From Surface 0x1B to 0x1E, plus SURFACE_INSTANT_WARP_1F (0x003A)
 #define INSTANT_WARP_INDEX_START  0x00 // Equal and greater than Surface 0x1B
-#define INSTANT_WARP_INDEX_STOP   0x04 // Less than Surface 0x1F
+#define INSTANT_WARP_INDEX_STOP   0x05 // Total instant warp slots
+#define INSTANT_WARP_INDEX_1F     0x04 // Maps to SURFACE_INSTANT_WARP_1F (0x003A)
 
 #define SURFACE_IS_NEW_WATER(cmd)               (((cmd) == SURFACE_NEW_WATER) || ((cmd) == SURFACE_NEW_WATER_BOTTOM))
 #define SURFACE_IS_QUICKSAND(cmd)               ((((cmd) >= SURFACE_SHALLOW_QUICKSAND) && ((cmd) <= SURFACE_MOVING_QUICKSAND)) || ((cmd) == SURFACE_INSTANT_MOVING_QUICKSAND))
@@ -242,7 +243,7 @@ enum SurfaceTypes {
 #define SURFACE_IS_PAINTING_WARP_LEFT(cmd)      ((((cmd) - SURFACE_PAINTING_WARP_D3  ) % 3) == 0)
 #define SURFACE_IS_PAINTING_WARP_MIDDLE(cmd)    ((((cmd) - SURFACE_PAINTING_WARP_D4  ) % 3) == 0)
 #define SURFACE_IS_PAINTING_WARP_RIGHT(cmd)     ((((cmd) - SURFACE_PAINTING_WARP_D5  ) % 3) == 0)
-#define SURFACE_IS_INSTANT_WARP(cmd)            (((cmd) >= SURFACE_INSTANT_WARP_1B) && ((cmd) < SURFACE_INSTANT_WARP_1B + INSTANT_WARP_INDEX_STOP))
+#define SURFACE_IS_INSTANT_WARP(cmd)            ((((cmd) >= SURFACE_INSTANT_WARP_1B) && ((cmd) <= SURFACE_INSTANT_WARP_1E)) || ((cmd) == SURFACE_INSTANT_WARP_1F))
 #define SURFACE_IS_WARP(cmd)                    (((cmd) == SURFACE_LOOK_UP_WARP) || ((cmd) == SURFACE_WOBBLING_WARP) || SURFACE_IS_PAINTING_WARP(cmd) || SURFACE_IS_INSTANT_WARP(cmd))
 #define SURFACE_IS_UNSAFE(cmd)                  (((cmd) == SURFACE_BURNING) || ((cmd) == SURFACE_HYPERTUBE_DAMAGE) || ((cmd) == SURFACE_DAMAGE) || SURFACE_IS_QUICKSAND(cmd) || SURFACE_IS_WARP(cmd))
 
