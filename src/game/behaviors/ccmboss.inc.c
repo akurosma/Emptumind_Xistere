@@ -962,7 +962,7 @@ static void ccmboss_act_death(void) {
             MARIO_DIALOG_LOOK_FRONT,
             DIALOG_FLAG_TEXT_DEFAULT,
             CUTSCENE_DIALOG, DIALOG_003)) {
-        create_sound_spawner(SOUND_OBJ2_CCMBOSS_DEATH);
+        play_sound(SOUND_OBJ2_CCMBOSS_DEATH, o->header.gfx.cameraToObject);
         cur_obj_hide();
         cur_obj_become_intangible();
         spawn_mist_particles_variable(0, 0, 200.0f);

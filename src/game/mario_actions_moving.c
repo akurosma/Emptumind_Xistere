@@ -1424,19 +1424,19 @@ s32 act_riding_hypertube(struct MarioState *m) {
         sHyperShell = NULL;
         return drop_and_set_mario_action(m, ACT_TRIPLE_JUMP, 1);
     } else if (sHyperQteResult == -1) {
-        // 失敗時はリスポーン位置へ戻し、再トリガを許可
+        // 失敗時はQTEを終了するだけ（位置/速度/アクションは維持）
         sHyperQteResult = 0;
         sHyperQteActive = FALSE;
-        sHyperQteTriggeredOnce = FALSE;
         if (sHyperQteUiObj != NULL) {
             obj_mark_for_deletion(sHyperQteUiObj);
             sHyperQteUiObj = NULL;
         }
-        vec3f_copy(m->pos, sHyperQteRespawnPos);
-        m->vel[0] = m->vel[1] = m->vel[2] = 0.f;
-        m->forwardVel = 0.f;
-        m->faceAngle[1] = 0xC000;
-        return drop_and_set_mario_action(m, ACT_IDLE, 0);
+        // Aボタンジャンプ相当の挙動に移行
+        if (sHyperShell) {
+            m->usedObj = sHyperShell;
+            m->riddenObj = sHyperShell;
+        }
+        return set_mario_action(m, ACT_HYPERTUBE_JUMP, 0);
     }
 
     // QTEトリガ: ハイパーチューブ専用Surfaceに乗ったら一度だけ開始フラグを立てる

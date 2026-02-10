@@ -1,6 +1,6 @@
 extern const GeoLayout rl_hthazard_geo[];
-extern u8 rl_hthazard_test_yellow_ci4[];
-extern u8 rl_hthazard_test_yellow_pal_rgba16[];
+extern u8 rl_hthazard_bt_xbox_texture_00183_ci4[];
+extern u8 rl_hthazard_bt_xbox_texture_00183_pal_rgba16[];
 extern Vtx rl_hthazard_rl_hthazard_mesh_layer_1_vtx_cull[8];
 extern Vtx rl_hthazard_rl_hthazard_mesh_layer_1_vtx_0[16];
 extern Gfx rl_hthazard_rl_hthazard_mesh_layer_1_tri_0[];

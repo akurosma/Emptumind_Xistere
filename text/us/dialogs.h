@@ -92,13 +92,19 @@ Ready....\n\
 \n\
 //Go!////Don't Go"))
 
+//rulu
 DEFINE_DIALOG(DIALOG_006, 1, 3, 30, 200, _("\
-Hey!!! Don't try to " SCAM_ME
-"You've gotta run\n\
-the whole course.\n\
-Later. Look me up when\n\
-you want to race for\n\
-real."))
+In this area,\n\
+pressing the A button \n\
+increases the tempo.\n\
+Pressing D-pad Down \n\
+increases the tempo \n\
+even more.\n\
+The BeatCycle changes \n\
+according to the \n\
+tempo and the speed of \n\
+the beep blocks changes \n\
+as well."))
 
 DEFINE_DIALOG(DIALOG_007, 1, 5, 30, 200, _("\
 Hufff...fff...pufff...\n\

@@ -61,7 +61,7 @@ extern const Gfx ccm_seg7_dl_07012BD8[];
 extern const Gfx ccm_seg7_dl_070136D0[];
 extern const Gfx ccm_seg7_dl_07013870[];
 extern const Gfx test_cube_test_cube_mesh_layer_1[];
-extern const Gfx rl_beepblock_rl_beepblock_mesh_layer_1[];
+extern Gfx rl_beepblock_rl_beepblock_mesh_layer_1[];
 extern const Gfx rl_temporeset_rl_temporeset_mesh_layer_5[];
 extern const Gfx rl_flippanel_rl_flippanel_mesh_layer_1[];
 extern const Gfx rl_onda_rl_onda_mesh_layer_1[];
@@ -80,7 +80,7 @@ extern const Gfx rl_ccmhangroll_rl_ccmhangroll_mesh_layer_1[];
 extern const Gfx rl_warppad_rl_warppad_mesh_layer_1[];
 extern const Gfx rl_pipelamp_rl_pipelamp_mesh_layer_1[];
 extern const Gfx rl_pipeswitch_rl_pipeswitch_mesh_layer_1[];
-extern const Gfx rl_hthazard_rl_hthazard_mesh_layer_1[];
+extern Gfx rl_hthazard_rl_hthazard_mesh_layer_1[];
 extern const Gfx rl_spiderjump_rl_spiderjump_mesh_layer_4[];
 extern const Gfx finalattack_ring_seg6_dl_0601EAC0[];
 extern const Collision ccm_seg7_area_1_collision[];
@@ -166,5 +166,13 @@ extern const Gfx white_flame_seg3_dl_0301B5A8[];
 #include "levels/ccm/FALaserDamage/collision_header.h"
 
 #include "levels/ccm/FALaserDamage/geo_header.h"
+
+#include "levels/ccm/rl_hthazard/collision_header.h"
+
+#include "levels/ccm/rl_hthazard/geo_header.h"
+
+#include "levels/ccm/rl_beepblock/collision_header.h"
+
+#include "levels/ccm/rl_beepblock/geo_header.h"
 
 #endif
