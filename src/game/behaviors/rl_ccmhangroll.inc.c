@@ -1,5 +1,5 @@
 // Hanging roll platform: spins on pitch, moves on X when Mario is hanging.
-#define CCMHANGROLL_MOVE_DIST 2525.0f
+#define CCMHANGROLL_MOVE_DIST 2380.0f
 #define CCMHANGROLL_MOVE_SPEED 5.0f
 #define CCMHANGROLL_FALL_RETURN_SPEED 10.0f
 #define CCMHANGROLL_WAIT_FRAMES 30

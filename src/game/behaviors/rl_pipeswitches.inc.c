@@ -1,5 +1,9 @@
 static void rl_pipeswitch_set_collision(const Collision *collision);
 
+#ifndef RL_DEBUG_RESET_PIPESWITCH_FLAGS
+#define RL_DEBUG_RESET_PIPESWITCH_FLAGS 0
+#endif
+
 static s32 rl_pipeswitch_group_to_course(s32 group) {
     switch (group) {
         case 0:
@@ -45,6 +49,7 @@ static void rl_pipeswitch_group_set_active(s32 group) {
     save_file_do_save(gCurrSaveFileNum - 1);
 }
 
+#if RL_DEBUG_RESET_PIPESWITCH_FLAGS
 //デバッグ用 start
 static void rl_pipeswitch_clear_flags_once(void) {
     static s32 done = FALSE;
@@ -58,6 +63,7 @@ static void rl_pipeswitch_clear_flags_once(void) {
     save_file_do_save(gCurrSaveFileNum - 1);
 }
 //デバッグ用 end
+#endif
 
 void bhv_rl_pipelamp_init(void) {
     o->oOpacity = 0;
@@ -92,7 +98,9 @@ void bhv_rl_pipelamp_loop(void) {
 }
 
 void bhv_rl_pipeswitch_init(void) {
+#if RL_DEBUG_RESET_PIPESWITCH_FLAGS
     rl_pipeswitch_clear_flags_once();
+#endif
     if (rl_pipeswitch_group_active(BPARAM2)) {
         cur_obj_hide();
         obj_mark_for_deletion(o);
@@ -150,4 +158,3 @@ void bhv_rl_ccmpipe_loop(void) {
         cur_obj_become_intangible();
     }
 }
-

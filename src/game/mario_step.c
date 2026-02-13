@@ -22,6 +22,10 @@ struct CcmRespawnPoint {
     s16 camYawOffset;
 };
 
+//SURFACE_CCM_DEATH1
+//blenderでの座標関係
+//X 81.273  Y -24.099  Z -20  Y座標の＋－反転注意
+//8127.3f,  -2000.0f,  2409.9f,
 static void ccm_get_respawn_point(const struct Surface *floor, Vec3f outPos, s16 *outYaw, s16 *outCamOffset) {
     static const struct CcmRespawnPoint sRespawnPoints[] = {
         {    0.0f,         400.0f,           0.0f,        0x8000, (s16)(0x8000 - 0x7FFF) }, // force 0
@@ -29,6 +33,9 @@ static void ccm_get_respawn_point(const struct Surface *floor, Vec3f outPos, s16
         {   900.0f,       1750.0f,       -2545.5f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // force 2
         {   975.0f,       1750.0f,        3112.6f,        0x0000, (s16)(0x0000 - 0x7FFF) }, // 0x0003
         {   2400.0f,       100.0f,        1454.5f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // 0x0004
+        {  -8929.4f,      1600.0f,       -6025.1f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // 0x0005
+        {   720.5f,       -399.8f,       -5985.3f,        0x4000, (s16)(0x4000 - 0x7FFF) }, // 0x0006
+        {   827.1f,       -483.3f,      -11631.7f,        0x8000, (s16)(0x8000 - 0x7FFF) }, // 0x0007
     };
 
     u16 idx = 0;

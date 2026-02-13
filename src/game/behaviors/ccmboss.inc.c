@@ -602,7 +602,7 @@ static void ccmboss_act_intro(void) {
             DIALOG_FLAG_TEXT_DEFAULT,
             CUTSCENE_DIALOG, DIALOG_001)) {
         set_mario_npc_dialog(MARIO_DIALOG_STOP);
-        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS), 0);
+        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_KF_EAST_COAST), 0);
         sCcmBossIntroDone = 1;
         cur_obj_become_tangible();
         o->oAction = CCMBOSS_ACT_IDLE;
@@ -969,7 +969,7 @@ static void ccmboss_act_death(void) {
         spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, 4);
         cur_obj_shake_screen(SHAKE_POS_SMALL);
         spawn_default_star(0.0f, 200.0f, 0.0f);
-        stop_background_music(SEQUENCE_ARGS(4, SEQ_EVENT_BOSS));
+        stop_background_music(SEQUENCE_ARGS(4, SEQ_KF_EAST_COAST));
         obj_mark_for_deletion(o);
     }
 }
@@ -1194,6 +1194,7 @@ void bhv_ccmboss_init(void) {
 void bhv_ccmboss_loop(void) {
     s32 marioAmaterasu = ccmboss_is_mario_amaterasu();
 
+#ifdef CCMBOSS_DEBUG_SHORTCUT
     // Debug: force transition to final-attack dialog state with D-pad Down.
     if (gPlayer1Controller != NULL && (gPlayer1Controller->buttonPressed & D_JPAD)) {
         o->oHealth = 0;
@@ -1201,6 +1202,7 @@ void bhv_ccmboss_loop(void) {
         o->oSubAction = 2;
         o->oTimer = 0;
     }
+#endif
 
     obj_set_hitbox(o, &sCcmBossHitbox);
     ccmboss_update_damage_interaction(marioAmaterasu);

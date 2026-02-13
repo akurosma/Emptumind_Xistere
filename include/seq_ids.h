@@ -79,6 +79,8 @@ enum SeqId {
     SEQ_CHAOGARDEN,                   // 0X3D
     SEQ_UNIVERSAL_COLLAPSE,           // 0X3E
     SEQ_MECHANICAL_RHYTHM,            // 0X3F
+    SEQ_SHUKUTEKI,                    // 0X40
+    SEQ_KF_EAST_COAST,                // 0X41
     // end
     SEQ_COUNT
 };

@@ -1,6 +1,4 @@
-#define MAX_SNUFITS 10
-struct Object* spawnedSnufits[MAX_SNUFITS];
-s32 snufitCount = 0;
+#define oRlSnufitSpawnerFramesFar o->oF8
 
 void rl_snufit_spawner_act_spawn_bubs(void) {
     if (o->oSnufitSpawned) {
@@ -9,41 +7,46 @@ void rl_snufit_spawner_act_spawn_bubs(void) {
     }
 
     if (o->oDistanceToMario < 1500.0f) {
-        snufitCount = 0;
-        for (s32 i = 0; i < o->orlsnufitSpawnerSpawnAmount && i < MAX_SNUFITS; i++) {
-            struct Object* snufit = spawn_object(o, MODEL_SNUFIT, bhvSnufit);
-            
-            // ここで Bparam1 をコピーする
+        for (s32 i = 0; i < o->orlsnufitSpawnerSpawnAmount; i++) {
+            struct Object *snufit = spawn_object(o, MODEL_SNUFIT, bhvSnufit);
+            if (snufit == NULL) {
+                continue;
+            }
             SET_BPARAM1(snufit->oBehParams, GET_BPARAM1(o->oBehParams));
-
-            spawnedSnufits[snufitCount++] = snufit;
         }
+        oRlSnufitSpawnerFramesFar = 0;
         o->oSnufitSpawned = TRUE;
         o->oAction = RL_SNUFIT_SPAWNER_ACT_IDLE;
     }
 }
 
 void rl_snufit_spawner_act_idle(void) {
-    static s32 frames_far = 0;
-
     if (o->oDistanceToMario > 1800.0f) {
-        frames_far++;
-        if (frames_far > 15) { // 0.5秒くらい遠ざかってたら削除
+        oRlSnufitSpawnerFramesFar++;
+        if (oRlSnufitSpawnerFramesFar > 15) { // 0.5秒くらい遠ざかってたら削除
             o->oAction = RL_SNUFIT_SPAWNER_ACT_REMOVE_BUBS;
-            frames_far = 0;
+            oRlSnufitSpawnerFramesFar = 0;
         }
     } else {
-        frames_far = 0;
+        oRlSnufitSpawnerFramesFar = 0;
     }
 }
 
 void rl_snufit_spawner_act_remove_bubs(void) {
-    for (s32 i = 0; i < snufitCount; i++) {
-        if (spawnedSnufits[i] != NULL) {
-            mark_obj_for_deletion(spawnedSnufits[i]);
+    const BehaviorScript *snufitAddr = segmented_to_virtual(bhvSnufit);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(snufitAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    while ((struct Object *) listHead != obj) {
+        struct Object *next = (struct Object *) obj->header.next;
+        if (obj->behavior == snufitAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj->parentObj == o) {
+            obj_mark_for_deletion(obj);
         }
+        obj = next;
     }
-    snufitCount = 0;
+
     o->oSnufitSpawned = FALSE;
     o->oAction = RL_SNUFIT_SPAWNER_ACT_RESET;
 }

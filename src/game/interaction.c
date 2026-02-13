@@ -1487,7 +1487,9 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
                 obj->oInteractStatus = INT_STATUS_INTERACTED;
             }
             update_mario_sound_and_camera(m);
-            play_shell_music();
+            if (bparam2 != 1) {
+                play_shell_music();
+            }
             mario_drop_held_object(m);
 
             //! Puts Mario in ground action even when in air, making it easy to

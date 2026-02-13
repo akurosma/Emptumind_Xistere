@@ -1,3 +1,5 @@
+#include "sm64.h"
+#include "game/memory.h"
 #include "src/game/object_helpers.h"
 #include "src/game/sound_init.h"
 #include "audio/external.h"
@@ -6,6 +8,7 @@
 #define BASE_DELAY_BEFORE_START 30   // デフォルトテンポ時：1秒後スタート
 #define GUN_DELAY_AFTER_LAST   3     // LOUD_POUND後3フレームでGUN_SHOT
 #define NUM_POUNDS             3
+#define RL_BEEPBLOCK_MIN_ALPHA 96   // 非実体側の最小アルファ
 
 extern const Collision rl_beepblock_collision[];   // texture1
 extern const Collision rl_beepblock_no_collision[]; // texture2 (no collision)
@@ -37,12 +40,14 @@ void bhv_rl_beepblock_init(void) {
     o->oAction = 0;        // 点滅制御
     o->oF4 = 0;            // カスタムタイマー
     o->oF8 = 1;             // texture1が初期ベース
+    o->oAnimState = 0;      // 0: OPAQUE, 1: TRANSPARENT
     rl_beepblock_apply_scale_from_params();
 
     // BPARAM4 == 1 の場合、初期状態を反転（texture2側から開始）
     if (BPARAM4 == 1) {
         o->oF8 = 0;
-        o->oOpacity = 0;
+        o->oOpacity = RL_BEEPBLOCK_MIN_ALPHA;
+        o->oAnimState = 1;
         rl_beepblock_set_collision(rl_beepblock_no_collision);
         cur_obj_become_intangible();
     } else {
@@ -57,11 +62,11 @@ void bhv_rl_beepblock_loop(void) {
 
         // テンポに応じた点滅速度
     s32 fadeSpeed;
-    if (tempo >= 13520) fadeSpeed = 50;
-    else if (tempo >= 11000) fadeSpeed = 40;
-    else if (tempo >= 9000) fadeSpeed = 30;
-    else if (tempo >= 7000) fadeSpeed = 20;
-    else fadeSpeed = 10;
+    if (tempo >= 13520) fadeSpeed = 42;
+    else if (tempo >= 11000) fadeSpeed = 33;
+    else if (tempo >= 9000) fadeSpeed = 25;
+    else if (tempo >= 7000) fadeSpeed = 17;
+    else fadeSpeed = 8;
     
     // テンポに応じてLOUD_POUND間隔を調整（サイクル開始時にスナップショット）
     s32 intervalCandidate;
@@ -95,9 +100,9 @@ void bhv_rl_beepblock_loop(void) {
 
     // ベースに応じて点滅方向を決定
     if (o->oF8 == 1) {
-        o->oOpacity = 1;   // texture1ベース → 暗くなる点滅
+        o->oOpacity = RL_BEEPBLOCK_MIN_ALPHA;   // texture1ベース → 明るくなる点滅（128→255）
     } else {
-        o->oOpacity = 254; // texture2ベース → 明るくなる点滅
+        o->oOpacity = 254; // texture2ベース → 暗くなる点滅（254→128）
     }
 }
 
@@ -111,12 +116,14 @@ void bhv_rl_beepblock_loop(void) {
         }
     } else {
         o->oOpacity -= fadeSpeed;
-        if (o->oOpacity <= 1) {
+        if (o->oOpacity <= RL_BEEPBLOCK_MIN_ALPHA) {
             o->oAction = 0;
-            o->oOpacity = 0;
+            o->oOpacity = RL_BEEPBLOCK_MIN_ALPHA;
         }
     }
 }
+    // 可視レイヤ切替（Booと同じ仕組み）
+    o->oAnimState = (o->oOpacity == 255) ? 0 : 1;
 
     //
     // === GUN_SHOT: 判定＆テクスチャ切り替え ===
@@ -131,7 +138,7 @@ void bhv_rl_beepblock_loop(void) {
         // ベース状態を反転
         if (o->oF8 == 1) {
             o->oF8 = 0;
-            o->oOpacity = 0;
+            o->oOpacity = RL_BEEPBLOCK_MIN_ALPHA;
         } else {
             o->oF8 = 1;
             o->oOpacity = 255;
@@ -140,12 +147,12 @@ void bhv_rl_beepblock_loop(void) {
 
 
     //
-    // === 判定切り替え（opacityが完全に0 or 255のときのみ） ===
+    // === 判定はベース状態で固定（点滅中に消えないように） ===
     //
-    if (o->oOpacity == 255) {
+    if (o->oF8 == 1) {
         rl_beepblock_set_collision(rl_beepblock_collision);
         cur_obj_become_tangible();
-    } else if (o->oOpacity == 0) {
+    } else {
         rl_beepblock_set_collision(rl_beepblock_no_collision);
         cur_obj_become_intangible();
     }

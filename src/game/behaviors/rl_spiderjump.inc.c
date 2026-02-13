@@ -8,7 +8,7 @@
 #define oRlSpiderjumpFlameCleared o->oF4
 #define oRlSpiderjumpWarpSpawned o->oF8
 
-#define RL_SPIDERJUMP_WARP_POS_X -7404.0f
+#define RL_SPIDERJUMP_WARP_POS_X -10404.0f
 #define RL_SPIDERJUMP_WARP_POS_Y 2800.0f
 #define RL_SPIDERJUMP_WARP_POS_Z -6025.0f
 #define RL_SPIDERJUMP_WARP_BPARAMS 0x200B0000
