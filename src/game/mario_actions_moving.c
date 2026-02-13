@@ -24,7 +24,6 @@
 #include "config.h"
 
 // Debug print
-extern void print_text_fmt_int(int x, int y, const char *fmt, int value);
 extern void print_text(int x, int y, const char *str);
 extern const BehaviorScript bhvRlQteCircle[];
 
@@ -1531,11 +1530,6 @@ s32 act_riding_hypertube(struct MarioState *m) {
     m->slideVelX = m->vel[0];
     m->slideVelZ = m->vel[2];
 
-    // デバッグ: ハイパーチューブ速度ベクトル表示 //rulu hypertube
-    print_text_fmt_int(20, 60, "HX %d", (s32)m->vel[0]);
-    print_text_fmt_int(20, 70, "HZ %d", (s32)m->vel[2]);
-    print_text_fmt_int(20, 80, "HSPD %d", (s32)m->forwardVel);
-
     (void) m->floor;
 
     set_mario_animation(m, m->actionArg == 0 ? MARIO_ANIM_START_RIDING_SHELL : MARIO_ANIM_RIDING_SHELL);
@@ -1592,11 +1586,6 @@ s32 act_riding_hypertube(struct MarioState *m) {
         play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
                    m->marioObj->header.gfx.cameraToObject);
     }
-
-    // デバッグ: ハイパーチューブ走行時の速度/アクションを表示
-    print_text_fmt_int(20, 40, "HSPD %d", (s32)m->forwardVel);
-    print_text_fmt_int(20, 50, "ACT %d", (s32)m->action);
-    print_text_fmt_int(20, 20, "SPD %d", (s32)m->forwardVel);
 
     // Visual offset so Mario sits cleanly on the shell during hypertube ride.
     m->marioObj->header.gfx.pos[1] += 45.0f;
@@ -2548,10 +2537,6 @@ s32 act_rail_grind(struct MarioState *m) {
     m->marioObj->header.gfx.angle[2] = m->faceAngle[2];
     play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
                m->marioObj->header.gfx.cameraToObject);
-
-    // デバッグ: レール上の速度/アクションを表示
-    print_text_fmt_int(20, 20, "RAIL SPD %d", (s32)m->forwardVel);
-    print_text_fmt_int(20, 30, "ACT %d", (s32)m->action);
 
     adjust_sound_for_speed(m);
     return FALSE;

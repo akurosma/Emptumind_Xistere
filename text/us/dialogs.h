@@ -192,7 +192,7 @@ Do you want to Save?\n\
 //You Bet//Not Now"))
 
 //rulu
-DEFINE_DIALOG(DIALOG_015, 1, 3, 30, 200, _("\
+DEFINE_DIALOG(DIALOG_015, 1, 4, 30, 200, _("\
 Some of the gimmicks\n\
 in this area were \n\
 inspired by MA2\n\

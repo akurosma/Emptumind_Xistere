@@ -77,7 +77,7 @@ const char *sSeqNames[] = {
     "His World", "Promise of the 19", "Vilily", "King K Rool", "Adventurers Song",
     "Boggys igloo", "Science", "Lets Girls Talk", "Time Trial", "SD Battle 2",
     "Head Honcho Carpaccio", "Fist Bump", "Wind Fortress", "With Me", "Battle of Rose", "SONIC NIGHTSPINBALL",
-    "chao garden"
+    "chao garden", "UNIVERSAL COLLAPSE", "MECHANICAL RHYTHM", "SHUKUTEKI", "KF EAST COAST"
 };
 
 s16 sTempoOffset = 0;
