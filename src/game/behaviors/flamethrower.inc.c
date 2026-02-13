@@ -136,6 +136,7 @@ void bhv_flamethrower_loop(void) {
         //rulu 9/10 9/13
         if (BPARAM2 == 4 && BPARAM3 ==1 && o->oTimer > 10) {
         rl_ring_spawn_flames();
+        rl_ring_spawn_flames();
         }
         //rulu
 

@@ -15,6 +15,7 @@
 #include "config.h"
 
 struct Object *gMarioPlatform = NULL;
+static u8 sPlatformHazardGraceFrames = 0;
 
 //////////////////////////////////////////////////
 //     Serene Fusionからファイルまるコピしてる     //
@@ -26,11 +27,20 @@ struct Object *gMarioPlatform = NULL;
  */
  
 //scut update, add in support for hanging from platform and sticky walls
+static s32 is_hazard_floor_type(s16 floorType) {
+    return (floorType == SURFACE_CCM_DEATH1
+         || floorType == SURFACE_INSTANT_QUICKSAND
+         || floorType == SURFACE_INSTANT_MOVING_QUICKSAND
+         || floorType == SURFACE_DEEP_QUICKSAND
+         || floorType == SURFACE_DEEP_MOVING_QUICKSAND);
+}
+
 void update_mario_platform(void) {
     struct Surface *floor;
     f32 marioX, marioY, marioZ;
     f32 floorHeight;
     u32 awayFromFloor;
+    struct Object *prevPlatform;
 
     if (gMarioObject == NULL) {
         return;
@@ -41,7 +51,7 @@ void update_mario_platform(void) {
     //  of displacement since he is considered to be far from the platform's
     //  axis of rotation.
 
-    gGravityMode = gIsGravityFlipped; // This does not take place during Mario's update function, so flip gravity again
+    prevPlatform = gMarioPlatform;
 
     marioX = gMarioState->pos[0];
     marioY = gMarioState->pos[1];
@@ -55,6 +65,7 @@ void update_mario_platform(void) {
 			if(gMarioState->wall->object){
 				gMarioPlatform = gMarioState->wall->object;
 				gMarioObject->platform = gMarioState->wall->object;
+                sPlatformHazardGraceFrames = 2;
 				return;
 			}
 		}
@@ -63,13 +74,20 @@ void update_mario_platform(void) {
 		if(gMarioState->ceil->object){
 			gMarioPlatform = gMarioState->ceil->object;
 			gMarioObject->platform = gMarioState->ceil->object;
+            sPlatformHazardGraceFrames = 2;
 			return;
 		}
 	}
 
     if (awayFromFloor) {
-        gMarioPlatform = NULL;
-        gMarioObject->platform = NULL;
+        if (prevPlatform != NULL && floor != NULL && is_hazard_floor_type(floor->type) && sPlatformHazardGraceFrames > 0) {
+            gMarioPlatform = prevPlatform;
+            gMarioObject->platform = prevPlatform;
+            sPlatformHazardGraceFrames--;
+        } else {
+            gMarioPlatform = NULL;
+            gMarioObject->platform = NULL;
+        }
     } else {
         if (floor != NULL && floor->type == SURFACE_CCM_FALASER) {
             gMarioPlatform = NULL;
@@ -77,13 +95,12 @@ void update_mario_platform(void) {
         } else if (floor != NULL && floor->object != NULL) {
             gMarioPlatform = floor->object;
             gMarioObject->platform = floor->object;
+            sPlatformHazardGraceFrames = 2;
         } else {
             gMarioPlatform = NULL;
             gMarioObject->platform = NULL;
         }
     }
-    
-    gGravityMode = 0; // Reset gravity
 }
 
 /**

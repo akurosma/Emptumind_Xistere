@@ -31,6 +31,7 @@ const GeoLayout ccm_area_2_geo[] = {
 			GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1372, 1300, -1892, 0, 0, -30, ccm_dl_beepblock_slippery_009_mesh_layer_1),
 			GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -372, 1300, -1092, 0, 0, 30, ccm_dl_beepblock_slippery_010_mesh_layer_1),
 			GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -372, 1300, -1892, 0, 0, 30, ccm_dl_beepblock_slippery_011_mesh_layer_1),
+			GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 678, 500, -5792, ccm_dl_beepblock_slippery_012_mesh_layer_1),
 		GEO_CLOSE_NODE(),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 5000, -3100, 5000, ccm_dl_Cube_mesh_layer_1),
 	GEO_CLOSE_NODE(),

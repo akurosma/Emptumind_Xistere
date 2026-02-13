@@ -1702,11 +1702,11 @@ static s16 sCcmMusicLastParam[16] = { [0 ... 15] = -1 };
 static const u8 sCcmMusicBankId = 0x0C;
 static const u8 sCcmMusicInstrumentTable[] = {
     4,   // 0x0001 -> Grand Piano
-    48,  // 0x0002 -> Music Box
+    5,  // 0x0002 -> French Horn
     7,   // 0x0003 -> Strings
     6,   // 0x0004 -> Pan Flute
-    28,  // 0x0005 -> Brass
-    29,  // 0x0006 -> Synth Voice
+    3,  // 0x0005 -> crystal rhodes
+    13,  // 0x0006 -> Celesta
 };
 
 static void apply_ccm_music_surface(struct MarioState *m) {

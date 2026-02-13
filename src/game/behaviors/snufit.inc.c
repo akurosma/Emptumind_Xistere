@@ -209,29 +209,38 @@ void bhv_snufit_balls_loop(void) {
 }
 
 void bhv_snufit_balls2_loop(void) {
+    s32 i;
+    const s32 subSteps = 2;
+    const f32 stepSpeed = 40.0f / subSteps;
+
     cur_obj_scale(0.25f);
     if ((o->activeFlags & ACTIVE_FLAG_IN_DIFFERENT_ROOM)
         || (o->oTimer != 0 && o->oDistanceToMario > 1500.0f)) {
         obj_mark_for_deletion(o);
     }
     if (o->oGravity == 0.0f) {
-        cur_obj_update_floor_and_walls();
+        for (i = 0; i < subSteps; i++) {
+            cur_obj_update_floor_and_walls();
+            obj_compute_vel_from_move_pitch(stepSpeed);
+            cur_obj_move_standard(78);
 
-        obj_compute_vel_from_move_pitch(40.0f);
-        if (obj_check_attacks(&sSnufitBulletHitbox, 1)) {
-            o->oMoveAngleYaw += 0x8000;
-            o->oForwardVel *= 0.05f;
-            o->oVelY = 30.0f;
-            o->oGravity = -4.0f;
+            if (obj_check_attacks(&sSnufitBulletHitbox, 1)) {
+                o->oMoveAngleYaw += 0x8000;
+                o->oForwardVel *= 0.05f;
+                o->oVelY = 30.0f;
+                o->oGravity = -4.0f;
+                cur_obj_become_intangible();
+                break;
+            }
 
-            cur_obj_become_intangible();
-        } else if (o->oAction == 1 
-                   || (o->oMoveFlags & (OBJ_MOVE_MASK_ON_GROUND | OBJ_MOVE_HIT_WALL))) {
-            o->oDeathSound = -1;
-            obj_die_if_health_non_positive();          
-            spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
+            if (o->oAction == 1
+                || (o->oMoveFlags & (OBJ_MOVE_MASK_ON_GROUND | OBJ_MOVE_HIT_WALL))) {
+                o->oDeathSound = -1;
+                obj_die_if_health_non_positive();
+                spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
+                break;
+            }
         }
-        cur_obj_move_standard(78);
     } else {
         cur_obj_move_using_fvel_and_gravity();
     }
