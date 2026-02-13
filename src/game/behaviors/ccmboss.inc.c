@@ -98,7 +98,6 @@ static Vec3f sCcmBossEscapePoints[CCMBOSS_ESCAPE_POINT_COUNT] = {
 
 static s32 sCcmBossEscapeTargetIndex = -1;
 static s32 sCcmBossFinalAttackState = 0;
-static s32 sCcmBossIntroDone = 0;
 static s16 sCcmBossDamageCooldown = 0;
 static s16 sCcmBossAbuseTimer = 0;
 static s32 sCcmBossAbuseTriggered = 0;
@@ -603,7 +602,6 @@ static void ccmboss_act_intro(void) {
             CUTSCENE_DIALOG, DIALOG_001)) {
         set_mario_npc_dialog(MARIO_DIALOG_STOP);
         play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_KF_EAST_COAST), 0);
-        sCcmBossIntroDone = 1;
         cur_obj_become_tangible();
         o->oAction = CCMBOSS_ACT_IDLE;
         o->oSubAction = 0;
@@ -1171,7 +1169,7 @@ void bhv_ccmboss_init(void) {
     o->oGravity = -4.0f;
     o->oFriction = 0.91f;
     o->oBuoyancy = 0.0f;
-    o->oAction = sCcmBossIntroDone ? CCMBOSS_ACT_IDLE : CCMBOSS_ACT_INTRO;
+    o->oAction = CCMBOSS_ACT_INTRO;
     o->oForwardVel = 0.0f;
     o->oVelY = 0.0f;
     sCcmBossEscapeTargetIndex = -1;
