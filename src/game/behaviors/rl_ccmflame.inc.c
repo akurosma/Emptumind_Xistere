@@ -10,13 +10,15 @@ void bhv_ccmflame_loop(void) {
     }*/
 
     // マリオが存在していて衝突した場合
-    if (gMarioObject && obj_check_if_collided_with_object(o, gMarioObject)) {
+    if (gMarioObject && gMarioState && obj_check_if_collided_with_object(o, gMarioObject)) {
 
         // BPARAM2 で分岐：0 = 黒火 / 1 = 白火
         if (o->oBehParams2ndByte == 0 || o->oBehParams2ndByte == 2) {
             // 黒火（永続燃焼）
-            gMarioState->amaterasu = TRUE;
-            gMarioState->kagutsuchi = FALSE; // 安全のためオフ
+            if (gMarioState->health > 0x100) {
+                gMarioState->amaterasu = TRUE;
+                gMarioState->kagutsuchi = FALSE; // 安全のためオフ
+            }
             //play_sound(SOUND_MOVING_LAVA_BURN, gMarioObject->header.gfx.cameraToObject);
         }
 

@@ -35,6 +35,21 @@ static s32 is_hazard_floor_type(s16 floorType) {
          || floorType == SURFACE_DEEP_MOVING_QUICKSAND);
 }
 
+static s32 should_ignore_platform_for_falaser(struct Surface *floor) {
+    if (floor == NULL || floor->type != SURFACE_CCM_FALASER || floor->object == NULL) {
+        return FALSE;
+    }
+
+    // Restrict this special-case to the CCM boss arena only.
+    if (gCurrLevelNum != LEVEL_CCM || gCurrAreaIndex != 5) {
+        return FALSE;
+    }
+
+    // Only ignore the dedicated FALaser collision objects.
+    return obj_has_behavior(floor->object, bhvCcmFALaserDamage)
+        || obj_has_behavior(floor->object, bhvCcmFALaser);
+}
+
 void update_mario_platform(void) {
     struct Surface *floor;
     f32 marioX, marioY, marioZ;
@@ -89,7 +104,7 @@ void update_mario_platform(void) {
             gMarioObject->platform = NULL;
         }
     } else {
-        if (floor != NULL && floor->type == SURFACE_CCM_FALASER) {
+        if (should_ignore_platform_for_falaser(floor)) {
             gMarioPlatform = NULL;
             gMarioObject->platform = NULL;
         } else if (floor != NULL && floor->object != NULL) {
