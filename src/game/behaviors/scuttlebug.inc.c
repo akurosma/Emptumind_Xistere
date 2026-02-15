@@ -170,8 +170,8 @@ void bhv_scuttlebug_spawn_loop(void) {
                 scuttlebug->oScuttlebugHasNoLootCoins = 1;
                 scuttlebug->oMoveAngleYaw = o->oMoveAngleYaw;
                 scuttlebug->oFaceAngleYaw = o->oMoveAngleYaw;
-                scuttlebug->oForwardVel = 20.0f;
-                scuttlebug->oVelY = 50.0f;
+                scuttlebug->oForwardVel = 18.0f;
+                scuttlebug->oVelY = 45.0f;
                 ccmboss_notify_scuttlebug_spawned(scuttlebug);
             } else {
                 scuttlebug->oForwardVel = 30.0f;

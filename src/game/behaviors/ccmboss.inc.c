@@ -54,6 +54,8 @@ enum {
 #define CCMBOSS_WEAKSPOT_OFFSET_Y 0.0f
 #define CCMBOSS_WEAKSPOT_OFFSET_BACK 0.0f
 #define CCMBOSS_WEAKSPOT_FLINCH_FRAMES 30
+#define CCMBOSS_ABUSE_HITBOX_RADIUS 210.0f
+#define CCMBOSS_ABUSE_HITBOX_HEIGHT 600.0f
 #define CCMBOSS_DASH_SPEED 85.0f
 #define CCMBOSS_DASH_TURN_RATE 0x200
 #define CCMBOSS_DASH_WALL_BUFFER 115.0f
@@ -309,7 +311,7 @@ static void ccmboss_spawn_boss_blackflame(void) {
 
 static void ccmboss_spawn_summon_spawners(void) {
     static const Vec3f spawnPoints[CCMBOSS_SUMMON_SCUTTLEBUG_COUNT] = {
-        { 0.0f, 100.0f, -1200.0f },
+        { 0.0f, 100.0f, -2000.0f },
         { 1414.0f, 100.0f, 1414.0f },
         { -1414.0f, 100.0f, 1414.0f },
     };
@@ -339,12 +341,26 @@ static s32 ccmboss_is_mario_in_abuse_hitbox(void) {
     const f32 dx = gMarioObject->oPosX - o->oPosX;
     const f32 dz = gMarioObject->oPosZ - o->oPosZ;
     const f32 dy = gMarioObject->oPosY - o->oPosY;
-    const f32 radius = 210.0f;
-    const f32 height = 350.0f;
+    const f32 radius = CCMBOSS_ABUSE_HITBOX_RADIUS;
+    const f32 height = CCMBOSS_ABUSE_HITBOX_HEIGHT;
     if (dy < 0.0f || dy > height) {
         return FALSE;
     }
     return (dx * dx + dz * dz) <= (radius * radius);
+}
+
+static void ccmboss_lock_mario_for_punish_window(void) {
+    if (gMarioState == NULL) {
+        return;
+    }
+
+    gMarioState->forwardVel = 0.0f;
+    gMarioState->vel[0] = 0.0f;
+    gMarioState->vel[2] = 0.0f;
+
+    if (gMarioState->action != ACT_WAITING_FOR_DIALOG && gMarioState->action != ACT_STANDING_DEATH) {
+        drop_and_set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+    }
 }
 
 static void ccmboss_update_damage_interaction(s32 marioAmaterasu) {
@@ -985,6 +1001,7 @@ static void ccmboss_act_punish(void) {
                 MARIO_DIALOG_LOOK_UP,
                 DIALOG_FLAG_TEXT_DEFAULT,
                 CUTSCENE_DIALOG, DIALOG_004)) {
+            ccmboss_lock_mario_for_punish_window();
             spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
             cur_obj_hide();
             o->oSubAction = 1;
@@ -994,6 +1011,7 @@ static void ccmboss_act_punish(void) {
     }
 
     if (o->oSubAction == 1) {
+        ccmboss_lock_mario_for_punish_window();
         if (o->oTimer >= 10) {
             if (gMarioState != NULL) {
                 gMarioState->hurtCounter = 8;

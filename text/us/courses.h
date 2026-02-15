@@ -10,9 +10,9 @@ COURSE_ACTS(COURSE_JRB, _(" 3 The Luminize Lab"),
        _("A STAR BEHIND YOU")             , _("DIVERGING PATH")                , _("SLOPE MASTERY"),
        _("PUZZLE CUBE 64")                , _("SECRET OF THE CLIFF")           , _("COLLECT THE RED FRAGMENTS"))
 
-COURSE_ACTS(COURSE_CCM, _(" 4 COOL, COOL MOUNTAIN"),
-       _("SLIP SLIDIN' AWAY")             , _("LI'L PENGUIN LOST")             , _("BIG PENGUIN RACE"),
-       _("FROSTY SLIDE FOR 8 RED COINS")  , _("SNOWMAN'S LOST HIS HEAD")       , _("WALL KICKS WILL WORK"))
+COURSE_ACTS(COURSE_CCM, _(" 4 SPIDER'S CAVE"),
+       _("HANG AND ADVANCE")              , _("GOOMBA HUNT")                   , _("BLACK FLAME REDS"),
+       _("LIGHT THE TORCHES")             , _("TEMPO BEEP BLOCKS")             , _("SHELL TUBE RIDE"))
 
 COURSE_ACTS(COURSE_BBH, _(" 5 Gravity Flux Space"),
        _("ENDLESS LEAPING")               , _("ENTER THE FORTRESS")            , _("GRAVITATIONAL LOSS"),
