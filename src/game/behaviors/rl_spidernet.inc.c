@@ -1,11 +1,13 @@
 // Spider net that fades from the bottom when burned by Amaterasu state.
 #include "levels/ccm/rl_spidernet/geo_header.h"
+#include "levels/ccm/rl_spidernet/collision_header.h"
 #include "game/memory.h"
 #include "game/object_helpers.h"
 #include "engine/math_util.h"
 
 #define RL_SPIDERNET_VTX_COUNT 62
 #define RL_SPIDERNET_FADE_FRAMES 90
+#define RL_SPIDERNET_COLLISION_DISABLE_FRAMES 60
 #define RL_SPIDERNET_ACT_IDLE 0
 #define RL_SPIDERNET_ACT_FADING 1
 
@@ -18,6 +20,14 @@
 // Only one spider net drives the shared vertex alpha at a time to avoid instances
 // resetting each other's fade (vertices are shared).
 static struct Object *sSpidernetActive = NULL;
+
+static void rl_spidernet_set_collision(const Collision *collision) {
+    const Collision *segCollision = segmented_to_virtual(collision);
+    if (o->collisionData != segCollision) {
+        o->collisionData = segCollision;
+        o->oFlags &= ~OBJ_FLAG_DONT_CALC_COLL_DIST;
+    }
+}
 
 void bhv_rl_spidernet_flame_loop(void) {
         if (o->oTimer == 0) {
@@ -70,6 +80,7 @@ void bhv_rl_spidernet_init(void) {
     o->hitboxDownOffset = 200.0f; // covers roughly y = -200..+200
     o->hurtboxRadius = 220.0f;
     o->hurtboxHeight = 400.0f;
+    rl_spidernet_set_collision(rl_spidernet_collision);
 }
 
 void bhv_rl_spidernet_loop(void) {
@@ -135,5 +146,10 @@ void bhv_rl_spidernet_loop(void) {
         }
     }
 
-    load_object_collision_model();
+    // BehaviorScript always calls load_object_collision_model(), so swap collision data instead.
+    if (o->oAction == RL_SPIDERNET_ACT_FADING && o->oTimer >= RL_SPIDERNET_COLLISION_DISABLE_FRAMES) {
+        rl_spidernet_set_collision(rl_spidernet_no_collision);
+    } else {
+        rl_spidernet_set_collision(rl_spidernet_collision);
+    }
 }

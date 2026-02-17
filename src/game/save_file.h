@@ -127,7 +127,6 @@ enum SaveProgressFlags {
     SAVE_FLAG_CAP_ON_UKIKI           = (1 << 18), /* 0x00040000 */
     SAVE_FLAG_CAP_ON_MR_BLIZZARD     = (1 << 19), /* 0x00080000 */
     SAVE_FLAG_UNLOCKED_50_STAR_DOOR  = (1 << 20), /* 0x00100000 */
-    SAVE_FLAG_METAL_BOX_GATE_OPEN    = (1 << 21), /* 0x00200000 */
     SAVE_FLAG_RL_WARPPAD_G0          = (1 << 22), /* 0x00400000 */
     SAVE_FLAG_RL_WARPPAD_G1          = (1 << 23), /* 0x00800000 */
     SAVE_FLAG_COLLECTED_TOAD_STAR_1  = (1 << 24), /* 0x01000000 */

@@ -9,7 +9,7 @@ void bhv_rl_flippanel_init(void) {
     o->oFloatF4 = 1.0f; // オブジェクトごとのスケール初期化
 }
 
-#define FLIP_SPEED 0x1400
+#define FLIP_SPEED 0x900
 
 void bhv_rl_flippanel_loop(void) {
 
