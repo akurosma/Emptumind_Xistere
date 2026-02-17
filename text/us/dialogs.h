@@ -198,10 +198,11 @@ in this area were \n\
 inspired by MA2\n\
 Special thanks to aglab2"))
 
+//rulu
 DEFINE_DIALOG(DIALOG_016, 1, 3, 30, 200, _("\
-Hop on the shiny shell and\n\
-ride wherever you want to\n\
-go! Shred those enemies!"))
+This is a warp pad.\n\
+You can warp by activate\n\
+the matching warp pad."))
 
 DEFINE_DIALOG(DIALOG_017, 1, 4, 30, 200, _("\
 I'm the Big Bob-omb, lord\n\
@@ -229,11 +230,11 @@ the back and hurl me to\n\
 this royal turf? I think\n\
 that you cannot!"))
 
-DEFINE_DIALOG(DIALOG_018, 1, 4, 30, 200, _("\
-I'm sleeping because...\n\
-...I'm sleepy. I don't\n\
-like being disturbed.\n\
-Please walk quietly."))
+//rulu
+DEFINE_DIALOG(DIALOG_018, 1, 3, 30, 200, _("\
+The shrinking panel\n\
+expands when you\n\
+press the A button."))
 
 DEFINE_DIALOG(DIALOG_019, 1, 2, 30, 200, _("\
 Shhh! Please walk\n\

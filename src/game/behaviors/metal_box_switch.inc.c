@@ -30,6 +30,19 @@ enum MetalBoxSimpleGateActions {
     METAL_BOX_SIMPLE_GATE_ACT_OPEN,
 };
 
+static s32 metal_box_gate_is_unlocked(void) {
+    return save_file_is_cannon_unlocked_for_course_raw(COURSE_WMOTR);
+}
+
+static void metal_box_gate_unlock(void) {
+    if (metal_box_gate_is_unlocked()) {
+        return;
+    }
+
+    save_file_set_cannon_unlocked_for_course(COURSE_WMOTR);
+    save_file_do_save(gCurrSaveFileNum - 1);
+}
+
 static s32 ccm_any_star_collected(void) {
     u32 starFlags = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_CCM));
     return (starFlags & (STAR_FLAG_ACT_1 | STAR_FLAG_ACT_2 | STAR_FLAG_ACT_3
@@ -102,7 +115,9 @@ void bhv_metal_box_switch_loop(void) {
 #endif
                 o->oF4 = TRUE;
                 metal_box_switch_trigger_gates(o->oBehParams2ndByte);
-                save_file_set_flags(SAVE_FLAG_METAL_BOX_GATE_OPEN);
+                if (o->oBehParams2ndByte == 0) {
+                    metal_box_gate_unlock();
+                }
                 o->oAction = METAL_BOX_SWITCH_ACT_ACTIVE;
             }
             break;
@@ -121,7 +136,7 @@ void bhv_metal_box_switch_gate_init(void) {
     oMetalBoxSwitchGateVolumeLowered = FALSE;
     o->oF4 = FALSE;
 
-    if (save_file_get_flags() & SAVE_FLAG_METAL_BOX_GATE_OPEN) {
+    if (metal_box_gate_is_unlocked()) {
         o->oPosY = o->oFloatF8;
         o->oAction = METAL_BOX_GATE_ACT_OPEN;
     } else {

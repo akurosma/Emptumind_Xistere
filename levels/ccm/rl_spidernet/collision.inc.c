@@ -126,3 +126,11 @@ const Collision rl_spidernet_collision[] = {
 	COL_TRI_STOP(),
 	COL_END()
 };
+
+const Collision rl_spidernet_no_collision[] = {
+	COL_INIT(),
+	COL_VERTEX_INIT(0),
+	COL_TRI_INIT(SURFACE_DEFAULT, 0),
+	COL_TRI_STOP(),
+	COL_END()
+};

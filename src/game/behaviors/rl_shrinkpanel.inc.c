@@ -1,5 +1,5 @@
 
-#define FLIP_SPEED 0x1400
+#define FLIP_SPEED 0x900
 #define SHRINK_SPEED 0.01f //縮む速度
 #define SHRINK_MIN_SCALE 0.1f //縮小の下限
 #define RESPAWN_DELAY 60 // 60フレーム = 約2秒
