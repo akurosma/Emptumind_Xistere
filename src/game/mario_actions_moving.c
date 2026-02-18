@@ -1399,6 +1399,9 @@ s32 act_riding_hypertube(struct MarioState *m) {
         sHyperShell = m->usedObj;
     } else if (m->riddenObj) {
         sHyperShell = m->riddenObj;
+    } else {
+        // Prevent stale pointer usage after shell is detached/deleted.
+        sHyperShell = NULL;
     }
 
     // QTE結果処理（成功/失敗の一回きり）
@@ -2315,7 +2318,7 @@ s32 act_rail_grind(struct MarioState *m) {
     int onLoop = zipline_on_loop();
     int blocked = 0;
     int holdZ = 0;
-    struct Object *hyperShell = sHyperShell ? sHyperShell : (m->usedObj ? m->usedObj : m->riddenObj);
+    struct Object *hyperShell = m->usedObj ? m->usedObj : m->riddenObj;
     int hasHyperShell = (hyperShell && hyperShell->oBehParams2ndByte == 1);
 
     // Prevent R trigger from toggling camera while grinding
@@ -2422,6 +2425,13 @@ s32 act_rail_grind(struct MarioState *m) {
             // ハイパーチューブ用の甲羅は壊さず、元の乗り状態に戻す
             m->usedObj = hyperShell;
             m->riddenObj = hyperShell;
+            // Reset shell tilt from cylinder sync when leaving rail.
+            hyperShell->oFaceAnglePitch = 0;
+            hyperShell->oFaceAngleRoll = 0;
+            hyperShell->oFaceAngleYaw = exitYaw;
+            hyperShell->header.gfx.angle[0] = 0;
+            hyperShell->header.gfx.angle[1] = exitYaw;
+            hyperShell->header.gfx.angle[2] = 0;
             return set_mario_action(m, ACT_RIDING_HYPERTUBE, 0);
         }
 
@@ -2458,83 +2468,42 @@ s32 act_rail_grind(struct MarioState *m) {
     m->marioObj->header.gfx.pos[1] -= dist;
     set_mario_animation(m, anim);
 
-    {
-        struct MarioBodyState *marioBodyState = m->marioBodyState;
-        struct Object *marioObj = m->marioObj;
-
+    // On loop rails, shift Mario's rendered position slightly toward the tube center.
+    // This prevents clipping into the ceiling while preserving shell-riding look.
+    if (onLoop) {
         Vec3f center;
-        Vec3f fwd;
-        int hasFrame = zipline_get_frame(center, fwd);
-
-        // デフォルトの中心/進行方向をフォールバックで用意
-        if (!hasFrame) {
-            center[0] = m->pos[0];
-            center[1] = m->pos[1] + 300.f;
-            center[2] = m->pos[2];
-            fwd[0] = m->vel[0];
-            fwd[1] = m->vel[1];
-            fwd[2] = m->vel[2];
-        } else {
-            // 円筒軸はZ方向に伸びる想定なのでZは現在値に合わせる
-            center[2] = m->pos[2];
+        if (zipline_get_frame(center, NULL)) {
+            Vec3f toCenter = { center[0] - m->pos[0], center[1] - m->pos[1], 0.0f };
+            f32 len = sqrtf(toCenter[0] * toCenter[0] + toCenter[1] * toCenter[1]);
+            if (len > 0.001f) {
+                const f32 offset = 64.0f;
+                f32 invLen = offset / len;
+                m->marioObj->header.gfx.pos[0] += toCenter[0] * invLen;
+                m->marioObj->header.gfx.pos[1] += toCenter[1] * invLen;
+            }
         }
-
-        // 上方向: 中心へ向けたベクトル（Zは無視してXY平面で壁方向を取る）
-        Vec3f up = { center[0] - m->pos[0], center[1] - m->pos[1], 0.f };
-        f32 upLen = sqrtf(up[0] * up[0] + up[1] * up[1] + up[2] * up[2]);
-        if (upLen < 1.f) {
-            up[0] = 0.f; up[1] = 1.f; up[2] = 0.f;
-            upLen = 1.f;
-        } else {
-            f32 inv = 1.f / upLen;
-            up[0] *= inv; up[1] *= inv; up[2] *= inv;
-        }
-
-        f32 fwdLen = sqrtf(fwd[0] * fwd[0] + fwd[1] * fwd[1] + fwd[2] * fwd[2]);
-        if (fwdLen < 0.001f) {
-            fwd[0] = 0.f; fwd[1] = 0.f; fwd[2] = 1.f;
-        } else {
-            f32 inv = 1.f / fwdLen;
-            fwd[0] *= inv; fwd[1] *= inv; fwd[2] *= inv;
-        }
-
-        // 直交基底を構築
-        Vec3f right;
-        vec3_cross(right, fwd, up);
-        f32 rightLen = sqrtf(right[0] * right[0] + right[1] * right[1] + right[2] * right[2]);
-        if (rightLen < 0.001f) {
-            Vec3f fallbackUp = { 0.f, 1.f, 0.f };
-            vec3_cross(right, fwd, fallbackUp);
-            rightLen = sqrtf(right[0] * right[0] + right[1] * right[1] + right[2] * right[2]);
-        }
-        if (rightLen < 0.001f) {
-            right[0] = 1.f; right[1] = 0.f; right[2] = 0.f;
-            rightLen = 1.f;
-        }
-        f32 invRight = 1.f / rightLen;
-        right[0] *= invRight; right[1] *= invRight; right[2] *= invRight;
-        vec3_cross(fwd, up, right);
-        vec3_normalize(fwd);
-
-        // up/right から roll、fwd から yaw/pitch を算出
-        s16 yaw = atan2s(fwd[0], fwd[2]); // 進行方向へ顔を向ける（SM64のyawはx,z順）
-        s16 pitch = atan2s(-fwd[1], sqrtf(sqr(fwd[0]) + sqr(fwd[2])));
-        s16 roll = atan2s(right[1], up[1]); // 中心へ傾ける
-
-        m->faceAngle[0] = pitch;
-        m->faceAngle[1] = yaw;
-        m->faceAngle[2] = roll;
-
-        // 見た目の傾きにも反映
-        marioBodyState->torsoAngle[2] = approach_s32_symmetric(marioBodyState->torsoAngle[2], roll, 0x200);
-        marioBodyState->torsoAngle[0] = approach_s32_symmetric(marioBodyState->torsoAngle[0], pitch, 0x200);
-        marioBodyState->headAngle[2] = -marioBodyState->torsoAngle[2];
-        marioObj->header.gfx.pos[1] += 45.0f;
     }
+
+    // During rail grind, use the orientation produced by zipline_step only.
+    if (m->marioBodyState) {
+        m->marioBodyState->torsoAngle[0] = 0;
+        m->marioBodyState->torsoAngle[2] = 0;
+        m->marioBodyState->headAngle[2] = 0;
+    }
+    m->marioObj->header.gfx.pos[1] += 45.0f;
 
     m->marioObj->header.gfx.angle[0] = m->faceAngle[0];
     m->marioObj->header.gfx.angle[1] = m->faceAngle[1];
     m->marioObj->header.gfx.angle[2] = m->faceAngle[2];
+    // shell angle sync during cylinder rail grind.
+    if (onLoop && hasHyperShell && zipline_get_loop_mode() == HTUBE_LOOP_MODE_CYLINDER) {
+        hyperShell->oFaceAnglePitch = m->faceAngle[0];
+        hyperShell->oFaceAngleYaw = m->faceAngle[1];
+        hyperShell->oFaceAngleRoll = m->faceAngle[2];
+        hyperShell->header.gfx.angle[0] = m->faceAngle[0];
+        hyperShell->header.gfx.angle[1] = m->faceAngle[1];
+        hyperShell->header.gfx.angle[2] = m->faceAngle[2];
+    }
     play_sound(SOUND_MOVING_TERRAIN_RIDING_SHELL + m->terrainSoundAddend,
                m->marioObj->header.gfx.cameraToObject);
 
