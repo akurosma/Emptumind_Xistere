@@ -389,6 +389,29 @@ static f32 approach_f32_i(f32 current, f32 target, f32 inc, f32 dec) {
     return current;
 }
 
+static s16 compute_cylinder_loop_roll(const LDLDesc *loop, Vec3s trajCurPoint, Vec3f trajDirection) {
+    (void) loop;
+    (void) trajCurPoint;
+    (void) trajDirection;
+
+    // Align roll to this rail's endpoints and preserve full loop rotation:
+    // start +36deg -> ... -> end 360deg (bottom vertex).
+    const f32 startRoll = 65536.0f * (36.0f / 360.0f);
+    const f32 endRoll = 65536.0f * (360.0f / 360.0f);
+    f32 totalSteps = (f32) sZiplineSegmentCount / 4.0f;
+    f32 curStep = (f32) sZiplineCurPoint / 4.0f + sZiplineProgress;
+    f32 t;
+
+    if (totalSteps <= 0.0001f) {
+        t = 0.0f;
+    } else {
+        t = curStep / totalSteps;
+    }
+    t = CLAMP(t, 0.0f, 1.0f);
+
+    return (s16) (startRoll + (endRoll - startRoll) * t);
+}
+
 int zipline_step(int exSpeed, s16 *extraTilt, int holdZ) {
     if (sForwardVelLimitDecelTimer) {
         sForwardVelLimitDecelTimer--;
@@ -418,7 +441,7 @@ int zipline_step(int exSpeed, s16 *extraTilt, int holdZ) {
 
         s16 *pfaceAngle = (sLoopDesc && !sLoopDesc->dontFlip) ? &sLoopFaceAngle : &gMarioStates->faceAngle[1];
         // adjust face angle to the htube
-        if (absf(trajDirection[0] > 0.1f) || absf(trajDirection[2]) > 0.1f) {
+        if (absf(trajDirection[0]) > 0.1f || absf(trajDirection[2]) > 0.1f) {
             *pfaceAngle = atan2s(trajDirection[2], trajDirection[0]);
             if (sAngleFlipped) {
                 *pfaceAngle += 0x8000;
@@ -426,16 +449,22 @@ int zipline_step(int exSpeed, s16 *extraTilt, int holdZ) {
         }
 
         if (sLoopDesc && !sLoopDesc->dontFlip) {
-            if (sLoopDesc->angleOffset) {
-                gMarioStates->faceAngle[1] = sZiplineLoopYaw + sLoopDesc->angleOffset * (1 + sZiplineCurPoint) / sZiplineSegmentCount;
+            if (sLoopDesc->mode == HTUBE_LOOP_MODE_CYLINDER) {
+                gMarioStates->faceAngle[1] = sLoopFaceAngle;
+                gMarioStates->faceAngle[0] = 0;
+                gMarioStates->faceAngle[2] = compute_cylinder_loop_roll(sLoopDesc, trajCurPoint, trajDirection);
             } else {
-                gMarioStates->faceAngle[1] = sZiplineLoopYaw;
-            }
+                if (sLoopDesc->angleOffset) {
+                    gMarioStates->faceAngle[1] = sZiplineLoopYaw + sLoopDesc->angleOffset * (1 + sZiplineCurPoint) / sZiplineSegmentCount;
+                } else {
+                    gMarioStates->faceAngle[1] = sZiplineLoopYaw;
+                }
 
-            if (abs_angle_diff(gMarioStates->faceAngle[1], sLoopFaceAngle) < 0x4000) {
-                gMarioStates->faceAngle[0] = atan2s(trajDirection[1], sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[2] * trajDirection[2])) - 0x4000;
-            } else {
-                gMarioStates->faceAngle[0] = atan2s(sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[2] * trajDirection[2]), trajDirection[1]) + 0x8000;
+                if (abs_angle_diff(gMarioStates->faceAngle[1], sLoopFaceAngle) < 0x4000) {
+                    gMarioStates->faceAngle[0] = atan2s(trajDirection[1], sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[2] * trajDirection[2])) - 0x4000;
+                } else {
+                    gMarioStates->faceAngle[0] = atan2s(sqrtf(trajDirection[0] * trajDirection[0] + trajDirection[2] * trajDirection[2]), trajDirection[1]) + 0x8000;
+                }
             }
         } else {
             gMarioStates->faceAngle[0] = 0;
@@ -596,6 +625,13 @@ int zipline_step(int exSpeed, s16 *extraTilt, int holdZ) {
 
 int zipline_on_loop(void) {
     return sLoopDesc != NULL;
+}
+
+int zipline_get_loop_mode(void) {
+    if (!sLoopDesc) {
+        return HTUBE_LOOP_MODE_DEFAULT;
+    }
+    return sLoopDesc->mode;
 }
 
 void zipline_boost(void) {

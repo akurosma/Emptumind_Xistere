@@ -130,6 +130,26 @@ s32 sBreathMeterVisibleTimer = 0;
 
 static struct CameraHUD sCameraHUD = { CAM_STATUS_NONE };
 
+static s32 should_use_ccm_area4_power_meter_pos(void) {
+    return (gCurrLevelNum == LEVEL_CCM && gCurrAreaIndex == 4);
+}
+
+static s16 get_power_meter_x(void) {
+    if (should_use_ccm_area4_power_meter_pos()) {
+        return HUD_POWER_METER_CCM_A4_X;
+    }
+
+    return HUD_POWER_METER_X;
+}
+
+static s16 get_power_meter_visible_y(void) {
+    if (should_use_ccm_area4_power_meter_pos()) {
+        return HUD_POWER_METER_CCM_A4_Y;
+    }
+
+    return HUD_POWER_METER_Y;
+}
+
 /**
  * Renders a rgba16 16x16 glyph texture from a table list.
  */
@@ -233,15 +253,16 @@ void animate_power_meter_emphasized(void) {
  */
 static void animate_power_meter_deemphasizing(void) {
     s16 speed = 5;
+    s16 targetY = get_power_meter_visible_y();
 
-    if (sPowerMeterHUD.y > HUD_POWER_METER_Y - 20) speed = 3;
-    if (sPowerMeterHUD.y > HUD_POWER_METER_Y - 10) speed = 2;
-    if (sPowerMeterHUD.y > HUD_POWER_METER_Y -  5) speed = 1;
+    if (sPowerMeterHUD.y > targetY - 20) speed = 3;
+    if (sPowerMeterHUD.y > targetY - 10) speed = 2;
+    if (sPowerMeterHUD.y > targetY -  5) speed = 1;
 
     sPowerMeterHUD.y += speed;
 
-    if (sPowerMeterHUD.y > HUD_POWER_METER_Y) {
-        sPowerMeterHUD.y = HUD_POWER_METER_Y;
+    if (sPowerMeterHUD.y > targetY) {
+        sPowerMeterHUD.y = targetY;
         sPowerMeterHUD.animation = POWER_METER_VISIBLE;
     }
 }
@@ -266,7 +287,7 @@ void handle_power_meter_actions(s16 numHealthWedges) {
     if (numHealthWedges < 8 && sPowerMeterStoredHealth == 8
         && sPowerMeterHUD.animation == POWER_METER_HIDDEN) {
         sPowerMeterHUD.animation = POWER_METER_EMPHASIZED;
-        sPowerMeterHUD.y = HUD_POWER_METER_EMPHASIZED_Y;
+        sPowerMeterHUD.y = get_power_meter_visible_y();
     }
 
     // Show power meter if health is full, has 8
@@ -288,7 +309,7 @@ void handle_power_meter_actions(s16 numHealthWedges) {
         if (sPowerMeterHUD.animation == POWER_METER_HIDDEN
             || sPowerMeterHUD.animation == POWER_METER_EMPHASIZED) {
             sPowerMeterHUD.animation = POWER_METER_DEEMPHASIZING;
-            sPowerMeterHUD.y = HUD_POWER_METER_EMPHASIZED_Y;
+            sPowerMeterHUD.y = get_power_meter_visible_y();
         }
         sPowerMeterVisibleTimer = 0;
     }
@@ -302,6 +323,9 @@ void handle_power_meter_actions(s16 numHealthWedges) {
  */
 void render_hud_power_meter(void) {
     s16 shownHealthWedges = gHudDisplay.wedges;
+
+    sPowerMeterHUD.x = get_power_meter_x();
+
     if (sPowerMeterHUD.animation != POWER_METER_HIDING) handle_power_meter_actions(shownHealthWedges);
     if (sPowerMeterHUD.animation == POWER_METER_HIDDEN) return;
     switch (sPowerMeterHUD.animation) {

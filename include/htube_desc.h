@@ -9,7 +9,18 @@ typedef struct {
     s16 angleOffset;
     u8 dontFlip;
     u8 canSnapBackwards;
+    // Optional orientation mode for special loops.
+    u8 mode;
+    // If set, use these X/Y values as the loop center for roll alignment.
+    u8 useCustomCenter;
+    s16 centerX;
+    s16 centerY;
 } LDLDesc;
+
+enum {
+    HTUBE_LOOP_MODE_DEFAULT = 0,
+    HTUBE_LOOP_MODE_CYLINDER = 1,
+};
 
 // Htube descriptor: pair a trajectory with an optional loop descriptor.
 typedef struct _HtubeDesc {

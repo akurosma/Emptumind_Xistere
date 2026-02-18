@@ -8,6 +8,7 @@ int zipline_cancel(void);
 int do_zipline_cancel(f32 range, int (*valid)(void *ctx, f32 cx, f32 cy, f32 cz), void *ctx, f32 *closestPoint);
 int zipline_step(int exSpeed, s16 *extraTilt, int holdZ);
 int zipline_on_loop(void);
+int zipline_get_loop_mode(void);
 void zipline_boost(void);
 void zipline_force_speed(f32 speed);
 

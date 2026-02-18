@@ -22,11 +22,23 @@ static const Trajectory ccm_temp_rail[] = {
     TRAJECTORY_POS(14, /*pos*/ -1733, -7815, 8724),
     TRAJECTORY_POS(15, /*pos*/ -1833, -8010, 8099),
     TRAJECTORY_POS(16, /*pos*/ -1987, -8165, 7474),
+    TRAJECTORY_POS(17, /*pos*/ -2182, -8264, 6849),
+    TRAJECTORY_POS(18, /*pos*/ -2398, -8298, 6224),
     TRAJECTORY_END(),
 };
 
+static LDLDesc ccm_temp_rail_loop = {
+    0,                         // angleOffset
+    0,                         // dontFlip
+    0,                         // canSnapBackwards
+    HTUBE_LOOP_MODE_CYLINDER,  // mode
+    1,                         // useCustomCenter
+    -2398,                     // centerX
+    -7599,                     // centerY
+};
+
 static const HtubeDesc htube_area4[] = {
-    HTUBE_TRAJ(ccm_temp_rail),
+    LOOP_HTUBE(ccm_temp_rail, &ccm_temp_rail_loop),
     HTUBE_END
 };
 
