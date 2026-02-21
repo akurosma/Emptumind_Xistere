@@ -6,6 +6,9 @@
 #define CCM_FACIRCLE_VTX_COUNT 301
 #define CCM_FACIRCLE_LIFETIME_FRAMES 90
 
+// Gate FALaser SFX so simultaneous spawns in the same frame only play once.
+static s32 sCcmFALaserSfxLastFrame = -1;
+
 // Center-outward ripple on the FACircle plane (XY), displacing along Z.
 static void ccm_facircle_apply_wave(void) {
     Vtx *vtx = (Vtx *) segmented_to_virtual(FACircle_FACircle_mesh_layer_5_vtx_0);
@@ -50,6 +53,10 @@ void bhv_ccm_facircle_loop(void) {
     if (o->oTimer == 30) {
         struct Object *laser = spawn_object(o, MODEL_CCM_FALASER, bhvCcmFALaser);
         if (laser != NULL) {
+            if (sCcmFALaserSfxLastFrame != gGlobalTimer) {
+                cur_obj_play_sound_2(SOUND_OBJ2_FALASER);
+                sCcmFALaserSfxLastFrame = gGlobalTimer;
+            }
             laser->oPosX = o->oPosX;
             laser->oPosY = o->oPosY;
             laser->oPosZ = o->oPosZ;

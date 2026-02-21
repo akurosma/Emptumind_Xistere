@@ -192,10 +192,11 @@ Do you want to Save?\n\
 //You Bet//Not Now"))
 
 //rulu
-DEFINE_DIALOG(DIALOG_015, 1, 4, 30, 200, _("\
-Some of the gimmicks\n\
-in this area were \n\
-inspired by MA2\n\
+DEFINE_DIALOG(DIALOG_015, 1, 5, 30, 200, _("\
+The rail system in this \n\
+area was created with \n\
+reference to code \n\
+from MA2.\n\
 Special thanks to aglab2"))
 
 //rulu

@@ -37,6 +37,7 @@ static inline int is_hyper_shell(struct MarioState *m) { //rulu hypertube
 // Hypertube QTE state (kept local to this file to limit blast radius).
 static s32 sHyperQteActive = FALSE;
 static s32 sHyperQteTriggeredOnce = FALSE;
+static s32 sHyperQtePendingOnLand = FALSE;
 static s32 sHyperQteTimer = 0;
 static u16 sHyperQteTargetButton = Z_TRIG; // default fallback
 static s32 sHyperQteResult = 0; // 0 = none, 1 = success, -1 = fail
@@ -66,17 +67,23 @@ static s16 sHyperQteLaunchYaw = 0xC000; // default toward -X
 static void hypertube_qte_begin(struct MarioState *m) {
     sHyperQteActive = TRUE;
     sHyperQteTriggeredOnce = TRUE;
+    sHyperQtePendingOnLand = FALSE;
     sHyperQteTimer = 0;
     sHyperQteTargetButton = hypertube_qte_pick_button();
     sHyperQteResult = 0;
-    // 進行方向に合わせて射出Yawを覚えておく（速度が小さい場合は -X をデフォルトに）
-    f32 dirX = m->slideVelX;
-    f32 dirZ = m->slideVelZ;
-    if (fabsf(dirX) + fabsf(dirZ) < 1.f) {
-        dirX = -1.f;
-        dirZ = 0.f;
+    // 進行方向に合わせて射出Yawを覚える。
+    // 空中検知からの着地開始では水平速度が0になりうるため、その場合はfaceAngleを使う。
+    f32 dirX = m->vel[0];
+    f32 dirZ = m->vel[2];
+    if (absf(dirX) + absf(dirZ) < 1.f) {
+        dirX = m->slideVelX;
+        dirZ = m->slideVelZ;
     }
-    sHyperQteLaunchYaw = atan2s(dirZ, dirX);
+    if (absf(dirX) + absf(dirZ) < 1.f) {
+        sHyperQteLaunchYaw = m->faceAngle[1];
+    } else {
+        sHyperQteLaunchYaw = atan2s(dirZ, dirX);
+    }
 
     // HUD ring spawn
     if (sHyperQteUiObj == NULL && gMarioObject != NULL) {
@@ -86,6 +93,62 @@ static void hypertube_qte_begin(struct MarioState *m) {
             sHyperQteUiObj->oFloatF8 = (f32)HYPER_QTE_TIME_LIMIT; // total
         }
     }
+}
+
+static s32 hypertube_is_qte_surface_below(struct MarioState *m, f32 x, f32 z) {
+    struct Surface *floor = NULL;
+    find_floor(x, m->pos[1] + 200.0f, z, &floor);
+    return (floor != NULL && floor->type == SURFACE_HYPERTUBE_QTE);
+}
+
+void hypertube_try_begin_qte(struct MarioState *m) {
+    if (sHyperQteTriggeredOnce || sHyperQteActive || m == NULL) {
+        return;
+    }
+
+    // If air-detection already queued QTE, begin immediately on first grounded frame.
+    if (sHyperQtePendingOnLand) {
+        hypertube_qte_begin(m);
+        return;
+    }
+
+    if (m->floor != NULL && m->floor->type == SURFACE_HYPERTUBE_QTE) {
+        hypertube_qte_begin(m);
+        return;
+    }
+
+    if (hypertube_is_qte_surface_below(m, m->pos[0], m->pos[2])) {
+        hypertube_qte_begin(m);
+        return;
+    }
+
+    if (hypertube_is_qte_surface_below(m, m->pos[0] + m->vel[0], m->pos[2] + m->vel[2])) {
+        hypertube_qte_begin(m);
+    }
+}
+
+s32 hypertube_queue_qte_from_air(struct MarioState *m) {
+    if (m == NULL || sHyperQteTriggeredOnce || sHyperQteActive) {
+        return FALSE;
+    }
+
+    if (!sHyperQtePendingOnLand) {
+        if (hypertube_is_qte_surface_below(m, m->pos[0], m->pos[2])
+            || hypertube_is_qte_surface_below(m, m->pos[0] + m->vel[0], m->pos[2] + m->vel[2])) {
+            sHyperQtePendingOnLand = TRUE;
+        }
+    }
+
+    if (sHyperQtePendingOnLand) {
+        m->vel[0] = 0.f;
+        m->vel[2] = 0.f;
+        m->forwardVel = 0.f;
+        m->slideVelX = 0.f;
+        m->slideVelZ = 0.f;
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 static void hypertube_qte_tick(struct MarioState *m, u16 pressed) {
@@ -1442,9 +1505,7 @@ s32 act_riding_hypertube(struct MarioState *m) {
     }
 
     // QTEトリガ: ハイパーチューブ専用Surfaceに乗ったら一度だけ開始フラグを立てる
-    if (!sHyperQteTriggeredOnce && m->floor && m->floor->type == SURFACE_HYPERTUBE_QTE) {
-        hypertube_qte_begin(m);
-    }
+    hypertube_try_begin_qte(m);
 
     // QTE進行中は移動・入力をロックし、判定のみ進める
     if (sHyperQteActive) {
