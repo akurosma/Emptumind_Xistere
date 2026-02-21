@@ -2,6 +2,7 @@
 
 #include "sm64.h"
 #include "mario_actions_airborne.h"
+#include "mario_actions_moving.h"
 #include "area.h"
 #include "audio/external.h"
 #include "camera.h"
@@ -734,6 +735,7 @@ s32 act_riding_shell_air(struct MarioState *m) {
 
 s32 act_hypertube_jump(struct MarioState *m) {
     static const s16 fixedYaw = 0x8000;
+    const s32 qteQueuedInAir = hypertube_queue_qte_from_air(m);
 
     play_mario_sound(m, SOUND_ACTION_TERRAIN_JUMP, 0);
     set_mario_animation(m, MARIO_ANIM_JUMP_RIDING_SHELL);
@@ -747,27 +749,8 @@ s32 act_hypertube_jump(struct MarioState *m) {
     }
     const f32 hyperSpeed = gHtubeTargetSpeed;
 
-    m->faceAngle[1] = fixedYaw;
-    f32 lateral = m->controller ? -m->controller->stickX * 0.35f : 0.f;
-    f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
-    f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
-    f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
-    f32 latZ = lateral * coss(m->faceAngle[1] + 0x4000);
-    m->vel[0] = baseX + latX;
-    m->vel[2] = baseZ + latZ;
-    f32 horizSpeed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
-    if (horizSpeed > 0.f) {
-        f32 scale = hyperSpeed / horizSpeed;
-        m->vel[0] *= scale;
-        m->vel[2] *= scale;
-    }
-    m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
-    m->slideVelX = m->vel[0];
-    m->slideVelZ = m->vel[2];
-
-    update_air_without_turn(m);
-
-    {
+    if (!qteQueuedInAir) {
+        m->faceAngle[1] = fixedYaw;
         f32 lateral = m->controller ? -m->controller->stickX * 0.35f : 0.f;
         f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
         f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
@@ -784,6 +767,39 @@ s32 act_hypertube_jump(struct MarioState *m) {
         m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
         m->slideVelX = m->vel[0];
         m->slideVelZ = m->vel[2];
+    } else {
+        m->vel[0] = 0.f;
+        m->vel[2] = 0.f;
+        m->forwardVel = 0.f;
+        m->slideVelX = 0.f;
+        m->slideVelZ = 0.f;
+    }
+
+    update_air_without_turn(m);
+
+    if (!qteQueuedInAir) {
+        f32 lateral = m->controller ? -m->controller->stickX * 0.35f : 0.f;
+        f32 baseX = hyperSpeed * sins(m->faceAngle[1]);
+        f32 baseZ = hyperSpeed * coss(m->faceAngle[1]);
+        f32 latX = lateral * sins(m->faceAngle[1] + 0x4000);
+        f32 latZ = lateral * coss(m->faceAngle[1] + 0x4000);
+        m->vel[0] = baseX + latX;
+        m->vel[2] = baseZ + latZ;
+        f32 horizSpeed = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+        if (horizSpeed > 0.f) {
+            f32 scale = hyperSpeed / horizSpeed;
+            m->vel[0] *= scale;
+            m->vel[2] *= scale;
+        }
+        m->forwardVel = sqrtf(m->vel[0] * m->vel[0] + m->vel[2] * m->vel[2]);
+        m->slideVelX = m->vel[0];
+        m->slideVelZ = m->vel[2];
+    } else {
+        m->vel[0] = 0.f;
+        m->vel[2] = 0.f;
+        m->forwardVel = 0.f;
+        m->slideVelX = 0.f;
+        m->slideVelZ = 0.f;
     }
 
     switch (perform_air_step(m, 0)) {

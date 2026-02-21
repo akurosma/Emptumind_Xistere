@@ -5116,6 +5116,7 @@ sound_ref .sound_obj_ccmboss_dialog
 sound_ref .sound_obj_ccmboss_dialog2
 sound_ref .sound_obj_ccmboss_dialog3
 sound_ref .sound_obj_ccmboss_death
+sound_ref .sound_obj_falaser
 
 .sound_general_swish_water:
 chan_setbank 6
@@ -6561,6 +6562,16 @@ chan_end
 
 .layer_ccmboss_death:
 layer_note1 37, 0x50, 127
+layer_end
+
+.sound_obj_falaser:
+chan_setbank 9
+chan_setinstr 12
+chan_setlayer 0, .layer_falaser
+chan_end
+
+.layer_falaser:
+layer_note1 40, 0x50, 127
 layer_end
 
 .sound_obj_mips_rabbit:
