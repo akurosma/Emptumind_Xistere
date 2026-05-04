@@ -165,7 +165,7 @@ extern Gfx ccm_dl_03_area1_00_mesh_layer_1_tri_0[];
 extern Vtx ccm_dl_03_area1_00_mesh_layer_1_vtx_1[38];
 extern Gfx ccm_dl_03_area1_00_mesh_layer_1_tri_1[];
 extern Vtx ccm_dl_03_area1_01_mesh_layer_1_vtx_cull[8];
-extern Vtx ccm_dl_03_area1_01_mesh_layer_1_vtx_0[132];
+extern Vtx ccm_dl_03_area1_01_mesh_layer_1_vtx_0[145];
 extern Gfx ccm_dl_03_area1_01_mesh_layer_1_tri_0[];
 extern Vtx ccm_dl_03_area1_01_mesh_layer_1_vtx_1[55];
 extern Gfx ccm_dl_03_area1_01_mesh_layer_1_tri_1[];

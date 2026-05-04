@@ -3,7 +3,17 @@
 #define COLL_OFF_SCALE 0.05f
 #define COLL_ON_SCALE  0.20f
 extern const Collision rl_flippanel_collision[]; //solid collision
-extern const Collision rl_top_collision[];  // no collision
+
+static const Collision sRlFlippanelNoCollision[] = {
+    COL_INIT(),
+    COL_VERTEX_INIT(0),
+    COL_TRI_STOP(),
+    COL_END(),
+};
+
+static void rl_flippanel_disable_collision(void) {
+    o->collisionData = (Collision *) sRlFlippanelNoCollision;
+}
 
 void bhv_rl_flippanel_init(void) {
     o->oFloatF4 = 1.0f; // オブジェクトごとのスケール初期化
@@ -41,7 +51,7 @@ void bhv_rl_flippanel_loop(void) {
             //
             if (o->oFloatF4 <= COLL_OFF_SCALE) {
                 // 小さくなった → 判定消失
-                obj_set_collision_data(o, rl_top_collision);
+                rl_flippanel_disable_collision();
             }
             else if (o->oFloatF4 >= COLL_ON_SCALE) {
                 // 大きくなった → 判定復活
@@ -112,4 +122,3 @@ void bhv_rl_flippanel_loop(void) {
     90° 0x4000
     
     */
-

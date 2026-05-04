@@ -247,6 +247,23 @@ static s32 ccmboss_area5_has_scuttlebug(void) {
     return FALSE;
 }
 
+static s32 ccmboss_area5_has_boss_blackflame(void) {
+    const BehaviorScript *behaviorAddr = segmented_to_virtual(bhvRlCcmflame);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    while ((struct Object *) listHead != obj) {
+        struct Object *next = (struct Object *) obj->header.next;
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj->oBehParams2ndByte == CCMBOSS_BLACKFLAME_BEHPARAM) {
+            return TRUE;
+        }
+        obj = next;
+    }
+    return FALSE;
+}
+
 static void ccmboss_delete_boss_blackflames(void) {
     const BehaviorScript *behaviorAddr = segmented_to_virtual(bhvRlCcmflame);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
@@ -580,12 +597,14 @@ static void ccmboss_act_idle(void) {
     }
 
     if (o->oTimer >= 90) {
-    if (o->oHealth > 0 && !ccmboss_area5_has_scuttlebug()) {
-        o->oAction = CCMBOSS_ACT_SUMMON;
-        o->oSubAction = 0;
-        o->oTimer = 0;
-        return;
-    }
+        if (o->oHealth > 0
+            && !ccmboss_area5_has_scuttlebug()
+            && !ccmboss_area5_has_boss_blackflame()) {
+            o->oAction = CCMBOSS_ACT_SUMMON;
+            o->oSubAction = 0;
+            o->oTimer = 0;
+            return;
+        }
         s32 choice = random_u16() % 3;
         if (choice == 0) {
             o->oAction = CCMBOSS_ACT_DASH;

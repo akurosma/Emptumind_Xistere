@@ -66,6 +66,8 @@ const LevelScript level_castle_grounds_entry[] = {
 		OBJECT(MODEL_WOODEN_SIGNPOST, 0, 1500, -1081, 0, 0, 0, (167 << 16), bhvMessagePanel),
 		OBJECT(MODEL_WOODEN_SIGNPOST, 238, 1500, -1081, 0, 0, 0, (166 << 16), bhvMessagePanel),
 		OBJECT(MODEL_WOODEN_SIGNPOST, -285, 1500, -1081, 0, 0, 0, (168 << 16), bhvMessagePanel),
+		OBJECT(MODEL_NONE, 0, 1500, 0, 0, 0, 0, 0x002C0000, bhvAirborneStarCollectWarp),//ruluテスト用
+		OBJECT(MODEL_NONE, 0, 1500, 0, 0, 0, 0, 0x002D0000, bhvAirborneDeathWarp),//ruluテスト用
 		TERRAIN(castle_grounds_area_1_collision),
 		MACRO_OBJECTS(castle_grounds_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x3D, SEQ_CHAOGARDEN),
