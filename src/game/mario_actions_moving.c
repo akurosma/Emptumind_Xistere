@@ -1487,6 +1487,7 @@ s32 act_riding_hypertube(struct MarioState *m) {
         m->slideVelZ = m->vel[2];
         set_cam_angle(CAM_ANGLE_LAKITU);
         sHyperShell = NULL;
+        m->flags |= MARIO_NO_FALLDAMAGE;
         return drop_and_set_mario_action(m, ACT_TRIPLE_JUMP, 1);
     } else if (sHyperQteResult == -1) {
         // 失敗時はQTEを終了するだけ（位置/速度/アクションは維持）

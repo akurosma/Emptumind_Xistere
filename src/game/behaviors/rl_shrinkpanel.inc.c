@@ -6,6 +6,13 @@
 
 extern const Collision rl_flippanel_collision[];
 
+static const Collision sRlShrinkpanelNoCollision[] = {
+    COL_INIT(),
+    COL_VERTEX_INIT(0),
+    COL_TRI_STOP(),
+    COL_END(),
+};
+
 // BPARAM2: 初期スケールを 1.00 + (値 * 0.01) 倍で設定する
 static f32 rl_shrinkpanel_get_base_scale(void) {
     return 1.0f + ((f32)BPARAM2 * 0.01f);
@@ -16,6 +23,10 @@ static void rl_shrinkpanel_reset_scale(void) {
     o->header.gfx.scale[0] = scale;
     o->header.gfx.scale[1] = scale;
     o->header.gfx.scale[2] = scale;
+}
+
+static void rl_shrinkpanel_disable_collision(void) {
+    o->collisionData = (Collision *) sRlShrinkpanelNoCollision;
 }
 
 void bhv_rl_shrinkpanel_init(void) {
@@ -68,7 +79,7 @@ void bhv_rl_shrinkpanel_loop(void) {
             o->header.gfx.scale[1] = SHRINK_MIN_SCALE;
             o->header.gfx.scale[2] = SHRINK_MIN_SCALE;
             cur_obj_hide();
-            obj_set_collision_data(o, rl_top_collision);
+            rl_shrinkpanel_disable_collision();
         }
         return;
     }
@@ -129,7 +140,7 @@ void bhv_rl_shrinkpanel_loop(void) {
                 o->header.gfx.scale[1] = SHRINK_MIN_SCALE;
                 o->header.gfx.scale[2] = SHRINK_MIN_SCALE;
                 cur_obj_hide();
-                obj_set_collision_data(o, rl_top_collision);
+                rl_shrinkpanel_disable_collision();
             }
             break;
 

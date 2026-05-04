@@ -35,6 +35,8 @@ void bobomb_act_explode(void) {
         explosion->oGraphYOffset += 100.0f;
 
         bobomb_spawn_coin();
+        // Prevent the respawner from inheriting the temporary explosion scale.
+        cur_obj_scale(1.0f);
         create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, 3000);
 
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
@@ -130,11 +132,8 @@ void generic_bobomb_free_loop(void) {
 
     bobomb_check_interactions();
 
-    if (BPARAM1 == 1 && o->oBobombFuseTimer > 450){
+    if ((BPARAM1 == 1 && o->oBobombFuseTimer > 450) || (BPARAM1 != 1 && o->oBobombFuseTimer > 150)) {
         o->oAction = 3;
-    }
-    else if(BPARAM1 == 0 && o->oBobombFuseTimer > 150){
-       o->oAction = 3; 
     }
 }
 
@@ -162,19 +161,17 @@ void stationary_bobomb_free_loop(void) {
 
     bobomb_check_interactions();
 
-    if (BPARAM1 == 1 && o->oBobombFuseTimer > 450){
+    if ((BPARAM1 == 1 && o->oBobombFuseTimer > 450) || (BPARAM1 != 1 && o->oBobombFuseTimer > 150)) {
         o->oAction = 3;
-    }
-    else if(BPARAM1 == 0 && o->oBobombFuseTimer > 150){
-       o->oAction = 3; 
     }
 }
 
 void bobomb_free_loop(void) {
-    if (o->oBehParams2ndByte == BOBOMB_BP_STYPE_GENERIC) {
-        generic_bobomb_free_loop();
-    } else {
+    // BPARAM1==1 is a custom variant: long fuse + always stationary.
+    if (BPARAM1 == 1 || o->oBehParams2ndByte != BOBOMB_BP_STYPE_GENERIC) {
         stationary_bobomb_free_loop();
+    } else {
+        generic_bobomb_free_loop();
     }
 }
 
@@ -184,18 +181,14 @@ void bobomb_held_loop(void) {
     cur_obj_set_pos_relative(gMarioObject, 0.0f, 60.0f, 100.0f);
 
     o->oBobombFuseLit = TRUE;
-    if(BPARAM1 == 1 && o->oBobombFuseTimer > 450){
-        gMarioObject->oInteractStatus |= INT_STATUS_MARIO_DROP_OBJECT;
-        o->oAction = BOBOMB_ACT_EXPLODE;
-    }
-    else if(BPARAM1 == 0 && o->oBobombFuseTimer > 150){
-        gMarioObject->oInteractStatus |= INT_STATUS_MARIO_DROP_OBJECT;
-        o->oAction = BOBOMB_ACT_EXPLODE; 
-    }
-}
+    if ((BPARAM1 == 1 && o->oBobombFuseTimer > 450) || (BPARAM1 != 1 && o->oBobombFuseTimer > 150)) {
         //! Although the Bob-omb's action is set to explode when the fuse timer expires,
         //  bobomb_act_explode() will not execute until the bob-omb's held state changes.
         //  This allows the Bob-omb to be regrabbed indefinitely.
+        gMarioObject->oInteractStatus |= INT_STATUS_MARIO_DROP_OBJECT;
+        o->oAction = BOBOMB_ACT_EXPLODE;
+    }
+}
 
 void bobomb_dropped_loop(void) {
     cur_obj_get_dropped();
