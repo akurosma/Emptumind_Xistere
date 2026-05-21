@@ -104,7 +104,11 @@ The BeatCycle changes \n\
 according to the \n\
 tempo and the speed of \n\
 the beep blocks changes \n\
-as well."))
+as well.\n\
+\n\
+The tempo will reset\n\
+if you step on the \n\
+rainbow block."))
 
 DEFINE_DIALOG(DIALOG_007, 1, 5, 30, 200, _("\
 Hufff...fff...pufff...\n\
@@ -199,11 +203,16 @@ reference to code \n\
 from MA2.\n\
 Special thanks to aglab2"))
 
-//rulu
-DEFINE_DIALOG(DIALOG_016, 1, 3, 30, 200, _("\
+//rulu C4
+DEFINE_DIALOG(DIALOG_016, 1, 4, 30, 200, _("\
 This is a warp pad.\n\
 You can warp by activate\n\
-the matching warp pad."))
+the matching warp pad.\n\
+\n\
+If you leave the course \n\
+before activating the \n\
+paired warp pad, its\n\
+state will reset."))
 
 DEFINE_DIALOG(DIALOG_017, 1, 4, 30, 200, _("\
 I'm the Big Bob-omb, lord\n\
@@ -231,11 +240,16 @@ the back and hurl me to\n\
 this royal turf? I think\n\
 that you cannot!"))
 
-//rulu
+//rulu C4
 DEFINE_DIALOG(DIALOG_018, 1, 3, 30, 200, _("\
 The shrinking panel\n\
 expands when you\n\
-press the A button."))
+press the A button.\n\
+By the way... did you \n\
+really check the path\n\
+ahead?\n\
+Don't let the fake\n\
+wall fool you."))
 
 DEFINE_DIALOG(DIALOG_019, 1, 2, 30, 200, _("\
 Shhh! Please walk\n\
